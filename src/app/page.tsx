@@ -3,27 +3,27 @@ import { Logo } from "@/components/Logo";
 
 const work = [
   {
-    label: "PRIVATE AI · DATA · SECURITY",
-    title: "A grounded business agent built around trusted company data.",
+    label: "DATA PLATFORM · FINTECH",
+    title: "From fragmented data\nto strategic clarity.",
     className: "case-ai",
   },
   {
-    label: "BUSINESS INTELLIGENCE · ANALYTICS",
-    title: "From fragmented reporting to clearer business decisions.",
+    label: "AI AUTOMATION · SAAS",
+    title: "AI agents that\nactually deliver.",
     className: "case-data",
   },
   {
-    label: "AUTOMATION · CUSTOM SOFTWARE",
-    title: "Systems that remove friction from real operational work.",
+    label: "CUSTOM SOFTWARE · B2B",
+    title: "A modern platform\nfor global growth.",
     className: "case-software",
   },
 ];
 
 const heroCards = [
-  { className: "scene-card card-agents", icon: "✦", title: "AI Agents", copy: "Automate work. Amplify people." },
-  { className: "scene-card card-data", icon: "▥", title: "Dashboards", copy: "Turn data into clear decisions." },
-  { className: "scene-card card-auto", icon: "⚙", title: "Automation", copy: "Streamline what’s next." },
-  { className: "scene-card card-founder", icon: "●", title: "Founder CV", copy: "Experience with impact." },
+  { className: "scene-card card-agents", icon: "✦", title: "AI Agents", copy: "Automate work.\nAmplify people." },
+  { className: "scene-card card-data", icon: "▥", title: "Dashboards", copy: "Turn data into\nclear decisions." },
+  { className: "scene-card card-auto", icon: "⚙", title: "Automation", copy: "Streamline\nwhat's next." },
+  { className: "scene-card card-founder", icon: "●", title: "Founder CV", copy: "Experience\nwith impact." },
 ];
 
 export default function Home() {
@@ -56,7 +56,7 @@ export default function Home() {
             for modern <em>business.</em>
           </h1>
           <p className="hero-lede">
-            We design and build AI-powered systems, software, and data solutions
+            We design and build AI-powered systems, software, and data solutions<br className="desktop-break" />
             that turn ambitious ideas into real business impact.
           </p>
 
@@ -78,36 +78,39 @@ export default function Home() {
             <span>Build an AI agent</span>
             <span>Our approach</span>
           </div>
-
-          <div className="trust-line">
-            <span className="trust-dot" />
-            Building in Romania · Designed for ambitious teams everywhere.
-          </div>
         </div>
 
         <div className="hero-scene" aria-hidden="true">
+          <div className="particle-field" />
           <div className="star-field star-field-one" />
           <div className="star-field star-field-two" />
+
           <div className="orbit orbit-a" />
           <div className="orbit orbit-b" />
           <div className="orbit orbit-c" />
+          <div className="orbit orbit-d" />
+          <div className="orbit orbit-e" />
           <div className="orbit-node node-one" />
           <div className="orbit-node node-two" />
           <div className="orbit-node node-three" />
+          <div className="orbit-node node-four" />
+          <div className="orbit-node node-five" />
 
           <div className="scene-logo-glow" />
           <div className="scene-logo"><Logo compact /></div>
 
           <div className="pedestal-beam" />
-          <div className="pedestal-top" />
+          <div className="pedestal-top pedestal-ring-outer" />
+          <div className="pedestal-top pedestal-ring-inner" />
           <div className="pedestal-body" />
+          <div className="pedestal-shadow" />
 
           {heroCards.map((card) => (
             <div className={card.className} key={card.title}>
               <span className="scene-icon">{card.icon}</span>
               <div>
                 <strong>{card.title}</strong>
-                <small>{card.copy}</small>
+                <small>{card.copy.split("\n").map((line, index) => <span key={line}>{line}{index === 0 && <br />}</span>)}</small>
               </div>
               <span className="scene-arrow">→</span>
             </div>
@@ -117,19 +120,30 @@ export default function Home() {
             <span>Ideas</span>
             <span>People</span>
             <span>Technology</span>
-            <strong>A brighter<br />tomorrow.</strong>
+            <strong>A Brighter<br />Tomorrow.</strong>
+            <i />
           </div>
 
-          <div className="story-chip">
-            <span className="story-play">▶</span>
-            <span><small>OUR STORY</small><strong>Why ALVOREM exists</strong></span>
+          <div className="story-area">
+            <div className="story-glass">
+              <span>SAME BRIGHTER QUESTIONS.</span>
+              <span>BIGGER TOMORROWS.</span>
+              <i />
+            </div>
+            <div className="story-watch">
+              <span className="story-play">▶</span>
+              <span className="story-watch-copy">WATCH<br />OUR STORY</span>
+            </div>
           </div>
         </div>
 
         <div className="hero-floor" aria-hidden="true">
+          <div className="floor-haze" />
           <div className="floor-wave wave-one" />
           <div className="floor-wave wave-two" />
           <div className="floor-wave wave-three" />
+          <div className="floor-wave wave-four" />
+          <div className="floor-wave wave-five" />
         </div>
       </section>
 
@@ -148,9 +162,10 @@ export default function Home() {
                   <div className="case-sheen" />
                   <div className="case-shape shape-one" />
                   <div className="case-shape shape-two" />
+                  <div className="case-shape shape-three" />
                 </div>
                 <div className="case-copy">
-                  <h3>{item.title}</h3>
+                  <h3>{item.title.split("\n").map((line, index) => <span key={line}>{line}{index === 0 && <br />}</span>)}</h3>
                   <div className="case-meta">
                     <span>{item.label}</span>
                     <span className="case-arrow">→</span>

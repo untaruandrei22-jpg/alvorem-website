@@ -1,0 +1,41 @@
+name: Visual Snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - '.github/workflows/visual-snapshot.yml'
+  workflow_dispatch:
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install app dependencies
+        run: npm install
+      - name: Install screenshot tooling
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start app
+        run: |
+          npm run dev -- --hostname 0.0.0.0 > /tmp/alvorem-next.log 2>&1 &
+          npx --yes wait-on http://127.0.0.1:3000 --timeout 120000
+      - name: Capture 1672x941 screenshot
+        run: npx playwright screenshot --viewport-size='1672,941' --full-page http://127.0.0.1:3000 alvorem-final-final.png
+      - name: Upload screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: alvorem-final-final-screenshot
+          path: alvorem-final-final.png
+      - name: Show app logs on failure
+        if: failure()
+        run: cat /tmp/alvorem-next.log || true

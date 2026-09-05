@@ -4,9 +4,9 @@ import { HeroAsk } from "@/components/HeroAsk";
 import { Logo } from "@/components/Logo";
 
 const work = [
-  { label: "DATA PLATFORM · FINTECH", title: "From fragmented data to strategic clarity.", className: "mountains" },
-  { label: "AI AUTOMATION · SAAS", title: "AI agents that actually deliver.", className: "wave" },
-  { label: "CUSTOM SOFTWARE · B2B", title: "A modern platform for global growth.", className: "architecture" },
+  { label: "DATA PLATFORM · FINTECH", title: "From fragmented data to strategic clarity.", className: "mountains", image: "/featured-mountains.webp" },
+  { label: "AI AUTOMATION · SAAS", title: "AI agents that actually deliver.", className: "wave", image: "/featured-ribbon.webp" },
+  { label: "CUSTOM SOFTWARE · B2B", title: "A modern platform for global growth.", className: "architecture", image: "/featured-architecture.webp" },
 ];
 
 function Arrow() { return <span aria-hidden="true">→</span>; }
@@ -79,7 +79,7 @@ export default function Home() {
       <section className="featured" id="work" aria-labelledby="work-title">
         <div className="shell featured-layout">
           <div className="featured-heading"><span className="kicker">FEATURED WORK</span><h2 id="work-title">Real problems.<br />Real progress.</h2><i /></div>
-          <div className="work-grid">{work.map((item) => <a className="work-card" href="#contact" key={item.title}><div className={`work-art ${item.className}`}><span /></div><h3>{item.title}</h3><small>{item.label}</small><b aria-hidden="true">→</b></a>)}</div>
+          <div className="work-grid">{work.map((item) => <a className="work-card" href="#contact" key={item.title}><div className={`work-art ${item.className}`} aria-hidden="true"><Image src={item.image} alt="" fill sizes="(max-width: 620px) 100vw, 33vw" /></div><h3>{item.title}</h3><small>{item.label}</small><b aria-hidden="true">→</b></a>)}</div>
           <aside className="side-mantra">A BRIGHTER<br />TOMORROW<br />TOGETHER<i /></aside>
         </div>
       </section>

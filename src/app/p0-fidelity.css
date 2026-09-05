@@ -1,0 +1,368 @@
+/* FINAL P0 FIDELITY PASS — micro-positioning, materials and lighting only. */
+
+@media (min-width: 1280px) {
+  /* CENTRAL FLOWER — solid, sculptural, glass-like; no internal channels. */
+  .alvorem-symbol-hero path[stroke] {
+    display: none !important;
+  }
+
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(1) {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transform: scaleY(.935);
+    filter:
+      brightness(1.07)
+      saturate(.94)
+      contrast(1.03)
+      drop-shadow(0 0 6px rgba(247,245,252,.22))
+      drop-shadow(0 0 18px rgba(200,180,240,.22));
+    opacity: .97;
+  }
+
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(2) {
+    filter:
+      brightness(.98)
+      saturate(1.08)
+      contrast(1.05)
+      drop-shadow(0 0 8px rgba(152,124,203,.16));
+  }
+
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(3) {
+    filter:
+      brightness(1.01)
+      saturate(1.04)
+      contrast(1.04)
+      drop-shadow(0 0 8px rgba(200,180,240,.15));
+  }
+
+  .scene-logo .alvorem-symbol-hero {
+    filter:
+      drop-shadow(0 0 9px rgba(247,245,252,.18))
+      drop-shadow(0 0 26px rgba(200,180,240,.38))
+      drop-shadow(0 0 72px rgba(111,88,217,.31));
+  }
+
+  .scene-logo-glow {
+    background:
+      radial-gradient(circle at 50% 55%, rgba(255,255,255,.78) 0%, rgba(247,245,252,.63) 6%, rgba(220,205,245,.42) 15%, rgba(200,180,240,.27) 26%, rgba(152,124,203,.13) 41%, rgba(111,88,217,.055) 56%, transparent 73%) !important;
+    filter: blur(27px) !important;
+  }
+
+  /* HERO TYPOGRAPHY — same size and wrapping, slightly stronger optical weight. */
+  .hero-copy-v2 h1 {
+    font-weight: 380 !important;
+    letter-spacing: -.019em !important;
+    line-height: 1.07 !important;
+  }
+
+  .hero-line-one {
+    color: #F0EDF5 !important;
+  }
+
+  .hero-line-gradient {
+    background: linear-gradient(90deg,
+      #F0EAF5 0%,
+      #ECE4F3 18%,
+      #DDD0EB 46%,
+      #C9B5E5 68%,
+      #AE8ADA 86%,
+      #8F67CE 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+  }
+
+  .hero-lede {
+    color: #C7BECE !important;
+    line-height: 1.80 !important;
+    letter-spacing: .004em !important;
+    word-spacing: .018em !important;
+  }
+
+  /* CARD MICRO-POSITIONS ONLY. */
+  .card-data {
+    translate: 28px -18px !important;
+  }
+
+  .card-auto {
+    translate: -22px -17px !important;
+  }
+
+  .card-founder {
+    translate: 0 -31px !important;
+  }
+
+  /* THICKER PREMIUM GLASS — no geometry redesign. */
+  .scene-card {
+    border-color: rgba(200,180,240,.20) !important;
+    background:
+      radial-gradient(ellipse 76% 46% at 25% -5%, rgba(247,245,252,.12), transparent 41%),
+      radial-gradient(ellipse 60% 56% at 105% 106%, rgba(111,88,217,.11), transparent 45%),
+      linear-gradient(145deg, rgba(89,74,118,.46) 0%, rgba(48,37,76,.57) 45%, rgba(21,17,38,.70) 100%) !important;
+    backdrop-filter: blur(36px) saturate(128%) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.14) inset,
+      0 -26px 48px rgba(8,6,18,.26) inset,
+      0 26px 50px rgba(0,0,0,.39),
+      0 0 24px rgba(111,88,217,.055) !important;
+  }
+
+  .scene-card::before {
+    left: 8% !important;
+    right: 18% !important;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,.82) 24%,
+      rgba(225,209,247,.28) 62%,
+      transparent) !important;
+    opacity: .74 !important;
+  }
+
+  .scene-card::after {
+    background:
+      linear-gradient(117deg, rgba(255,255,255,.052), transparent 22%, transparent 66%, rgba(152,124,203,.05)),
+      radial-gradient(ellipse 58% 28% at 34% 2%, rgba(255,255,255,.028), transparent 72%) !important;
+  }
+
+  /* PEDESTAL — deeper cylindrical front, darker face, reflected violet light. */
+  .pedestal-ring-outer {
+    box-shadow:
+      0 0 9px rgba(255,250,255,.56),
+      0 0 28px rgba(200,180,240,.43),
+      0 0 64px rgba(111,88,217,.24),
+      inset 0 5px 18px rgba(255,255,255,.14),
+      0 14px 18px rgba(4,3,10,.58) !important;
+  }
+
+  .pedestal-ring-inner {
+    box-shadow:
+      inset 0 0 20px rgba(247,245,252,.23),
+      0 0 17px rgba(200,180,240,.32),
+      0 8px 14px rgba(5,4,12,.35) !important;
+  }
+
+  .pedestal-body {
+    transform: translateX(-50%) scaleY(1.08) !important;
+    transform-origin: 50% 0%;
+    background:
+      radial-gradient(ellipse 52% 68% at 50% 16%, rgba(152,124,203,.12), transparent 60%),
+      linear-gradient(90deg, rgba(11,8,21,.99) 0%, rgba(47,33,70,.97) 18%, rgba(79,54,111,.91) 47%, rgba(42,29,66,.97) 78%, rgba(10,7,19,.995) 100%) !important;
+    box-shadow:
+      inset 0 9px 15px rgba(200,180,240,.075),
+      inset 0 -24px 36px rgba(0,0,0,.48),
+      inset 18px 0 34px rgba(111,88,217,.065),
+      inset -20px 0 36px rgba(4,3,10,.32),
+      0 23px 40px rgba(0,0,0,.48) !important;
+  }
+
+  .pedestal-body::before {
+    content: "";
+    position: absolute;
+    left: 12%; right: 12%; top: 7%;
+    height: 12%;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(200,180,240,.13), rgba(111,88,217,.025));
+    filter: blur(3px);
+    opacity: .75;
+  }
+
+  .pedestal-body::after {
+    content: "";
+    position: absolute;
+    inset: 13% 16% 16%;
+    border-radius: 45%;
+    background: linear-gradient(90deg, transparent, rgba(200,180,240,.06), transparent);
+    filter: blur(10px);
+    pointer-events: none;
+  }
+
+  .pedestal-shadow {
+    opacity: .96 !important;
+    filter: blur(19px) !important;
+  }
+
+  /* CENTRAL LIGHT — white core -> lavender -> violet haze -> indigo. */
+  .pedestal-beam {
+    background:
+      radial-gradient(ellipse at 50% 72%, rgba(255,255,255,.88) 0%, rgba(250,245,255,.72) 9%, rgba(224,205,248,.43) 22%, rgba(180,145,229,.22) 38%, rgba(111,88,217,.07) 56%, transparent 79%) !important;
+    filter: blur(29px) !important;
+    opacity: 1 !important;
+  }
+
+  /* TERRAIN — three broad sculptural surfaces only. */
+  .wave-four,
+  .wave-five {
+    display: none !important;
+  }
+
+  .hero-floor {
+    perspective: 1050px !important;
+    filter: drop-shadow(0 26px 44px rgba(0,0,0,.19));
+  }
+
+  .floor-wave {
+    border: 0 !important;
+    transform-style: preserve-3d;
+    box-shadow:
+      inset 0 2px 0 rgba(200,180,240,.11),
+      inset 0 -38px 68px rgba(3,2,9,.43),
+      0 -7px 22px rgba(111,88,217,.07),
+      0 34px 68px rgba(0,0,0,.34) !important;
+  }
+
+  .floor-wave::before {
+    height: 2px !important;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(152,124,203,.055) 20%,
+      rgba(220,203,245,.20) 51%,
+      rgba(111,88,217,.07) 81%,
+      transparent) !important;
+    filter: blur(1px) !important;
+    opacity: .72 !important;
+  }
+
+  .wave-one {
+    opacity: .98 !important;
+    background:
+      radial-gradient(ellipse 70% 25% at 48% 0%, rgba(200,180,240,.21), transparent 58%),
+      linear-gradient(180deg, rgba(92,65,137,.64) 0%, rgba(50,33,82,.80) 38%, rgba(21,14,40,.95) 76%, rgba(7,5,15,1) 100%) !important;
+    transform: rotate(-6deg) rotateX(57deg) translateZ(26px) scaleY(1.09) !important;
+  }
+
+  .wave-two {
+    opacity: .86 !important;
+    background:
+      radial-gradient(ellipse 62% 23% at 57% 0%, rgba(152,124,203,.15), transparent 57%),
+      linear-gradient(180deg, rgba(71,48,112,.55) 0%, rgba(37,24,64,.81) 44%, rgba(12,9,26,.98) 100%) !important;
+    transform: rotate(7deg) rotateX(63deg) translateZ(4px) scaleY(1.08) !important;
+  }
+
+  .wave-three {
+    opacity: .64 !important;
+    background:
+      radial-gradient(ellipse 58% 22% at 45% 0%, rgba(111,88,217,.10), transparent 60%),
+      linear-gradient(180deg, rgba(58,39,94,.45) 0%, rgba(26,18,48,.83) 48%, rgba(9,7,21,.99) 100%) !important;
+    transform: rotate(-4deg) rotateX(67deg) translateZ(-20px) scaleY(1.07) !important;
+  }
+
+  /* ORBITS / NODES — selective brighter fragments, no complete sphere. */
+  .orbit-d,
+  .orbit-e {
+    display: none !important;
+  }
+
+  .orbit-a,
+  .orbit-b,
+  .orbit-c {
+    box-shadow: none !important;
+    border-color: rgba(200,180,240,.16) !important;
+  }
+
+  .orbit-a {
+    opacity: .50 !important;
+    -webkit-mask-image: conic-gradient(from 8deg, transparent 0 9%, #000 15% 33%, transparent 39% 55%, #000 63% 79%, transparent 86% 100%);
+    mask-image: conic-gradient(from 8deg, transparent 0 9%, #000 15% 33%, transparent 39% 55%, #000 63% 79%, transparent 86% 100%);
+  }
+
+  .orbit-b {
+    opacity: .32 !important;
+    -webkit-mask-image: conic-gradient(from 94deg, transparent 0 17%, #000 24% 40%, transparent 47% 70%, #000 76% 88%, transparent 94% 100%);
+    mask-image: conic-gradient(from 94deg, transparent 0 17%, #000 24% 40%, transparent 47% 70%, #000 76% 88%, transparent 94% 100%);
+  }
+
+  .orbit-c {
+    opacity: .24 !important;
+    -webkit-mask-image: conic-gradient(from 164deg, transparent 0 22%, #000 29% 45%, transparent 52% 77%, #000 83% 91%, transparent 96% 100%);
+    mask-image: conic-gradient(from 164deg, transparent 0 22%, #000 29% 45%, transparent 52% 77%, #000 83% 91%, transparent 96% 100%);
+  }
+
+  .orbit-node {
+    width: 7px !important;
+    height: 7px !important;
+    background: #FFFDFE !important;
+    box-shadow:
+      0 0 4px 1px rgba(255,255,255,.68),
+      0 0 13px 4px rgba(200,180,240,.46),
+      0 0 24px 8px rgba(111,88,217,.22) !important;
+  }
+
+  .node-four,
+  .node-five {
+    display: none !important;
+  }
+
+  /* Sparse intentional particles around the artwork. */
+  .particle-field {
+    opacity: .22 !important;
+    background-image: none !important;
+  }
+
+  .particle-field::before,
+  .particle-field::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .particle-field::before {
+    background:
+      radial-gradient(circle at 18% 39%, rgba(255,255,255,.90) 0 1px, rgba(200,180,240,.45) 1.3px, transparent 3.2px),
+      radial-gradient(circle at 32% 21%, rgba(247,245,252,.78) 0 1px, rgba(111,88,217,.35) 1.4px, transparent 3px),
+      radial-gradient(circle at 72% 18%, rgba(255,255,255,.84) 0 1px, rgba(200,180,240,.40) 1.3px, transparent 3.1px),
+      radial-gradient(circle at 86% 38%, rgba(247,245,252,.68) 0 1px, rgba(152,124,203,.32) 1.4px, transparent 3px),
+      radial-gradient(circle at 75% 67%, rgba(255,255,255,.73) 0 1px, rgba(111,88,217,.30) 1.4px, transparent 3px),
+      radial-gradient(circle at 41% 73%, rgba(247,245,252,.56) 0 1px, rgba(152,124,203,.24) 1.3px, transparent 2.8px);
+  }
+
+  .particle-field::after {
+    inset: 12% 8% 18% 15%;
+    background:
+      radial-gradient(circle at 24% 52%, rgba(200,180,240,.45) 0 1px, transparent 2.6px),
+      radial-gradient(circle at 57% 24%, rgba(255,255,255,.52) 0 1px, transparent 2.5px),
+      radial-gradient(circle at 81% 57%, rgba(200,180,240,.38) 0 1px, transparent 2.5px);
+    filter: blur(.15px);
+  }
+
+  /* ASK ALVOREM — same geometry, slightly more luminous internals. */
+  .ask-spark .feature-icon-svg {
+    filter:
+      brightness(1.14)
+      drop-shadow(0 0 5px rgba(255,255,255,.22))
+      drop-shadow(0 0 10px rgba(200,180,240,.48)) !important;
+  }
+
+  .ask-placeholder {
+    color: #A69AAF !important;
+  }
+
+  .ask-submit {
+    background:
+      radial-gradient(circle at 35% 20%, rgba(247,245,252,.15), transparent 36%),
+      linear-gradient(145deg, rgba(152,124,203,.74), rgba(70,53,115,.84)) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.17) inset,
+      0 -8px 16px rgba(26,24,48,.18) inset,
+      0 8px 18px rgba(4,2,11,.30),
+      0 0 16px rgba(111,88,217,.18) !important;
+  }
+
+  /* BUTTON MATERIALS — same size and placement. */
+  .primary-xl {
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 0%, rgba(247,245,252,.17), transparent 54%),
+      linear-gradient(180deg, rgba(200,180,240,.72) 0%, rgba(128,96,214,.81) 34%, rgba(111,88,217,.87) 65%, rgba(74,53,146,.92) 100%) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.34) inset,
+      0 -16px 30px rgba(49,35,98,.21) inset,
+      0 0 22px rgba(111,88,217,.24),
+      0 0 44px rgba(111,88,217,.10),
+      0 15px 34px rgba(5,4,13,.34) !important;
+  }
+
+  .outline-xl {
+    background: rgba(26,24,48,.10) !important;
+    border-color: rgba(152,124,203,.31) !important;
+    backdrop-filter: blur(12px) !important;
+  }
+}

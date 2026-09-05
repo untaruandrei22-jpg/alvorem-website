@@ -2,8 +2,9 @@
 html{color-scheme:dark}
 
 /* V1 intentionally ships in the approved dark brand application only. */
-.brand{display:flex;align-items:center;gap:0}
-.brand-asset{display:block;width:292px;height:auto;max-width:none;object-fit:contain}
+.logo-link{display:flex;align-items:center;height:100%;min-width:0;overflow:visible}
+.brand{display:flex;align-items:center;gap:0;overflow:visible;min-width:0}
+.brand-asset{display:block;width:292px;height:auto;max-width:none;object-fit:contain;overflow:visible}
 .logo-link .brand{transform:translateY(-1px)}
 .logo-link .brand-asset{width:306px;filter:drop-shadow(0 0 8px rgba(214,194,255,.34)) drop-shadow(0 0 18px rgba(116,72,205,.2))}
 .footer .brand-asset{width:225px;opacity:.78;filter:none}

@@ -1,10 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
   <defs>
-    <linearGradient id="a" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#51308a"/><stop offset=".55" stop-color="#8a62d1"/><stop offset="1" stop-color="#c7b0ff"/></linearGradient>
-    <linearGradient id="b" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#2b1c51"/><stop offset=".55" stop-color="#7450b9"/><stop offset="1" stop-color="#b69be8"/></linearGradient>
+    <radialGradient id="planet" cx="34%" cy="30%" r="78%"><stop stop-color="#32276D"/><stop offset=".62" stop-color="#241C58"/><stop offset="1" stop-color="#6F5BD9"/></radialGradient>
+    <linearGradient id="rim" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#6F5BD9"/><stop offset=".58" stop-color="#C8B4F0"/><stop offset="1" stop-color="#F7F5FC"/></linearGradient>
+    <linearGradient id="hill" x1=".5" y1="0" x2=".5" y2="1"><stop stop-color="#5440A8"/><stop offset=".22" stop-color="#30266A"/><stop offset="1" stop-color="#17142D"/></linearGradient>
   </defs>
-  <rect width="72" height="72" rx="18" fill="#0b0915"/>
-  <path d="M36 34C35 20 42 9 55 4C57 18 51 29 38 36Z" fill="url(#a)"/>
-  <path d="M34 37C22 28 11 28 5 33C12 46 23 50 35 43Z" fill="url(#b)"/>
-  <path d="M38 38C50 29 61 29 67 34C60 47 49 51 37 44Z" fill="url(#a)"/>
+  <rect width="72" height="72" rx="18" fill="#0B0918"/>
+  <circle cx="36" cy="28" r="17" fill="url(#planet)" stroke="url(#rim)" stroke-width="1.4"/>
+  <path d="M4 68Q36 22 68 68V72H4Z" fill="url(#hill)"/>
+  <path d="M4 68Q36 22 68 68" fill="none" stroke="url(#rim)" stroke-width="1.8" stroke-linecap="round"/>
 </svg>

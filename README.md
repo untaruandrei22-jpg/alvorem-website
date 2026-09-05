@@ -28,8 +28,10 @@ Open `http://localhost:3000`.
 ## Current V1 shell
 
 - responsive navigation
-- premium dark / muted-purple visual system
-- interactive hero
+- planetary-horizon ALVOREM identity and responsive SVG lockup
+- premium deep-indigo / royal-violet visual system
+- cinematic, production-optimized hero artwork
+- interactive hero UI
 - clickable capability explorer
 - Featured Work placeholders
 - Founder/CV entry point

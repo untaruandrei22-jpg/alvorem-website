@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CapabilityExplorer } from "@/components/CapabilityExplorer";
 import { HeroAsk } from "@/components/HeroAsk";
 import { Logo } from "@/components/Logo";
@@ -23,6 +24,17 @@ export default function Home() {
       </header>
 
       <section className="hero shell" aria-labelledby="hero-title">
+        <Image
+          className="hero-art"
+          src="/alvorem-horizon-hero.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          aria-hidden="true"
+        />
+        <div className="hero-art-shade" aria-hidden="true" />
+
         <div className="hero-copy">
           <span className="kicker">DATA&nbsp;&nbsp; · &nbsp;&nbsp;AI&nbsp;&nbsp; · &nbsp;&nbsp;SOFTWARE</span>
           <h1 id="hero-title">Intelligent systems<br />for modern <em>business.</em></h1>
@@ -32,12 +44,6 @@ export default function Home() {
         </div>
 
         <div className="hero-scene" aria-label="ALVOREM capabilities">
-          <div className="scene-glow" />
-          <div className="orbit orbit-a" /><div className="orbit orbit-b" /><div className="orbit orbit-c" />
-          <div className="star star-a">✦</div><div className="star star-b">·</div><div className="star star-c">✦</div>
-          <div className="hero-flower"><Logo compact /></div>
-          <div className="pedestal"><span /><i /></div>
-          <div className="terrain terrain-back" /><div className="terrain terrain-front" />
           <a className="glass-card ai-card" href="#solutions"><b className="card-icon sparkle">✦</b><span><strong>AI Agents</strong><small>Automate work.<br />Amplify people.</small></span><i>→</i></a>
           <a className="glass-card data-card" href="#work"><b className="card-icon bars">▥</b><span><strong>Dashboards</strong><small>Turn data into<br />clear decisions.</small></span><i>→</i></a>
           <a className="glass-card automation-card" href="#solutions"><b className="card-icon gear">✿</b><span><strong>Automation</strong><small>Streamline<br />what&apos;s next.</small></span><i>→</i></a>

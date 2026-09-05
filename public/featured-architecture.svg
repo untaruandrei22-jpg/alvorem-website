@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300">
+  <defs>
+    <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a1f3a"/>
+      <stop offset="0.5" stop-color="#16101f"/>
+      <stop offset="1" stop-color="#09070d"/>
+    </linearGradient>
+    <linearGradient id="bodyA" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#b8a4d5" stop-opacity=".56"/>
+      <stop offset="0.28" stop-color="#75608e" stop-opacity=".75"/>
+      <stop offset="0.62" stop-color="#3b2b4d" stop-opacity=".92"/>
+      <stop offset="1" stop-color="#17101f"/>
+    </linearGradient>
+    <linearGradient id="rimA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e5d7f8" stop-opacity=".15"/>
+      <stop offset="0.48" stop-color="#f5edff" stop-opacity=".65"/>
+      <stop offset="1" stop-color="#9c73cf" stop-opacity=".12"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="56%" cy="46%" r="58%">
+      <stop offset="0" stop-color="#9f78d3" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#644388" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blurA"><feGaussianBlur stdDeviation="15"/></filter>
+    <clipPath id="buildingClip">
+      <path d="M220 300C246 221 281 137 342 70C389 19 457 6 516 36C558 58 583 104 587 155C591 211 566 261 537 300Z"/>
+    </clipPath>
+  </defs>
+  <rect width="640" height="300" fill="url(#bgA)"/>
+  <ellipse cx="430" cy="155" rx="224" ry="125" fill="url(#glowA)" filter="url(#blurA)"/>
+  <path d="M220 300C246 221 281 137 342 70C389 19 457 6 516 36C558 58 583 104 587 155C591 211 566 261 537 300Z" fill="url(#bodyA)" stroke="#d6c3eb" stroke-opacity=".14"/>
+  <g clip-path="url(#buildingClip)" opacity=".78">
+    <path d="M265 305C293 219 327 146 375 89C416 41 462 26 508 40" fill="none" stroke="url(#rimA)" stroke-width="4"/>
+    <path d="M286 305C313 223 347 154 393 101C430 58 472 42 516 55" fill="none" stroke="#d6c4ec" stroke-opacity=".34" stroke-width="3"/>
+    <path d="M308 305C334 228 365 166 408 116C443 76 480 62 522 73" fill="none" stroke="#d8c7ee" stroke-opacity=".28" stroke-width="3"/>
+    <path d="M332 305C356 238 384 181 423 136C454 100 489 86 528 95" fill="none" stroke="#cdb8e4" stroke-opacity=".24" stroke-width="3"/>
+    <path d="M357 305C379 248 403 201 438 159C467 126 499 113 534 120" fill="none" stroke="#c6b0dc" stroke-opacity=".2" stroke-width="3"/>
+    <path d="M383 305C402 259 422 220 452 184C477 155 505 143 538 149" fill="none" stroke="#bea5d5" stroke-opacity=".17" stroke-width="3"/>
+    <path d="M411 305C427 270 443 240 467 211C488 186 512 176 541 181" fill="none" stroke="#b89ed0" stroke-opacity=".14" stroke-width="3"/>
+  </g>
+  <path d="M194 300C228 231 270 160 333 93C376 47 420 24 462 24" fill="none" stroke="#aa83d0" stroke-width="20" opacity=".08" filter="url(#blurA)"/>
+  <path d="M220 300C250 215 286 136 344 72C389 22 452 8 509 33" fill="none" stroke="#f1e7ff" stroke-opacity=".23" stroke-width="2"/>
+</svg>

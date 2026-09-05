@@ -2,6 +2,7 @@ import Image from "next/image";
 import { CapabilityExplorer } from "@/components/CapabilityExplorer";
 import { HeroAsk } from "@/components/HeroAsk";
 import { Logo } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const work = [
   { label: "DATA PLATFORM · FINTECH", title: "From fragmented data to strategic clarity.", className: "mountains", image: "/featured-mountains.webp" },
@@ -42,7 +43,7 @@ export default function Home() {
           <a href="#solutions">Solutions <span aria-hidden="true">⌄</span></a>
           <a href="#work">Work</a><a href="#about">About</a><a href="#insights">Insights</a><a href="#founder">Careers</a>
         </nav>
-        <div className="nav-actions"><a className="search-link" href="#ask" aria-label="Ask ALVOREM">⌕</a><a href="#contact" className="nav-cta">Start a Project</a></div>
+        <div className="nav-actions"><a className="search-link" href="#ask" aria-label="Ask ALVOREM">⌕</a><ThemeToggle /><a href="#contact" className="nav-cta">Start a Project</a></div>
       </header>
 
       <section className="hero shell" aria-labelledby="hero-title">

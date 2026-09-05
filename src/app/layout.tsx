@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Caveat, Jost, Manrope } from "next/font/google";
 import "./globals.css";
 import "./fidelity.css";
 import "./master.css";
 import "./geometry.css";
 import "./final-fidelity.css";
+import "./brand-fidelity.css";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -12,11 +13,17 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
+const jost = Jost({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  weight: ["300", "400", "500"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-hand",
   display: "swap",
 });
 
@@ -34,7 +41,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${cormorant.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${jost.variable} ${caveat.variable}`}>
       <body>{children}</body>
     </html>
   );

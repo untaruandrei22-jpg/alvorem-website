@@ -1,0 +1,250 @@
+/* FINAL FINAL POLISH — only the 5 approved P0 fidelity details. */
+
+@media (min-width: 1280px) {
+  /* 1. Central flower — same solid 3-petal geometry, softer sculptural glass material. */
+  .alvorem-symbol-hero path[stroke] {
+    display: none !important;
+  }
+
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(1) {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transform: scaleY(.91);
+    opacity: .96;
+    filter:
+      brightness(1.025)
+      saturate(.97)
+      contrast(1.02)
+      drop-shadow(0 0 5px rgba(247,245,252,.18))
+      drop-shadow(0 0 15px rgba(200,180,240,.18));
+  }
+
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(2),
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(3) {
+    opacity: .97;
+    filter:
+      brightness(.99)
+      saturate(1.04)
+      contrast(1.035)
+      drop-shadow(0 0 7px rgba(152,124,203,.13));
+  }
+
+  .scene-logo .alvorem-symbol-hero {
+    filter:
+      drop-shadow(0 0 8px rgba(247,245,252,.15))
+      drop-shadow(0 0 23px rgba(200,180,240,.34))
+      drop-shadow(0 0 64px rgba(111,88,217,.28));
+  }
+
+  .scene-logo-glow {
+    background:
+      radial-gradient(circle at 50% 56%,
+        rgba(255,255,255,.73) 0%,
+        rgba(247,245,252,.57) 7%,
+        rgba(224,209,247,.37) 16%,
+        rgba(200,180,240,.23) 28%,
+        rgba(152,124,203,.11) 42%,
+        rgba(111,88,217,.045) 57%,
+        transparent 73%) !important;
+    filter: blur(28px) !important;
+  }
+
+  /* 2. Cards — same scale, tiny position corrections and thicker transparent glass. */
+  .card-data {
+    translate: 34px -23px !important;
+  }
+
+  .card-auto {
+    translate: -27px -22px !important;
+  }
+
+  .card-founder {
+    translate: 0 -39px !important;
+  }
+
+  .scene-card {
+    border-color: rgba(200,180,240,.18) !important;
+    background:
+      radial-gradient(ellipse 76% 44% at 24% -5%, rgba(247,245,252,.105), transparent 42%),
+      radial-gradient(ellipse 58% 58% at 105% 108%, rgba(111,88,217,.095), transparent 47%),
+      linear-gradient(145deg, rgba(84,70,113,.43) 0%, rgba(46,35,74,.54) 47%, rgba(20,16,36,.67) 100%) !important;
+    backdrop-filter: blur(39px) saturate(130%) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.13) inset,
+      0 -27px 50px rgba(8,6,18,.25) inset,
+      0 27px 52px rgba(0,0,0,.41),
+      0 0 22px rgba(111,88,217,.045) !important;
+  }
+
+  .scene-card::before {
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,.76) 25%,
+      rgba(225,209,247,.24) 62%,
+      transparent) !important;
+    opacity: .69 !important;
+  }
+
+  .scene-card::after {
+    background:
+      linear-gradient(118deg, rgba(255,255,255,.045), transparent 23%, transparent 66%, rgba(152,124,203,.045)),
+      radial-gradient(ellipse 58% 30% at 35% 2%, rgba(255,255,255,.025), transparent 72%) !important;
+  }
+
+  /* 3. Pedestal + terrain — more physical depth, fewer broad surfaces. */
+  .pedestal-ring-outer {
+    box-shadow:
+      0 0 8px rgba(255,250,255,.53),
+      0 0 25px rgba(200,180,240,.39),
+      0 0 58px rgba(111,88,217,.22),
+      inset 0 5px 18px rgba(255,255,255,.13),
+      0 15px 20px rgba(4,3,10,.62) !important;
+  }
+
+  .pedestal-ring-inner {
+    box-shadow:
+      inset 0 0 20px rgba(247,245,252,.21),
+      0 0 15px rgba(200,180,240,.29),
+      0 9px 15px rgba(5,4,12,.39) !important;
+  }
+
+  .pedestal-body {
+    transform: translateX(-50%) scaleY(1.12) !important;
+    transform-origin: 50% 0%;
+    background:
+      radial-gradient(ellipse 48% 70% at 50% 17%, rgba(152,124,203,.10), transparent 61%),
+      linear-gradient(90deg, rgba(9,7,18,.995) 0%, rgba(39,27,61,.98) 17%, rgba(68,46,99,.92) 47%, rgba(35,24,57,.98) 78%, rgba(8,6,17,.998) 100%) !important;
+    box-shadow:
+      inset 0 9px 15px rgba(200,180,240,.065),
+      inset 0 -26px 38px rgba(0,0,0,.53),
+      inset 16px 0 32px rgba(111,88,217,.055),
+      inset -20px 0 36px rgba(4,3,10,.34),
+      0 24px 42px rgba(0,0,0,.50) !important;
+  }
+
+  .pedestal-shadow {
+    opacity: .98 !important;
+    filter: blur(20px) !important;
+  }
+
+  .wave-four,
+  .wave-five {
+    display: none !important;
+  }
+
+  .hero-floor {
+    perspective: 1120px !important;
+    filter: drop-shadow(0 28px 46px rgba(0,0,0,.20));
+  }
+
+  .floor-wave {
+    border: 0 !important;
+    box-shadow:
+      inset 0 2px 0 rgba(200,180,240,.09),
+      inset 0 -42px 74px rgba(3,2,9,.46),
+      0 -6px 18px rgba(111,88,217,.06),
+      0 36px 72px rgba(0,0,0,.36) !important;
+  }
+
+  .floor-wave::before {
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(152,124,203,.04) 21%,
+      rgba(220,203,245,.17) 51%,
+      rgba(111,88,217,.055) 80%,
+      transparent) !important;
+    opacity: .62 !important;
+  }
+
+  .wave-one {
+    opacity: .98 !important;
+    background:
+      radial-gradient(ellipse 72% 24% at 48% 0%, rgba(200,180,240,.18), transparent 60%),
+      linear-gradient(180deg, rgba(88,62,133,.61) 0%, rgba(46,31,77,.82) 39%, rgba(19,13,38,.96) 76%, rgba(6,5,14,1) 100%) !important;
+    transform: rotate(-5.5deg) rotateX(55deg) translateZ(32px) scaleY(1.14) !important;
+  }
+
+  .wave-two {
+    opacity: .82 !important;
+    background:
+      radial-gradient(ellipse 64% 22% at 57% 0%, rgba(152,124,203,.13), transparent 59%),
+      linear-gradient(180deg, rgba(66,45,106,.52) 0%, rgba(34,23,60,.83) 45%, rgba(11,8,25,.99) 100%) !important;
+    transform: rotate(6deg) rotateX(62deg) translateZ(2px) scaleY(1.12) !important;
+  }
+
+  .wave-three {
+    opacity: .48 !important;
+    background:
+      radial-gradient(ellipse 56% 20% at 45% 0%, rgba(111,88,217,.08), transparent 62%),
+      linear-gradient(180deg, rgba(52,36,87,.38) 0%, rgba(23,16,45,.86) 50%, rgba(8,6,19,.995) 100%) !important;
+    transform: rotate(-3deg) rotateX(68deg) translateZ(-28px) scaleY(1.09) !important;
+  }
+
+  /* 4. Heading — exact geometry, only optical weight and gradient refinement. */
+  .hero-copy-v2 h1 {
+    font-weight: 390 !important;
+  }
+
+  .hero-line-one {
+    color: #F2EFF6 !important;
+  }
+
+  .hero-line-gradient {
+    background: linear-gradient(90deg,
+      #F1ECF6 0%,
+      #EDE6F4 18%,
+      #E0D5EE 42%,
+      #CCBAE6 66%,
+      #B08CDB 84%,
+      #9169CF 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+  }
+
+  /* 5. Final light/depth — white-hot core, selective orbit accents, no extra concepts. */
+  .pedestal-beam {
+    background:
+      radial-gradient(ellipse at 50% 71%,
+        rgba(255,255,255,.91) 0%,
+        rgba(250,246,255,.75) 8%,
+        rgba(226,210,249,.45) 21%,
+        rgba(185,151,232,.22) 37%,
+        rgba(111,88,217,.065) 55%,
+        transparent 79%) !important;
+    filter: blur(30px) !important;
+  }
+
+  .orbit-a,
+  .orbit-b,
+  .orbit-c {
+    border-color: rgba(200,180,240,.14) !important;
+  }
+
+  .orbit-a {
+    opacity: .46 !important;
+    filter: drop-shadow(0 0 4px rgba(200,180,240,.11));
+  }
+
+  .orbit-b {
+    opacity: .30 !important;
+    filter: drop-shadow(0 0 3px rgba(111,88,217,.09));
+  }
+
+  .orbit-c {
+    opacity: .20 !important;
+  }
+
+  .orbit-node {
+    width: 5px !important;
+    height: 5px !important;
+    background: #FFF9FF !important;
+    box-shadow:
+      0 0 4px 1px rgba(255,255,255,.52),
+      0 0 13px 4px rgba(152,124,203,.34) !important;
+  }
+
+  .node-four,
+  .node-five {
+    display: none !important;
+  }
+}

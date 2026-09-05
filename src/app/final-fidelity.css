@@ -1,0 +1,637 @@
+/* FINAL visual fidelity pass — materials, light, depth and atmosphere only.
+   Geometry/layout from geometry.css remains authoritative. */
+
+@media (min-width: 1280px) {
+  /* ------------------------------------------------------------------
+     BACKGROUND ATMOSPHERE — layered, localized and intentionally subtle
+     ------------------------------------------------------------------ */
+  body {
+    background:
+      radial-gradient(ellipse 34% 36% at 16% 35%, rgba(35, 43, 99, .10), transparent 74%),
+      radial-gradient(ellipse 40% 44% at 67% 43%, rgba(82, 46, 151, .13), transparent 72%),
+      radial-gradient(ellipse 46% 34% at 93% 3%, rgba(114, 70, 199, .27), transparent 67%),
+      radial-gradient(ellipse 44% 22% at 68% 72%, rgba(91, 48, 164, .11), transparent 70%),
+      linear-gradient(180deg, #0c0c1d 0%, #090913 58%, #0b0a1b 100%);
+  }
+
+  .hero-cinematic::before {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: -2;
+    inset: -8% -8% 0 -8%;
+    background:
+      radial-gradient(ellipse 32% 32% at 19% 37%, rgba(58, 62, 128, .055), transparent 73%),
+      radial-gradient(ellipse 42% 50% at 77% 47%, rgba(113, 67, 194, .11), transparent 71%);
+    filter: blur(15px);
+  }
+
+  /* ------------------------------------------------------------------
+     HERO MICRO TYPOGRAPHY — keep approved line breaks and geometry
+     ------------------------------------------------------------------ */
+  .hero-copy-v2 h1 {
+    font-weight: 365;
+    letter-spacing: -.039em;
+    line-height: 1.028;
+    color: #f4f1f8;
+  }
+
+  .hero-copy-v2 h1 em {
+    color: #c8b0f2;
+    text-shadow: 0 0 30px rgba(157, 112, 224, .11);
+  }
+
+  .hero-lede {
+    font-size: 17.35px;
+    line-height: 1.67;
+    color: #c2bccd;
+  }
+
+  /* ------------------------------------------------------------------
+     CTA / COMMAND FIELD MATERIALS
+     ------------------------------------------------------------------ */
+  .primary-xl {
+    background:
+      linear-gradient(180deg, rgba(174, 126, 239, .92) 0%, rgba(132, 83, 207, .94) 54%, rgba(103, 63, 177, .96) 100%);
+    border-color: rgba(230, 208, 255, .46);
+    box-shadow:
+      0 0 22px rgba(162, 111, 236, .30),
+      0 0 48px rgba(101, 60, 180, .19),
+      0 13px 30px rgba(48, 25, 92, .27),
+      inset 0 1px 0 rgba(255,255,255,.36),
+      inset 0 -10px 18px rgba(57, 27, 112, .09);
+  }
+
+  .outline-xl {
+    background: linear-gradient(180deg, rgba(28, 23, 45, .28), rgba(13, 11, 23, .34));
+    border-color: rgba(168, 130, 226, .43);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+  }
+
+  .ask-shell {
+    background:
+      radial-gradient(ellipse 70% 100% at 80% 0%, rgba(88, 58, 139, .09), transparent 66%),
+      linear-gradient(180deg, rgba(28, 23, 47, .82), rgba(13, 11, 24, .78));
+    border-color: rgba(169, 129, 229, .44);
+    box-shadow:
+      inset 0 1px 0 rgba(242, 226, 255, .08),
+      inset 0 -12px 26px rgba(45, 25, 79, .06),
+      0 14px 35px rgba(5, 3, 14, .16);
+  }
+
+  .ask-spark {
+    color: #cfadff;
+    text-shadow: 0 0 8px rgba(222, 190, 255, .58), 0 0 20px rgba(158, 103, 239, .42);
+  }
+
+  .ask-placeholder { color: #9b93a8; }
+
+  .ask-submit {
+    background:
+      radial-gradient(circle at 35% 25%, rgba(199, 166, 247, .24), transparent 32%),
+      linear-gradient(145deg, rgba(122, 83, 184, .91), rgba(67, 45, 112, .96));
+    border: 1px solid rgba(214, 190, 248, .13);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.17),
+      inset 0 -8px 16px rgba(30, 14, 61, .14),
+      0 5px 16px rgba(3,2,10,.24),
+      0 0 18px rgba(116, 76, 187, .17);
+  }
+
+  /* ------------------------------------------------------------------
+     ORBITS — selective atmospheric arcs, not a wireframe sphere
+     ------------------------------------------------------------------ */
+  .orbit {
+    opacity: .48;
+    border-color: rgba(190, 153, 244, .18);
+    box-shadow: none;
+    mask-image: conic-gradient(
+      from 16deg,
+      transparent 0deg 28deg,
+      #000 48deg 122deg,
+      transparent 144deg 194deg,
+      #000 218deg 306deg,
+      transparent 330deg 360deg
+    );
+    -webkit-mask-image: conic-gradient(
+      from 16deg,
+      transparent 0deg 28deg,
+      #000 48deg 122deg,
+      transparent 144deg 194deg,
+      #000 218deg 306deg,
+      transparent 330deg 360deg
+    );
+  }
+
+  .orbit-b {
+    opacity: .34;
+    mask-image: conic-gradient(from 78deg, transparent 0 55deg, #000 72deg 152deg, transparent 173deg 257deg, #000 278deg 326deg, transparent 345deg 360deg);
+    -webkit-mask-image: conic-gradient(from 78deg, transparent 0 55deg, #000 72deg 152deg, transparent 173deg 257deg, #000 278deg 326deg, transparent 345deg 360deg);
+  }
+
+  .orbit-c { opacity: .34; }
+
+  .orbit-d {
+    opacity: .16;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 22%, #000 66%, transparent 89%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 22%, #000 66%, transparent 89%);
+  }
+
+  .orbit-e { display: none; }
+
+  .orbit-node {
+    width: 7px;
+    height: 7px;
+    background: #e0c9ff;
+    box-shadow:
+      0 0 8px 2px rgba(222, 193, 255, .58),
+      0 0 24px rgba(146, 91, 227, .48);
+  }
+
+  .node-five { display: none; }
+
+  /* ------------------------------------------------------------------
+     CENTRAL FLOWER — sculptural material and brighter top petal
+     ------------------------------------------------------------------ */
+  .scene-logo .brand-mark {
+    filter:
+      drop-shadow(0 0 9px rgba(250, 241, 255, .36))
+      drop-shadow(0 0 30px rgba(197, 145, 255, .58))
+      drop-shadow(0 0 76px rgba(105, 54, 185, .48));
+  }
+
+  .scene-logo .brand-mark > path:nth-of-type(1) {
+    filter:
+      brightness(1.30)
+      saturate(.68)
+      drop-shadow(0 0 7px rgba(250, 244, 255, .72))
+      drop-shadow(0 0 19px rgba(205, 169, 255, .46));
+  }
+
+  .scene-logo .brand-mark > path:nth-of-type(2) {
+    filter: brightness(1.04) saturate(1.07) drop-shadow(0 0 11px rgba(163, 104, 239, .34));
+  }
+
+  .scene-logo .brand-mark > path:nth-of-type(3) {
+    filter: brightness(1.10) saturate(.96) drop-shadow(0 0 12px rgba(188, 130, 249, .39));
+  }
+
+  .scene-logo-glow {
+    background:
+      radial-gradient(circle at 52% 53%, rgba(252, 246, 255, .21) 0%, rgba(223, 187, 255, .24) 12%, rgba(167, 108, 240, .21) 29%, rgba(105, 57, 189, .08) 49%, transparent 72%);
+    filter: blur(21px);
+  }
+
+  /* ------------------------------------------------------------------
+     VOLUMETRIC BEAM — bloom, no hard trapezoid edges
+     ------------------------------------------------------------------ */
+  .pedestal-beam {
+    clip-path: none;
+    width: 350px;
+    height: 260px;
+    background:
+      radial-gradient(ellipse 28% 92% at 50% 88%, rgba(246, 226, 255, .44) 0%, rgba(205, 156, 255, .28) 22%, rgba(154, 96, 235, .12) 48%, transparent 76%),
+      linear-gradient(90deg, transparent 2%, rgba(142, 85, 223, .025) 22%, rgba(219, 180, 255, .13) 49%, rgba(142, 85, 223, .025) 78%, transparent 98%);
+    filter: blur(20px);
+    opacity: .94;
+    mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.22) 15%, #000 44%, #000 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.22) 15%, #000 44%, #000 88%, transparent 100%);
+  }
+
+  /* ------------------------------------------------------------------
+     PEDESTAL — keep design, add physical mass and reflected light
+     ------------------------------------------------------------------ */
+  .pedestal-ring-outer {
+    border-color: rgba(240, 222, 255, .66);
+    box-shadow:
+      0 0 12px rgba(246, 234, 255, .46),
+      0 0 33px rgba(191, 135, 250, .46),
+      0 0 70px rgba(99, 53, 177, .28),
+      inset 0 4px 20px rgba(255,255,255,.18),
+      inset 0 -8px 20px rgba(63, 34, 106, .25);
+  }
+
+  .pedestal-ring-inner {
+    border-color: rgba(253, 246, 255, .75);
+    box-shadow:
+      inset 0 0 16px rgba(233, 208, 255, .22),
+      0 0 12px rgba(245, 227, 255, .36),
+      0 0 25px rgba(188, 125, 249, .30);
+  }
+
+  .pedestal-body {
+    background:
+      radial-gradient(ellipse 78% 26% at 50% 4%, rgba(165, 116, 221, .21), transparent 74%),
+      linear-gradient(180deg, rgba(84, 59, 124, .92) 0%, rgba(41, 27, 66, .97) 30%, rgba(18, 12, 31, .995) 72%, rgba(10, 8, 19, 1) 100%);
+    box-shadow:
+      inset 0 7px 12px rgba(230, 204, 255, .08),
+      inset 16px 0 30px rgba(117, 76, 172, .055),
+      inset -16px 0 30px rgba(26, 14, 49, .16),
+      0 18px 32px rgba(3, 2, 10, .37);
+  }
+
+  .pedestal-shadow {
+    opacity: .88;
+    background: radial-gradient(ellipse, rgba(99, 55, 167, .36), rgba(34, 20, 59, .12) 45%, transparent 72%);
+  }
+
+  /* ------------------------------------------------------------------
+     HERO TERRAIN — BIG SMOOTH VOLUMETRIC SURFACES, NOT TOPOGRAPHY
+     ------------------------------------------------------------------ */
+  .hero-floor {
+    overflow: visible;
+    perspective: 900px;
+    transform-style: preserve-3d;
+  }
+
+  .floor-haze {
+    background:
+      radial-gradient(ellipse 72% 52% at 51% 36%, rgba(151, 91, 224, .22), rgba(79, 43, 131, .08) 45%, transparent 76%);
+    filter: blur(25px);
+  }
+
+  .floor-wave {
+    border: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 82% 28% at 52% 2%, rgba(189, 132, 249, .16), transparent 58%),
+      linear-gradient(180deg, rgba(92, 54, 145, .38) 0%, rgba(51, 31, 84, .52) 28%, rgba(29, 18, 51, .76) 62%, rgba(13, 10, 25, .90) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(225, 194, 255, .18),
+      inset 0 15px 32px rgba(164, 103, 231, .07),
+      inset 0 -24px 44px rgba(5, 3, 12, .25),
+      0 -5px 25px rgba(133, 78, 205, .12),
+      0 22px 38px rgba(3,2,10,.20);
+    filter: none;
+  }
+
+  .floor-wave::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(112deg, transparent 0 28%, rgba(223, 190, 255, .055) 43%, transparent 57%),
+      radial-gradient(ellipse 56% 25% at 67% 10%, rgba(223, 178, 255, .09), transparent 65%);
+  }
+
+  .floor-wave::after {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 2px;
+    height: 2px;
+    border-radius: 100%;
+    background: linear-gradient(90deg, transparent, rgba(202, 151, 255, .28) 28%, rgba(238, 212, 255, .38) 53%, rgba(180, 116, 241, .17) 78%, transparent);
+    filter: blur(.45px);
+  }
+
+  .wave-one {
+    width: 119%;
+    height: 160px;
+    left: 10%;
+    top: 38px;
+    border-radius: 47% 53% 48% 52% / 38% 47% 53% 62%;
+    transform: rotate(-7deg) skewX(-7deg);
+    opacity: .90;
+  }
+
+  .wave-two {
+    width: 111%;
+    height: 152px;
+    left: -12%;
+    top: 101px;
+    border-radius: 56% 44% 54% 46% / 44% 58% 42% 56%;
+    transform: rotate(7deg) skewX(5deg);
+    opacity: .96;
+    background:
+      radial-gradient(ellipse 70% 24% at 48% 2%, rgba(181, 119, 242, .18), transparent 57%),
+      linear-gradient(180deg, rgba(81, 47, 132, .44), rgba(44, 27, 76, .66) 40%, rgba(18, 13, 36, .91) 100%);
+  }
+
+  .wave-three {
+    width: 102%;
+    height: 128px;
+    left: 31%;
+    top: 163px;
+    border-radius: 51% 49% 44% 56% / 55% 40% 60% 45%;
+    transform: rotate(-4deg) skewX(-4deg);
+    opacity: .82;
+    background:
+      radial-gradient(ellipse 62% 24% at 44% 1%, rgba(174, 111, 236, .13), transparent 61%),
+      linear-gradient(180deg, rgba(69, 39, 116, .39), rgba(34, 22, 62, .72) 52%, rgba(13, 10, 26, .93) 100%);
+  }
+
+  .wave-four,
+  .wave-five { display: none; }
+
+  /* ------------------------------------------------------------------
+     THICKER GLASS — reflections and depth, not brighter outlines
+     ------------------------------------------------------------------ */
+  .scene-card {
+    overflow: hidden;
+    border-color: rgba(217, 195, 246, .31);
+    background:
+      radial-gradient(ellipse 82% 70% at 22% 0%, rgba(147, 111, 196, .13), transparent 60%),
+      linear-gradient(145deg, rgba(70, 56, 104, .73), rgba(38, 29, 66, .68) 48%, rgba(24, 18, 45, .78));
+    backdrop-filter: blur(27px) saturate(122%);
+    -webkit-backdrop-filter: blur(27px) saturate(122%);
+    box-shadow:
+      0 24px 55px rgba(3, 2, 10, .38),
+      0 8px 22px rgba(40, 20, 72, .21),
+      inset 0 1px 0 rgba(255,255,255,.13),
+      inset 0 -13px 26px rgba(14, 8, 30, .14),
+      inset 1px 0 0 rgba(222,196,255,.035);
+  }
+
+  .scene-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 7%;
+    right: 13%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(250, 238, 255, .34), rgba(212, 182, 247, .12), transparent);
+    pointer-events: none;
+  }
+
+  .scene-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(118deg, rgba(255,255,255,.035) 0%, transparent 28%, transparent 62%, rgba(169,119,224,.022) 100%);
+  }
+
+  /* Small card position/material adjustments only. */
+  .card-data { transform: translate(10px, -2px) rotate(6.5deg); }
+
+  .card-auto {
+    transform: translate(-2px, 1px) rotate(7deg) scale(.985);
+    opacity: .96;
+    box-shadow:
+      0 21px 49px rgba(3,2,10,.34),
+      inset 0 1px 0 rgba(255,255,255,.11),
+      inset 0 -12px 24px rgba(14,8,30,.12);
+  }
+
+  .card-founder { transform: translate(9px, -15px) rotate(-4.5deg); }
+
+  /* ------------------------------------------------------------------
+     EDITORIAL ACCENTS
+     ------------------------------------------------------------------ */
+  .scene-note {
+    color: #b094de;
+    text-shadow: 0 0 13px rgba(133, 84, 203, .13);
+    transform: translate(8px, -3px) rotate(-5deg);
+  }
+
+  .scene-note i {
+    opacity: .78;
+    background: linear-gradient(90deg, #9c72da, transparent);
+  }
+
+  .story-area {
+    gap: 29px;
+    transform: translate(-3px, 10px);
+  }
+
+  .story-glass {
+    width: 270px;
+    min-height: 91px;
+    padding: 20px 22px;
+    border-color: rgba(196, 163, 240, .24);
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(128, 92, 174, .09), transparent 55%),
+      rgba(27, 21, 45, .48);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.055), 0 15px 35px rgba(4,2,12,.18);
+  }
+
+  .story-watch { gap: 18px; }
+  .story-play { width: 55px; height: 55px; }
+  .story-watch-copy { font-size: 9px; letter-spacing: .28em; line-height: 1.75; }
+
+  /* ------------------------------------------------------------------
+     FEATURED WORK — image material refinement + softer integration
+     ------------------------------------------------------------------ */
+  .featured-shell {
+    background:
+      radial-gradient(ellipse 34% 110% at 12% 50%, rgba(88, 65, 151, .13), transparent 72%),
+      radial-gradient(ellipse 38% 100% at 64% 18%, rgba(67, 40, 118, .075), transparent 75%),
+      linear-gradient(180deg, rgba(14, 12, 27, .90), rgba(8, 8, 18, .98));
+  }
+
+  .featured-heading h2 {
+    font-weight: 365;
+    letter-spacing: -.033em;
+    line-height: 1.085;
+  }
+
+  .featured-heading h2 em { color: #c7b3ef; }
+
+  .heading-rule {
+    opacity: .92;
+    box-shadow: 0 0 9px rgba(144, 95, 211, .19);
+  }
+
+  .case-art {
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .case-art::after {
+    content: "";
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 34%;
+    pointer-events: none;
+    background: linear-gradient(to bottom, transparent, rgba(14, 11, 24, .40) 60%, rgba(13, 10, 23, .86));
+  }
+
+  /* Card 1 — layered cinematic mountain range. */
+  .case-ai .case-art {
+    background:
+      radial-gradient(ellipse 56% 56% at 62% 23%, rgba(174, 144, 215, .18), transparent 68%),
+      linear-gradient(180deg, #5c5275 0%, #39324d 32%, #211b31 68%, #12101d 100%);
+  }
+
+  .case-ai .shape-one {
+    width: 112%;
+    height: 86%;
+    left: -6%;
+    bottom: -5%;
+    top: auto;
+    border: 0;
+    border-radius: 0;
+    transform: none;
+    clip-path: polygon(0 83%, 8% 72%, 14% 75%, 21% 57%, 27% 67%, 34% 41%, 40% 58%, 48% 24%, 54% 51%, 61% 43%, 68% 61%, 76% 39%, 83% 57%, 91% 50%, 100% 67%, 100% 100%, 0 100%);
+    background:
+      linear-gradient(118deg, rgba(209, 194, 229, .28), transparent 39%),
+      linear-gradient(180deg, #766b8e 0%, #463c5c 43%, #211a31 100%);
+    filter: drop-shadow(0 -6px 12px rgba(7,5,13,.32));
+    opacity: .92;
+  }
+
+  .case-ai .shape-two {
+    width: 118%;
+    height: 72%;
+    left: -8%;
+    bottom: -14%;
+    top: auto;
+    border: 0;
+    border-radius: 0;
+    transform: none;
+    clip-path: polygon(0 75%, 10% 64%, 17% 70%, 26% 50%, 34% 65%, 44% 40%, 52% 58%, 61% 43%, 70% 67%, 80% 48%, 89% 63%, 100% 54%, 100% 100%, 0 100%);
+    background: linear-gradient(180deg, rgba(68, 57, 91, .92), rgba(24, 19, 36, .98));
+    filter: drop-shadow(0 -4px 8px rgba(135, 112, 171, .07));
+    opacity: .96;
+  }
+
+  .case-ai .shape-three {
+    display: block;
+    width: 130%;
+    height: 50%;
+    left: -18%;
+    bottom: -26%;
+    top: auto;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(113, 87, 151, .29), rgba(24,19,37,.96) 58%);
+    transform: rotate(-2deg);
+    filter: blur(.5px);
+  }
+
+  /* Card 2 — smoother luminous ribbon. */
+  .case-data .shape-one,
+  .case-data .shape-two,
+  .case-data .shape-three {
+    border: 0;
+    clip-path: none;
+  }
+
+  .case-data .shape-one {
+    width: 145%;
+    height: 82px;
+    left: -22%;
+    top: 23px;
+    border-radius: 50%;
+    transform: rotate(-14deg);
+    background: linear-gradient(180deg, rgba(208, 172, 255, .72), rgba(139, 88, 224, .38) 34%, rgba(71, 42, 127, .11) 66%, transparent 78%);
+    filter: blur(.3px) drop-shadow(0 0 18px rgba(151, 92, 230, .24));
+    opacity: .72;
+  }
+
+  .case-data .shape-two {
+    width: 132%;
+    height: 62px;
+    right: -21%;
+    left: auto;
+    top: 51px;
+    border-radius: 50%;
+    transform: rotate(11deg);
+    background: linear-gradient(180deg, rgba(190, 151, 247, .50), rgba(94, 53, 169, .17) 48%, transparent 75%);
+    filter: drop-shadow(0 0 14px rgba(154, 92, 231, .15));
+    opacity: .78;
+  }
+
+  .case-data .shape-three {
+    display: block;
+    width: 104%;
+    height: 38px;
+    left: 10%;
+    top: 59px;
+    border-radius: 50%;
+    transform: rotate(-5deg);
+    background: linear-gradient(180deg, rgba(235, 214, 255, .22), rgba(132, 81, 210, .08) 48%, transparent 72%);
+    filter: blur(.5px);
+  }
+
+  /* Card 3 — clearly architectural ribbed curved shell. */
+  .case-software .case-art {
+    background:
+      radial-gradient(ellipse 48% 62% at 76% 44%, rgba(191, 168, 221, .12), transparent 70%),
+      linear-gradient(145deg, #5c566d 0%, #393446 36%, #1b1825 74%, #100e17 100%);
+  }
+
+  .case-software .shape-one {
+    width: 70%;
+    height: 175%;
+    right: -5%;
+    top: -40%;
+    left: auto;
+    border: 1px solid rgba(228, 218, 239, .14);
+    border-radius: 72% 12% 7% 76% / 27% 47% 50% 73%;
+    transform: rotate(-10deg);
+    clip-path: none;
+    background:
+      linear-gradient(105deg, rgba(227, 217, 239, .16), transparent 33%),
+      repeating-linear-gradient(100deg, rgba(225, 214, 239, .20) 0 2px, rgba(62, 57, 75, .10) 2px 8px),
+      linear-gradient(135deg, rgba(147, 138, 161, .74), rgba(59, 53, 72, .89) 56%, rgba(27, 23, 35, .96));
+    box-shadow: inset 22px 0 35px rgba(233, 222, 245, .06), inset -18px 0 30px rgba(7,6,11,.18), 0 10px 24px rgba(4,3,8,.22);
+    opacity: .94;
+  }
+
+  .case-software .shape-two {
+    width: 43%;
+    height: 130%;
+    right: 23%;
+    top: -18%;
+    left: auto;
+    border: 1px solid rgba(214, 202, 229, .12);
+    border-radius: 78% 16% 9% 72% / 34% 45% 55% 66%;
+    transform: rotate(-9deg);
+    clip-path: none;
+    background:
+      repeating-linear-gradient(101deg, rgba(218, 208, 230, .14) 0 1px, transparent 1px 7px),
+      linear-gradient(135deg, rgba(114, 106, 127, .47), rgba(35, 31, 43, .88));
+    box-shadow: inset 11px 0 22px rgba(231,222,240,.04);
+  }
+
+  .case-software .shape-three {
+    display: block;
+    width: 58%;
+    height: 85%;
+    right: -16%;
+    bottom: -18%;
+    left: auto;
+    top: auto;
+    border: 0;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 34% 20%, rgba(144, 133, 159, .23), rgba(25,22,32,.74) 55%, transparent 72%);
+    transform: rotate(-10deg);
+    filter: blur(1px);
+  }
+
+  .case-copy h3 {
+    font-size: 20.5px;
+    font-weight: 405;
+    letter-spacing: -.019em;
+  }
+
+  .case-meta span:first-child { color: #9b88bc; }
+  .case-arrow {
+    border-color: rgba(202, 177, 235, .26);
+    background: rgba(55, 40, 82, .22);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  }
+
+  .featured-side-note {
+    color: #ad9acb;
+    letter-spacing: .32em;
+  }
+
+  .featured-side-note::before {
+    background: rgba(190, 165, 221, .17);
+  }
+}
+
+/* Preserve responsive behaviour outside the approved desktop composition. */
+@media (max-width: 1279px) {
+  .wave-four,
+  .wave-five { opacity: .55; }
+}

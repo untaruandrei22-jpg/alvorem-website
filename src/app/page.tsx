@@ -1,5 +1,5 @@
 import { CapabilityExplorer } from "@/components/CapabilityExplorer";
-import { Logo } from "@/components/Logo";
+import { AlvoremLogo, ArrowIcon, FeatureIcon, HeroMark, SearchIcon } from "@/components/BrandAssets";
 
 const work = [
   {
@@ -20,10 +20,10 @@ const work = [
 ];
 
 const heroCards = [
-  { className: "scene-card card-agents", icon: "✦", title: "AI Agents", copy: "Automate work.\nAmplify people." },
-  { className: "scene-card card-data", icon: "▥", title: "Dashboards", copy: "Turn data into\nclear decisions." },
-  { className: "scene-card card-auto", icon: "⚙", title: "Automation", copy: "Streamline\nwhat's next." },
-  { className: "scene-card card-founder", icon: "●", title: "Founder CV", copy: "Experience\nwith impact." },
+  { className: "scene-card card-agents", icon: "agents" as const, title: "AI Agents", copy: "Automate work.\nAmplify people." },
+  { className: "scene-card card-data", icon: "dashboards" as const, title: "Dashboards", copy: "Turn data into\nclear decisions." },
+  { className: "scene-card card-auto", icon: "automation" as const, title: "Automation", copy: "Streamline\nwhat's next." },
+  { className: "scene-card card-founder", icon: "founder" as const, title: "Founder CV", copy: "Experience\nwith impact." },
 ];
 
 export default function Home() {
@@ -34,7 +34,7 @@ export default function Home() {
       <div className="aurora aurora-two" aria-hidden="true" />
 
       <header className="nav shell-wide">
-        <a href="#top" className="logo-link" aria-label="ALVOREM home"><Logo /></a>
+        <a href="#top" className="logo-link" aria-label="ALVOREM home"><AlvoremLogo /></a>
         <nav aria-label="Main navigation">
           <a href="#solutions">Solutions <span className="nav-chevron">⌄</span></a>
           <a href="#work">Work</a>
@@ -43,7 +43,7 @@ export default function Home() {
           <a href="#founder">Careers</a>
         </nav>
         <div className="nav-actions">
-          <button className="search-button" aria-label="Search">⌕</button>
+          <button className="search-button" aria-label="Search"><SearchIcon /></button>
           <a href="#contact" className="nav-project">Start a Project</a>
         </div>
       </header>
@@ -52,8 +52,8 @@ export default function Home() {
         <div className="hero-copy-v2">
           <span className="kicker">DATA · AI · SOFTWARE</span>
           <h1>
-            Intelligent systems<br />
-            for modern <em>business.</em>
+            <span className="hero-line-one">Intelligent systems</span><br />
+            <span className="hero-line-gradient">for modern business.</span>
           </h1>
           <p className="hero-lede">
             We design and build AI-powered systems, software, and data solutions<br className="desktop-break" />
@@ -61,14 +61,14 @@ export default function Home() {
           </p>
 
           <div className="hero-actions-v2">
-            <a className="button primary-xl" href="#work">Explore Work <span>→</span></a>
+            <a className="button primary-xl" href="#work">Explore Work <ArrowIcon /></a>
             <a className="button outline-xl" href="#contact">Start a Project</a>
           </div>
 
           <div className="ask-shell" role="group" aria-label="Ask ALVOREM preview">
-            <span className="ask-spark">✦</span>
+            <span className="ask-spark"><FeatureIcon name="agents" /></span>
             <span className="ask-placeholder">Ask Alvorem anything...</span>
-            <span className="ask-submit">→</span>
+            <span className="ask-submit"><ArrowIcon /></span>
           </div>
 
           <div className="try-row">
@@ -97,7 +97,7 @@ export default function Home() {
           <div className="orbit-node node-five" />
 
           <div className="scene-logo-glow" />
-          <div className="scene-logo"><Logo compact /></div>
+          <div className="scene-logo"><HeroMark /></div>
 
           <div className="pedestal-beam" />
           <div className="pedestal-top pedestal-ring-outer" />
@@ -107,12 +107,12 @@ export default function Home() {
 
           {heroCards.map((card) => (
             <div className={card.className} key={card.title}>
-              <span className="scene-icon">{card.icon}</span>
+              <span className="scene-icon"><FeatureIcon name={card.icon} /></span>
               <div>
                 <strong>{card.title}</strong>
                 <small>{card.copy.split("\n").map((line, index) => <span key={line}>{line}{index === 0 && <br />}</span>)}</small>
               </div>
-              <span className="scene-arrow">→</span>
+              <span className="scene-arrow"><ArrowIcon /></span>
             </div>
           ))}
 
@@ -168,7 +168,7 @@ export default function Home() {
                   <h3>{item.title.split("\n").map((line, index) => <span key={line}>{line}{index === 0 && <br />}</span>)}</h3>
                   <div className="case-meta">
                     <span>{item.label}</span>
-                    <span className="case-arrow">→</span>
+                    <span className="case-arrow"><ArrowIcon /></span>
                   </div>
                 </div>
               </article>
@@ -207,7 +207,7 @@ export default function Home() {
           </div>
           <div className="founder-copy">
             <p>The founder profile will become an interactive CV and project explorer rather than a static résumé.</p>
-            <a href="#contact">Explore the founder profile <span>→</span></a>
+            <a href="#contact">Explore the founder profile <ArrowIcon /></a>
           </div>
         </div>
       </section>
@@ -222,7 +222,7 @@ export default function Home() {
       </section>
 
       <footer className="footer shell-wide">
-        <Logo />
+        <AlvoremLogo />
         <p>© 2026 ALVOREM. Built with care in Romania.</p>
         <a href="#top">Back to top ↑</a>
       </footer>

@@ -1,31 +1,36 @@
 export function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="brand" aria-label="ALVOREM">
-      <svg className="brand-mark" viewBox="0 0 72 72" role="img" aria-hidden="true">
+    <div className={`brand ${compact ? "brand-compact" : ""}`} aria-label="ALVOREM">
+      <svg className="brand-mark" viewBox="0 0 84 72" role="img" aria-hidden="true">
         <defs>
-          <linearGradient id="petalA" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0" stopColor="#53308f" />
-            <stop offset="0.55" stopColor="#8b63d8" />
-            <stop offset="1" stopColor="#c8b2ff" />
+          <linearGradient id="petalTop" x1="0.08" y1="0.94" x2="0.88" y2="0.08">
+            <stop offset="0" stopColor="#6b45b9" />
+            <stop offset="0.52" stopColor="#a77cf1" />
+            <stop offset="1" stopColor="#f1e9ff" />
           </linearGradient>
-          <linearGradient id="petalB" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0" stopColor="#2d1d56" />
-            <stop offset="0.55" stopColor="#7650bd" />
-            <stop offset="1" stopColor="#b79ae8" />
+          <linearGradient id="petalLeft" x1="0.04" y1="0.9" x2="0.95" y2="0.12">
+            <stop offset="0" stopColor="#5a36a1" />
+            <stop offset="0.58" stopColor="#9368e4" />
+            <stop offset="1" stopColor="#d5c0ff" />
           </linearGradient>
-          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1.8" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          <linearGradient id="petalRight" x1="0.05" y1="0.92" x2="0.9" y2="0.05">
+            <stop offset="0" stopColor="#6743ae" />
+            <stop offset="0.55" stopColor="#a475e7" />
+            <stop offset="1" stopColor="#eadfff" />
+          </linearGradient>
+          <filter id="logoBloom" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="2.1" result="bloom" />
+            <feMerge><feMergeNode in="bloom" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
         </defs>
-        <path d="M36 34C35 20 42 9 55 4C57 18 51 29 38 36Z" fill="url(#petalA)" filter="url(#softGlow)" />
-        <path d="M34 37C22 28 11 28 5 33C12 46 23 50 35 43Z" fill="url(#petalB)" filter="url(#softGlow)" />
-        <path d="M38 38C50 29 61 29 67 34C60 47 49 51 37 44Z" fill="url(#petalA)" filter="url(#softGlow)" />
+        <path d="M42 35C41.4 20.5 49.4 8.7 64.5 3.6C66.1 18.1 59.1 29.4 44.2 38.2Z" fill="url(#petalTop)" filter="url(#logoBloom)" />
+        <path d="M39.7 39C26.9 28.7 14.4 28.6 6.1 34.1C14.8 48.9 27.2 53.3 41.2 45.7Z" fill="url(#petalLeft)" filter="url(#logoBloom)" />
+        <path d="M44.1 39.5C56.6 29.1 69.4 29.3 77.4 35C68.7 49.7 56.6 53.9 42.3 46Z" fill="url(#petalRight)" filter="url(#logoBloom)" />
       </svg>
       {!compact && (
         <div className="brand-lockup">
           <span className="brand-word">ALVOREM</span>
-          <span className="brand-sub">DATA · AI · SOFTWARE</span>
+          <span className="brand-sub">PEOPLE · TECH · A BRIGHTER TOMORROW</span>
         </div>
       )}
     </div>

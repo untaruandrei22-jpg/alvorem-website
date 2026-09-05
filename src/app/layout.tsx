@@ -7,6 +7,7 @@ import "./geometry.css";
 import "./final-fidelity.css";
 import "./brand-fidelity.css";
 import "./brand-board.css";
+import "./final-polish.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

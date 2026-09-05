@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#21152f"/>
+      <stop offset="0.55" stop-color="#100b18"/>
+      <stop offset="1" stop-color="#08070d"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6c3fb1"/>
+      <stop offset="0.28" stop-color="#ad75ea"/>
+      <stop offset="0.5" stop-color="#e0c2ff"/>
+      <stop offset="0.7" stop-color="#8e5bd4"/>
+      <stop offset="1" stop-color="#3f255f"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.48" stop-color="#fff7ff" stop-opacity=".65"/>
+      <stop offset="0.58" stop-color="#d7b5ff" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12" result="b"/>
+      <feOffset dy="13" result="o"/>
+      <feColorMatrix in="o" type="matrix" values="0 0 0 0 0.08 0 0 0 0 0.03 0 0 0 0 0.13 0 0 0 .75 0" result="s"/>
+      <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="blur12"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="640" height="300" fill="url(#bg)"/>
+  <ellipse cx="348" cy="156" rx="226" ry="88" fill="#7d49bf" opacity=".11" filter="url(#blur12)"/>
+  <path d="M-20 215C91 149 173 132 251 154C323 175 365 231 438 233C512 236 572 185 666 88L668 144C579 231 516 267 437 266C344 264 298 209 235 193C165 176 91 192-20 256Z" fill="url(#ribbon)" opacity=".94" filter="url(#shadow)"/>
+  <path d="M-10 201C95 145 175 130 250 153C322 176 363 220 432 227C494 233 556 197 651 113" fill="none" stroke="url(#shine)" stroke-width="7" stroke-linecap="round" opacity=".52"/>
+  <path d="M95 286C184 222 257 215 329 232C403 249 462 282 544 256C591 241 624 215 659 180" fill="none" stroke="#8f5bd0" stroke-width="36" stroke-linecap="round" opacity=".18" filter="url(#blur12)"/>
+</svg>

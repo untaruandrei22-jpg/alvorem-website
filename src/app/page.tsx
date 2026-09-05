@@ -1,5 +1,5 @@
 import { CapabilityExplorer } from "@/components/CapabilityExplorer";
-import { AlvoremLogo, ArrowIcon, FeatureIcon, HeroMark, SearchIcon } from "@/components/BrandAssets";
+import { AlvoremLogoHorizontal, AlvoremSymbol, ArrowIcon, FeatureIcon, SearchIcon } from "@/components/BrandAssets";
 
 const work = [
   {
@@ -34,7 +34,7 @@ export default function Home() {
       <div className="aurora aurora-two" aria-hidden="true" />
 
       <header className="nav shell-wide">
-        <a href="#top" className="logo-link" aria-label="ALVOREM home"><AlvoremLogo /></a>
+        <a href="#top" className="logo-link" aria-label="ALVOREM home"><AlvoremLogoHorizontal /></a>
         <nav aria-label="Main navigation">
           <a href="#solutions">Solutions <span className="nav-chevron">⌄</span></a>
           <a href="#work">Work</a>
@@ -97,7 +97,7 @@ export default function Home() {
           <div className="orbit-node node-five" />
 
           <div className="scene-logo-glow" />
-          <div className="scene-logo"><HeroMark /></div>
+          <div className="scene-logo"><AlvoremSymbol variant="hero" /></div>
 
           <div className="pedestal-beam" />
           <div className="pedestal-top pedestal-ring-outer" />
@@ -222,7 +222,7 @@ export default function Home() {
       </section>
 
       <footer className="footer shell-wide">
-        <AlvoremLogo />
+        <AlvoremLogoHorizontal />
         <p>© 2026 ALVOREM. Built with care in Romania.</p>
         <a href="#top">Back to top ↑</a>
       </footer>

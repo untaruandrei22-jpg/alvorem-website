@@ -4,6 +4,7 @@ import "./globals.css";
 import "./fidelity.css";
 import "./master.css";
 import "./geometry.css";
+import "./final-fidelity.css";
 
 const manrope = Manrope({
   subsets: ["latin"],

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2d57"/>
+      <stop offset="0.45" stop-color="#241a38"/>
+      <stop offset="1" stop-color="#0c0a13"/>
+    </linearGradient>
+    <linearGradient id="far" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#75608f"/>
+      <stop offset="1" stop-color="#261c35"/>
+    </linearGradient>
+    <linearGradient id="mid" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8067a5"/>
+      <stop offset="0.52" stop-color="#4a365f"/>
+      <stop offset="1" stop-color="#181220"/>
+    </linearGradient>
+    <linearGradient id="near" x1="0.2" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#9a7bc6"/>
+      <stop offset="0.28" stop-color="#5d4380"/>
+      <stop offset="0.7" stop-color="#2a1c3d"/>
+      <stop offset="1" stop-color="#0e0b16"/>
+    </linearGradient>
+    <radialGradient id="mist" cx="50%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#b599d8" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#6b4b8d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur18"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <rect width="640" height="300" fill="url(#sky)"/>
+  <ellipse cx="330" cy="120" rx="260" ry="95" fill="url(#mist)" filter="url(#blur18)"/>
+  <path d="M0 208C66 183 112 187 171 153C218 126 259 141 310 119C360 98 399 108 441 136C487 167 529 157 640 131V300H0Z" fill="#20172f" opacity=".7"/>
+  <path d="M0 223C59 204 109 201 156 178C205 154 235 163 286 142C341 119 381 122 424 149C470 178 526 169 640 152V300H0Z" fill="url(#far)" opacity=".58" filter="url(#blur6)"/>
+  <path d="M0 242C68 216 123 218 184 187C235 162 266 169 307 145C355 117 391 125 431 160C477 199 533 190 640 163V300H0Z" fill="url(#mid)" opacity=".88"/>
+  <path d="M70 300L177 161L238 229L331 87L405 210L492 133L596 300Z" fill="url(#near)"/>
+  <path d="M177 161L238 229L331 87L277 222Z" fill="#c8b0e8" opacity=".18"/>
+  <path d="M331 87L405 210L366 178Z" fill="#f1e7ff" opacity=".16"/>
+  <path d="M492 133L596 300L527 224Z" fill="#b999dc" opacity=".11"/>
+  <path d="M0 259C84 247 149 252 214 239C289 224 348 235 420 224C486 214 550 220 640 207V300H0Z" fill="#0d0a14" opacity=".72"/>
+  <rect y="238" width="640" height="62" fill="url(#mist)" opacity=".3"/>
+</svg>

@@ -46,7 +46,7 @@ Open `http://localhost:3000`.
 
 ## Domains
 
-- `alvorem.ai` — secured
-- `alvorem.ro` — registration pending confirmation
+- `alvorem.ro` — primary domain
+- `alvorem.ai` — optional future acquisition
 
 Canonical routing is intentionally not locked yet.

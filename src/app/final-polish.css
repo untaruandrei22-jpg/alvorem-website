@@ -1,0 +1,345 @@
+/* FINAL POLISH ONLY — preserves approved macro layout and proportions. */
+
+@media (min-width: 1280px) {
+  /* Hero flower: solid sculptural petals, no engraved/vein channels. */
+  .alvorem-symbol-hero path[stroke] {
+    display: none !important;
+  }
+
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(1) {
+    filter:
+      brightness(1.18)
+      saturate(.88)
+      drop-shadow(0 0 7px rgba(255, 249, 255, .34))
+      drop-shadow(0 0 18px rgba(211, 181, 250, .24));
+  }
+
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(2),
+  .scene-logo .alvorem-symbol-hero g > path:nth-of-type(3) {
+    filter:
+      brightness(1.02)
+      saturate(1.03)
+      drop-shadow(0 0 9px rgba(179, 137, 233, .18));
+  }
+
+  .scene-logo .alvorem-symbol-hero {
+    filter:
+      drop-shadow(0 0 10px rgba(255, 250, 255, .24))
+      drop-shadow(0 0 28px rgba(206, 173, 246, .46))
+      drop-shadow(0 0 76px rgba(111, 88, 217, .36));
+  }
+
+  .scene-logo-glow {
+    background:
+      radial-gradient(circle at 50% 54%, rgba(255,255,255,.72) 0%, rgba(249,240,255,.55) 7%, rgba(214,188,249,.38) 17%, rgba(161,124,218,.21) 32%, rgba(111,88,217,.08) 50%, transparent 72%) !important;
+    filter: blur(25px) !important;
+  }
+
+  /* Slightly more substantial headline without changing scale or wrapping. */
+  .hero-copy-v2 h1 {
+    font-weight: 360 !important;
+    letter-spacing: -.021em !important;
+    line-height: 1.07 !important;
+  }
+
+  .hero-line-one {
+    color: #F2EEF7;
+  }
+
+  .hero-line-gradient {
+    background: linear-gradient(90deg,
+      #EEE8F4 0%,
+      #E7DEF1 20%,
+      #D8CAE9 48%,
+      #C6B2E5 70%,
+      #A982D7 87%,
+      #8E67CF 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+  }
+
+  .hero-lede {
+    color: #C2B9CB !important;
+    line-height: 1.76 !important;
+    letter-spacing: .004em !important;
+    word-spacing: .015em;
+  }
+
+  /* Approved logo — micro alignment/readability only. */
+  .brand-tagline-vector {
+    fill: #B8AEC5 !important;
+    font-size: 7.45px !important;
+    font-weight: 400 !important;
+    letter-spacing: 2.42px !important;
+  }
+
+  .alvorem-lockup {
+    transform: translateY(1px);
+  }
+
+  /* Card micro-position corrections only. */
+  .card-data {
+    translate: 16px -10px;
+  }
+
+  .card-auto {
+    translate: -13px -10px;
+  }
+
+  .card-founder {
+    translate: 0 -18px;
+  }
+
+  /* Premium thick-glass material, preserving exact card geometry. */
+  .scene-card {
+    border-color: rgba(200,180,240,.22) !important;
+    background:
+      radial-gradient(ellipse 70% 45% at 24% -2%, rgba(247,245,252,.11), transparent 43%),
+      radial-gradient(circle at 92% 112%, rgba(111,88,217,.10), transparent 42%),
+      linear-gradient(145deg, rgba(82,68,111,.48) 0%, rgba(44,34,71,.57) 46%, rgba(20,16,36,.69) 100%) !important;
+    backdrop-filter: blur(32px) saturate(125%) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.13) inset,
+      0 -24px 46px rgba(10,7,20,.24) inset,
+      0 22px 42px rgba(0,0,0,.36),
+      0 0 25px rgba(111,88,217,.065) !important;
+  }
+
+  .scene-card::before {
+    left: 7% !important;
+    right: 19% !important;
+    height: 1px !important;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,.78) 26%,
+      rgba(219,200,246,.30) 61%,
+      transparent) !important;
+    opacity: .76 !important;
+  }
+
+  .scene-card::after {
+    background:
+      linear-gradient(118deg, rgba(255,255,255,.045), transparent 23%, transparent 67%, rgba(152,124,203,.045)),
+      radial-gradient(ellipse 64% 30% at 36% 0%, rgba(255,255,255,.025), transparent 72%) !important;
+  }
+
+  /* Physical pedestal depth: layered rim, cylindrical face and underside shadow. */
+  .pedestal-ring-outer {
+    box-shadow:
+      0 0 9px rgba(255,250,255,.58),
+      0 0 30px rgba(200,180,240,.47),
+      0 0 68px rgba(111,88,217,.26),
+      inset 0 5px 17px rgba(255,255,255,.15),
+      0 13px 20px rgba(4,3,10,.52) !important;
+  }
+
+  .pedestal-ring-inner {
+    box-shadow:
+      inset 0 0 18px rgba(247,245,252,.22),
+      0 0 18px rgba(200,180,240,.34),
+      0 7px 12px rgba(5,4,12,.30) !important;
+  }
+
+  .pedestal-body {
+    background:
+      linear-gradient(90deg, rgba(18,13,31,.98) 0%, rgba(61,43,89,.95) 18%, rgba(85,59,122,.86) 48%, rgba(49,34,75,.96) 78%, rgba(14,10,26,.99) 100%),
+      linear-gradient(180deg, rgba(87,60,123,.78), rgba(15,11,28,.99)) !important;
+    box-shadow:
+      inset 0 8px 14px rgba(200,180,240,.07),
+      inset 0 -18px 32px rgba(0,0,0,.38),
+      inset 18px 0 32px rgba(111,88,217,.07),
+      inset -20px 0 34px rgba(6,4,14,.28),
+      0 20px 38px rgba(0,0,0,.44) !important;
+  }
+
+  .pedestal-body::after {
+    content: "";
+    position: absolute;
+    inset: 9% 13% 15%;
+    border-radius: 45%;
+    background: linear-gradient(90deg, transparent, rgba(200,180,240,.055), transparent);
+    filter: blur(9px);
+    pointer-events: none;
+  }
+
+  .pedestal-shadow {
+    opacity: .94 !important;
+    filter: blur(18px) !important;
+  }
+
+  /* White-hot core under flower, feathered into lavender and violet. */
+  .pedestal-beam {
+    background:
+      radial-gradient(ellipse at 50% 74%, rgba(255,255,255,.82) 0%, rgba(249,241,255,.66) 10%, rgba(221,198,248,.38) 24%, rgba(152,124,203,.17) 43%, rgba(111,88,217,.055) 60%, transparent 78%) !important;
+    filter: blur(28px) !important;
+    opacity: .98 !important;
+  }
+
+  /* Smooth cinematic terrain — only three broad surfaces, no topographic line language. */
+  .wave-four,
+  .wave-five {
+    display: none !important;
+  }
+
+  .floor-wave {
+    border: 0 !important;
+    background:
+      radial-gradient(ellipse 62% 30% at 48% 0%, rgba(200,180,240,.17), transparent 56%),
+      linear-gradient(180deg, rgba(91,67,135,.55) 0%, rgba(58,39,93,.70) 30%, rgba(30,20,53,.90) 68%, rgba(10,8,21,.98) 100%) !important;
+    box-shadow:
+      inset 0 2px 0 rgba(200,180,240,.12),
+      inset 0 -34px 62px rgba(4,3,11,.36),
+      0 -8px 25px rgba(111,88,217,.08),
+      0 30px 60px rgba(0,0,0,.30) !important;
+    filter: none !important;
+  }
+
+  .floor-wave::before {
+    height: 2px !important;
+    left: 13% !important;
+    right: 17% !important;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(152,124,203,.08) 18%,
+      rgba(220,203,245,.24) 51%,
+      rgba(111,88,217,.09) 80%,
+      transparent) !important;
+    filter: blur(.8px) !important;
+    opacity: .8;
+  }
+
+  .floor-wave::after {
+    content: "";
+    position: absolute;
+    left: 8%; right: 8%; top: 4%; bottom: 28%;
+    border-radius: inherit;
+    background: radial-gradient(ellipse at 52% 6%, rgba(247,245,252,.055), transparent 48%);
+    pointer-events: none;
+  }
+
+  .wave-one {
+    opacity: .96 !important;
+    background:
+      radial-gradient(ellipse 66% 27% at 47% 0%, rgba(200,180,240,.22), transparent 56%),
+      linear-gradient(180deg, rgba(94,68,141,.61), rgba(50,34,82,.78) 38%, rgba(22,15,41,.94) 76%, rgba(8,6,17,.99)) !important;
+  }
+
+  .wave-two {
+    opacity: .84 !important;
+    background:
+      radial-gradient(ellipse 58% 25% at 58% 0%, rgba(152,124,203,.16), transparent 55%),
+      linear-gradient(180deg, rgba(74,51,116,.53), rgba(39,26,67,.78) 43%, rgba(13,10,28,.97) 100%) !important;
+  }
+
+  .wave-three {
+    opacity: .66 !important;
+    background:
+      radial-gradient(ellipse 54% 23% at 43% 0%, rgba(111,88,217,.12), transparent 58%),
+      linear-gradient(180deg, rgba(61,42,98,.46), rgba(27,19,49,.80) 47%, rgba(10,8,23,.98) 100%) !important;
+  }
+
+  /* Atmospheric orbit fragments — never a complete wire sphere. */
+  .orbit-d,
+  .orbit-e {
+    display: none !important;
+  }
+
+  .orbit-a,
+  .orbit-b,
+  .orbit-c {
+    box-shadow: none !important;
+    border-color: rgba(200,180,240,.15) !important;
+  }
+
+  .orbit-a { opacity: .48 !important; }
+  .orbit-b { opacity: .31 !important; }
+  .orbit-c { opacity: .22 !important; }
+
+  .node-four,
+  .node-five {
+    display: none !important;
+  }
+
+  .node-one,
+  .node-two,
+  .node-three {
+    width: 6px !important;
+    height: 6px !important;
+    background: #FFFDFE !important;
+    box-shadow:
+      0 0 4px 1px rgba(255,255,255,.64),
+      0 0 13px 4px rgba(200,180,240,.44),
+      0 0 26px 7px rgba(111,88,217,.18) !important;
+  }
+
+  .particle-field {
+    opacity: .46 !important;
+    background-image:
+      radial-gradient(circle at 11% 47%, rgba(255,255,255,.92) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 21% 28%, rgba(200,180,240,.56) 0 1px, transparent 1.7px),
+      radial-gradient(circle at 37% 68%, rgba(247,245,252,.65) 0 .8px, transparent 1.6px),
+      radial-gradient(circle at 59% 18%, rgba(200,180,240,.62) 0 .9px, transparent 1.7px),
+      radial-gradient(circle at 72% 33%, rgba(255,255,255,.88) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 82% 62%, rgba(152,124,203,.60) 0 .9px, transparent 1.7px),
+      radial-gradient(circle at 93% 41%, rgba(247,245,252,.72) 0 .8px, transparent 1.6px) !important;
+  }
+
+  .star-field {
+    opacity: .20 !important;
+  }
+
+  /* Ask ALVOREM micro polish only. */
+  .ask-spark .feature-icon-svg {
+    filter:
+      brightness(1.15)
+      drop-shadow(0 0 5px rgba(255,255,255,.22))
+      drop-shadow(0 0 10px rgba(200,180,240,.48)) !important;
+  }
+
+  .ask-placeholder {
+    color: #A399AF !important;
+  }
+
+  .ask-submit {
+    background:
+      radial-gradient(circle at 32% 18%, rgba(247,245,252,.13), transparent 35%),
+      linear-gradient(145deg, rgba(152,124,203,.69), rgba(70,53,115,.84)) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.13) inset,
+      0 -9px 16px rgba(26,24,48,.18) inset,
+      0 8px 18px rgba(4,2,11,.30),
+      0 0 15px rgba(111,88,217,.15) !important;
+  }
+
+  /* CTA material refinements only. */
+  .primary-xl {
+    background:
+      radial-gradient(ellipse 90% 38% at 50% 0%, rgba(247,245,252,.16), transparent 60%),
+      linear-gradient(180deg, rgba(200,180,240,.75) 0%, rgba(139,108,217,.80) 33%, rgba(111,88,217,.88) 66%, rgba(76,56,149,.93) 100%) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.35) inset,
+      0 -15px 27px rgba(49,35,98,.20) inset,
+      0 0 22px rgba(111,88,217,.24),
+      0 0 46px rgba(111,88,217,.10),
+      0 15px 34px rgba(5,4,13,.32) !important;
+  }
+
+  .outline-xl {
+    background: rgba(26,24,48,.11) !important;
+    border-color: rgba(152,124,203,.31) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.018) inset,
+      0 12px 28px rgba(0,0,0,.12) !important;
+  }
+
+  /* Editorial quote: thinner and slightly brighter, same position/scale. */
+  .scene-note {
+    color: #BEA9DB !important;
+    letter-spacing: .008em !important;
+    text-shadow: 0 0 13px rgba(111,88,217,.08);
+  }
+
+  .scene-note strong {
+    color: #C9B5E4 !important;
+  }
+}

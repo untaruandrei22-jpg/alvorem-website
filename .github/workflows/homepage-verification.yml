@@ -1,0 +1,46 @@
+name: Homepage Verification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - '.github/workflows/homepage-verification.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install
+      - name: Production build
+        run: npm run build
+      - name: Install screenshot tooling
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start production server
+        run: |
+          npm run start -- --hostname 0.0.0.0 > /tmp/alvorem-next.log 2>&1 &
+          npx --yes wait-on http://127.0.0.1:3000 --timeout 120000
+      - name: Capture desktop
+        run: npx playwright screenshot --viewport-size='1672,941' --full-page http://127.0.0.1:3000 alvorem-home-desktop.png
+      - name: Capture mobile
+        run: npx playwright screenshot --viewport-size='390,844' --full-page http://127.0.0.1:3000 alvorem-home-mobile.png
+      - name: Upload renders
+        uses: actions/upload-artifact@v4
+        with:
+          name: alvorem-homepage-verification
+          path: |
+            alvorem-home-desktop.png
+            alvorem-home-mobile.png
+      - name: Show logs on failure
+        if: failure()
+        run: cat /tmp/alvorem-next.log || true

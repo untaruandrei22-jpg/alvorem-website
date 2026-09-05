@@ -11,6 +11,28 @@ const work = [
 
 function Arrow() { return <span aria-hidden="true">→</span>; }
 
+function CapabilityIcon({ name }: { name: "ai" | "dashboards" | "automation" | "founder" }) {
+  if (name === "ai") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 1.8 5.4 13h5.2l-.8 9.2L18.6 11h-5.2l.8-9.2Z" fill="currentColor" /></svg>;
+  if (name === "dashboards") return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="13" width="4" height="8" rx=".8" fill="currentColor" /><rect x="10" y="8" width="4" height="13" rx=".8" fill="currentColor" /><rect x="17" y="3" width="4" height="18" rx=".8" fill="currentColor" /></svg>;
+  if (name === "automation") return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2.4" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>;
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.3" r="4.1" fill="currentColor" /><path d="M4.5 21c.5-5 3-7.5 7.5-7.5s7 2.5 7.5 7.5H4.5Z" fill="currentColor" /></svg>;
+}
+
+function TrustedRow() {
+  return (
+    <div className="trusted-row" aria-label="Trusted by forward-thinking teams">
+      <span className="trusted-label">TRUSTED BY FORWARD-THINKING TEAMS</span>
+      <div className="trusted-logos" aria-hidden="true">
+        <span className="trust-brand"><b className="stripe-mark">S</b>Stripe</span>
+        <span className="trust-brand"><b className="notion-mark">N</b>Notion</span>
+        <span className="trust-brand"><b className="figma-mark"><i /><i /><i /><i /><i /></b>Figma</span>
+        <span className="trust-brand"><b className="shopify-mark">S</b>Shopify</span>
+        <span className="trust-brand"><b className="linear-mark"><i /><i /><i /></b>Linear</span>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main id="top">
@@ -41,13 +63,14 @@ export default function Home() {
           <p>We design and build AI-powered systems, software, and data solutions that turn ambitious ideas into real business impact.</p>
           <div className="hero-actions"><a className="button primary" href="#work">Explore Work <Arrow /></a><a className="button ghost" href="#contact">Start a Project</a></div>
           <HeroAsk />
+          <TrustedRow />
         </div>
 
         <div className="hero-scene" aria-label="ALVOREM capabilities">
-          <a className="glass-card ai-card" href="#solutions"><b className="card-icon sparkle">✦</b><span><strong>AI Agents</strong><small>Automate work.<br />Amplify people.</small></span><i>→</i></a>
-          <a className="glass-card data-card" href="#work"><b className="card-icon bars">▥</b><span><strong>Dashboards</strong><small>Turn data into<br />clear decisions.</small></span><i>→</i></a>
-          <a className="glass-card automation-card" href="#solutions"><b className="card-icon gear">✿</b><span><strong>Automation</strong><small>Streamline<br />what&apos;s next.</small></span><i>→</i></a>
-          <a className="glass-card cv-card" href="#founder"><b className="card-icon person">♟</b><span><strong>Founder CV</strong><small>Experience<br />with impact.</small></span><i>→</i></a>
+          <a className="glass-card ai-card" href="#solutions"><b className="card-icon"><CapabilityIcon name="ai" /></b><span><strong>AI Agents</strong><small>Automate work.<br />Amplify people.</small></span><i>→</i></a>
+          <a className="glass-card data-card" href="#work"><b className="card-icon"><CapabilityIcon name="dashboards" /></b><span><strong>Dashboards</strong><small>Turn data into<br />clear decisions.</small></span><i>→</i></a>
+          <a className="glass-card automation-card" href="#solutions"><b className="card-icon"><CapabilityIcon name="automation" /></b><span><strong>Automation</strong><small>Streamline<br />what&apos;s next.</small></span><i>→</i></a>
+          <a className="glass-card cv-card" href="#founder"><b className="card-icon"><CapabilityIcon name="founder" /></b><span><strong>Founder CV</strong><small>Experience<br />with impact.</small></span><i>→</i></a>
           <blockquote>Ideas<br />People<br />Technology<br />A Brighter<br />Tomorrow</blockquote>
           <div className="story-note"><span>Same brighter questions.<br />Bigger tomorrows.</span><a href="#about" aria-label="Our story">▶</a><small>WATCH<br />OUR STORY</small></div>
         </div>

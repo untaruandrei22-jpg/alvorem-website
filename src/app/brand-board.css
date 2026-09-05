@@ -1,0 +1,272 @@
+/* Brand-board authority layer.
+   Branding and typography follow the approved ALVOREM identity board.
+   Geometry remains owned by the existing layout/fidelity layers. */
+
+:root {
+  --brand-indigo: #1A1830;
+  --brand-violet: #6F58D9;
+  --brand-lavender: #C8B4F0;
+  --brand-plum: #987CCB;
+  --brand-offwhite: #F7F5FC;
+  --brand-gray: #6B687A;
+
+  /* Compatibility aliases for earlier fidelity layers. */
+  --font-display: var(--font-primary);
+  --font-manrope: var(--font-secondary);
+  --font-hand: var(--font-editorial);
+}
+
+body {
+  font-family: var(--font-secondary), sans-serif;
+  color: var(--brand-offwhite);
+  background:
+    radial-gradient(ellipse 36% 38% at 15% 39%, rgba(111, 88, 217, .055), transparent 72%),
+    radial-gradient(ellipse 40% 42% at 68% 44%, rgba(152, 124, 203, .10), transparent 72%),
+    radial-gradient(ellipse 46% 34% at 94% 3%, rgba(111, 88, 217, .24), transparent 68%),
+    linear-gradient(180deg, #111024 0%, #0C0B18 57%, #111024 100%);
+}
+
+/* Official horizontal lockup: vector wordmark + one-line tagline. */
+.alvorem-lockup,
+.alvorem-logo-horizontal {
+  display: block;
+  width: 366px;
+  height: auto;
+  overflow: visible;
+}
+
+.wordmark-vector {
+  filter: drop-shadow(0 0 9px rgba(111, 88, 217, .10));
+}
+
+.brand-tagline-vector {
+  fill: #B4ABC1;
+  font-family: var(--font-secondary), sans-serif;
+  font-size: 7.35px;
+  font-weight: 400;
+  letter-spacing: 2.35px;
+  white-space: nowrap;
+}
+
+/* Primary = Montserrat direction from the brand board. Secondary = Inter. */
+.nav nav,
+.nav-project,
+.button,
+.ask-placeholder,
+.try-row,
+.scene-card,
+.story-area,
+.case-copy,
+.featured-side-note,
+.hero-lede,
+.kicker,
+.case-meta,
+.footer {
+  font-family: var(--font-secondary), sans-serif;
+}
+
+.hero-copy-v2 h1,
+.featured-heading h2,
+.about h2,
+.founder h2,
+.contact-panel h2 {
+  font-family: var(--font-primary), sans-serif;
+}
+
+.nav nav {
+  font-weight: 300;
+  color: #DDD6E8;
+  letter-spacing: .004em;
+}
+
+.nav-chevron {
+  font-family: var(--font-secondary), sans-serif;
+  font-weight: 300;
+  opacity: .70;
+}
+
+.search-button { color: #D8CDEA; }
+.search-icon-svg { width: 21px; height: 21px; }
+
+.nav-project {
+  color: #EEE9F6;
+  font-weight: 300;
+  background:
+    linear-gradient(180deg, rgba(152,124,203,.46), rgba(63,47,105,.50));
+  border-color: rgba(200,180,240,.48);
+  box-shadow:
+    0 1px 0 rgba(247,245,252,.19) inset,
+    0 -12px 30px rgba(26,24,48,.20) inset,
+    0 0 24px rgba(111,88,217,.27),
+    0 14px 34px rgba(5,4,13,.31);
+}
+
+.nav-project::before {
+  background: linear-gradient(90deg, transparent, rgba(247,245,252,.70), transparent);
+}
+
+/* Hero text mirrors the brand board: Montserrat-light, soft whites, subtle lavender gradient. */
+.hero-copy-v2 h1 {
+  font-weight: 300 !important;
+  letter-spacing: -.025em !important;
+  line-height: 1.065 !important;
+  color: #F2EEF8;
+  text-rendering: geometricPrecision;
+}
+
+.hero-line-one { color: #F1EDF7; }
+.hero-line-gradient {
+  color: transparent;
+  background: linear-gradient(90deg, #E8E0F1 0%, #D7C8EA 44%, #C8B4F0 67%, #987CCB 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 0 24px rgba(111,88,217,.045);
+}
+
+.hero-copy-v2 .kicker,
+.featured-heading .kicker {
+  color: #B8A8D8;
+  font-weight: 400;
+  letter-spacing: .46em;
+}
+
+.hero-lede {
+  color: #BCB4C8;
+  font-weight: 300;
+  line-height: 1.72 !important;
+  letter-spacing: .006em;
+}
+
+/* Buttons remain in their approved positions; only material is brand-normalized. */
+.primary-xl {
+  color: var(--brand-offwhite);
+  background:
+    linear-gradient(180deg, rgba(200,180,240,.70) 0%, rgba(126,96,214,.79) 33%, rgba(111,88,217,.86) 64%, rgba(77,56,151,.91) 100%);
+  border-color: rgba(220,207,245,.52);
+  box-shadow:
+    0 1px 0 rgba(247,245,252,.34) inset,
+    0 -16px 30px rgba(49,35,98,.20) inset,
+    0 0 18px rgba(111,88,217,.23),
+    0 0 38px rgba(111,88,217,.11),
+    0 15px 34px rgba(5,4,13,.32);
+}
+
+.outline-xl {
+  color: #E9E2F0;
+  background: rgba(26,24,48,.15);
+  border-color: rgba(152,124,203,.38) !important;
+  box-shadow: 0 1px 0 rgba(247,245,252,.025) inset, 0 12px 28px rgba(0,0,0,.13);
+}
+
+/* Ask / TRY controls use the same material hierarchy as the brand board. */
+.ask-shell {
+  background: linear-gradient(180deg, rgba(31,27,57,.58), rgba(17,15,33,.70));
+  border-color: rgba(152,124,203,.38) !important;
+  box-shadow:
+    0 1px 0 rgba(247,245,252,.055) inset,
+    0 -18px 32px rgba(26,24,48,.10) inset,
+    0 18px 42px rgba(0,0,0,.22);
+}
+.ask-placeholder { color: #958AA7; font-weight: 300; }
+.ask-submit {
+  color: var(--brand-offwhite);
+  background: linear-gradient(145deg, rgba(152,124,203,.66), rgba(70,53,115,.80));
+  border-color: rgba(200,180,240,.20);
+}
+.try-row > span:not(.try-label) {
+  color: #AAA0B6;
+  background: linear-gradient(180deg, rgba(45,39,67,.24), rgba(20,17,33,.34));
+  border-color: rgba(200,180,240,.17) !important;
+}
+
+/* Brand symbol in hero uses the same approved silhouette, with sculptural material only. */
+.scene-logo .alvorem-symbol-hero {
+  display: block;
+  width: 306px;
+  height: 280px;
+  overflow: visible;
+  filter:
+    drop-shadow(0 0 12px rgba(247,245,252,.18))
+    drop-shadow(0 0 34px rgba(200,180,240,.40))
+    drop-shadow(0 0 80px rgba(111,88,217,.36));
+}
+
+.scene-logo-glow {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(247,245,252,.28) 0%, rgba(200,180,240,.25) 10%, rgba(152,124,203,.22) 27%, rgba(111,88,217,.09) 49%, transparent 73%) !important;
+}
+
+/* Glass cards: deep indigo, lavender edge, no random hue drift. */
+.scene-card {
+  border-color: rgba(200,180,240,.23) !important;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(200,180,240,.09), transparent 31%),
+    linear-gradient(145deg, rgba(62,54,91,.50), rgba(32,27,54,.58) 52%, rgba(19,17,34,.68));
+  box-shadow:
+    0 1px 0 rgba(247,245,252,.10) inset,
+    0 -22px 42px rgba(12,9,24,.22) inset,
+    0 24px 46px rgba(0,0,0,.34),
+    0 0 22px rgba(111,88,217,.065) !important;
+}
+.scene-card::before {
+  background: linear-gradient(90deg, transparent, rgba(247,245,252,.67), rgba(200,180,240,.22), transparent);
+}
+.scene-card strong { color: #EEE9F5; font-weight: 400; }
+.scene-card small { color: #A99FB5; font-weight: 300; }
+
+.scene-icon .feature-icon-svg {
+  filter: drop-shadow(0 0 8px rgba(200,180,240,.42));
+}
+
+/* Editorial quote: the board uses an elegant italic serif rather than a casual script. */
+.scene-note {
+  font-family: var(--font-editorial), Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  color: #B6A0D4 !important;
+  letter-spacing: .01em;
+  line-height: .95 !important;
+}
+.scene-note strong { color: #C5B0E1 !important; font-weight: 400 !important; }
+.scene-note i { background: linear-gradient(90deg, var(--brand-violet), transparent) !important; }
+
+/* Featured work uses the same primary/secondary typography pair. */
+.featured-heading h2 {
+  color: #D8CDE8 !important;
+  font-weight: 300 !important;
+  letter-spacing: -.02em !important;
+}
+.featured-heading h2 em { color: #BCA6DE !important; }
+.heading-rule {
+  background: linear-gradient(90deg, var(--brand-violet), rgba(111,88,217,.24), transparent) !important;
+}
+.case-copy h3 {
+  color: #EEE9F4;
+  font-family: var(--font-secondary), sans-serif;
+  font-weight: 300 !important;
+}
+.case-meta span:first-child,
+.featured-side-note {
+  color: #9F8DB8 !important;
+}
+
+.featured-shell {
+  background:
+    radial-gradient(ellipse 26% 88% at 9% 45%, rgba(111,88,217,.11), transparent 72%),
+    radial-gradient(ellipse 38% 86% at 59% 40%, rgba(152,124,203,.045), transparent 76%),
+    linear-gradient(180deg, rgba(19,17,35,.78), rgba(11,10,22,.94));
+}
+
+.footer .alvorem-lockup { width: 300px; }
+
+@media (max-width: 1279px) {
+  .alvorem-lockup { width: 310px; }
+  .scene-logo .alvorem-symbol-hero { width: 260px; height: 238px; }
+}
+
+@media (max-width: 760px) {
+  .alvorem-lockup { width: 235px; }
+  .brand-tagline-vector { font-size: 6.65px; letter-spacing: 1.7px; }
+  .hero-copy-v2 h1 { font-family: var(--font-primary), sans-serif; font-weight: 300 !important; }
+  .scene-logo .alvorem-symbol-hero { width: 235px; height: 216px; }
+}

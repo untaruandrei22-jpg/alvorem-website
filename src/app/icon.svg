@@ -1,15 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1A1830"/><stop offset="1" stop-color="#090815"/></linearGradient>
-    <radialGradient id="planet" cx="34%" cy="30%" r="78%"><stop stop-color="#32276D"/><stop offset=".62" stop-color="#241C58"/><stop offset="1" stop-color="#6F5BD9"/></radialGradient>
-    <linearGradient id="rim" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#6F5BD9"/><stop offset=".58" stop-color="#C8B4F0"/><stop offset="1" stop-color="#F7F5FC"/></linearGradient>
-    <linearGradient id="horizon" x1=".5" y1="0" x2=".5" y2="1"><stop stop-color="#5440A8"/><stop offset=".2" stop-color="#30266A"/><stop offset="1" stop-color="#17142D"/></linearGradient>
-    <filter id="glow" x="-45%" y="-55%" width="190%" height="210%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="bg" x1="18" y1="12" x2="110" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#252243"/>
+      <stop offset="1" stop-color="#111020"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="32" y1="100" x2="93" y2="23" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD0A8"/>
+      <stop offset=".16" stop-color="#FFF9F2"/>
+      <stop offset=".39" stop-color="#FFFFFF"/>
+      <stop offset=".65" stop-color="#C58CF3"/>
+      <stop offset="1" stop-color="#6F5BD9"/>
+    </linearGradient>
+    <linearGradient id="line" x1="17" y1="0" x2="111" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6F5BD9" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#E6D8FB"/>
+      <stop offset="1" stop-color="#6F5BD9" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-  <rect x="4" y="4" width="120" height="120" rx="28" fill="url(#bg)"/>
+  <rect x="4" y="4" width="120" height="120" rx="29" fill="url(#bg)"/>
   <g filter="url(#glow)">
-    <circle cx="64" cy="47" r="29" fill="url(#planet)" stroke="url(#rim)" stroke-width="2"/>
-    <path d="M8 120Q64 34 120 120V124H8Z" fill="url(#horizon)"/>
-    <path d="M8 120Q64 34 120 120" fill="none" stroke="url(#rim)" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="64" cy="61" r="31" fill="none" stroke="url(#ring)" stroke-width="4"/>
+    <path d="M15 93h98" stroke="url(#line)" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="64" cy="92" rx="11" ry="4" fill="#FFD0A8" opacity=".9"/>
   </g>
 </svg>

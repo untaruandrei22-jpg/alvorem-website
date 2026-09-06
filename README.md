@@ -4,9 +4,9 @@ Public brand, portfolio, B2B and founder/career platform for ALVOREM.
 
 ## Direction
 
-**Intelligent systems for modern business.**
+**Your business, simpler.**
 
-The V1 website should communicate ALVOREM in 5–10 seconds, then reward exploration with premium motion and proof-based content.
+ALVOREM builds AI agents around each client’s business so people can ask, report and automate without adding more complexity to their day.
 
 ## Stack
 
@@ -28,15 +28,14 @@ Open `http://localhost:3000`.
 ## Current V1 shell
 
 - responsive navigation
-- planetary-horizon ALVOREM identity and responsive SVG lockup
-- premium deep-indigo / royal-violet visual system
-- cinematic, production-optimized hero artwork
-- interactive hero UI
-- clickable capability explorer
-- Featured Work placeholders
-- Founder/CV entry point
-- Start a Project CTA
-- initial metadata + SVG favicon
+- responsive clarity-halo ALVOREM wordmark and favicon
+- matching light and dark themes with saved system preference
+- self-hosted Montserrat and Lora brand typography
+- clear AI-agent product demonstration in the hero
+- human-centered capability story with original photography
+- concise Ask / Report / Automate offer
+- three-step project journey and conversation CTA
+- production metadata
 - reduced-motion accessibility support
 
 ## Guardrails

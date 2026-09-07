@@ -11,7 +11,7 @@ import styles from "./SiteHeader.module.css";
 const nav = [
   { href: "/", page: "home" as const, en: "Home", ro: "Acasă" },
   { href: "/solutions", page: "solutions" as const, en: "Solutions", ro: "Soluții" },
-  { href: "/work", page: "work" as const, en: "Work", ro: "Work" },
+  { href: "/work", page: "work" as const, en: "Work", ro: "Proiecte" },
   { href: "/about", page: "about" as const, en: "About", ro: "Despre" },
   { href: "/careers", page: "careers" as const, en: "Careers", ro: "Cariere" },
 ];

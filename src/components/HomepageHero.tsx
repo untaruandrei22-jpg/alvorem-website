@@ -122,9 +122,9 @@ export function HomepageHero() {
 
         <p className={styles.description}>
           {t.descriptionStart}
-          <AgentWordmark agent="alvo" size="sm" />
+          <AgentWordmark agent="alvo" size="sm" className={styles.inlineAgent} />
           {t.alvoDescription}
-          <AgentWordmark agent="orem" size="sm" />
+          <AgentWordmark agent="orem" size="sm" className={styles.inlineAgent} />
           {t.oremDescription}
         </p>
 
@@ -147,8 +147,7 @@ export function HomepageHero() {
       <div className={styles.stage} id="agent-demo" aria-label="ALVOREM AI team product demonstration">
         <article className={styles.oremPanel}>
           <div className={styles.oremTopline}>
-            <span className={styles.eclipse} aria-hidden="true" />
-            <AgentWordmark agent="orem" size="sm" />
+            <AgentWordmark agent="orem" size="md" className={styles.oremIdentity} />
           </div>
           <p className={styles.upgradeLabel}>{t.oremLabel}</p>
           <h2>{t.oremTitle}</h2>
@@ -164,7 +163,7 @@ export function HomepageHero() {
 
         <div className={styles.alvoPanel}>
           <div className={styles.alvoTopline}>
-            <AgentWordmark agent="alvo" size="sm" />
+            <AgentWordmark agent="alvo" size="md" />
             <span>{t.daily}</span>
           </div>
           <small>{t.dailyDetail}</small>

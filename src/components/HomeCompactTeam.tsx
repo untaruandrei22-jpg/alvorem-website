@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./HomeCompactTeam.module.css";
@@ -101,7 +102,7 @@ export function HomeCompactTeam() {
                 )}
               </div>
               <h3>{card.data.title}</h3>
-              <p>{card.data.body}</p>
+              <p><AgentInlineText text={card.data.body} /></p>
               <div className={styles.points}>
                 {card.data.points.map((point) => <span key={point}>{point}</span>)}
               </div>

@@ -282,7 +282,7 @@ export default function Home() {
         <div className="site-shell footer-inner">
           <div className="footer-brand">
             <Logo compact />
-            <span />
+            <span className="footer-divider" aria-hidden="true" />
             <p>PEOPLE · TECH · A BRIGHTER TOMORROW</p>
           </div>
           <nav aria-label="Footer navigation">

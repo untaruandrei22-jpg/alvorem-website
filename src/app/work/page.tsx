@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { MobileNav } from "@/components/MobileNav";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { SiteHeader } from "@/components/SiteHeader";
 import styles from "./work.module.css";
 
 export const metadata: Metadata = {
@@ -257,28 +256,7 @@ export default function WorkPage() {
   return (
     <main className={styles.page} id="top">
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <header className="site-header" role="banner">
-        <div className="site-shell header-inner">
-          <Link className="logo-link" href="/" aria-label="ALVOREM home">
-            <Logo />
-          </Link>
-
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <Link href="/solutions">Solutions</Link>
-            <Link className={styles.activeNav} href="/work" aria-current="page">Work</Link>
-            <Link href="/about">About</Link>
-            <Link href="/careers">Careers</Link>
-          </nav>
-
-          <div className="header-actions">
-            <MobileNav activePage="work" />
-            <ThemeToggle />
-            <a className="button button--small button--primary header-cta" href="mailto:hello@alvorem.ro?subject=Start%20a%20project">
-              Start a project
-            </a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader activePage="work" />
 
       <section className={["site-shell", styles.hero].join(" ")} id="main-content" aria-labelledby="work-hero-title">
         <div className={styles.heroCopy}>

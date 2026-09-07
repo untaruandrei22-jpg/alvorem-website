@@ -246,8 +246,7 @@ export default function SolutionsPage() {
             <Link className={styles.activeNav} href="/solutions" aria-current="page">Solutions</Link>
             <Link href="/work">Work</Link>
             <Link href="/about">About</Link>
-            <Link href="/#insights">Insights</Link>
-            <a href="mailto:hello@alvorem.ro?subject=Careers%20at%20ALVOREM">Careers</a>
+            <Link href="/careers">Careers</Link>
           </nav>
 
           <div className="header-actions">

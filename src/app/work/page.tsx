@@ -265,8 +265,7 @@ export default function WorkPage() {
             <Link href="/solutions">Solutions</Link>
             <Link className={styles.activeNav} href="/work" aria-current="page">Work</Link>
             <Link href="/about">About</Link>
-            <Link href="/#insights">Insights</Link>
-            <a href="mailto:hello@alvorem.ro?subject=Careers%20at%20ALVOREM">Careers</a>
+            <Link href="/careers">Careers</Link>
           </nav>
 
           <div className="header-actions">

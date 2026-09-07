@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { AgentWordmark } from "@/components/AgentWordmark";
+import { useLocale } from "@/components/LocaleProvider";
 import { Logo } from "@/components/Logo";
 import styles from "./HomeAgentDemo.module.css";
 
@@ -46,21 +47,6 @@ const retailPrompts = [
   "What needs my attention today?",
 ];
 
-const agentProfiles = [
-  {
-    agent: "alvo" as const,
-    status: "Daily use",
-    description: "Clear & calm",
-    available: true,
-  },
-  {
-    agent: "orem" as const,
-    status: "Subscription",
-    description: "Deeper + automation",
-    available: false,
-  },
-] as const;
-
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -70,6 +56,8 @@ function ArrowIcon() {
 }
 
 export function HomeAgentDemo() {
+  const { locale } = useLocale();
+  const ro = locale === "ro";
   const [activeIndustry, setActiveIndustry] = useState("retail");
   const [availableIndustries, setAvailableIndustries] = useState<Set<string>>(
     () => new Set(["retail"]),
@@ -196,37 +184,23 @@ export function HomeAgentDemo() {
       <div className="agent-card__header">
         <div className={styles.demoHeader}>
           <Logo compact inverse />
-          <span className={styles.demoBadge}>Synthetic demo</span>
+          <span className={styles.demoBadge}>{ro ? "Demo sintetic" : "Synthetic demo"}</span>
         </div>
       </div>
 
       <div className="agent-card__body">
-        <span className="agent-orb" aria-hidden="true" />
-        <h2>Meet your AI team.</h2>
-        <p>Start with the everyday agent. Ask anything about a fictional business.</p>
-
         {!answer && (
-          <div className={styles.agentLineup} aria-label="Meet the ALVOREM agents">
-            {agentProfiles.map((profile) => (
-              <article
-                className={`${styles.agentProfile} ${
-                  profile.available ? styles.agentProfileActive : styles.agentProfileFuture
-                }`}
-                key={profile.agent}
-                aria-label={`${profile.agent === "alvo" ? "ALVO" : "OREM"}: ${profile.description}. ${profile.status}.`}
-              >
-                <div>
-                  <AgentWordmark agent={profile.agent} size="xs" />
-                  <span>{profile.status}</span>
-                </div>
-                <small>{profile.description}</small>
-              </article>
-            ))}
+          <div className={styles.alvoIntro}>
+            <AgentWordmark agent="alvo" size="md" />
+            <div>
+              <strong>{ro ? "Conversația ta de business de zi cu zi." : "Your everyday business conversation."}</strong>
+              <p>{ro ? "Întreabă. Primește claritate. Continuă munca." : "Ask. Get clarity. Keep moving."}</p>
+            </div>
           </div>
         )}
 
         <label className={styles.industryLabel} htmlFor="home-agent-industry">
-          Fictional business
+          {ro ? "Business fictiv" : "Fictional business"}
         </label>
         <select
           id="home-agent-industry"
@@ -241,7 +215,7 @@ export function HomeAgentDemo() {
         </select>
 
         {!answer && prompts.length > 0 && (
-          <div className={styles.promptList} aria-label="Suggested questions">
+          <div className={styles.promptList} aria-label={ro ? "Întrebări sugerate" : "Suggested questions"}>
             {prompts.slice(0, 2).map((prompt) => (
               <button
                 key={prompt}
@@ -286,7 +260,7 @@ export function HomeAgentDemo() {
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className="sr-only" htmlFor="home-agent-question">
-            Ask a question about the fictional business
+            {ro ? "Întreabă despre business-ul fictiv" : "Ask a question about the fictional business"}
           </label>
           <textarea
             id="home-agent-question"
@@ -302,13 +276,13 @@ export function HomeAgentDemo() {
                 void ask(question);
               }
             }}
-            placeholder="Ask anything about this business…"
+            placeholder={ro ? "Întreabă ceva despre acest business…" : "Ask anything about this business…"}
           />
           <button
             className={styles.sendButton}
             type="submit"
             disabled={loading || !question.trim()}
-            aria-label={loading ? "Agent is answering" : "Ask the agent"}
+            aria-label={loading ? (ro ? "Agentul răspunde" : "Agent is answering") : (ro ? "Întreabă agentul" : "Ask the agent")}
           >
             <ArrowIcon />
           </button>
@@ -317,8 +291,8 @@ export function HomeAgentDemo() {
         {error && <p className={styles.error} role="alert">{error}</p>}
         <small className={styles.status}>
           {loading
-            ? "Checking the synthetic business data…"
-            : "Synthetic data · Read only · No company data"}
+            ? (ro ? "Verific datele sintetice…" : "Checking the synthetic business data…")
+            : (ro ? "Date sintetice · Doar citire · Fără date reale de companie" : "Synthetic data · Read only · No company data")}
         </small>
       </div>
     </div>

@@ -9,10 +9,10 @@
   --header: rgba(248, 246, 241, 0.92);
   --logo-hole: #f8f6f1;
   min-height: 100vh;
-  overflow: clip;
   background:
     radial-gradient(ellipse 54% 22% at 82% 5%, rgba(171, 145, 226, 0.2), transparent 72%),
     #f8f6f1;
+  color: var(--text);
 }
 
 :global(html[data-theme="dark"]) .page {

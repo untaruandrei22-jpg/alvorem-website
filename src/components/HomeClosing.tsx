@@ -104,10 +104,10 @@ const copy = {
       "Your context stays controlled. Your people remain in charge. AI helps carry the work — it does not take ownership away from them.",
     trustItems: ["Private business context", "Permission-aware access", "People stay in control"],
     ctaEyebrow: "READY WHEN YOU ARE",
-    ctaTitle: "Start with ALVO.",
+    ctaTitleStart: "Start with",
     ctaBody: "Your business doesn’t need more complexity.",
     ctaButton: "Start a conversation",
-    ctaNoteStart: "OREM will be there when you need to go deeper.",
+    ctaNote: "will be there when you need to go deeper.",
   },
   ro: {
     eyebrow: "ÎNTREABĂ · RAPORTEAZĂ · AUTOMATIZEAZĂ",
@@ -147,10 +147,10 @@ const copy = {
       "Contextul afacerii tale rămâne controlat. Oamenii rămân la conducere. AI-ul ajută la ducerea muncii — nu preia controlul asupra ei.",
     trustItems: ["Context privat de business", "Acces în funcție de permisiuni", "Oamenii rămân la control"],
     ctaEyebrow: "CÂND EȘTI PREGĂTIT",
-    ctaTitle: "Începe cu ALVO.",
+    ctaTitleStart: "Începe cu",
     ctaBody: "Afacerea ta nu are nevoie de mai multă complexitate.",
     ctaButton: "Începe o conversație",
-    ctaNoteStart: "OREM va fi acolo când vei avea nevoie de mai multă profunzime.",
+    ctaNote: "va fi acolo când vei avea nevoie de mai multă profunzime.",
   },
 } as const;
 
@@ -238,7 +238,10 @@ export function HomeClosing() {
         <div className={styles.ctaGlow} aria-hidden="true" />
         <div className={["site-shell", styles.ctaInner].join(" ")}>
           <p className="eyebrow">{t.ctaEyebrow}</p>
-          <h2>{t.ctaTitle}</h2>
+          <h2>
+            <span>{t.ctaTitleStart}</span>
+            <AgentWordmark agent="alvo" size="lg" className={styles.ctaAgent} />
+          </h2>
           <p className={styles.ctaBody}>{t.ctaBody}</p>
           <a
             className="button button--primary"
@@ -248,7 +251,7 @@ export function HomeClosing() {
           </a>
           <p className={styles.ctaNote}>
             <AgentWordmark agent="orem" size="xs" />
-            <span>{t.ctaNoteStart}</span>
+            <span>{t.ctaNote}</span>
           </p>
         </div>
       </div>

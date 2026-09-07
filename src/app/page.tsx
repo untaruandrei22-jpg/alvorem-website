@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { AgentTeamFlow } from "@/components/AgentTeamFlow";
 import { AgentsSplit } from "@/components/AgentsSplit";
-import { HomeAgentDemo } from "@/components/HomeAgentDemo";
+import { HomepageHero } from "@/components/HomepageHero";
 import { Logo } from "@/components/Logo";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -124,32 +125,7 @@ export default function Home() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <SiteHeader activePage="home" />
 
-      <section className="hero site-shell" id="main-content" aria-labelledby="hero-title">
-        <div className="hero-copy">
-          <p className="eyebrow">INTELLIGENT SYSTEMS FOR MODERN BUSINESS</p>
-          <h1 id="hero-title">
-            <span>Your business,</span>
-            {" "}
-            <em>simpler.</em>
-          </h1>
-          <p className="hero-description">
-            AI agents that understand your business, answer anytime, and handle the work that slows you down.
-          </p>
-          <div className="hero-actions">
-            <a className="button button--primary" href="#work">
-              See how it works <ArrowIcon />
-            </a>
-            <a className="button button--secondary" href="#contact">
-              Start a project
-            </a>
-          </div>
-        </div>
-
-        <div className="agent-stage" id="agent-demo">
-          <div className="clarity-halo" aria-hidden="true" />
-          <HomeAgentDemo />
-        </div>
-      </section>
+      <HomepageHero />
 
       <section className="value-strip" aria-label="ALVOREM values">
         <div className="site-shell value-grid">
@@ -163,6 +139,7 @@ export default function Home() {
       </section>
 
       <AgentsSplit />
+      <AgentTeamFlow />
 
       <section className="capabilities site-shell" id="solutions" aria-labelledby="capabilities-title">
         <div className="capability-copy" id="work">

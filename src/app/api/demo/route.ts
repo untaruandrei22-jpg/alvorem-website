@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 const DEVELOPMENT_DEMO_API = "http://127.0.0.1:8000";
 const MAX_QUESTION_LENGTH = 300;
 const MAX_REQUEST_BYTES = 4_096;
-const REQUEST_TIMEOUT_MS = 6_000;
+const REQUEST_TIMEOUT_MS = 20_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 12;
 const SUPPORTED_INDUSTRIES = new Set([

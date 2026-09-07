@@ -75,6 +75,14 @@
   display: block;
 }
 
+@media (min-width: 1081px) {
+  .hero h1 span {
+    font-size: 0.84em;
+    line-height: 1.04;
+    white-space: nowrap;
+  }
+}
+
 .hero h1 em {
   margin-top: 0.05em;
   color: var(--violet-deep);
@@ -277,7 +285,7 @@
 
 .notionCard {
   top: 38px;
-  left: 330px;
+  left: 304px;
   width: 148px;
   height: 164px;
   padding: 18px;
@@ -511,8 +519,8 @@
 
 .portalNote {
   position: absolute;
-  top: 27px;
-  right: 7px;
+  top: 0;
+  right: 2px;
   color: var(--violet-deep);
   font-family: "Lora", Georgia, serif;
   font-size: 1.02rem;
@@ -940,7 +948,7 @@
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1080px) {
   .hero {
     grid-template-columns: 1fr;
     padding-block: 68px 36px;

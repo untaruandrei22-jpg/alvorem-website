@@ -32,6 +32,7 @@ Open `http://localhost:3000`.
 - matching light and dark themes with saved system preference
 - self-hosted Montserrat and Lora brand typography
 - clear AI-agent product demonstration in the hero
+- ALVO as the current clear, calm public demo and OREM as the upcoming deeper agent
 - human-centered capability story with original photography
 - concise Ask / Report / Automate offer
 - three-step project journey and conversation CTA
@@ -44,6 +45,13 @@ Open `http://localhost:3000`.
 - No confidential employer/client data.
 - Public case studies use synthetic, anonymized or explicitly approved material.
 - Product claims must match capabilities that are actually built and validated.
+- OREM remains labelled "Coming next" until the public demo API supports a distinct OREM mode.
+
+## Synthetic homepage demo
+
+Set `PRIVATE_AI_DEMO_API_URL` on the website server to connect the public synthetic demo. If the upstream service is protected, also set `PRIVATE_AI_DEMO_API_KEY`; it is forwarded server-to-server as a bearer token and is never exposed to the browser.
+
+The website bridge validates industries and response shapes, rejects oversized or cross-site submissions, normalizes upstream errors and applies a small per-instance request limit. Keep a distributed rate limit on the deployed edge or demo API as the production source of truth.
 
 ## Domains
 

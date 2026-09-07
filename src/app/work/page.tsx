@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { MobileNav } from "@/components/MobileNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./work.module.css";
 
@@ -255,7 +256,8 @@ function WorkflowPreview() {
 export default function WorkPage() {
   return (
     <main className={styles.page} id="top">
-      <header className="site-header">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="site-header" role="banner">
         <div className="site-shell header-inner">
           <Link className="logo-link" href="/" aria-label="ALVOREM home">
             <Logo />
@@ -269,6 +271,7 @@ export default function WorkPage() {
           </nav>
 
           <div className="header-actions">
+            <MobileNav activePage="work" />
             <ThemeToggle />
             <a className="button button--small button--primary header-cta" href="mailto:hello@alvorem.ro?subject=Start%20a%20project">
               Start a project
@@ -277,11 +280,12 @@ export default function WorkPage() {
         </div>
       </header>
 
-      <section className={["site-shell", styles.hero].join(" ")} aria-labelledby="work-hero-title">
+      <section className={["site-shell", styles.hero].join(" ")} id="main-content" aria-labelledby="work-hero-title">
         <div className={styles.heroCopy}>
           <p className="eyebrow">SELECTED WORK</p>
           <h1 id="work-hero-title">
             <span>Built for the way</span>
+            {" "}
             <em>real businesses work.</em>
           </h1>
           <p className={styles.heroDescription}>
@@ -352,7 +356,7 @@ export default function WorkPage() {
         </div>
       </section>
 
-      <footer className="site-footer">
+      <footer className="site-footer" role="contentinfo">
         <div className="site-shell footer-inner">
           <div className="footer-brand">
             <Link href="/" aria-label="ALVOREM home"><Logo compact /></Link>

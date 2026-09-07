@@ -1,0 +1,344 @@
+.demoHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.demoBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid rgba(230, 216, 251, 0.16);
+  border-radius: 999px;
+  background: rgba(111, 91, 217, 0.14);
+  color: #d9cdf1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.agentLineup {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.agentProfile {
+  min-width: 0;
+  padding: 10px 11px;
+  border: 1px solid rgba(230, 216, 251, 0.13);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.agentProfile div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+}
+
+.agentProfile strong {
+  color: #f8f9fe;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+
+.agentProfile span {
+  color: #cfc3e9;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.agentProfile small {
+  display: block;
+  margin-top: 5px;
+  color: #aaa3bc;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.agentProfileActive {
+  border-color: rgba(181, 154, 244, 0.46);
+  background: linear-gradient(135deg, rgba(111, 91, 217, 0.2), rgba(255, 255, 255, 0.04));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+}
+
+.agentProfileActive span {
+  color: #cbb4f2;
+}
+
+.agentProfileFuture {
+  opacity: 0.82;
+}
+
+.demoBadge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9d85ff;
+  box-shadow: 0 0 8px rgba(157, 133, 255, 0.85);
+}
+
+.industryLabel {
+  display: block;
+  margin-top: 14px;
+  color: #aaa3bc;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.industrySelect {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 8px;
+  padding: 0 12px;
+  border: 1px solid rgba(230, 216, 251, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #e9e3f2;
+  font: inherit;
+  font-size: 0.78rem;
+  outline: 0;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.industrySelect:hover:not(:disabled),
+.industrySelect:focus-visible {
+  border-color: rgba(181, 154, 244, 0.52);
+  background: rgba(111, 91, 217, 0.18);
+}
+
+.industrySelect option {
+  background: #1a1830;
+  color: #f8f9fe;
+}
+
+.promptList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.promptButton {
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid rgba(230, 216, 251, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #bfb8ce;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.promptButton:hover:not(:disabled) {
+  border-color: rgba(181, 154, 244, 0.5);
+  background: rgba(111, 91, 217, 0.14);
+  color: #f8f9fe;
+}
+
+.promptButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.responseCard {
+  max-height: 240px;
+  overflow: auto;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(230, 216, 251, 0.2);
+  border-radius: 13px;
+  background: linear-gradient(135deg, rgba(62, 55, 96, 0.86), rgba(33, 30, 61, 0.92));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.responseHeadline {
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.responseSummary {
+  margin-top: 5px;
+  color: #c4bdd3;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 11px;
+}
+
+.kpi {
+  min-width: 0;
+  padding: 8px 9px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.kpi span,
+.kpi strong {
+  display: block;
+}
+
+.kpi span {
+  overflow: hidden;
+  color: #9890ab;
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kpi strong {
+  margin-top: 3px;
+  color: #ede7f7;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.proofRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 9px;
+  color: #938ba6;
+  font-size: 0.75rem;
+}
+
+.responseDisclaimer {
+  margin-top: 8px;
+  color: #aaa3bc;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.proofRow span + span::before {
+  content: "·";
+  margin-right: 10px;
+}
+
+.form {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 5px 6px 5px 12px;
+  border: 1px solid rgba(230, 216, 251, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.input {
+  min-height: 24px;
+  max-height: 72px;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #f8f9fe;
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.input::placeholder {
+  color: #89829a;
+}
+
+.sendButton {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #6f5bd9;
+  color: #ffffff;
+}
+
+.sendButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.sendButton svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.status {
+  display: block;
+  margin-top: 8px;
+  color: #89829a;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.error {
+  margin-top: 10px;
+  color: #d9c8f3;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 520px) {
+  .demoHeader {
+    gap: 7px;
+  }
+
+  .demoBadge {
+    padding-inline: 6px;
+    font-size: 0.75rem;
+  }
+
+  .agentProfile {
+    padding: 9px;
+  }
+
+  .agentProfile div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .agentProfile span {
+    white-space: normal;
+  }
+
+  .promptList {
+    gap: 5px;
+  }
+
+  .promptButton {
+    width: 100%;
+    min-height: 40px;
+    padding: 7px 9px;
+    font-size: 0.75rem;
+    text-align: left;
+  }
+}

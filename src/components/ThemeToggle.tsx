@@ -18,8 +18,13 @@ export function ThemeToggle() {
   function toggleTheme() {
     const nextTheme: Theme = getActiveTheme() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = nextTheme;
-    window.localStorage.setItem("alvorem-theme", nextTheme);
     setTheme(nextTheme);
+
+    try {
+      window.localStorage.setItem("alvorem-theme", nextTheme);
+    } catch {
+      // The theme still works when storage is unavailable (for example, in privacy-restricted browsers).
+    }
   }
 
   return (

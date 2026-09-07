@@ -62,7 +62,7 @@ export function MobileNav({ activePage }: { activePage?: PageKey }) {
         ))}
         <a
           className="mobile-nav__cta"
-          href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation"
+          href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(cta)}`}
           onClick={() => setOpen(false)}
         >
           {cta} <span aria-hidden="true">→</span>

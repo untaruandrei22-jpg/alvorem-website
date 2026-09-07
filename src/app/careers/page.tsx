@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { MobileNav } from "@/components/MobileNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./careers.module.css";
 
@@ -96,7 +97,8 @@ const moreOf = [
 export default function CareersPage() {
   return (
     <main className={styles.page} id="top">
-      <header className="site-header">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="site-header" role="banner">
         <div className="site-shell header-inner">
           <Link className="logo-link" href="/" aria-label="ALVOREM home">
             <Logo />
@@ -116,6 +118,7 @@ export default function CareersPage() {
           </nav>
 
           <div className="header-actions">
+            <MobileNav activePage="careers" />
             <ThemeToggle />
             <a
               className="button button--small button--primary header-cta"
@@ -129,13 +132,16 @@ export default function CareersPage() {
 
       <section
         className={["site-shell", styles.hero].join(" ")}
+        id="main-content"
         aria-labelledby="careers-hero-title"
       >
         <div className={styles.heroCopy}>
           <p className="eyebrow">CAREERS, KIND OF.</p>
           <h1 id="careers-hero-title">
             <span>Send us the CV</span>
+            {" "}
             <span>they told you</span>
+            {" "}
             <em>not to send.</em>
           </h1>
           <p className={styles.heroDescription}>
@@ -286,7 +292,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <footer className="site-footer">
+      <footer className="site-footer" role="contentinfo">
         <div className="site-shell footer-inner">
           <div className="footer-brand">
             <Link href="/" aria-label="ALVOREM home"><Logo compact /></Link>

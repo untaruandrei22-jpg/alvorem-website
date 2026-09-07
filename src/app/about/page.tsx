@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { MobileNav } from "@/components/MobileNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./about.module.css";
 
@@ -40,7 +41,8 @@ const principles = [
 export default function AboutPage() {
   return (
     <main className={styles.page} id="top">
-      <header className="site-header">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="site-header" role="banner">
         <div className="site-shell header-inner">
           <Link className="logo-link" href="/" aria-label="ALVOREM home">
             <Logo />
@@ -54,6 +56,7 @@ export default function AboutPage() {
           </nav>
 
           <div className="header-actions">
+            <MobileNav activePage="about" />
             <ThemeToggle />
             <a
               className="button button--small button--primary header-cta"
@@ -65,11 +68,12 @@ export default function AboutPage() {
         </div>
       </header>
 
-      <section className={["site-shell", styles.hero].join(" ")} aria-labelledby="about-hero-title">
+      <section className={["site-shell", styles.hero].join(" ")} id="main-content" aria-labelledby="about-hero-title">
         <p className="eyebrow">ABOUT ALVOREM</p>
         <div className={styles.heroGrid}>
           <h1 id="about-hero-title">
             <span>Technology should</span>
+            {" "}
             <em>work around people.</em>
           </h1>
           <div className={styles.heroIntro}>
@@ -191,7 +195,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <footer className="site-footer">
+      <footer className="site-footer" role="contentinfo">
         <div className="site-shell footer-inner">
           <div className="footer-brand">
             <Link href="/" aria-label="ALVOREM home"><Logo compact /></Link>

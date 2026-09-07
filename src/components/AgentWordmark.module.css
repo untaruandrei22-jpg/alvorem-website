@@ -1,10 +1,9 @@
 .wordmark {
   --agent-size: 1rem;
-  --agent-gap: 0.08em;
   --agent-tracking: 0.17em;
   display: inline-flex;
   align-items: center;
-  gap: var(--agent-gap);
+  gap: 0;
   width: max-content;
   color: currentColor;
   font-size: var(--agent-size);
@@ -21,11 +20,11 @@
 }
 
 .alvo .letters {
-  margin-right: calc(var(--agent-tracking) * -0.78);
+  margin-right: calc(var(--agent-tracking) * -1);
 }
 
 .orem .letters {
-  margin-left: calc(var(--agent-tracking) * -0.18);
+  margin-left: 0.035em;
 }
 
 .oMark {
@@ -40,6 +39,7 @@
 /* ALVO is intentionally an open ring. The centre is transparent so the
    surrounding surface passes through it instead of looking like a white disc. */
 .alvo .oMark {
+  margin-left: -0.015em;
   background: conic-gradient(
     from 214deg,
     #dec6ad 0deg,
@@ -103,25 +103,21 @@
 
 .xs {
   --agent-size: 0.72rem;
-  --agent-gap: 0.055em;
   --agent-tracking: 0.12em;
 }
 
 .sm {
   --agent-size: 0.9rem;
-  --agent-gap: 0.06em;
   --agent-tracking: 0.14em;
 }
 
 .md {
   --agent-size: 1.18rem;
-  --agent-gap: 0.07em;
   --agent-tracking: 0.17em;
 }
 
 .lg {
   --agent-size: clamp(2.6rem, 5vw, 4.6rem);
-  --agent-gap: 0.08em;
   --agent-tracking: 0.19em;
   font-weight: 400;
 }

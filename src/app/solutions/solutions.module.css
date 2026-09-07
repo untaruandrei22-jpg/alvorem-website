@@ -151,12 +151,12 @@
 
 .solutionRail > a {
   position: relative;
-  min-height: 136px;
+  min-height: 154px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 56px 22px 17px;
+  padding: 84px 22px 18px;
   color: var(--text);
   transition: color 180ms ease, transform 200ms ease;
 }

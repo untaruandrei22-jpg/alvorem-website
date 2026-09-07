@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { HomeAgentDemo } from "@/components/HomeAgentDemo";
 import { Logo } from "@/components/Logo";
+import { MobileNav } from "@/components/MobileNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 function ArrowIcon() {
@@ -120,7 +121,8 @@ const steps = [
 export default function Home() {
   return (
     <main id="top">
-      <header className="site-header">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="site-header" role="banner">
         <div className="site-shell header-inner">
           <a className="logo-link" href="#top" aria-label="ALVOREM home">
             <Logo />
@@ -134,6 +136,7 @@ export default function Home() {
           </nav>
 
           <div className="header-actions">
+            <MobileNav />
             <ThemeToggle />
             <a className="button button--small button--primary header-cta" href="#contact">
               Start a project
@@ -142,11 +145,12 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="hero site-shell" aria-labelledby="hero-title">
+      <section className="hero site-shell" id="main-content" aria-labelledby="hero-title">
         <div className="hero-copy">
           <p className="eyebrow">INTELLIGENT SYSTEMS FOR MODERN BUSINESS</p>
           <h1 id="hero-title">
             <span>Your business,</span>
+            {" "}
             <em>simpler.</em>
           </h1>
           <p className="hero-description">
@@ -246,7 +250,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="site-footer">
+      <footer className="site-footer" role="contentinfo">
         <div className="site-shell footer-inner">
           <div className="footer-brand">
             <Logo compact />

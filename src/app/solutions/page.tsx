@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { MobileNav } from "@/components/MobileNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./solutions.module.css";
 
@@ -236,7 +237,8 @@ const solutions = [
 export default function SolutionsPage() {
   return (
     <main className={styles.page} id="top">
-      <header className="site-header">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <header className="site-header" role="banner">
         <div className="site-shell header-inner">
           <Link className="logo-link" href="/" aria-label="ALVOREM home">
             <Logo />
@@ -250,6 +252,7 @@ export default function SolutionsPage() {
           </nav>
 
           <div className="header-actions">
+            <MobileNav activePage="solutions" />
             <ThemeToggle />
             <a
               className="button button--small button--primary header-cta"
@@ -261,11 +264,12 @@ export default function SolutionsPage() {
         </div>
       </header>
 
-      <section className={["site-shell", styles.hero].join(" ")} aria-labelledby="solutions-hero-title">
+      <section className={["site-shell", styles.hero].join(" ")} id="main-content" aria-labelledby="solutions-hero-title">
         <div className={styles.heroIntro}>
           <p className="eyebrow">SOLUTIONS BUILT AROUND YOUR BUSINESS</p>
           <h1 id="solutions-hero-title">
             <span>One agent.</span>
+            {" "}
             <em>Three ways to work lighter.</em>
           </h1>
           <p className={styles.heroDescription}>
@@ -433,7 +437,7 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <footer className="site-footer">
+      <footer className="site-footer" role="contentinfo">
         <div className="site-shell footer-inner">
           <div className="footer-brand">
             <Link href="/" aria-label="ALVOREM home">

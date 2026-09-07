@@ -1,12 +1,26 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+
 type Theme = "light" | "dark";
 
 function getActiveTheme(): Theme {
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
+function subscribeToTheme(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+
+  return () => observer.disconnect();
+}
+
 export function ThemeToggle() {
+  const theme = useSyncExternalStore(subscribeToTheme, getActiveTheme, () => "light");
+
   function toggleTheme() {
     const nextTheme: Theme = getActiveTheme() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = nextTheme;
@@ -23,7 +37,9 @@ export function ThemeToggle() {
       className="theme-toggle"
       type="button"
       onClick={toggleTheme}
-      aria-label="Toggle color theme"
+      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+      aria-pressed={theme === "dark"}
+      title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
     >
       <svg className="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="3.25" />

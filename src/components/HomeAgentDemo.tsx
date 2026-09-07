@@ -45,6 +45,21 @@ const retailPrompts = [
   "What needs my attention today?",
 ];
 
+const agentProfiles = [
+  {
+    name: "ALVO",
+    status: "Live demo",
+    description: "Clear & calm",
+    available: true,
+  },
+  {
+    name: "OREM",
+    status: "Coming next",
+    description: "Deep & powerful",
+    available: false,
+  },
+] as const;
+
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -77,11 +92,27 @@ export function HomeAgentDemo() {
         const profiles = (await response.json()) as DemoProfile[];
         if (cancelled || !Array.isArray(profiles)) return;
 
-        setAvailableIndustries(new Set(profiles.map((profile) => profile.industry)));
+        const supportedProfiles = profiles.filter(
+          (profile) =>
+            industries.some(([industry]) => industry === profile.industry) &&
+            Array.isArray(profile.suggested_prompts),
+        );
+
+        const firstProfile = supportedProfiles[0];
+        if (!firstProfile) return;
+
+        const nextIndustries = new Set(supportedProfiles.map((profile) => profile.industry));
+
+        setAvailableIndustries(nextIndustries);
         setPromptsByIndustry(
           Object.fromEntries(
-            profiles.map((profile) => [profile.industry, profile.suggested_prompts]),
+            supportedProfiles.map((profile) => [profile.industry, profile.suggested_prompts]),
           ),
+        );
+        setActiveIndustry((currentIndustry) =>
+          nextIndustries.has(currentIndustry)
+            ? currentIndustry
+            : firstProfile.industry,
         );
       } catch {
         // Keep the Retail fallback visible; submission will surface availability errors.
@@ -97,6 +128,11 @@ export function HomeAgentDemo() {
   const prompts = useMemo(
     () => promptsByIndustry[activeIndustry] ?? [],
     [activeIndustry, promptsByIndustry],
+  );
+
+  const availableIndustryOptions = useMemo(
+    () => industries.filter(([industry]) => availableIndustries.has(industry)),
+    [availableIndustries],
   );
 
   async function ask(nextQuestion: string) {
@@ -148,6 +184,12 @@ export function HomeAgentDemo() {
     setQuestion("");
   }
 
+  function applyPrompt(prompt: string) {
+    setQuestion(prompt);
+    setAnswer(null);
+    setError(null);
+  }
+
   return (
     <div className="agent-card">
       <div className="agent-card__header">
@@ -159,40 +201,53 @@ export function HomeAgentDemo() {
 
       <div className="agent-card__body">
         <span className="agent-orb" aria-hidden="true" />
-        <h2>Pick your business.</h2>
-        <p>Ask a real ALVOREM agent about fictional business data.</p>
+        <h2>Meet ALVO &amp; OREM.</h2>
+        <p>Start with ALVO. Ask anything about a fictional business.</p>
 
-        <span className={styles.industryLabel}>Business type</span>
-        <div className={styles.industryGrid} aria-label="Choose demo industry">
-          {industries.map(([industry, label]) => {
-            const available = availableIndustries.has(industry);
-            const active = activeIndustry === industry;
-
-            return (
-              <button
-                key={industry}
-                type="button"
-                disabled={!available}
-                aria-pressed={active}
-                title={available ? `Use ${label} demo` : `${label} demo coming next`}
-                className={`${styles.industryButton} ${active ? styles.industryButtonActive : ""}`}
-                onClick={() => selectIndustry(industry)}
+        {!answer && (
+          <div className={styles.agentLineup} aria-label="Meet the ALVOREM agents">
+            {agentProfiles.map((agent) => (
+              <article
+                className={`${styles.agentProfile} ${
+                  agent.available ? styles.agentProfileActive : styles.agentProfileFuture
+                }`}
+                key={agent.name}
+                aria-label={`${agent.name}: ${agent.description}. ${agent.status}.`}
               >
-                {label}
-              </button>
-            );
-          })}
-        </div>
+                <div>
+                  <strong>{agent.name}</strong>
+                  <span>{agent.status}</span>
+                </div>
+                <small>{agent.description}</small>
+              </article>
+            ))}
+          </div>
+        )}
 
-        {prompts.length > 0 && (
+        <label className={styles.industryLabel} htmlFor="home-agent-industry">
+          Fictional business
+        </label>
+        <select
+          id="home-agent-industry"
+          className={styles.industrySelect}
+          value={activeIndustry}
+          disabled={loading}
+          onChange={(event) => selectIndustry(event.target.value)}
+        >
+          {availableIndustryOptions.map(([industry, label]) => (
+            <option value={industry} key={industry}>{label}</option>
+          ))}
+        </select>
+
+        {!answer && prompts.length > 0 && (
           <div className={styles.promptList} aria-label="Suggested questions">
-            {prompts.slice(0, 3).map((prompt) => (
+            {prompts.slice(0, 2).map((prompt) => (
               <button
                 key={prompt}
                 type="button"
                 className={styles.promptButton}
                 disabled={loading}
-                onClick={() => void ask(prompt)}
+                onClick={() => applyPrompt(prompt)}
               >
                 {prompt}
               </button>
@@ -221,27 +276,38 @@ export function HomeAgentDemo() {
               <span>Synthetic data</span>
               <span>Read only</span>
             </div>
+
+            {answer.disclaimer && (
+              <p className={styles.responseDisclaimer}>{answer.disclaimer}</p>
+            )}
           </div>
         )}
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className="sr-only" htmlFor="home-agent-question">
-            Ask the ALVOREM demo agent a question
+            Ask ALVO a question about the fictional business
           </label>
-          <input
+          <textarea
             id="home-agent-question"
             className={styles.input}
             value={question}
+            rows={1}
             maxLength={300}
             disabled={loading}
             onChange={(event) => setQuestion(event.target.value)}
-            placeholder="Ask about sales, target, margin, stock…"
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                void ask(question);
+              }
+            }}
+            placeholder="Ask ALVO anything about this business…"
           />
           <button
             className={styles.sendButton}
             type="submit"
             disabled={loading || !question.trim()}
-            aria-label={loading ? "Agent is answering" : "Ask demo agent"}
+            aria-label={loading ? "ALVO is answering" : "Ask ALVO"}
           >
             <ArrowIcon />
           </button>
@@ -249,7 +315,9 @@ export function HomeAgentDemo() {
 
         {error && <p className={styles.error} role="alert">{error}</p>}
         <small className={styles.status}>
-          {loading ? "Checking the synthetic business data…" : "No real company data is used in this demo."}
+          {loading
+            ? "ALVO is checking the synthetic business data…"
+            : "Synthetic data · Read only · No company data"}
         </small>
       </div>
     </div>

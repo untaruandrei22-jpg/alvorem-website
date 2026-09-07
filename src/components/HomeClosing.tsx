@@ -240,7 +240,10 @@ export function HomeClosing() {
           <p className="eyebrow">{t.ctaEyebrow}</p>
           <h2>
             <span>{t.ctaTitleStart}</span>
-            <AgentWordmark agent="alvo" size="lg" className={styles.ctaAgent} />
+            <span className={styles.ctaAgentPhrase}>
+              <AgentWordmark agent="alvo" size="lg" />
+              <i aria-hidden="true">.</i>
+            </span>
           </h2>
           <p className={styles.ctaBody}>{t.ctaBody}</p>
           <a

@@ -132,7 +132,7 @@ export function HomepageHero() {
           <a className="button button--primary" href="#agent-demo">
             {t.primary} <AgentWordmark agent="alvo" size="xs" className={styles.buttonAgent} /> <ArrowIcon />
           </a>
-          <a className="button button--secondary" href="#team-flow">
+          <a className="button button--secondary" href="/solutions#team-modes">
             {t.secondary}
           </a>
         </div>

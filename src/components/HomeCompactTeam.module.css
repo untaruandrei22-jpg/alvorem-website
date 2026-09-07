@@ -1,0 +1,207 @@
+.section {
+  padding: clamp(76px, 8vw, 108px) 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(111, 91, 217, 0.08), transparent 28%),
+    color-mix(in srgb, var(--surface) 78%, transparent);
+}
+
+:global(html[data-theme="dark"]) .section {
+  background:
+    radial-gradient(circle at 82% 10%, rgba(111, 91, 217, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(18, 17, 32, 0.94), rgba(13, 13, 24, 0.98));
+}
+
+.intro {
+  max-width: 860px;
+}
+
+.intro :global(.eyebrow) {
+  margin-bottom: 14px;
+}
+
+.intro h2 {
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(2.8rem, 5vw, 4.8rem);
+  font-weight: 400;
+  letter-spacing: -0.062em;
+  line-height: 0.98;
+}
+
+.intro > p:last-child {
+  max-width: 760px;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: clamp(38px, 5vw, 58px);
+}
+
+.card {
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 18px 50px rgba(31, 24, 60, 0.06);
+}
+
+.alvo {
+  background:
+    radial-gradient(circle at 88% 10%, rgba(227, 202, 177, 0.14), transparent 28%),
+    color-mix(in srgb, var(--surface) 94%, transparent);
+}
+
+.orem {
+  color: #f7f5ff;
+  border-color: rgba(142, 124, 255, 0.22);
+  background:
+    radial-gradient(circle at 88% 10%, rgba(111, 91, 217, 0.2), transparent 30%),
+    linear-gradient(160deg, #131322, #090a13);
+}
+
+.team {
+  border-color: color-mix(in srgb, var(--violet) 28%, var(--line));
+  background:
+    radial-gradient(circle at 12% 88%, rgba(225, 193, 164, 0.1), transparent 28%),
+    radial-gradient(circle at 86% 14%, rgba(111, 91, 217, 0.12), transparent 30%),
+    color-mix(in srgb, var(--surface) 92%, transparent);
+}
+
+.topline {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.topline > span:first-child {
+  color: var(--muted-soft);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.orem .topline > span:first-child {
+  color: #9489dd;
+}
+
+.teamMarks {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.teamMarks i {
+  color: var(--muted-soft);
+  font-size: 0.65rem;
+  font-style: normal;
+}
+
+.card h3 {
+  margin-top: 52px;
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(1.8rem, 2.6vw, 2.55rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+.card > p {
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.orem > p {
+  color: #b8b3c8;
+}
+
+.points {
+  display: grid;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 26px;
+}
+
+.points span {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.points span::before {
+  content: "·";
+  margin-right: 9px;
+  color: var(--violet);
+}
+
+.orem .points span {
+  color: #aaa5bb;
+}
+
+.cta {
+  width: max-content;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 28px;
+  padding: 0 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  border-color: var(--violet);
+  background: rgba(111, 91, 217, 0.06);
+}
+
+.cta svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 620px) {
+  .section :global(.site-shell) {
+    width: min(100% - 32px, 620px);
+  }
+
+  .card {
+    padding: 24px;
+  }
+
+  .card h3 {
+    margin-top: 38px;
+  }
+}

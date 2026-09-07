@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { ManifestoSection } from "@/components/ManifestoSection";
 import { MobileNav } from "@/components/MobileNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import styles from "./about.module.css";
@@ -19,24 +20,6 @@ function ArrowIcon() {
     </svg>
   );
 }
-
-const principles = [
-  {
-    number: "01",
-    title: "PEOPLE AT THE CENTER",
-    description: "Start with the people doing the work.",
-  },
-  {
-    number: "02",
-    title: "CLARITY OVER COMPLEXITY",
-    description: "Build only what makes the next decision easier.",
-  },
-  {
-    number: "03",
-    title: "PROGRESS WITH CONTROL",
-    description: "Automate responsibly. Keep judgment human.",
-  },
-];
 
 export default function AboutPage() {
   return (
@@ -60,9 +43,9 @@ export default function AboutPage() {
             <ThemeToggle />
             <a
               className="button button--small button--primary header-cta"
-              href="mailto:hello@alvorem.ro?subject=Start%20a%20project"
+              href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation"
             >
-              Start a project
+              Start a conversation
             </a>
           </div>
         </div>
@@ -142,24 +125,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className={styles.principlesSection} aria-labelledby="principles-title">
-        <div className="site-shell">
-          <p className="eyebrow">WHAT GUIDES THE WORK</p>
-          <h2 id="principles-title">Simple principles. Serious intent.</h2>
-
-          <div className={styles.principlesGrid}>
-            {principles.map((principle) => (
-              <article key={principle.number}>
-                <span>{principle.number}</span>
-                <div>
-                  <h3>{principle.title}</h3>
-                  <p>{principle.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ManifestoSection />
 
       <section className={["site-shell", styles.studioSection].join(" ")} aria-labelledby="studio-title">
         <div className={styles.studioWords} aria-label="Listen. Understand. Build.">
@@ -185,7 +151,7 @@ export default function AboutPage() {
       <section className={["final-cta", styles.cta].join(" ")} id="contact" aria-labelledby="about-cta-title">
         <div className="cta-horizon" aria-hidden="true"><span /></div>
         <div className={["site-shell", "final-cta__content", styles.ctaContent].join(" ")}>
-          <h2 id="about-cta-title">Let’s build with people in mind.</h2>
+          <h2 id="about-cta-title">Make business simpler. <em>Make room for what matters.</em></h2>
           <a
             className="button button--primary"
             href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation"

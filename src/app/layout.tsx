@@ -7,6 +7,7 @@ import "@fontsource/lora/400.css";
 import "@fontsource/lora/400-italic.css";
 import "@fontsource/lora/500.css";
 import { LocaleProvider } from "@/components/LocaleProvider";
+import { SiteLocaleCopy } from "@/components/SiteLocaleCopy";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -54,7 +55,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script dangerouslySetInnerHTML={{ __html: localeScript }} />
       </head>
-      <body><LocaleProvider>{children}</LocaleProvider></body>
+      <body>
+        <LocaleProvider>
+          <SiteLocaleCopy />
+          {children}
+        </LocaleProvider>
+      </body>
     </html>
   );
 }

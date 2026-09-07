@@ -126,7 +126,7 @@ export default function Home() {
           </a>
 
           <nav className="desktop-nav" aria-label="Main navigation">
-            <a href="#solutions">Solutions</a>
+            <a href="/solutions">Solutions</a>
             <a href="#work">Work</a>
             <a href="#about">About</a>
             <a href="#insights">Insights</a>

@@ -1,9 +1,9 @@
 .hero {
-  padding-block: clamp(82px, 9vw, 126px) clamp(48px, 5vw, 70px);
+  padding-block: clamp(58px, 6vw, 86px) clamp(38px, 4vw, 54px);
 }
 
 .hero :global(.eyebrow) {
-  margin-bottom: 16px;
+  margin-bottom: 13px;
 }
 
 .hero h1,
@@ -16,33 +16,33 @@
 }
 
 .hero h1 {
-  max-width: 980px;
-  font-size: clamp(3.4rem, 6vw, 6.1rem);
+  max-width: 940px;
+  font-size: clamp(3.3rem, 5.7vw, 5.7rem);
   line-height: 0.95;
 }
 
 .hero > p:last-child {
-  max-width: 780px;
-  margin-top: 23px;
+  max-width: 760px;
+  margin-top: 19px;
   color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.72;
+  font-size: 0.96rem;
+  line-height: 1.66;
 }
 
 .plans {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  padding-bottom: clamp(72px, 8vw, 110px);
+  gap: 14px;
+  padding-bottom: clamp(52px, 6vw, 76px);
 }
 
 .plan {
-  min-height: 520px;
+  min-height: 470px;
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 27px;
   border: 1px solid var(--line);
-  border-radius: 24px;
+  border-radius: 22px;
   background: color-mix(in srgb, var(--surface) 93%, transparent);
   box-shadow: 0 20px 58px rgba(32, 25, 62, 0.07);
 }
@@ -70,16 +70,16 @@
 }
 
 .planTop {
-  min-height: 38px;
+  min-height: 34px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: 12px;
 }
 
 .planTop > span:first-child {
   color: var(--muted-soft);
-  font-size: 0.54rem;
+  font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.14em;
 }
@@ -91,7 +91,7 @@
 .teamMarks {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .teamMarks i {
@@ -100,19 +100,19 @@
 }
 
 .plan h2 {
-  margin-top: 56px;
+  margin-top: 40px;
   font-family: "Lora", Georgia, serif;
-  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  font-size: clamp(1.95rem, 2.6vw, 2.6rem);
   font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 1.02;
 }
 
 .plan > p {
-  margin-top: 16px;
+  margin-top: 13px;
   color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.66;
+  font-size: 0.86rem;
+  line-height: 1.6;
 }
 
 .orem > p {
@@ -121,18 +121,18 @@
 
 .features {
   display: grid;
-  gap: 11px;
-  margin-top: 28px;
+  gap: 9px;
+  margin-top: 22px;
 }
 
 .features > span {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
 }
 
 .features > span::before {
   content: "✓";
-  margin-right: 9px;
+  margin-right: 8px;
   color: var(--violet);
 }
 
@@ -141,16 +141,16 @@
 }
 
 .plan > a {
-  min-height: 50px;
+  min-height: 48px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
+  gap: 8px;
   margin-top: auto;
-  padding: 0 18px;
+  padding: 0 17px;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 
@@ -160,8 +160,8 @@
 }
 
 .plan > a svg {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.6;
@@ -172,33 +172,33 @@
 .custom {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 36px;
+  gap: 30px;
   align-items: center;
-  margin-bottom: clamp(78px, 9vw, 120px);
-  padding: 32px;
+  margin-bottom: clamp(54px, 6vw, 78px);
+  padding: 28px;
   border: 1px solid var(--line);
-  border-radius: 22px;
+  border-radius: 20px;
   background: color-mix(in srgb, var(--surface-soft) 64%, transparent);
 }
 
 .custom :global(.eyebrow) {
-  margin-bottom: 11px;
+  margin-bottom: 9px;
 }
 
 .custom h2 {
-  font-size: clamp(2rem, 3.4vw, 3.3rem);
+  font-size: clamp(1.9rem, 3vw, 3rem);
   line-height: 1;
 }
 
 .custom > div > p:last-child {
-  max-width: 760px;
-  margin-top: 13px;
+  max-width: 740px;
+  margin-top: 11px;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
 .value {
-  padding: clamp(78px, 8vw, 112px) 0;
+  padding: clamp(56px, 6vw, 78px) 0;
   border-block: 1px solid var(--line);
   background:
     radial-gradient(circle at 82% 14%, rgba(111, 91, 217, 0.09), transparent 30%),
@@ -208,20 +208,20 @@
 .valueInner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
-  gap: 70px;
+  gap: 54px;
   align-items: end;
 }
 
 .value h2 {
-  margin-top: 12px;
-  font-size: clamp(2.8rem, 4.8vw, 4.7rem);
+  margin-top: 10px;
+  font-size: clamp(2.7rem, 4.4vw, 4.3rem);
 }
 
 .valueInner > div:first-child > p:last-child {
-  max-width: 720px;
-  margin-top: 18px;
+  max-width: 700px;
+  margin-top: 15px;
   color: var(--muted);
-  line-height: 1.68;
+  line-height: 1.62;
 }
 
 .valueItems {
@@ -230,50 +230,50 @@
 }
 
 .valueItems span {
-  min-height: 58px;
+  min-height: 52px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--line);
   color: var(--text);
-  font-size: 0.88rem;
+  font-size: 0.84rem;
 }
 
 .valueItems span::before {
   content: "·";
-  margin-right: 12px;
+  margin-right: 11px;
   color: var(--violet);
 }
 
 .faq {
-  padding-block: clamp(78px, 9vw, 118px);
+  padding-block: clamp(56px, 6vw, 82px);
 }
 
 .faq > h2 {
-  font-size: clamp(2.6rem, 4.5vw, 4.4rem);
+  font-size: clamp(2.55rem, 4.2vw, 4rem);
 }
 
 .faq > div {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 42px;
-  margin-top: 34px;
+  gap: 0 38px;
+  margin-top: 26px;
 }
 
 .faq article {
-  padding: 24px 0;
+  padding: 20px 0;
   border-top: 1px solid var(--line);
 }
 
 .faq h3 {
-  font-size: 1rem;
+  font-size: 0.96rem;
   font-weight: 600;
 }
 
 .faq p {
-  margin-top: 9px;
+  margin-top: 7px;
   color: var(--muted);
-  font-size: 0.86rem;
-  line-height: 1.6;
+  font-size: 0.82rem;
+  line-height: 1.56;
 }
 
 @media (max-width: 960px) {
@@ -282,7 +282,7 @@
   }
 
   .plan {
-    min-height: 430px;
+    min-height: 400px;
   }
 
   .custom,

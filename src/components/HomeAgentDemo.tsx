@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { AgentWordmark } from "@/components/AgentWordmark";
 import { Logo } from "@/components/Logo";
 import styles from "./HomeAgentDemo.module.css";
 
@@ -47,15 +48,15 @@ const retailPrompts = [
 
 const agentProfiles = [
   {
-    name: "ALVO",
-    status: "Live demo",
+    agent: "alvo" as const,
+    status: "Daily use",
     description: "Clear & calm",
     available: true,
   },
   {
-    name: "OREM",
-    status: "Coming next",
-    description: "Deep & powerful",
+    agent: "orem" as const,
+    status: "Subscription",
+    description: "Deeper + automation",
     available: false,
   },
 ] as const;
@@ -201,24 +202,24 @@ export function HomeAgentDemo() {
 
       <div className="agent-card__body">
         <span className="agent-orb" aria-hidden="true" />
-        <h2>Meet ALVO &amp; OREM.</h2>
-        <p>Start with ALVO. Ask anything about a fictional business.</p>
+        <h2>Meet your AI team.</h2>
+        <p>Start with the everyday agent. Ask anything about a fictional business.</p>
 
         {!answer && (
           <div className={styles.agentLineup} aria-label="Meet the ALVOREM agents">
-            {agentProfiles.map((agent) => (
+            {agentProfiles.map((profile) => (
               <article
                 className={`${styles.agentProfile} ${
-                  agent.available ? styles.agentProfileActive : styles.agentProfileFuture
+                  profile.available ? styles.agentProfileActive : styles.agentProfileFuture
                 }`}
-                key={agent.name}
-                aria-label={`${agent.name}: ${agent.description}. ${agent.status}.`}
+                key={profile.agent}
+                aria-label={`${profile.agent === "alvo" ? "ALVO" : "OREM"}: ${profile.description}. ${profile.status}.`}
               >
                 <div>
-                  <strong>{agent.name}</strong>
-                  <span>{agent.status}</span>
+                  <AgentWordmark agent={profile.agent} size="xs" />
+                  <span>{profile.status}</span>
                 </div>
-                <small>{agent.description}</small>
+                <small>{profile.description}</small>
               </article>
             ))}
           </div>
@@ -285,7 +286,7 @@ export function HomeAgentDemo() {
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className="sr-only" htmlFor="home-agent-question">
-            Ask ALVO a question about the fictional business
+            Ask a question about the fictional business
           </label>
           <textarea
             id="home-agent-question"
@@ -301,13 +302,13 @@ export function HomeAgentDemo() {
                 void ask(question);
               }
             }}
-            placeholder="Ask ALVO anything about this business…"
+            placeholder="Ask anything about this business…"
           />
           <button
             className={styles.sendButton}
             type="submit"
             disabled={loading || !question.trim()}
-            aria-label={loading ? "ALVO is answering" : "Ask ALVO"}
+            aria-label={loading ? "Agent is answering" : "Ask the agent"}
           >
             <ArrowIcon />
           </button>
@@ -316,7 +317,7 @@ export function HomeAgentDemo() {
         {error && <p className={styles.error} role="alert">{error}</p>}
         <small className={styles.status}>
           {loading
-            ? "ALVO is checking the synthetic business data…"
+            ? "Checking the synthetic business data…"
             : "Synthetic data · Read only · No company data"}
         </small>
       </div>

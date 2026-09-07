@@ -43,6 +43,10 @@
   width: min(100%, 470px);
 }
 
+.panelInner > [role="img"] {
+  margin-inline: auto;
+}
+
 .alvoPanel {
   color: #171822;
   background:

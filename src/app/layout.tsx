@@ -6,6 +6,7 @@ import "@fontsource/montserrat/700.css";
 import "@fontsource/lora/400.css";
 import "@fontsource/lora/400-italic.css";
 import "@fontsource/lora/500.css";
+import { LocaleProvider } from "@/components/LocaleProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -32,13 +33,28 @@ const themeScript = `
   })();
 `;
 
+const localeScript = `
+  (() => {
+    try {
+      const stored = localStorage.getItem("alvorem-locale");
+      const locale = stored === "ro" || stored === "en" ? stored : "en";
+      document.documentElement.lang = locale;
+      document.documentElement.dataset.locale = locale;
+    } catch (_) {
+      document.documentElement.lang = "en";
+      document.documentElement.dataset.locale = "en";
+    }
+  })();
+`;
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: localeScript }} />
       </head>
-      <body>{children}</body>
+      <body><LocaleProvider>{children}</LocaleProvider></body>
     </html>
   );
 }

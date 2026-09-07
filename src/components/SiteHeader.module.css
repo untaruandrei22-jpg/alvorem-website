@@ -1,0 +1,8 @@
+.active {
+  color: var(--text) !important;
+}
+
+.active::after {
+  transform: scaleX(1) !important;
+  transform-origin: left !important;
+}

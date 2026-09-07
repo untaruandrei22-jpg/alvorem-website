@@ -1,3 +1,4 @@
+import { AgentWordmark } from "@/components/AgentWordmark";
 import styles from "./ManifestoSection.module.css";
 
 const principles = [
@@ -46,22 +47,22 @@ export function ManifestoSection() {
           </article>
 
           <article className={styles.meaningCard}>
-            <span>ALVO</span>
+            <AgentWordmark agent="alvo" size="xs" />
             <h3>Clarity &amp; purpose.</h3>
             <p>Clear direction. Simplicity. A target worth aiming at.</p>
           </article>
 
           <article className={styles.meaningCard} id="orem-story">
-            <span>OREM</span>
+            <AgentWordmark agent="orem" size="xs" />
             <h3>Prayer &amp; discernment.</h3>
             <p>Seek wisdom before acting. Greater capability should carry greater responsibility.</p>
           </article>
         </div>
 
         <div className={styles.agentBridge}>
-          <span className={styles.alvoMark}>ALVO brings clarity.</span>
+          <span className={styles.alvoMark}><AgentWordmark agent="alvo" size="sm" /> brings clarity.</span>
           <i aria-hidden="true" />
-          <span className={styles.oremMark}>OREM seeks wisdom.</span>
+          <span className={styles.oremMark}><AgentWordmark agent="orem" size="sm" /> seeks wisdom.</span>
         </div>
 
         <div className={styles.principles}>

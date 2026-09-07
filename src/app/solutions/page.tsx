@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
-import { MobileNav } from "@/components/MobileNav";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { SiteHeader } from "@/components/SiteHeader";
 import styles from "./solutions.module.css";
 
 export const metadata: Metadata = {
@@ -238,31 +237,7 @@ export default function SolutionsPage() {
   return (
     <main className={styles.page} id="top">
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <header className="site-header" role="banner">
-        <div className="site-shell header-inner">
-          <Link className="logo-link" href="/" aria-label="ALVOREM home">
-            <Logo />
-          </Link>
-
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <Link className={styles.activeNav} href="/solutions" aria-current="page">Solutions</Link>
-            <Link href="/work">Work</Link>
-            <Link href="/about">About</Link>
-            <Link href="/careers">Careers</Link>
-          </nav>
-
-          <div className="header-actions">
-            <MobileNav activePage="solutions" />
-            <ThemeToggle />
-            <a
-              className="button button--small button--primary header-cta"
-              href="mailto:hello@alvorem.ro?subject=Start%20a%20project"
-            >
-              Start a project
-            </a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader activePage="solutions" />
 
       <section className={["site-shell", styles.hero].join(" ")} id="main-content" aria-labelledby="solutions-hero-title">
         <div className={styles.heroIntro}>

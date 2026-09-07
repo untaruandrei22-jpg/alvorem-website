@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AgentsSplit } from "@/components/AgentsSplit";
 import { HomeAgentDemo } from "@/components/HomeAgentDemo";
 import { Logo } from "@/components/Logo";
 import { MobileNav } from "@/components/MobileNav";
@@ -182,6 +183,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <AgentsSplit />
 
       <section className="capabilities site-shell" id="solutions" aria-labelledby="capabilities-title">
         <div className="capability-copy" id="work">

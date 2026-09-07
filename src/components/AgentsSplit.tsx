@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { AgentWordmark } from "@/components/AgentWordmark";
+import { useLocale } from "@/components/LocaleProvider";
 import styles from "./AgentsSplit.module.css";
 
 function ArrowIcon() {
@@ -89,25 +92,30 @@ function TargetIcon() {
 }
 
 const alvoItems = [
-  { label: "Everyday business chat", icon: <ChatIcon /> },
-  { label: "Fast, clear answers", icon: <BoltIcon /> },
-  { label: "KPI summaries and reports", icon: <ChartIcon /> },
-  { label: "Built for daily team use", icon: <PeopleIcon /> },
+  { en: "Everyday business chat", ro: "Chat de business pentru zi de zi", icon: <ChatIcon /> },
+  { en: "Fast, clear answers", ro: "Răspunsuri rapide și clare", icon: <BoltIcon /> },
+  { en: "KPI summaries and reports", ro: "Rezumate KPI și rapoarte", icon: <ChartIcon /> },
+  { en: "Built for daily team use", ro: "Construit pentru utilizarea zilnică a echipei", icon: <PeopleIcon /> },
 ];
 
 const oremItems = [
-  { label: "Deeper reasoning", icon: <BrainIcon /> },
-  { label: "Multi-source analysis", icon: <LayersIcon /> },
-  { label: "Advanced automation", icon: <NetworkIcon /> },
-  { label: "Strategic recommendations", icon: <TargetIcon /> },
+  { en: "Deeper reasoning", ro: "Raționament aprofundat", icon: <BrainIcon /> },
+  { en: "Multi-source analysis", ro: "Analiză din surse multiple", icon: <LayersIcon /> },
+  { en: "Advanced automation", ro: "Automatizare avansată", icon: <NetworkIcon /> },
+  { en: "Strategic recommendations", ro: "Recomandări strategice", icon: <TargetIcon /> },
 ];
 
 export function AgentsSplit() {
+  const { locale } = useLocale();
+  const ro = locale === "ro";
+
   return (
-    <section className={styles.section} aria-labelledby="agents-title">
+    <section className={styles.section} aria-labelledby="agents-title" data-no-translate>
       <div className={styles.sectionIntro}>
-        <p className="eyebrow">MEET YOUR AI TEAM</p>
-        <h2 id="agents-title">One business. Shared context. Different depth.</h2>
+        <p className="eyebrow">{ro ? "FĂ CUNOȘTINȚĂ CU ECHIPA TA AI" : "MEET YOUR AI TEAM"}</p>
+        <h2 id="agents-title">
+          {ro ? "O singură afacere. Context comun. Profunzime diferită." : "One business. Shared context. Different depth."}
+        </h2>
       </div>
 
       <div className={styles.split}>
@@ -115,60 +123,68 @@ export function AgentsSplit() {
           <div className={styles.panelInner}>
             <div className={`${styles.orb} ${styles.alvoOrb}`} aria-hidden="true" />
             <AgentWordmark agent="alvo" size="lg" />
-            <h3>Clarity for every day.</h3>
+            <h3>{ro ? "Claritate pentru fiecare zi." : "Clarity for every day."}</h3>
             <p className={styles.description}>
-              Your everyday private business chat. Fast, calm and grounded in what is really happening inside your company.
+              {ro
+                ? "Chat-ul privat de business pentru fiecare zi. Rapid, calm și ancorat în ceea ce se întâmplă cu adevărat în compania ta."
+                : "Your everyday private business chat. Fast, calm and grounded in what is really happening inside your company."}
             </p>
 
             <div className={styles.featureList}>
               {alvoItems.map((item) => (
-                <div className={styles.feature} key={item.label}>
+                <div className={styles.feature} key={item.en}>
                   <span>{item.icon}</span>
-                  <p>{item.label}</p>
+                  <p>{ro ? item.ro : item.en}</p>
                 </div>
               ))}
             </div>
 
             <a className={`${styles.cta} ${styles.alvoCta}`} href="#agent-demo">
-              Talk to <AgentWordmark agent="alvo" size="xs" /> <ArrowIcon />
+              {ro ? "Vorbește cu" : "Talk to"} <AgentWordmark agent="alvo" size="xs" /> <ArrowIcon />
             </a>
           </div>
         </article>
 
         <div className={styles.bridge} aria-hidden="true">
-          <span>ONE</span>
-          <span>BUSINESS</span>
+          <span>{ro ? "O SINGURĂ" : "ONE"}</span>
+          <span>{ro ? "AFACERE" : "BUSINESS"}</span>
           <i />
-          <span>SHARED</span>
-          <span>CONTEXT</span>
+          <span>{ro ? "ACELAȘI" : "SHARED"}</span>
+          <span>{ro ? "CONTEXT" : "CONTEXT"}</span>
         </div>
 
         <article className={`${styles.panel} ${styles.oremPanel}`} id="orem">
           <div className={styles.panelInner}>
             <div className={`${styles.orb} ${styles.oremOrb}`} aria-hidden="true" />
             <AgentWordmark agent="orem" size="lg" />
-            <h3>Think deeper when it matters.</h3>
+            <h3>{ro ? "Gândește mai profund când contează." : "Think deeper when it matters."}</h3>
             <p className={styles.description}>
-              The upgraded ALVOREM layer for deeper reasoning and automation. It steps in when the work needs more than an everyday answer.
+              {ro
+                ? "Nivelul superior ALVOREM pentru raționament profund și automatizare. Intervine când munca are nevoie de mai mult decât un răspuns de zi cu zi."
+                : "The upgraded ALVOREM layer for deeper reasoning and automation. It steps in when the work needs more than an everyday answer."}
             </p>
 
             <div className={styles.featureList}>
               {oremItems.map((item) => (
-                <div className={styles.feature} key={item.label}>
+                <div className={styles.feature} key={item.en}>
                   <span>{item.icon}</span>
-                  <p>{item.label}</p>
+                  <p>{ro ? item.ro : item.en}</p>
                 </div>
               ))}
             </div>
 
             <Link className={`${styles.cta} ${styles.oremCta}`} href="/about#orem-story">
-              Unlock <AgentWordmark agent="orem" size="xs" /> <ArrowIcon />
+              {ro ? "Deblochează" : "Unlock"} <AgentWordmark agent="orem" size="xs" /> <ArrowIcon />
             </Link>
           </div>
         </article>
       </div>
 
-      <p className={styles.sharedLine}>They share the same trusted business context. They work as one team.</p>
+      <p className={styles.sharedLine}>
+        {ro
+          ? "Folosesc același context de business de încredere. Lucrează ca o singură echipă."
+          : "They share the same trusted business context. They work as one team."}
+      </p>
     </section>
   );
 }

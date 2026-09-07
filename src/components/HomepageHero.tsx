@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { HomeAgentDemo } from "@/components/HomeAgentDemo";
 import { useLocale } from "@/components/LocaleProvider";
@@ -132,9 +133,9 @@ export function HomepageHero() {
           <a className="button button--primary" href="#agent-demo">
             {t.primary} <AgentWordmark agent="alvo" size="xs" className={styles.buttonAgent} /> <ArrowIcon />
           </a>
-          <a className="button button--secondary" href="/solutions#team-modes">
+          <Link className="button button--secondary" href="/solutions#team-modes">
             {t.secondary}
-          </a>
+          </Link>
         </div>
 
         <div className={styles.proofList} aria-label={locale === "ro" ? "Beneficii principale" : "Key benefits"}>

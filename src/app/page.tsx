@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HomeAgentDemo } from "@/components/HomeAgentDemo";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -163,39 +164,7 @@ export default function Home() {
 
         <div className="agent-stage" id="agent-demo">
           <div className="clarity-halo" aria-hidden="true" />
-          <div className="agent-card">
-            <div className="agent-card__header">
-              <Logo compact inverse />
-              <button type="button" aria-label="More agent options">
-                <span />
-                <span />
-                <span />
-              </button>
-            </div>
-            <div className="agent-card__body">
-              <span className="agent-orb" aria-hidden="true" />
-              <h2>Good morning, Andrei.</h2>
-              <p>What needs your attention today?</p>
-
-              <div className="insight-card">
-                <span className="insight-icon"><ChartIcon /></span>
-                <span>
-                  <strong>Sales are 8% below plan</strong>
-                  <small>I found the three factors that matter most.</small>
-                  <a href="#insights">View the why</a>
-                </span>
-                <ArrowIcon />
-              </div>
-
-              <div className="agent-prompt" aria-label="Agent question example">
-                <span>Ask your agent anything…</span>
-                <button type="button" aria-label="Send example question">
-                  <ArrowIcon />
-                </button>
-              </div>
-              <small className="agent-status">Always on. Always working for you.</small>
-            </div>
-          </div>
+          <HomeAgentDemo />
         </div>
       </section>
 

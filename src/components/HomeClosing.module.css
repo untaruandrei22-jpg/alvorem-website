@@ -44,7 +44,9 @@
 }
 
 .inlineAgent {
+  --agent-gap: 0.07em;
   margin-inline: 0.12em;
+  letter-spacing: 0.08em;
 }
 
 .capabilityRail {
@@ -294,19 +296,27 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
-  gap: 0.18em;
+  gap: 0.14em;
   margin-top: 15px;
-  font-size: clamp(3.3rem, 6vw, 6rem);
-  line-height: 0.95;
+  font-size: clamp(3.15rem, 5.6vw, 5.4rem);
+  line-height: 0.96;
 }
 
 .ctaAgentPhrase {
   display: inline-flex;
   align-items: baseline;
-  gap: 0.02em;
+  gap: 0.035em;
+}
+
+.ctaAgent {
+  --agent-size: 0.82em;
+  --agent-gap: 0.065em;
+  letter-spacing: 0.085em;
+  vertical-align: 0;
 }
 
 .ctaAgentPhrase i {
+  margin-left: -0.015em;
   font-style: normal;
 }
 
@@ -397,8 +407,12 @@
   }
 
   .ctaInner h2 {
-    gap: 0.12em;
-    font-size: clamp(3rem, 15vw, 4.7rem);
+    gap: 0.1em;
+    font-size: clamp(2.9rem, 14vw, 4.4rem);
+  }
+
+  .ctaAgent {
+    --agent-size: 0.8em;
   }
 
   .ctaNote {

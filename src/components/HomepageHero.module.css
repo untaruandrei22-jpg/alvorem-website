@@ -1,38 +1,86 @@
 .hero {
   position: relative;
-  min-height: 650px;
+  min-height: 720px;
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(500px, 1.08fr);
+  grid-template-columns: minmax(0, 0.84fr) minmax(540px, 1.16fr);
   align-items: center;
-  gap: clamp(42px, 6vw, 84px);
-  padding-block: 58px 62px;
+  gap: clamp(34px, 5vw, 76px);
+  padding-block: 70px 74px;
   isolation: isolate;
+  overflow: hidden;
 }
 
 .hero::before {
   content: "";
   position: absolute;
-  z-index: -5;
+  z-index: -10;
   inset: 0 50% 0 auto;
   width: 100vw;
   transform: translateX(50%);
   background:
-    radial-gradient(ellipse 42% 66% at 82% 38%, rgba(90, 66, 225, 0.15), transparent 70%),
-    radial-gradient(ellipse 32% 42% at 70% 74%, rgba(255, 206, 164, 0.09), transparent 72%),
-    linear-gradient(180deg, transparent 65%, rgba(111, 91, 217, 0.025));
-  pointer-events: none;
+    radial-gradient(ellipse 44% 64% at 79% 30%, rgba(101, 78, 228, 0.15), transparent 72%),
+    radial-gradient(ellipse 28% 34% at 61% 71%, rgba(243, 195, 154, 0.13), transparent 74%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 62%);
 }
 
 :global(html[data-theme="dark"]) .hero::before {
   background:
-    radial-gradient(ellipse 46% 72% at 82% 38%, rgba(86, 63, 229, 0.26), transparent 70%),
-    radial-gradient(ellipse 30% 38% at 69% 74%, rgba(255, 206, 164, 0.08), transparent 72%),
-    linear-gradient(180deg, rgba(22, 20, 44, 0.14), transparent 45%, rgba(78, 57, 161, 0.06));
+    radial-gradient(ellipse 48% 72% at 79% 29%, rgba(86, 63, 229, 0.28), transparent 70%),
+    radial-gradient(ellipse 28% 34% at 61% 71%, rgba(255, 205, 162, 0.09), transparent 73%),
+    linear-gradient(180deg, rgba(10, 12, 28, 0.08), rgba(7, 8, 20, 0.22));
+}
+
+.ambient {
+  position: absolute;
+  z-index: -6;
+  inset: 0;
+  pointer-events: none;
+}
+
+.planet {
+  position: absolute;
+  top: -40px;
+  right: 4%;
+  width: clamp(390px, 43vw, 690px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 34%, rgba(255, 255, 255, 0.85), rgba(219, 221, 240, 0.22) 20%, rgba(101, 86, 191, 0.12) 51%, rgba(18, 18, 42, 0.08) 66%, transparent 68%);
+  box-shadow:
+    0 0 55px rgba(126, 103, 255, 0.13),
+    0 0 110px rgba(111, 91, 217, 0.09);
+  opacity: 0.55;
+}
+
+:global(html[data-theme="dark"]) .planet {
+  background:
+    radial-gradient(circle at 42% 40%, rgba(52, 58, 98, 0.9), rgba(18, 21, 45, 0.95) 36%, rgba(7, 9, 24, 0.99) 67%),
+    #080a17;
+  border: 1px solid rgba(164, 150, 255, 0.18);
+  box-shadow:
+    -16px 2px 52px rgba(255, 224, 183, 0.15),
+    18px 5px 62px rgba(117, 94, 255, 0.34),
+    0 0 145px rgba(65, 49, 178, 0.3);
+  opacity: 0.95;
+}
+
+.horizon {
+  position: absolute;
+  right: -8%;
+  bottom: 54px;
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233, 203, 177, 0.45), rgba(111, 91, 217, 0.7), transparent);
+  box-shadow:
+    0 0 14px rgba(255, 221, 187, 0.34),
+    0 0 34px rgba(111, 91, 217, 0.34);
+  transform: rotate(-1.5deg);
 }
 
 .copy {
   position: relative;
-  z-index: 4;
+  z-index: 5;
+  max-width: 650px;
 }
 
 .copy :global(.eyebrow) {
@@ -42,10 +90,10 @@
 .copy h1 {
   max-width: 660px;
   color: var(--text);
-  font-size: clamp(4rem, 5.9vw, 5.65rem);
-  font-weight: 600;
-  letter-spacing: -0.072em;
-  line-height: 0.95;
+  font-size: clamp(4.35rem, 6.05vw, 5.9rem);
+  font-weight: 500;
+  letter-spacing: -0.074em;
+  line-height: 0.93;
 }
 
 .copy h1 span,
@@ -55,55 +103,26 @@
 
 .copy h1 em {
   margin-top: 0.04em;
+  color: var(--text);
   font-family: "Lora", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  letter-spacing: -0.06em;
-}
-
-.agentPromise {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 13px;
-  margin-top: 25px;
-}
-
-.agentPromise > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.agentPromise strong {
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.agentPromise i {
-  width: 22px;
-  height: 1px;
-  background: linear-gradient(90deg, var(--line-strong), var(--violet), var(--line-strong));
+  letter-spacing: -0.062em;
 }
 
 .description {
-  max-width: 625px;
-  margin-top: 24px;
+  max-width: 610px;
+  margin-top: 28px;
   color: var(--muted);
-  font-size: clamp(1rem, 1.22vw, 1.08rem);
-  line-height: 1.75;
-}
-
-.inlineAgent {
-  margin-inline: 0.12em 0.18em;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  line-height: 1.72;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 13px;
-  margin-top: 29px;
+  margin-top: 31px;
 }
 
 .actions :global(.button--primary) {
@@ -114,268 +133,301 @@
   color: inherit !important;
 }
 
+.proofList {
+  display: grid;
+  gap: 11px;
+  margin-top: 32px;
+}
+
+.proofList span {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.proofList svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: var(--text);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.45;
+}
+
 .stage {
   position: relative;
-  min-height: 545px;
+  min-height: 570px;
   isolation: isolate;
 }
 
-.systemLabel {
+.stage::before {
+  content: "";
   position: absolute;
-  z-index: 5;
-  top: 5px;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 0 11px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 76%, transparent);
-  color: var(--muted-soft);
-  font-size: 0.61rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  backdrop-filter: blur(14px);
+  z-index: -4;
+  top: 15%;
+  right: -4%;
+  width: 95%;
+  height: 74%;
+  border-radius: 48%;
+  background: radial-gradient(circle at 55% 52%, rgba(111, 91, 217, 0.22), transparent 63%);
+  filter: blur(28px);
 }
 
-.deepAura {
+.oremPanel {
   position: absolute;
-  z-index: -2;
-  top: 22px;
-  right: 4px;
-  width: min(360px, 68%);
-  aspect-ratio: 1;
-  border-radius: 50%;
+  z-index: 1;
+  top: 54px;
+  right: 0;
+  width: min(370px, 64%);
+  min-height: 382px;
+  padding: 34px 32px;
+  border: 1px solid rgba(153, 139, 255, 0.34);
+  border-radius: 22px;
   background:
-    radial-gradient(circle, rgba(9, 10, 21, 0.98) 0 56%, transparent 57%),
-    conic-gradient(from 196deg, #ffffff 0 6%, #7665ff 11% 39%, #312b7f 50% 73%, #ffffff 79% 84%, #7564ff 91% 100%);
+    radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.18), transparent 28%),
+    linear-gradient(150deg, rgba(16, 17, 35, 0.97), rgba(7, 9, 23, 0.99));
+  color: #f7f6ff;
   box-shadow:
-    0 0 18px rgba(231, 226, 255, 0.8),
-    0 0 48px rgba(117, 94, 255, 0.72),
-    0 0 100px rgba(70, 49, 211, 0.44);
-  opacity: 0.9;
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 28px 80px rgba(15, 12, 48, 0.28),
+    0 0 48px rgba(92, 70, 231, 0.16);
+  transform: rotate(-2.1deg);
+  transform-origin: 80% 100%;
 }
 
-.deepIdentity {
-  position: absolute;
-  z-index: 3;
-  top: 48px;
-  right: 6px;
-  width: min(260px, 52%);
-  padding: 14px 16px 15px;
-  border: 1px solid rgba(164, 150, 255, 0.25);
-  border-radius: 14px;
-  background: linear-gradient(145deg, rgba(16, 16, 31, 0.84), rgba(21, 18, 48, 0.76));
-  color: #f7f5ff;
-  box-shadow: 0 18px 54px rgba(19, 13, 66, 0.2);
-  backdrop-filter: blur(16px);
+:global(html[data-theme="light"]) .oremPanel {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 34px 84px rgba(42, 32, 89, 0.22),
+    0 0 58px rgba(92, 70, 231, 0.18);
 }
 
-.deepHeading {
+.oremTopline {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 13px;
 }
 
-.deepHeading > span {
-  color: #a89dff;
-  font-size: 0.52rem;
+.eclipse {
+  position: relative;
+  width: 37px;
+  height: 37px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #070817;
+  border: 1px solid rgba(211, 205, 255, 0.82);
+  box-shadow:
+    0 0 7px rgba(240, 236, 255, 0.95),
+    0 0 18px rgba(125, 101, 255, 0.94),
+    0 0 36px rgba(82, 61, 224, 0.58);
+}
+
+.upgradeLabel {
+  margin-top: 28px;
+  color: #9188e8;
+  font-size: 0.57rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-align: right;
-}
-
-.deepIdentity > strong,
-.deepIdentity > small {
-  display: block;
-}
-
-.deepIdentity > strong {
-  margin-top: 11px;
-  color: #dad5ff;
-  font-size: 0.65rem;
   letter-spacing: 0.16em;
 }
 
-.deepIdentity > small {
-  margin-top: 5px;
-  color: #a7a1bd;
-  font-size: 0.67rem;
-  line-height: 1.45;
+.oremPanel h2 {
+  margin-top: 8px;
+  color: #f4f1ff;
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
 }
 
-.dailyIdentity {
+.oremList {
+  display: grid;
+  gap: 15px;
+  margin-top: 26px;
+}
+
+.oremList span {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #b8b3ca;
+  font-size: 0.72rem;
+}
+
+.oremList svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: #9184ff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.55;
+}
+
+.alvoPanel {
   position: absolute;
   z-index: 4;
-  top: 92px;
-  left: 1px;
+  top: 165px;
+  left: 0;
+  width: min(500px, 78%);
+  padding: 16px 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--line-strong) 86%, transparent);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface) 91%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.62),
+    0 34px 86px rgba(43, 36, 76, 0.2),
+    0 0 48px rgba(111, 91, 217, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+:global(html[data-theme="dark"]) .alvoPanel {
+  background: linear-gradient(145deg, rgba(31, 34, 55, 0.94), rgba(18, 20, 38, 0.96));
+  border-color: rgba(220, 214, 245, 0.17);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 34px 92px rgba(0, 0, 0, 0.36),
+    -14px 8px 44px rgba(245, 214, 186, 0.06),
+    14px 8px 56px rgba(111, 91, 217, 0.13);
+}
+
+.alvoTopline {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-inline: 7px;
+}
+
+.alvoTopline > span {
+  color: var(--muted-soft);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-align: right;
+}
+
+.alvoPanel > small {
+  display: block;
+  margin: 2px 7px 10px;
+  color: var(--muted);
+  font-size: 0.64rem;
+}
+
+.alvoPanel :global(.agent-card) {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: 100%;
+  margin: 0;
+  transform: none;
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 46px rgba(8, 6, 23, 0.24);
+}
+
+.relationNote {
+  position: absolute;
+  z-index: 6;
+  right: 24px;
+  bottom: 6px;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 11px 14px;
-  border: 1px solid var(--line-strong);
-  border-radius: 13px;
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  box-shadow: var(--soft-shadow);
-  backdrop-filter: blur(14px);
+  max-width: 320px;
 }
 
-.dailyIdentity > span {
-  display: grid;
-  gap: 3px;
-}
-
-.dailyIdentity strong {
-  color: var(--text);
-  font-size: 0.61rem;
-  letter-spacing: 0.15em;
-}
-
-.dailyIdentity small {
-  color: var(--muted);
-  font-size: 0.65rem;
-}
-
-.connection {
-  position: absolute;
-  z-index: 1;
-  top: 115px;
-  right: 155px;
-  left: 120px;
-  height: 95px;
-  pointer-events: none;
-}
-
-.connection::before {
-  content: "";
-  position: absolute;
-  top: 18px;
-  left: 0;
-  width: 78%;
+.relationLine {
+  width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(111, 91, 217, 0.2), rgba(111, 91, 217, 0.9));
-  transform: rotate(9deg);
-  transform-origin: left center;
-  box-shadow: 0 0 15px rgba(111, 91, 217, 0.58);
+  flex: 0 0 auto;
+  background: linear-gradient(90deg, rgba(213, 182, 154, 0.8), rgba(116, 95, 228, 0.8));
+  box-shadow: 0 0 12px rgba(111, 91, 217, 0.35);
 }
 
-.connection span,
-.connection i {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.connection span {
-  top: 13px;
-  left: 3px;
-  width: 9px;
-  height: 9px;
-  background: #e9d5c3;
-  box-shadow: 0 0 13px rgba(111, 91, 217, 0.5);
-}
-
-.connection i {
-  top: 32px;
-  right: 2px;
-  width: 10px;
-  height: 10px;
-  background: #8170ff;
-  box-shadow: 0 0 16px rgba(126, 101, 255, 0.9);
-}
-
-.stage :global(.agent-card) {
-  top: 57%;
-  right: 12px;
-  width: min(430px, 88%);
-}
-
-.handoffNote {
-  position: absolute;
-  z-index: 5;
-  right: 25px;
-  bottom: 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  max-width: 285px;
+.relationNote p {
   color: var(--muted);
-  font-size: 0.67rem;
+  font-family: "Lora", Georgia, serif;
+  font-size: 0.77rem;
+  font-style: italic;
   line-height: 1.45;
 }
 
-.handoffNote span {
-  color: var(--violet);
-  font-size: 1rem;
-}
-
-@media (max-width: 1080px) {
+@media (max-width: 1120px) {
   .hero {
-    grid-template-columns: minmax(0, 0.9fr) minmax(440px, 1.1fr);
-    gap: 30px;
+    grid-template-columns: minmax(0, 0.82fr) minmax(480px, 1.18fr);
+    gap: 28px;
   }
 
   .copy h1 {
-    font-size: clamp(3.65rem, 6.5vw, 4.9rem);
+    font-size: clamp(4rem, 6.4vw, 5.2rem);
   }
 
-  .stage :global(.agent-card) {
-    width: min(410px, 92%);
+  .oremPanel {
+    width: min(345px, 65%);
+  }
+
+  .alvoPanel {
+    width: min(470px, 80%);
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 26px;
-    padding-block: 64px 54px;
+    gap: 20px;
+    padding-block: 62px 62px;
   }
 
   .copy {
-    max-width: 720px;
+    max-width: 740px;
   }
 
   .copy h1 {
-    font-size: clamp(3.65rem, 10vw, 5.3rem);
+    font-size: clamp(4rem, 10vw, 5.6rem);
   }
 
   .stage {
-    width: min(660px, 100%);
-    min-height: 560px;
+    width: min(720px, 100%);
+    min-height: 620px;
     margin-inline: auto;
   }
 
-  .stage :global(.agent-card) {
-    right: 3%;
-    width: min(430px, 78%);
+  .planet {
+    top: 2%;
+    right: -18%;
   }
 
-  .deepIdentity {
-    right: 1%;
+  .oremPanel {
+    right: 2%;
+  }
+
+  .alvoPanel {
+    left: 2%;
   }
 }
 
-@media (max-width: 620px) {
+@media (max-width: 640px) {
   .hero {
-    width: min(100% - 32px, 620px);
-    padding-top: 46px;
+    width: min(100% - 30px, 640px);
+    min-height: auto;
+    padding-top: 42px;
+    overflow: visible;
   }
 
   .copy h1 {
-    font-size: clamp(3.25rem, 16vw, 4.65rem);
+    font-size: clamp(3.35rem, 15vw, 4.55rem);
   }
 
-  .agentPromise {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .agentPromise i {
-    display: none;
+  .description {
+    margin-top: 23px;
+    line-height: 1.64;
   }
 
   .actions {
@@ -386,49 +438,56 @@
     width: 100%;
   }
 
+  .proofList {
+    margin-top: 25px;
+  }
+
   .stage {
-    min-height: 615px;
+    min-height: 790px;
+    margin-top: 4px;
   }
 
-  .systemLabel {
-    top: 0;
-    max-width: 100%;
-    font-size: 0.54rem;
-    letter-spacing: 0.11em;
+  .planet {
+    top: 10px;
+    right: -48%;
+    width: 430px;
   }
 
-  .deepAura {
-    top: 38px;
-    right: -20px;
-    width: 270px;
-  }
-
-  .deepIdentity {
-    top: 54px;
+  .oremPanel {
+    top: 28px;
     right: 0;
-    width: min(245px, 76%);
+    width: 88%;
+    min-height: 335px;
+    padding: 27px 24px;
+    transform: rotate(-1.3deg);
   }
 
-  .dailyIdentity {
-    top: 160px;
+  .alvoPanel {
+    top: 272px;
     left: 0;
-  }
-
-  .connection {
-    top: 166px;
-    right: 100px;
-    left: 80px;
-  }
-
-  .stage :global(.agent-card) {
-    top: 62%;
-    right: 0;
     width: 100%;
+    padding: 12px;
+    border-radius: 20px;
   }
 
-  .handoffNote {
-    right: 3px;
-    bottom: -2px;
-    max-width: 88%;
+  .alvoTopline {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    padding-block: 5px 3px;
+  }
+
+  .alvoTopline > span {
+    text-align: left;
+  }
+
+  .relationNote {
+    right: 2px;
+    bottom: 5px;
+    max-width: 86%;
+  }
+
+  .relationLine {
+    width: 42px;
   }
 }

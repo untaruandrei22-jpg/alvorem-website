@@ -1,6 +1,7 @@
 .wordmark {
   --agent-size: 1rem;
-  --agent-gap: 0.18em;
+  --agent-gap: 0.08em;
+  --agent-tracking: 0.17em;
   display: inline-flex;
   align-items: center;
   gap: var(--agent-gap);
@@ -8,7 +9,6 @@
   color: currentColor;
   font-size: var(--agent-size);
   font-weight: 400;
-  letter-spacing: 0.19em;
   line-height: 1;
   white-space: nowrap;
   vertical-align: -0.04em;
@@ -16,7 +16,16 @@
 
 .letters {
   display: inline-block;
+  letter-spacing: var(--agent-tracking);
   line-height: 1;
+}
+
+.alvo .letters {
+  margin-right: calc(var(--agent-tracking) * -0.78);
+}
+
+.orem .letters {
+  margin-left: calc(var(--agent-tracking) * -0.18);
 }
 
 .oMark {
@@ -94,25 +103,27 @@
 
 .xs {
   --agent-size: 0.72rem;
-  --agent-gap: 0.14em;
-  letter-spacing: 0.13em;
+  --agent-gap: 0.055em;
+  --agent-tracking: 0.12em;
 }
 
 .sm {
   --agent-size: 0.9rem;
-  --agent-gap: 0.15em;
-  letter-spacing: 0.15em;
+  --agent-gap: 0.06em;
+  --agent-tracking: 0.14em;
 }
 
 .md {
   --agent-size: 1.18rem;
+  --agent-gap: 0.07em;
+  --agent-tracking: 0.17em;
 }
 
 .lg {
   --agent-size: clamp(2.6rem, 5vw, 4.6rem);
-  --agent-gap: 0.2em;
+  --agent-gap: 0.08em;
+  --agent-tracking: 0.19em;
   font-weight: 400;
-  letter-spacing: 0.22em;
 }
 
 @media (prefers-reduced-motion: no-preference) {

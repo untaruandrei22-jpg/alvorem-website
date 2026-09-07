@@ -118,9 +118,10 @@ export function AgentsSplit() {
             {ro ? "Două niveluri de inteligență. O singură echipă." : "Two levels of intelligence. One team."}
           </h2>
           <p>
-            {ro
-              ? "ALVO este locul în care începe munca de zi cu zi. Când este nevoie de mai multă profunzime, OREM intră în aceeași conversație — cu același context de business."
-              : "ALVO is where everyday work begins. When more depth is needed, OREM joins the same conversation — with the same business context."}
+            <AgentWordmark agent="alvo" size="xs" className={styles.inlineAgent} />
+            {ro ? " este locul în care începe munca de zi cu zi. Când este nevoie de mai multă profunzime, " : " is where everyday work begins. When more depth is needed, "}
+            <AgentWordmark agent="orem" size="xs" className={styles.inlineAgent} />
+            {ro ? " intră în aceeași conversație — cu același context de business." : " joins the same conversation — with the same business context."}
           </p>
         </div>
       </div>

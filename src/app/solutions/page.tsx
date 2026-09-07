@@ -19,24 +19,6 @@ function ArrowIcon() {
   );
 }
 
-function PersonIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="7" r="3.5" />
-      <path d="M4.5 21c.6-5.3 3.1-8 7.5-8s6.9 2.7 7.5 8" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3.5 2" />
-    </svg>
-  );
-}
-
 function PeopleIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -119,12 +101,6 @@ function FileIcon() {
     </svg>
   );
 }
-
-const values = [
-  { label: "Understands your business", icon: <PersonIcon /> },
-  { label: "Available anytime", icon: <ClockIcon /> },
-  { label: "Built around your people", icon: <PeopleIcon /> },
-];
 
 const contextInputs = [
   {
@@ -230,6 +206,7 @@ function AutomatePreview() {
 const solutions = [
   {
     label: "ASK",
+    cue: "Find the right answer",
     title: "Answers grounded in your business.",
     description:
       "Find the right answer across your knowledge, with sources your team can trust.",
@@ -238,6 +215,7 @@ const solutions = [
   },
   {
     label: "REPORT",
+    cue: "See what matters",
     title: "Clear insight, delivered when it matters.",
     description:
       "Turn scattered data into useful reports, summaries and next steps.",
@@ -246,6 +224,7 @@ const solutions = [
   },
   {
     label: "AUTOMATE",
+    cue: "Move work forward",
     title: "Recurring work, handled with your rules.",
     description:
       "Move repeatable tasks forward while your people stay in control.",
@@ -284,15 +263,15 @@ export default function SolutionsPage() {
       </header>
 
       <section className={["site-shell", styles.hero].join(" ")} aria-labelledby="solutions-hero-title">
-        <div className={styles.heroCopy}>
+        <div className={styles.heroIntro}>
           <p className="eyebrow">SOLUTIONS BUILT AROUND YOUR BUSINESS</p>
           <h1 id="solutions-hero-title">
-            <span>Your business,</span>
-            <em>understood.</em>
+            <span>One agent.</span>
+            <em>Three ways to work lighter.</em>
           </h1>
           <p className={styles.heroDescription}>
-            One AI agent that learns your context and helps your people ask,
-            report and automate.
+            Ask for answers. Turn data into insight. Automate recurring work—all
+            with one system built around your business.
           </p>
           <div className={styles.heroActions}>
             <a className="button button--primary" href="#solutions">
@@ -307,51 +286,22 @@ export default function SolutionsPage() {
           </div>
         </div>
 
-        <div className={styles.heroStage} aria-label="ALVOREM agent example">
-          <div className={styles.heroHalo} aria-hidden="true" />
-          <div className={styles.agentCard}>
-            <div className={styles.agentHeader}>
-              <Logo compact />
-              <span className={styles.moreButton} aria-hidden="true">
-                <i />
-                <i />
-                <i />
+        <nav className={styles.solutionRail} aria-label="Explore the three ALVOREM solutions">
+          <span className={styles.railBeam} aria-hidden="true">
+            <i />
+          </span>
+          {solutions.map((solution, index) => (
+            <a href={"#" + solution.label.toLowerCase()} key={solution.label}>
+              <span className={styles.railNumber}>{String(index + 1).padStart(2, "0")}</span>
+              <span className={styles.railIcon}>{solution.icon}</span>
+              <span className={styles.railCopy}>
+                <strong>{solution.label}</strong>
+                <small>{solution.cue}</small>
               </span>
-            </div>
-            <div className={styles.agentBody}>
-              <span className={styles.agentOrb} aria-hidden="true" />
-              <h2>Good morning, Andrei.</h2>
-              <p>What needs your attention today?</p>
-
-              <div className={styles.insightCard}>
-                <span className={styles.insightIcon}><ChartIcon /></span>
-                <span>
-                  <strong>Sales are 8% below plan</strong>
-                  <small>Three factors matter most.</small>
-                  <a href="#context">View the why</a>
-                </span>
-                <ArrowIcon />
-              </div>
-
-              <div className={styles.agentPrompt}>
-                <span>Ask your agent anything…</span>
-                <span className={styles.promptArrow}><ArrowIcon /></span>
-              </div>
-              <small className={styles.agentStatus}>Always on. Always working for you.</small>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="value-strip" aria-label="ALVOREM values">
-        <div className="site-shell value-grid">
-          {values.map((value) => (
-            <div className="value-item" key={value.label}>
-              <span>{value.icon}</span>
-              <p>{value.label}</p>
-            </div>
+              <ArrowIcon />
+            </a>
           ))}
-        </div>
+        </nav>
       </section>
 
       <section className={styles.solutionsSection} id="solutions" aria-labelledby="solutions-title">
@@ -363,7 +313,11 @@ export default function SolutionsPage() {
 
           <div className={styles.solutionsGrid}>
             {solutions.map((solution) => (
-              <article className={styles.solutionCard} key={solution.label}>
+              <article
+                className={styles.solutionCard}
+                id={solution.label.toLowerCase()}
+                key={solution.label}
+              >
                 <div className={styles.solutionHeader}>
                   <span className={styles.solutionIcon}>{solution.icon}</span>
                   <div>

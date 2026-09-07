@@ -34,12 +34,13 @@
 
 .hero {
   position: relative;
-  min-height: 590px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(440px, 0.98fr);
+  min-height: 660px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(42px, 5vw, 76px);
-  padding-block: 54px 55px;
+  justify-content: center;
+  padding-block: 68px 38px;
+  text-align: center;
   isolation: isolate;
 }
 
@@ -52,42 +53,47 @@
   left: 50%;
   width: 100vw;
   background:
-    radial-gradient(ellipse 40% 70% at 75% 46%, rgba(203, 180, 242, 0.22), transparent 71%),
-    radial-gradient(ellipse 24% 28% at 68% 61%, rgba(255, 210, 174, 0.13), transparent 72%);
+    radial-gradient(ellipse 34% 68% at 50% 46%, rgba(203, 180, 242, 0.2), transparent 70%),
+    radial-gradient(ellipse 20% 24% at 50% 70%, rgba(255, 210, 174, 0.11), transparent 72%),
+    linear-gradient(110deg, transparent 25%, rgba(111, 91, 217, 0.035) 49%, transparent 72%);
   transform: translateX(-50%);
 }
 
 :global(html[data-theme="dark"]) .hero::before {
   background:
-    radial-gradient(ellipse 44% 76% at 75% 45%, rgba(111, 91, 217, 0.23), transparent 70%),
-    radial-gradient(ellipse 24% 32% at 68% 61%, rgba(255, 205, 165, 0.09), transparent 72%);
+    radial-gradient(ellipse 36% 68% at 50% 45%, rgba(111, 91, 217, 0.17), transparent 70%),
+    radial-gradient(ellipse 18% 22% at 50% 70%, rgba(255, 205, 165, 0.07), transparent 72%),
+    linear-gradient(110deg, transparent 23%, rgba(111, 91, 217, 0.045) 49%, transparent 73%);
 }
 
-.heroCopy {
+.heroIntro {
   position: relative;
   z-index: 3;
-  transform: translateY(-8px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.heroCopy > p:first-child {
-  margin-bottom: 23px;
+.heroIntro > p:first-child {
+  margin-bottom: 21px;
 }
 
-.heroCopy h1 {
-  max-width: 680px;
-  font-size: clamp(3.95rem, 5.75vw, 5.45rem);
+.heroIntro h1 {
+  max-width: 1100px;
+  font-size: clamp(4rem, 6.15vw, 5.8rem);
   font-weight: 600;
-  letter-spacing: -0.068em;
-  line-height: 0.98;
+  letter-spacing: -0.07em;
+  line-height: 0.96;
 }
 
-.heroCopy h1 span,
-.heroCopy h1 em {
+.heroIntro h1 span,
+.heroIntro h1 em {
   display: block;
 }
 
-.heroCopy h1 em {
-  margin-top: 0.03em;
+.heroIntro h1 em {
+  margin-top: 0.08em;
   font-family: "Lora", Georgia, serif;
   font-style: italic;
   font-weight: 400;
@@ -95,18 +101,169 @@
 }
 
 .heroDescription {
-  max-width: 600px;
-  margin-top: 27px;
+  max-width: 760px;
+  margin-top: 24px;
   color: var(--muted);
   font-size: clamp(1rem, 1.3vw, 1.12rem);
-  line-height: 1.72;
+  line-height: 1.68;
 }
 
 .heroActions {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 14px;
-  margin-top: 29px;
+  margin-top: 27px;
+}
+
+.solutionRail {
+  position: relative;
+  z-index: 3;
+  width: min(1050px, 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 48px;
+  padding-top: 21px;
+}
+
+.railBeam {
+  position: absolute;
+  z-index: -1;
+  top: 45px;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(111, 91, 217, 0.65) 15%, rgba(203, 180, 242, 0.88) 50%, rgba(111, 91, 217, 0.65) 85%, transparent);
+  box-shadow: 0 0 15px rgba(111, 91, 217, 0.26);
+}
+
+.railBeam i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 72px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 216, 181, 0.75), rgba(173, 111, 235, 0.26) 35%, transparent 72%);
+  filter: blur(5px);
+  transform: translate(-50%, -50%);
+}
+
+.solutionRail > a {
+  position: relative;
+  min-height: 136px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 56px 22px 17px;
+  color: var(--text);
+  transition: color 180ms ease, transform 200ms ease;
+}
+
+.solutionRail > a + a::before {
+  content: "";
+  position: absolute;
+  top: 62px;
+  bottom: 13px;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--line), transparent);
+}
+
+.solutionRail > a:hover {
+  color: var(--violet-deep);
+  transform: translateY(-3px);
+}
+
+.railNumber {
+  position: absolute;
+  top: 8px;
+  left: 24px;
+  color: var(--muted-soft);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.railIcon {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(111, 91, 217, 0.34);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--violet);
+  box-shadow:
+    0 0 0 7px color-mix(in srgb, var(--bg) 88%, transparent),
+    0 10px 30px rgba(71, 53, 146, 0.12);
+  transform: translateX(-50%);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 200ms ease;
+}
+
+:global(html[data-theme="dark"]) .railIcon {
+  border-color: rgba(203, 180, 242, 0.42);
+  background: #19172d;
+  box-shadow:
+    0 0 0 7px rgba(17, 16, 32, 0.92),
+    0 0 22px rgba(111, 91, 217, 0.16);
+}
+
+.solutionRail > a:hover .railIcon {
+  border-color: var(--violet);
+  box-shadow:
+    0 0 0 7px color-mix(in srgb, var(--bg) 88%, transparent),
+    0 0 28px rgba(111, 91, 217, 0.28);
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.railIcon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.65;
+}
+
+.railCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.railCopy strong {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+
+.railCopy small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.solutionRail > a > svg {
+  position: absolute;
+  right: 30px;
+  bottom: 33px;
+  width: 18px;
+  fill: none;
+  stroke: var(--violet);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+  transition: transform 180ms ease;
+}
+
+.solutionRail > a:hover > svg {
+  transform: translateX(4px);
 }
 
 .heroStage {
@@ -1109,12 +1266,11 @@
 
 @media (max-width: 1080px) {
   .hero {
-    grid-template-columns: minmax(0, 0.95fr) minmax(410px, 1.05fr);
-    gap: 28px;
+    min-height: 640px;
   }
 
-  .heroCopy h1 {
-    font-size: clamp(3.5rem, 6.6vw, 4.65rem);
+  .heroIntro h1 {
+    font-size: clamp(3.7rem, 7.2vw, 5.15rem);
   }
 
   .solutionsGrid {
@@ -1150,29 +1306,24 @@
 
 @media (max-width: 820px) {
   .hero {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    min-height: 620px;
     padding-block: 68px 52px;
   }
 
-  .heroCopy {
+  .heroIntro {
     max-width: 650px;
-    transform: none;
   }
 
-  .heroStage {
-    min-height: 470px;
+  .solutionRail {
+    margin-top: 40px;
   }
 
-  .agentCard {
-    right: 50%;
-    width: min(430px, 94%);
-    transform: translate(50%, -50%);
+  .solutionRail > a {
+    padding-inline: 14px;
   }
 
-  .heroHalo {
-    left: 50%;
-    width: min(430px, 88%);
+  .solutionRail > a > svg {
+    right: 14px;
   }
 
   .solutionsSection,
@@ -1239,11 +1390,13 @@
 
 @media (max-width: 560px) {
   .hero {
-    padding-block: 54px 38px;
+    min-height: auto;
+    padding-block: 54px 48px;
   }
 
-  .heroCopy h1 {
-    font-size: clamp(3.2rem, 15.5vw, 4.1rem);
+  .heroIntro h1 {
+    font-size: clamp(3.15rem, 15vw, 4rem);
+    line-height: 0.99;
   }
 
   .heroDescription {
@@ -1253,25 +1406,84 @@
   .heroActions {
     display: grid;
     grid-template-columns: 1fr;
+    width: 100%;
   }
 
-  .heroStage {
-    min-height: 435px;
+  .solutionRail {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    margin-top: 42px;
+    padding-top: 0;
+    text-align: left;
   }
 
-  .agentBody {
-    padding: 16px;
+  .railBeam {
+    top: 14px;
+    right: auto;
+    bottom: 14px;
+    left: 24px;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, transparent, rgba(111, 91, 217, 0.72) 16%, rgba(203, 180, 242, 0.78) 50%, rgba(111, 91, 217, 0.72) 84%, transparent);
   }
 
-  .insightCard {
-    grid-template-columns: 36px 1fr 16px;
-    gap: 9px;
-    padding: 12px;
+  .railBeam i {
+    display: none;
   }
 
-  .insightIcon {
-    width: 36px;
-    height: 36px;
+  .solutionRail > a {
+    min-height: 82px;
+    display: grid;
+    grid-template-columns: 50px 1fr 20px;
+    align-items: center;
+    gap: 15px;
+    padding: 11px 8px 11px 0;
+  }
+
+  .solutionRail > a + a::before {
+    top: 0;
+    right: 8px;
+    bottom: auto;
+    left: 64px;
+    width: auto;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line), transparent);
+  }
+
+  .railNumber {
+    top: 8px;
+    left: 58px;
+    font-size: 0.68rem;
+  }
+
+  .railIcon {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 48px;
+    height: 48px;
+    grid-column: 1;
+    grid-row: 1;
+    box-shadow:
+      0 0 0 6px color-mix(in srgb, var(--bg) 90%, transparent),
+      0 8px 24px rgba(71, 53, 146, 0.1);
+    transform: none;
+  }
+
+  .solutionRail > a:hover .railIcon {
+    transform: translateY(-2px);
+  }
+
+  .railCopy {
+    align-items: flex-start;
+    gap: 4px;
+    padding-top: 9px;
+  }
+
+  .solutionRail > a > svg {
+    position: static;
+    grid-column: 3;
+    grid-row: 1;
   }
 
   .sectionTitle {

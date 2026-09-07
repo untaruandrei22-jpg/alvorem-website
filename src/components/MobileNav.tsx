@@ -9,7 +9,7 @@ export type PageKey = "home" | "solutions" | "work" | "about" | "careers";
 const links: { href: string; page: PageKey; en: string; ro: string }[] = [
   { href: "/", en: "Home", ro: "Acasă", page: "home" },
   { href: "/solutions", en: "Solutions", ro: "Soluții", page: "solutions" },
-  { href: "/work", en: "Work", ro: "Work", page: "work" },
+  { href: "/work", en: "Work", ro: "Proiecte", page: "work" },
   { href: "/about", en: "About", ro: "Despre", page: "about" },
   { href: "/careers", en: "Careers", ro: "Cariere", page: "careers" },
 ];

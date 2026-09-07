@@ -21,19 +21,37 @@
 
 .oMark {
   position: relative;
+  isolation: isolate;
   width: 0.96em;
   height: 0.96em;
   flex: 0 0 auto;
   border-radius: 50%;
 }
 
+/* ALVO is intentionally an open ring. The centre is transparent so the
+   surrounding surface passes through it instead of looking like a white disc. */
 .alvo .oMark {
-  background:
-    radial-gradient(circle, #f8f7f5 0 58%, transparent 60%),
-    conic-gradient(from 214deg, #e9d5c3, #f4eee8 26%, #d8d4df 53%, #9d93ae 79%, #e9d5c3);
+  background: conic-gradient(
+    from 214deg,
+    #dec6ad 0deg,
+    #f3e8dc 72deg,
+    #d9d5df 170deg,
+    #9c91ad 282deg,
+    #dec6ad 360deg
+  );
   box-shadow:
-    0 0 0 1px rgba(75, 69, 88, 0.08),
-    0 4px 11px rgba(72, 62, 90, 0.1);
+    0 0 0 1px rgba(75, 69, 88, 0.06),
+    0 5px 14px rgba(72, 62, 90, 0.08);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 0.16em),
+    #000 calc(100% - 0.145em)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 0.16em),
+    #000 calc(100% - 0.145em)
+  );
 }
 
 .orem {
@@ -55,7 +73,14 @@
   inset: -1px;
   z-index: -1;
   border-radius: inherit;
-  background: conic-gradient(from 194deg, #ffffff 0 7%, #7564ff 12% 43%, #302a7b 50% 73%, #ffffff 78% 84%, #7564ff 90% 100%);
+  background: conic-gradient(
+    from 194deg,
+    #ffffff 0 7%,
+    #7564ff 12% 43%,
+    #302a7b 50% 73%,
+    #ffffff 78% 84%,
+    #7564ff 90% 100%
+  );
   filter: blur(0.7px);
 }
 
@@ -86,7 +111,7 @@
 .lg {
   --agent-size: clamp(2.6rem, 5vw, 4.6rem);
   --agent-gap: 0.2em;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.22em;
 }
 

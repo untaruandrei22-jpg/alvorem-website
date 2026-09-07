@@ -19,8 +19,8 @@ const copy={
     namesTitle:"Light. Purpose. Prayer. A new beginning.",
     nameCards:[
       {name:"ALVOREM",cue:"DAWN · A NEW BEGINNING",body:"The company name evokes first light: a clearer beginning and the belief that technology can make tomorrow lighter rather than heavier."},
-      {name:"ALVO",cue:"CLARITY · PURPOSE · DIRECTION",body:"Inspired by the Portuguese meanings around alvo — clear or white, and a target or aim. ALVO is the everyday interface that helps turn complexity into clarity."},
-      {name:"OREM",cue:"PRAYER · DISCERNMENT · WISDOM",body:"Orem means “pray” in Portuguese. OREM represents the deeper layer: more context, stronger reasoning and the discipline to think carefully when the answer matters."},
+      {name:"ALVO",cue:"CLARITY · PURPOSE · DIRECTION",body:"Inspired by the Portuguese meanings around alvo — clear or white, and a target or aim. The everyday interface turns complexity into clarity."},
+      {name:"OREM",cue:"PRAYER · DISCERNMENT · WISDOM",body:"Orem means “pray” in Portuguese. The deeper layer represents more context, stronger reasoning and the discipline to think carefully when the answer matters."},
     ],
     bridgeStart:"brings clarity.",bridgeEnd:"seeks wisdom.",
     faith:"WHAT DRIVES US",
@@ -30,7 +30,7 @@ const copy={
     statement:"We build technology to serve people, not to rule them.",
     studio:"HOW WE BUILD",
     studioTitle:"Close enough to understand. Careful enough to deserve trust.",
-    studioBody:"We work with the people closest to the problem, connect only the context that is useful and keep human control visible. ALVO, OREM and the full team are different levels of the same promise: make work lighter without making people smaller.",
+    studioBody:"We work with the people closest to the problem, connect only the context that is useful and keep human control visible. Everyday, deeper and full-team modes are different levels of the same promise: make work lighter without making people smaller.",
     cta:"See the solutions",
   },
   ro:{
@@ -44,8 +44,8 @@ const copy={
     namesTitle:"Lumină. Scop. Rugăciune. Un nou început.",
     nameCards:[
       {name:"ALVOREM",cue:"ZORI · UN NOU ÎNCEPUT",body:"Numele companiei evocă prima lumină: un început mai clar și credința că tehnologia poate face ziua de mâine mai ușoară, nu mai grea."},
-      {name:"ALVO",cue:"CLARITATE · SCOP · DIRECȚIE",body:"Inspirat de sensurile portugheze ale lui alvo — clar sau alb, dar și țintă ori scop. ALVO este interfața de zi cu zi care transformă complexitatea în claritate."},
-      {name:"OREM",cue:"RUGĂCIUNE · DISCERNĂMÂNT · ÎNȚELEPCIUNE",body:"Orem înseamnă „rugați-vă” în portugheză. OREM reprezintă nivelul profund: mai mult context, raționament mai puternic și disciplina de a gândi atent când răspunsul contează."},
+      {name:"ALVO",cue:"CLARITATE · SCOP · DIRECȚIE",body:"Inspirat de sensurile portugheze ale lui alvo — clar sau alb, dar și țintă ori scop. Interfața de zi cu zi transformă complexitatea în claritate."},
+      {name:"OREM",cue:"RUGĂCIUNE · DISCERNĂMÂNT · ÎNȚELEPCIUNE",body:"Orem înseamnă „rugați-vă” în portugheză. Nivelul profund reprezintă mai mult context, raționament mai puternic și disciplina de a gândi atent când răspunsul contează."},
     ],
     bridgeStart:"aduce claritate.",bridgeEnd:"caută înțelepciune.",
     faith:"CE NE CONDUCE",
@@ -55,7 +55,7 @@ const copy={
     statement:"Construim tehnologie care să servească oamenii, nu să îi conducă.",
     studio:"CUM CONSTRUIM",
     studioTitle:"Suficient de aproape ca să înțelegem. Suficient de atenți ca să merităm încrederea.",
-    studioBody:"Lucrăm cu oamenii cei mai apropiați de problemă, conectăm doar contextul care este util și păstrăm controlul uman vizibil. ALVO, OREM și echipa completă sunt niveluri diferite ale aceleiași promisiuni: muncă mai ușoară fără oameni mai mici.",
+    studioBody:"Lucrăm cu oamenii cei mai apropiați de problemă, conectăm doar contextul care este util și păstrăm controlul uman vizibil. Modurile de zi cu zi, profund și full-team sunt niveluri diferite ale aceleiași promisiuni: muncă mai ușoară fără oameni mai mici.",
     cta:"Vezi soluțiile",
   }
 } as const;

@@ -2,8 +2,7 @@ import Image from "next/image";
 import { AgentsSplit } from "@/components/AgentsSplit";
 import { HomeAgentDemo } from "@/components/HomeAgentDemo";
 import { Logo } from "@/components/Logo";
-import { MobileNav } from "@/components/MobileNav";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { SiteHeader } from "@/components/SiteHeader";
 
 function ArrowIcon() {
   return (
@@ -123,28 +122,7 @@ export default function Home() {
   return (
     <main id="top">
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <header className="site-header" role="banner">
-        <div className="site-shell header-inner">
-          <a className="logo-link" href="#top" aria-label="ALVOREM home">
-            <Logo />
-          </a>
-
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <a href="/solutions">Solutions</a>
-            <a href="/work">Work</a>
-            <a href="/about">About</a>
-            <a href="/careers">Careers</a>
-          </nav>
-
-          <div className="header-actions">
-            <MobileNav />
-            <ThemeToggle />
-            <a className="button button--small button--primary header-cta" href="#contact">
-              Start a project
-            </a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader activePage="home" />
 
       <section className="hero site-shell" id="main-content" aria-labelledby="hero-title">
         <div className="hero-copy">

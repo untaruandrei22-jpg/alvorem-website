@@ -1,17 +1,9 @@
-import Image from "next/image";
 import { AgentTeamFlow } from "@/components/AgentTeamFlow";
 import { AgentsSplit } from "@/components/AgentsSplit";
+import { HomeClosing } from "@/components/HomeClosing";
 import { HomepageHero } from "@/components/HomepageHero";
 import { Logo } from "@/components/Logo";
 import { SiteHeader } from "@/components/SiteHeader";
-
-function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 20 20" aria-hidden="true">
-      <path d="M4 10h11m-4-4 4 4-4 4" />
-    </svg>
-  );
-}
 
 function PersonIcon() {
   return (
@@ -41,82 +33,10 @@ function PeopleIcon() {
   );
 }
 
-function MessageIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 5.5h16v11H9l-5 4v-15Z" />
-    </svg>
-  );
-}
-
-function ChartIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 20v-7M12 20V8M19 20V4" />
-    </svg>
-  );
-}
-
-function CogIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="3.3" />
-      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4m10.6 10.6 1.4 1.4m0-13.4-1.4 1.4M6.7 17.3l-1.4 1.4" />
-    </svg>
-  );
-}
-
-function BookIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 4.5h5.5A2.5 2.5 0 0 1 12 7v13a3.5 3.5 0 0 0-3.5-3.5H4v-12Zm16 0h-5.5A2.5 2.5 0 0 0 12 7v13a3.5 3.5 0 0 1 3.5-3.5H20v-12Z" />
-    </svg>
-  );
-}
-
 const values = [
   { label: "Understands your business", icon: <PersonIcon /> },
   { label: "Available anytime", icon: <ClockIcon /> },
   { label: "Built around your people", icon: <PeopleIcon /> },
-];
-
-const capabilities = [
-  {
-    title: "Ask",
-    description: "Get clear, accurate answers about your business.",
-    icon: <MessageIcon />,
-  },
-  {
-    title: "Report",
-    description: "Turn your data into useful insight, automatically.",
-    icon: <ChartIcon />,
-  },
-  {
-    title: "Automate",
-    description: "Hand over repetitive work, so you don’t have to.",
-    icon: <CogIcon />,
-  },
-];
-
-const steps = [
-  {
-    number: "01",
-    title: "We learn your business.",
-    description: "We understand your context, people and goals.",
-    icon: <BookIcon />,
-  },
-  {
-    number: "02",
-    title: "We build your agent.",
-    description: "We tailor it to your workflow and make it yours.",
-    icon: <CogIcon />,
-  },
-  {
-    number: "03",
-    title: "You work more simply.",
-    description: "Your agent answers, reports and automates.",
-    icon: <PersonIcon />,
-  },
 ];
 
 export default function Home() {
@@ -140,73 +60,7 @@ export default function Home() {
 
       <AgentsSplit />
       <AgentTeamFlow />
-
-      <section className="capabilities site-shell" id="solutions" aria-labelledby="capabilities-title">
-        <div className="capability-copy" id="work">
-          <p className="eyebrow">A LIGHTER WAY TO WORK</p>
-          <h2 id="capabilities-title">One agent. Less to carry.</h2>
-
-          <div className="capability-list">
-            {capabilities.map((capability) => (
-              <article className="capability-row" key={capability.title}>
-                <span className="round-icon">{capability.icon}</span>
-                <div>
-                  <h3>{capability.title}</h3>
-                  <p>{capability.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <figure className="human-photo">
-          <Image
-            src="/alvorem-human-workspace.webp"
-            alt="Two colleagues calmly reviewing their business together on a laptop"
-            fill
-            sizes="(max-width: 820px) 100vw, 50vw"
-          />
-        </figure>
-      </section>
-
-      <section className="brand-statement" id="about" aria-labelledby="statement-title">
-        <div className="site-shell">
-          <h2 id="statement-title">Technology should give you time back.</h2>
-          <p>More clarity. Fewer repetitive tasks. More room for life.</p>
-        </div>
-      </section>
-
-      <section className="process site-shell" id="insights" aria-labelledby="process-title">
-        <p className="eyebrow">A SIMPLE WAY FORWARD</p>
-        <h2 className="sr-only" id="process-title">How ALVOREM works</h2>
-        <div className="step-grid">
-          {steps.map((step, index) => (
-            <div className="step-wrap" key={step.number}>
-              <article className="step-card">
-                <span className="step-number">{step.number}</span>
-                <span className="round-icon">{step.icon}</span>
-                <div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </div>
-              </article>
-              {index < steps.length - 1 && <span className="step-arrow" aria-hidden="true">→</span>}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="final-cta" id="contact" aria-labelledby="cta-title">
-        <div className="cta-horizon" aria-hidden="true">
-          <span />
-        </div>
-        <div className="site-shell final-cta__content">
-          <h2 id="cta-title">Make business feel <em>lighter.</em></h2>
-          <a className="button button--primary" href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation">
-            Start a conversation <ArrowIcon />
-          </a>
-        </div>
-      </section>
+      <HomeClosing />
 
       <footer className="site-footer" role="contentinfo">
         <div className="site-shell footer-inner">

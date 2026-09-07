@@ -3,7 +3,7 @@
 }
 
 :global(html[data-theme="dark"]) .section {
-  background: linear-gradient(180deg, #11101f 0%, #0d0d18 100%);
+  background: linear-gradient(180deg, #0c0d18 0%, #0a0b14 100%);
 }
 
 .trust {
@@ -11,7 +11,7 @@
   grid-template-columns: minmax(0, 0.92fr) minmax(400px, 1.08fr);
   gap: clamp(34px, 5vw, 64px);
   align-items: center;
-  padding-block: clamp(58px, 6vw, 82px);
+  padding-block: clamp(54px, 5.5vw, 72px);
 }
 
 .copy {
@@ -83,7 +83,7 @@
   min-height: 410px;
   overflow: hidden;
   border: 1px solid var(--line-strong);
-  border-radius: 24px;
+  border-radius: 16px;
   background: var(--surface-soft);
   box-shadow: var(--soft-shadow);
 }
@@ -115,16 +115,16 @@
   overflow: hidden;
   border-top: 1px solid rgba(145, 130, 255, 0.18);
   background:
-    radial-gradient(ellipse 42% 50% at 50% 110%, rgba(129, 101, 255, 0.36), transparent 68%),
-    linear-gradient(180deg, #11101e 0%, #090a12 100%);
+    radial-gradient(ellipse 44% 52% at 50% 112%, rgba(129, 101, 255, 0.38), transparent 68%),
+    linear-gradient(180deg, #0e0f1b 0%, #080912 100%);
   color: #f8f7ff;
 }
 
 .glow {
   position: absolute;
   left: 50%;
-  bottom: -170px;
-  width: min(940px, 86vw);
+  bottom: -178px;
+  width: min(980px, 88vw);
   height: 250px;
   transform: translateX(-50%);
   border-radius: 50% 50% 0 0;
@@ -141,7 +141,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-block: clamp(58px, 6vw, 82px) clamp(64px, 6vw, 86px);
+  padding-block: clamp(54px, 5.5vw, 74px) clamp(60px, 5.5vw, 78px);
   text-align: center;
 }
 
@@ -156,7 +156,7 @@
   justify-content: center;
   gap: 0.12em;
   margin-top: 12px;
-  font-size: clamp(3.05rem, 5.5vw, 5.55rem);
+  font-size: clamp(3.05rem, 5vw, 4.9rem);
   line-height: 0.95;
 }
 
@@ -233,7 +233,7 @@
 
   .image {
     min-height: 320px;
-    border-radius: 20px;
+    border-radius: 15px;
   }
 
   .ctaInner h2 {

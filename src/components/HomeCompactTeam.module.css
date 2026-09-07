@@ -1,5 +1,5 @@
 .section {
-  padding: clamp(58px, 6vw, 78px) 0;
+  padding: clamp(54px, 5.5vw, 72px) 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background:
@@ -9,8 +9,8 @@
 
 :global(html[data-theme="dark"]) .section {
   background:
-    radial-gradient(circle at 82% 10%, rgba(111, 91, 217, 0.14), transparent 30%),
-    linear-gradient(180deg, rgba(18, 17, 32, 0.94), rgba(13, 13, 24, 0.98));
+    radial-gradient(circle at 82% 8%, rgba(111, 91, 217, 0.13), transparent 32%),
+    linear-gradient(180deg, rgba(13, 14, 26, 0.98), rgba(10, 11, 21, 0.99));
 }
 
 .intro {
@@ -38,19 +38,34 @@
 }
 
 .grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   margin-top: clamp(30px, 4vw, 42px);
 }
 
+.grid::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: 4%;
+  left: 4%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(111, 91, 217, 0.44), transparent);
+  box-shadow: 0 0 12px rgba(111, 91, 217, 0.15);
+}
+
 .card {
-  min-height: 290px;
+  position: relative;
+  z-index: 1;
+  min-height: 276px;
   display: flex;
   flex-direction: column;
   padding: 25px;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: 15px;
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow: 0 18px 50px rgba(31, 24, 60, 0.06);
 }
@@ -66,7 +81,7 @@
   border-color: rgba(142, 124, 255, 0.22);
   background:
     radial-gradient(circle at 88% 10%, rgba(111, 91, 217, 0.2), transparent 30%),
-    linear-gradient(160deg, #131322, #090a13);
+    linear-gradient(160deg, #141425, #090a14);
 }
 
 .team {
@@ -109,7 +124,7 @@
 }
 
 .card h3 {
-  margin-top: 36px;
+  margin-top: 31px;
   font-family: "Lora", Georgia, serif;
   font-size: clamp(1.75rem, 2.45vw, 2.4rem);
   font-weight: 400;
@@ -156,7 +171,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 22px;
+  margin-top: 20px;
   padding: 0 17px;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
@@ -183,6 +198,15 @@
 }
 
 @media (max-width: 900px) {
+  .grid::before {
+    top: 4%;
+    bottom: 4%;
+    left: 50%;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, transparent, rgba(111, 91, 217, 0.4), transparent);
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }
@@ -198,7 +222,8 @@
   }
 
   .card {
-    padding: 23px;
+    min-height: 250px;
+    padding: 22px;
   }
 
   .card h3 {

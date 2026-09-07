@@ -1,11 +1,11 @@
 .hero {
   position: relative;
-  min-height: 760px;
+  min-height: 724px;
   display: grid;
   grid-template-columns: minmax(0, 0.86fr) minmax(530px, 1.14fr);
   align-items: center;
-  gap: clamp(36px, 5vw, 72px);
-  padding-block: 66px 84px;
+  gap: clamp(32px, 4.5vw, 64px);
+  padding-block: 60px 70px;
   isolation: isolate;
   overflow: hidden;
 }
@@ -25,9 +25,9 @@
 
 :global(html[data-theme="dark"]) .hero::before {
   background:
-    radial-gradient(ellipse 46% 66% at 80% 29%, rgba(86, 63, 229, 0.23), transparent 70%),
-    radial-gradient(ellipse 27% 32% at 61% 71%, rgba(255, 205, 162, 0.07), transparent 73%),
-    linear-gradient(180deg, rgba(10, 12, 28, 0.06), rgba(7, 8, 20, 0.18));
+    radial-gradient(ellipse 48% 68% at 81% 29%, rgba(86, 63, 229, 0.27), transparent 70%),
+    radial-gradient(ellipse 28% 30% at 59% 72%, rgba(255, 205, 162, 0.055), transparent 73%),
+    linear-gradient(180deg, rgba(10, 12, 28, 0.03), rgba(7, 8, 20, 0.24));
 }
 
 .ambient {
@@ -61,7 +61,7 @@
     -12px 2px 42px rgba(255, 224, 183, 0.1),
     16px 5px 52px rgba(117, 94, 255, 0.27),
     0 0 120px rgba(65, 49, 178, 0.23);
-  opacity: 0.78;
+  opacity: 0.44;
 }
 
 .horizon {
@@ -99,6 +99,10 @@
 .copy h1 span,
 .copy h1 em {
   display: block;
+}
+
+:global(html[data-theme="dark"]) .copy h1 em {
+  color: #bba8ef;
 }
 
 .copy h1 em {
@@ -170,7 +174,7 @@
 
 .stage {
   position: relative;
-  min-height: 610px;
+  min-height: 584px;
   isolation: isolate;
 }
 
@@ -190,13 +194,13 @@
 .oremPanel {
   position: absolute;
   z-index: 1;
-  top: 48px;
+  top: 36px;
   right: 0;
-  width: min(360px, 63%);
-  min-height: 350px;
+  width: min(374px, 65%);
+  min-height: 360px;
   padding: 31px 30px;
   border: 1px solid rgba(153, 139, 255, 0.3);
-  border-radius: 22px;
+  border-radius: 18px;
   background:
     radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.15), transparent 28%),
     linear-gradient(150deg, rgba(16, 17, 35, 0.97), rgba(7, 9, 23, 0.99));
@@ -271,12 +275,12 @@
 .alvoPanel {
   position: absolute;
   z-index: 4;
-  top: 142px;
+  top: 128px;
   left: 0;
-  width: min(500px, 79%);
+  width: min(510px, 81%);
   padding: 15px 15px 17px;
   border: 1px solid color-mix(in srgb, var(--line-strong) 86%, transparent);
-  border-radius: 24px;
+  border-radius: 19px;
   background: color-mix(in srgb, var(--surface) 91%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.62),
@@ -286,13 +290,13 @@
 }
 
 :global(html[data-theme="dark"]) .alvoPanel {
-  background: linear-gradient(145deg, rgba(31, 34, 55, 0.94), rgba(18, 20, 38, 0.96));
+  background: linear-gradient(145deg, rgba(27, 29, 49, 0.96), rgba(15, 17, 32, 0.98));
   border-color: rgba(220, 214, 245, 0.17);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     0 30px 82px rgba(0, 0, 0, 0.34),
     -12px 8px 38px rgba(245, 214, 186, 0.05),
-    12px 8px 48px rgba(111, 91, 217, 0.11);
+    12px 8px 54px rgba(111, 91, 217, 0.14);
 }
 
 .alvoTopline {
@@ -391,7 +395,7 @@
   .hero {
     grid-template-columns: 1fr;
     gap: 18px;
-    padding-block: 58px 68px;
+    padding-block: 52px 62px;
   }
 
   .copy {
@@ -426,7 +430,7 @@
   .hero {
     width: min(100% - 30px, 640px);
     min-height: auto;
-    padding-top: 42px;
+    padding-top: 38px;
     overflow: visible;
   }
 

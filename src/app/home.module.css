@@ -1,0 +1,31 @@
+.page {
+  --surface: #fffdf9;
+  --surface-soft: #f1ede6;
+  --text: #181625;
+  --muted: #696675;
+  --muted-soft: #817c89;
+  --line: rgba(35, 30, 49, 0.12);
+  --line-strong: rgba(35, 30, 49, 0.2);
+  --header: rgba(248, 246, 241, 0.92);
+  --logo-hole: #f8f6f1;
+  min-height: 100vh;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse 54% 22% at 82% 5%, rgba(171, 145, 226, 0.2), transparent 72%),
+    #f8f6f1;
+}
+
+:global(html[data-theme="dark"]) .page {
+  --surface: #11121f;
+  --surface-soft: #151625;
+  --text: #f7f5fc;
+  --muted: #b8b4c5;
+  --muted-soft: #8e899f;
+  --line: rgba(230, 216, 251, 0.12);
+  --line-strong: rgba(230, 216, 251, 0.22);
+  --header: rgba(10, 11, 22, 0.9);
+  --logo-hole: #0b0c16;
+  background:
+    radial-gradient(ellipse 58% 23% at 79% 5%, rgba(92, 67, 201, 0.22), transparent 72%),
+    #0b0c16;
+}

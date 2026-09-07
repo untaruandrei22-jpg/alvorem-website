@@ -1,0 +1,112 @@
+.wordmark {
+  --agent-size: 1rem;
+  --agent-gap: 0.18em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--agent-gap);
+  width: max-content;
+  color: currentColor;
+  font-size: var(--agent-size);
+  font-weight: 400;
+  letter-spacing: 0.19em;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: -0.04em;
+}
+
+.letters {
+  display: inline-block;
+  line-height: 1;
+}
+
+.oMark {
+  position: relative;
+  width: 0.96em;
+  height: 0.96em;
+  flex: 0 0 auto;
+  border-radius: 50%;
+}
+
+.alvo .oMark {
+  background:
+    radial-gradient(circle, #f8f7f5 0 58%, transparent 60%),
+    conic-gradient(from 214deg, #e9d5c3, #f4eee8 26%, #d8d4df 53%, #9d93ae 79%, #e9d5c3);
+  box-shadow:
+    0 0 0 1px rgba(75, 69, 88, 0.08),
+    0 4px 11px rgba(72, 62, 90, 0.1);
+}
+
+.orem {
+  color: #b9afff;
+}
+
+.orem .oMark {
+  background: #090a15;
+  border: 1px solid rgba(202, 194, 255, 0.7);
+  box-shadow:
+    0 0 5px rgba(224, 219, 255, 0.95),
+    0 0 12px rgba(126, 101, 255, 0.9),
+    0 0 26px rgba(91, 67, 255, 0.5);
+}
+
+.orem .oMark::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(from 194deg, #ffffff 0 7%, #7564ff 12% 43%, #302a7b 50% 73%, #ffffff 78% 84%, #7564ff 90% 100%);
+  filter: blur(0.7px);
+}
+
+.orem .oMark::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: #090a15;
+}
+
+.xs {
+  --agent-size: 0.72rem;
+  --agent-gap: 0.14em;
+  letter-spacing: 0.13em;
+}
+
+.sm {
+  --agent-size: 0.9rem;
+  --agent-gap: 0.15em;
+  letter-spacing: 0.15em;
+}
+
+.md {
+  --agent-size: 1.18rem;
+}
+
+.lg {
+  --agent-size: clamp(2.6rem, 5vw, 4.6rem);
+  --agent-gap: 0.2em;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .orem .oMark {
+    animation: orem-breathe 4.8s ease-in-out infinite;
+  }
+}
+
+@keyframes orem-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 5px rgba(224, 219, 255, 0.9),
+      0 0 12px rgba(126, 101, 255, 0.78),
+      0 0 24px rgba(91, 67, 255, 0.42);
+  }
+  50% {
+    box-shadow:
+      0 0 7px rgba(236, 232, 255, 1),
+      0 0 16px rgba(126, 101, 255, 0.94),
+      0 0 31px rgba(91, 67, 255, 0.57);
+  }
+}

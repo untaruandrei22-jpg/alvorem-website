@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AgentWordmark } from "@/components/AgentWordmark";
 import styles from "./AgentsSplit.module.css";
 
 function ArrowIcon() {
@@ -88,16 +89,16 @@ function TargetIcon() {
 }
 
 const alvoItems = [
-  { label: "Fast and intuitive", icon: <BoltIcon /> },
-  { label: "Simple, clear answers", icon: <ChatIcon /> },
+  { label: "Everyday business chat", icon: <ChatIcon /> },
+  { label: "Fast, clear answers", icon: <BoltIcon /> },
   { label: "KPI summaries and reports", icon: <ChartIcon /> },
-  { label: "Perfect for daily work", icon: <PeopleIcon /> },
+  { label: "Built for daily team use", icon: <PeopleIcon /> },
 ];
 
 const oremItems = [
-  { label: "Advanced reasoning", icon: <BrainIcon /> },
+  { label: "Deeper reasoning", icon: <BrainIcon /> },
   { label: "Multi-source analysis", icon: <LayersIcon /> },
-  { label: "Scenario modelling", icon: <NetworkIcon /> },
+  { label: "Advanced automation", icon: <NetworkIcon /> },
   { label: "Strategic recommendations", icon: <TargetIcon /> },
 ];
 
@@ -105,18 +106,18 @@ export function AgentsSplit() {
   return (
     <section className={styles.section} aria-labelledby="agents-title">
       <div className={styles.sectionIntro}>
-        <p className="eyebrow">MEET ALVO &amp; OREM</p>
-        <h2 id="agents-title">Two private AI agents. One business. Two ways to think.</h2>
+        <p className="eyebrow">MEET YOUR AI TEAM</p>
+        <h2 id="agents-title">One business. Shared context. Different depth.</h2>
       </div>
 
       <div className={styles.split}>
         <article className={`${styles.panel} ${styles.alvoPanel}`} id="alvo">
           <div className={styles.panelInner}>
             <div className={`${styles.orb} ${styles.alvoOrb}`} aria-hidden="true" />
-            <p className={styles.wordmark}>ALVO</p>
+            <AgentWordmark agent="alvo" size="lg" />
             <h3>Clarity for every day.</h3>
             <p className={styles.description}>
-              ALVO turns complexity into clear answers. Fast, simple and focused on what matters in your business.
+              Your everyday private business chat. Fast, calm and grounded in what is really happening inside your company.
             </p>
 
             <div className={styles.featureList}>
@@ -129,26 +130,26 @@ export function AgentsSplit() {
             </div>
 
             <a className={`${styles.cta} ${styles.alvoCta}`} href="#agent-demo">
-              Meet ALVO <ArrowIcon />
+              Talk to <AgentWordmark agent="alvo" size="xs" /> <ArrowIcon />
             </a>
           </div>
         </article>
 
         <div className={styles.bridge} aria-hidden="true">
-          <span>SAME</span>
+          <span>ONE</span>
           <span>BUSINESS</span>
           <i />
-          <span>DIFFERENT</span>
-          <span>DEPTH</span>
+          <span>SHARED</span>
+          <span>CONTEXT</span>
         </div>
 
         <article className={`${styles.panel} ${styles.oremPanel}`} id="orem">
           <div className={styles.panelInner}>
             <div className={`${styles.orb} ${styles.oremOrb}`} aria-hidden="true" />
-            <p className={styles.wordmark}>OREM</p>
+            <AgentWordmark agent="orem" size="lg" />
             <h3>Think deeper when it matters.</h3>
             <p className={styles.description}>
-              OREM brings the smartest possible reasoning to your most important questions. Deeper analysis, broader context, better decisions.
+              The upgraded ALVOREM layer for deeper reasoning and automation. It steps in when the work needs more than an everyday answer.
             </p>
 
             <div className={styles.featureList}>
@@ -161,13 +162,13 @@ export function AgentsSplit() {
             </div>
 
             <Link className={`${styles.cta} ${styles.oremCta}`} href="/about#orem-story">
-              Meet OREM <ArrowIcon />
+              Unlock <AgentWordmark agent="orem" size="xs" /> <ArrowIcon />
             </Link>
           </div>
         </article>
       </div>
 
-      <p className={styles.sharedLine}>Same trusted business context. Different depth.</p>
+      <p className={styles.sharedLine}>They share the same trusted business context. They work as one team.</p>
     </section>
   );
 }

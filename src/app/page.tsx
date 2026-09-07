@@ -129,8 +129,7 @@ export default function Home() {
             <a href="/solutions">Solutions</a>
             <a href="/work">Work</a>
             <a href="/about">About</a>
-            <a href="#insights">Insights</a>
-            <a href="mailto:hello@alvorem.ro?subject=Careers%20at%20ALVOREM">Careers</a>
+            <a href="/careers">Careers</a>
           </nav>
 
           <div className="header-actions">

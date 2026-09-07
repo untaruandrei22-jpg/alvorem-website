@@ -1,11 +1,10 @@
 import { AlvoremLogoHorizontal, SearchIcon } from "@/components/BrandAssets";
 
 const navItems = [
-  { label: "Solutions", href: "#solutions", hasChevron: true },
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Insights", href: "#insights" },
-  { label: "Careers", href: "#founder" },
+  { label: "Solutions", href: "/solutions" },
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+  { label: "Careers", href: "/careers" },
 ];
 
 export function Header() {
@@ -19,7 +18,6 @@ export function Header() {
         {navItems.map((item) => (
           <a key={item.label} href={item.href}>
             {item.label}
-            {item.hasChevron ? <span className="nav-chevron" aria-hidden="true">⌄</span> : null}
           </a>
         ))}
       </nav>

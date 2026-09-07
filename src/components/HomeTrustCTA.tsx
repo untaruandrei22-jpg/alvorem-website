@@ -52,7 +52,7 @@ const copy = {
     ctaStart: "Start with",
     ctaBody: "Your business doesn’t need more complexity.",
     ctaButton: "Start a conversation",
-    ctaNote: "OREM is there when you need to go deeper.",
+    ctaNote: "is there when you need to go deeper.",
   },
   ro: {
     trustEyebrow: "PRIVAT PRIN DESIGN · UMAN PRIN PRINCIPIU",
@@ -64,7 +64,7 @@ const copy = {
     ctaStart: "Începe cu",
     ctaBody: "Afacerea ta nu are nevoie de mai multă complexitate.",
     ctaButton: "Începe o conversație",
-    ctaNote: "OREM este acolo când ai nevoie de mai multă profunzime.",
+    ctaNote: "este acolo când ai nevoie de mai multă profunzime.",
   },
 } as const;
 
@@ -112,12 +112,15 @@ export function HomeTrustCTA() {
             </span>
           </h2>
           <p>{t.ctaBody}</p>
-          <a className="button button--primary" href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation">
+          <a
+            className="button button--primary"
+            href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.ctaButton)}`}
+          >
             {t.ctaButton} <ArrowIcon />
           </a>
           <div className={styles.note}>
             <AgentWordmark agent="orem" size="xs" />
-            <span>{t.ctaNote.replace("OREM ", "")}</span>
+            <span>{t.ctaNote}</span>
           </div>
         </div>
       </div>

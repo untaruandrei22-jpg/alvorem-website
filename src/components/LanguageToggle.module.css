@@ -1,0 +1,49 @@
+.toggle {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+}
+
+.toggle button {
+  padding: 3px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--muted-soft);
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  transition: color 160ms ease, opacity 160ms ease;
+}
+
+.toggle button:hover,
+.toggle button:focus-visible {
+  color: var(--text);
+}
+
+.toggle .active {
+  color: var(--text);
+}
+
+.toggle > span {
+  width: 1px;
+  height: 13px;
+  background: var(--line-strong);
+}
+
+@media (max-width: 560px) {
+  .toggle {
+    min-height: 32px;
+    gap: 5px;
+    padding-inline: 6px;
+  }
+
+  .toggle button {
+    font-size: 0.62rem;
+  }
+}

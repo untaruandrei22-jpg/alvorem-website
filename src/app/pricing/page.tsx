@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HomeFooter } from "@/components/HomeLocaleSections";
+import { LocalizedSkipLink } from "@/components/LocalizedSkipLink";
 import { PricingContent } from "@/components/PricingContent";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default function PricingPage() {
   return (
     <main id="top">
-      <a className="skip-link" href="#main-content">Skip to content</a>
+      <LocalizedSkipLink />
       <SiteHeader activePage="pricing" />
       <PricingContent />
       <HomeFooter />

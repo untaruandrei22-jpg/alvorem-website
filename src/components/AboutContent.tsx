@@ -20,7 +20,7 @@ const copy={
     nameCards:[
       {name:"ALVOREM",cue:"DAWN · A NEW BEGINNING",body:"The company name evokes first light: a clearer beginning and the belief that technology can make tomorrow lighter rather than heavier."},
       {name:"ALVO",cue:"CLARITY · PURPOSE · DIRECTION",body:"Inspired by the Portuguese meanings around alvo — clear or white, and a target or aim. The everyday interface turns complexity into clarity."},
-      {name:"OREM",cue:"PRAYER · DISCERNMENT · WISDOM",body:"Orem means “pray” in Portuguese. The deeper layer represents more context, stronger reasoning and the discipline to think carefully when the answer matters."},
+      {name:"OREM",cue:"PRAYER · DISCERNMENT · WISDOM",body:"Orem is a Portuguese form meaning “pray” in a plural or formal sense. The deeper layer represents more context, stronger reasoning and the discipline to think carefully when the answer matters."},
     ],
     bridgeStart:"brings clarity.",bridgeEnd:"seeks wisdom.",
     faith:"WHAT DRIVES US",
@@ -32,6 +32,7 @@ const copy={
     studioTitle:"Close enough to understand. Careful enough to deserve trust.",
     studioBody:"We work with the people closest to the problem, connect only the context that is useful and keep human control visible. Everyday, deeper and full-team modes are different levels of the same promise: make work lighter without making people smaller.",
     cta:"See the solutions",
+    contact:"Start a conversation",
   },
   ro:{
     eyebrow:"DESPRE ALVOREM",
@@ -45,7 +46,7 @@ const copy={
     nameCards:[
       {name:"ALVOREM",cue:"ZORI · UN NOU ÎNCEPUT",body:"Numele companiei evocă prima lumină: un început mai clar și credința că tehnologia poate face ziua de mâine mai ușoară, nu mai grea."},
       {name:"ALVO",cue:"CLARITATE · SCOP · DIRECȚIE",body:"Inspirat de sensurile portugheze ale lui alvo — clar sau alb, dar și țintă ori scop. Interfața de zi cu zi transformă complexitatea în claritate."},
-      {name:"OREM",cue:"RUGĂCIUNE · DISCERNĂMÂNT · ÎNȚELEPCIUNE",body:"Orem înseamnă „rugați-vă” în portugheză. Nivelul profund reprezintă mai mult context, raționament mai puternic și disciplina de a gândi atent când răspunsul contează."},
+      {name:"OREM",cue:"RUGĂCIUNE · DISCERNĂMÂNT · ÎNȚELEPCIUNE",body:"Orem este o formă portugheză cu sensul de „rugați-vă”. Nivelul profund reprezintă mai mult context, raționament mai puternic și disciplina de a gândi atent când răspunsul contează."},
     ],
     bridgeStart:"aduce claritate.",bridgeEnd:"caută înțelepciune.",
     faith:"CE NE CONDUCE",
@@ -57,6 +58,7 @@ const copy={
     studioTitle:"Suficient de aproape ca să înțelegem. Suficient de atenți ca să merităm încrederea.",
     studioBody:"Lucrăm cu oamenii cei mai apropiați de problemă, conectăm doar contextul care este util și păstrăm controlul uman vizibil. Modurile de zi cu zi, profund și full-team sunt niveluri diferite ale aceleiași promisiuni: muncă mai ușoară fără oameni mai mici.",
     cta:"Vezi soluțiile",
+    contact:"Începe o conversație",
   }
 } as const;
 
@@ -69,6 +71,6 @@ export function AboutContent(){
   <section className={styles.why}><div className="site-shell"><p className="eyebrow">{t.why}</p><h2>{t.whyTitle}</h2><p>{t.whyBody}</p></div></section>
   <section className={["site-shell",styles.names].join(" ")} id="names"><p className="eyebrow">{t.names}</p><h2>{t.namesTitle}</h2><div className={styles.nameGrid}>{t.nameCards.map((card,index)=><article key={card.name} className={index===2?styles.oremCard:undefined}>{index===1?<AgentWordmark agent="alvo" size="lg"/>:index===2?<AgentWordmark agent="orem" size="lg"/>:<strong className={styles.alvorem}>ALVOREM</strong>}<small>{card.cue}</small><p>{card.body}</p></article>)}</div><div className={styles.bridge}><AgentWordmark agent="alvo" size="md"/><span>{t.bridgeStart}</span><i/><AgentWordmark agent="orem" size="md"/><span>{t.bridgeEnd}</span></div></section>
   <section className={styles.faith}><div className="site-shell"><div className={styles.faithGrid}><div><p className="eyebrow">{t.faith}</p><h2>{t.faithTitle}</h2><p>{t.faithBody}</p></div><div className={styles.principles}>{t.principles.map((p,i)=><div key={p}><span>{String(i+1).padStart(2,"0")}</span><p>{p}</p></div>)}</div></div><blockquote>{t.statement}</blockquote></div></section>
-  <section className={["site-shell",styles.studio].join(" ")}><p className="eyebrow">{t.studio}</p><h2>{t.studioTitle}</h2><p>{t.studioBody}</p><a className="button button--primary" href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation">{locale==="ro"?"Începe o conversație":"Start a conversation"}<ArrowIcon/></a></section>
+  <section className={["site-shell",styles.studio].join(" ")}><p className="eyebrow">{t.studio}</p><h2>{t.studioTitle}</h2><p>{t.studioBody}</p><a className="button button--primary" href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.contact)}`}>{t.contact}<ArrowIcon/></a></section>
  </>;
 }

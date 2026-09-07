@@ -1,5 +1,6 @@
 "use client";
 
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./SolutionsIntro.module.css";
@@ -38,7 +39,7 @@ export function SolutionsIntro() {
       <div className={styles.copy}>
         <p className="eyebrow">{t.eyebrow}</p>
         <h1 id="solutions-title">{t.title}</h1>
-        <p>{t.body}</p>
+        <p><AgentInlineText text={t.body} /></p>
         <a className="button button--primary" href="#team-modes">
           {locale === "ro" ? "Vezi modurile de lucru" : "See the ways to work"}
         </a>

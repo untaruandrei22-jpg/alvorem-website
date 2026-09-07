@@ -3,8 +3,6 @@
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./CareersContent.module.css";
 
-const applicationHref="mailto:hello@alvorem.ro?subject=My%20weird%20CV%20%E2%80%94%20ALVOREM";
-
 function ArrowIcon(){return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>}
 
 const copy={
@@ -32,6 +30,7 @@ const copy={
   finalTitle:"Different minds build a brighter tomorrow.",
   finalBody:"If there is something you think ALVOREM should build, improve or question, that is already a better start than a conventional cover letter.",
   email:"Open your email",
+  subject:"My weird CV — ALVOREM",
  },
  ro:{
   eyebrow:"CARIERE, ÎNTR-UN FEL.",
@@ -57,11 +56,13 @@ const copy={
   finalTitle:"Minți diferite construiesc un mâine mai luminos.",
   finalBody:"Dacă există ceva ce crezi că ALVOREM ar trebui să construiască, să îmbunătățească sau să pună sub semnul întrebării, este deja un început mai bun decât o scrisoare de intenție convențională.",
   email:"Deschide email-ul",
+  subject:"CV-ul meu ciudat — ALVOREM",
  }
 } as const;
 
 export function CareersContent(){
  const {locale}=useLocale(); const t=copy[locale];
+ const applicationHref=`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.subject)}`;
  return <>
   <section className={["site-shell",styles.hero].join(" ")} id="main-content">
    <div className={styles.heroCopy}><p className="eyebrow">{t.eyebrow}</p><h1>{t.title}</h1><p>{t.intro}</p><a className="button button--primary" href={applicationHref}>{t.cta}<ArrowIcon/></a><small>{t.note}</small></div>

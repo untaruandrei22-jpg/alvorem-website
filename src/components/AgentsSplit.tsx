@@ -162,14 +162,17 @@ export function AgentsSplit() {
               ))}
             </div>
 
-            <a className={`${styles.cta} ${styles.alvoCta}`} href="#agent-demo">
+            <Link className={`${styles.cta} ${styles.alvoCta}`} href="/#agent-demo">
               {ro ? "Vorbește cu" : "Talk to"} <AgentWordmark agent="alvo" size="xs" /> <ArrowIcon />
-            </a>
+            </Link>
           </article>
 
           <div className={styles.handoff} aria-label={ro ? "ALVO poate apela la OREM" : "ALVO can bring in OREM"}>
             <div className={styles.handoffLine} aria-hidden="true"><span /><i /><b /></div>
-            <p>{ro ? "ALVO știe când are nevoie de mai multă profunzime." : "ALVO knows when more depth is needed."}</p>
+            <p>
+              <AgentWordmark agent="alvo" size="xs" className={styles.inlineAgent} />
+              {ro ? " știe când are nevoie de mai multă profunzime." : " knows when more depth is needed."}
+            </p>
             <strong>{ro ? "apelează" : "brings in"}</strong>
           </div>
 
@@ -198,7 +201,7 @@ export function AgentsSplit() {
               ))}
             </div>
 
-            <Link className={`${styles.cta} ${styles.oremCta}`} href="/about#orem-story">
+            <Link className={`${styles.cta} ${styles.oremCta}`} href="/pricing">
               {ro ? "Descoperă" : "Explore"} <AgentWordmark agent="orem" size="xs" /> <ArrowIcon />
             </Link>
           </article>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { HomeFooter } from "@/components/HomeLocaleSections";
+import { LocalizedSkipLink } from "@/components/LocalizedSkipLink";
 import { SiteHeader } from "@/components/SiteHeader";
 import { WorkContent } from "@/components/WorkContent";
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <main id="top">
-      <a className="skip-link" href="#main-content">Skip to content</a>
+      <LocalizedSkipLink />
       <SiteHeader activePage="work" />
       <WorkContent />
       <HomeFooter />

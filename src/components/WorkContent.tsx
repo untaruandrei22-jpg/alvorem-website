@@ -61,6 +61,7 @@ const copy = {
     proofBody: "The goal is not to put AI everywhere. It is to put the right amount of intelligence exactly where work becomes unnecessarily heavy.",
     cta: "See how the team works",
     contact: "Bring us a process worth simplifying",
+    subject: "Business process worth simplifying",
   },
   ro: {
     eyebrow: "PROIECTE SELECTATE",
@@ -104,6 +105,7 @@ const copy = {
     proofBody: "Scopul nu este să punem AI peste tot. Scopul este să punem nivelul potrivit de inteligență exact acolo unde munca devine inutil de grea.",
     cta: "Vezi cum lucrează echipa",
     contact: "Adu-ne un proces care merită simplificat",
+    subject: "Proces de business care merită simplificat",
   },
 } as const;
 
@@ -148,7 +150,12 @@ export function WorkContent() {
           <p className="eyebrow">{t.proofEyebrow}</p>
           <h2>{t.proofTitle}</h2>
           <p>{t.proofBody}</p>
-          <a className="button button--primary" href="mailto:hello@alvorem.ro?subject=Business%20process%20worth%20simplifying">{t.contact} <ArrowIcon /></a>
+          <a
+            className="button button--primary"
+            href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.subject)}`}
+          >
+            {t.contact} <ArrowIcon />
+          </a>
         </div>
       </section>
     </>

@@ -20,11 +20,16 @@ const nav = [
 export function SiteHeader({ activePage }: { activePage?: PageKey }) {
   const { locale } = useLocale();
   const cta = locale === "ro" ? "Începe o conversație" : "Start a conversation";
+  const ctaSubject = locale === "ro" ? "Începe o conversație" : "Start a conversation";
 
   return (
     <header className="site-header" role="banner">
       <div className="site-shell header-inner">
-        <Link className="logo-link" href="/" aria-label="ALVOREM home">
+        <Link
+          className="logo-link"
+          href="/"
+          aria-label={locale === "ro" ? "Pagina principală ALVOREM" : "ALVOREM home"}
+        >
           <Logo />
         </Link>
 
@@ -47,7 +52,7 @@ export function SiteHeader({ activePage }: { activePage?: PageKey }) {
           <ThemeToggle />
           <a
             className="button button--small button--primary header-cta"
-            href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation"
+            href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(ctaSubject)}`}
           >
             {cta}
           </a>

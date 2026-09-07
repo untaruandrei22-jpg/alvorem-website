@@ -1,5 +1,6 @@
 "use client";
 
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./SolutionsCapabilities.module.css";
@@ -88,9 +89,14 @@ export function SolutionsCapabilities() {
         <div className={styles.note}>
           <div>
             <h3>{t.noteTitle}</h3>
-            <p>{t.noteBody}</p>
+            <p><AgentInlineText text={t.noteBody} /></p>
           </div>
-          <a className="button button--primary" href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation">{t.cta}</a>
+          <a
+            className="button button--primary"
+            href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.cta)}`}
+          >
+            {t.cta}
+          </a>
         </div>
       </div>
     </section>

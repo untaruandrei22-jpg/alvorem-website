@@ -1,5 +1,6 @@
 "use client";
 
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./AgentTeamFlow.module.css";
@@ -154,7 +155,7 @@ export function AgentTeamFlow() {
               <div className={styles.cardLabel}>{t.decisionLabel}</div>
               <div className={styles.decisionHalo} aria-hidden="true"><span /></div>
               <AgentWordmark agent="alvo" size="md" />
-              <h3>{t.decisionTitle}</h3>
+              <h3><AgentInlineText text={t.decisionTitle} /></h3>
 
               <div className={styles.routes}>
                 <div className={styles.route}>
@@ -169,7 +170,7 @@ export function AgentTeamFlow() {
                   <span className={styles.routeDot} aria-hidden="true"><SparkIcon /></span>
                   <div>
                     <strong>{t.deeper}</strong>
-                    <small>{t.deeperDetail}</small>
+                    <small><AgentInlineText text={t.deeperDetail} /></small>
                   </div>
                   <span className={styles.subscription}>{t.subscription}</span>
                 </div>
@@ -203,7 +204,7 @@ export function AgentTeamFlow() {
             </div>
             <div className={styles.deepCopy}>
               <strong>{t.deepTitle}</strong>
-              <p>{t.deepBody}</p>
+              <p><AgentInlineText text={t.deepBody} /></p>
             </div>
             <div className={styles.deepFeatures}>
               {t.deepFeatures.map((item) => <span key={item}>{item}</span>)}

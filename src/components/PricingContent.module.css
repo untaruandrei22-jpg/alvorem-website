@@ -125,18 +125,18 @@
   margin-top: 28px;
 }
 
-.features span {
+.features > span {
   color: var(--muted);
   font-size: 0.78rem;
 }
 
-.features span::before {
+.features > span::before {
   content: "✓";
   margin-right: 9px;
   color: var(--violet);
 }
 
-.orem .features span {
+.orem .features > span {
   color: #b2adbf;
 }
 

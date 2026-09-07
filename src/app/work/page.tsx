@@ -264,7 +264,7 @@ export default function WorkPage() {
           <nav className="desktop-nav" aria-label="Main navigation">
             <Link href="/solutions">Solutions</Link>
             <Link className={styles.activeNav} href="/work" aria-current="page">Work</Link>
-            <Link href="/#about">About</Link>
+            <Link href="/about">About</Link>
             <Link href="/#insights">Insights</Link>
             <a href="mailto:hello@alvorem.ro?subject=Careers%20at%20ALVOREM">Careers</a>
           </nav>
@@ -362,7 +362,7 @@ export default function WorkPage() {
           </div>
           <nav aria-label="Footer navigation">
             <a href="mailto:hello@alvorem.ro">Contact</a>
-            <Link href="/#about">About</Link>
+            <Link href="/about">About</Link>
             <a href="#top">Back to top</a>
           </nav>
           <p className="copyright">© 2026 ALVOREM. All rights reserved.</p>

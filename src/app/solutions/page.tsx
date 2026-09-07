@@ -245,7 +245,7 @@ export default function SolutionsPage() {
           <nav className="desktop-nav" aria-label="Main navigation">
             <Link className={styles.activeNav} href="/solutions" aria-current="page">Solutions</Link>
             <Link href="/work">Work</Link>
-            <Link href="/#about">About</Link>
+            <Link href="/about">About</Link>
             <Link href="/#insights">Insights</Link>
             <a href="mailto:hello@alvorem.ro?subject=Careers%20at%20ALVOREM">Careers</a>
           </nav>
@@ -445,7 +445,7 @@ export default function SolutionsPage() {
           </div>
           <nav aria-label="Footer navigation">
             <a href="mailto:hello@alvorem.ro">Contact</a>
-            <Link href="/#about">About</Link>
+            <Link href="/about">About</Link>
             <a href="#top">Back to top</a>
           </nav>
           <p className="copyright">© 2026 ALVOREM. All rights reserved.</p>

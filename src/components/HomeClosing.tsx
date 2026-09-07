@@ -241,7 +241,7 @@ export function HomeClosing() {
           <h2>
             <span>{t.ctaTitleStart}</span>
             <span className={styles.ctaAgentPhrase}>
-              <AgentWordmark agent="alvo" size="lg" />
+              <AgentWordmark agent="alvo" size="lg" className={styles.ctaAgent} />
               <i aria-hidden="true">.</i>
             </span>
           </h2>

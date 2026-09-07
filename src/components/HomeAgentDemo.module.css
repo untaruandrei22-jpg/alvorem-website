@@ -19,6 +19,43 @@
   text-transform: uppercase;
 }
 
+.demoBadge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9d85ff;
+  box-shadow: 0 0 8px rgba(157, 133, 255, 0.85);
+}
+
+.alvoIntro {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(230, 216, 251, 0.11);
+}
+
+.alvoIntro > div {
+  min-width: 0;
+}
+
+.alvoIntro strong {
+  display: block;
+  color: #f8f9fe;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.alvoIntro p {
+  margin-top: 3px;
+  color: #a9a2b9;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
 .agentLineup {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -77,18 +114,9 @@
   opacity: 0.82;
 }
 
-.demoBadge::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #9d85ff;
-  box-shadow: 0 0 8px rgba(157, 133, 255, 0.85);
-}
-
 .industryLabel {
   display: block;
-  margin-top: 14px;
+  margin-top: 13px;
   color: #aaa3bc;
   font-size: 0.75rem;
   font-weight: 600;
@@ -126,17 +154,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .promptButton {
-  min-height: 38px;
-  padding: 8px 10px;
+  min-height: 34px;
+  padding: 7px 10px;
   border: 1px solid rgba(230, 216, 251, 0.14);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.035);
   color: #bfb8ce;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   line-height: 1.25;
   transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
 }
@@ -233,7 +261,7 @@
 }
 
 .form {
-  min-height: 54px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -255,7 +283,7 @@
   background: transparent;
   color: #f8f9fe;
   font: inherit;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   line-height: 1.45;
 }
 
@@ -264,9 +292,9 @@
 }
 
 .sendButton {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
   display: grid;
   place-items: center;
   padding: 0;
@@ -293,9 +321,9 @@
 
 .status {
   display: block;
-  margin-top: 8px;
+  margin-top: 7px;
   color: #89829a;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   line-height: 1.4;
 }
 
@@ -313,7 +341,12 @@
 
   .demoBadge {
     padding-inline: 6px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .alvoIntro {
+    grid-template-columns: 1fr;
+    gap: 9px;
   }
 
   .agentProfile {
@@ -336,9 +369,9 @@
 
   .promptButton {
     width: 100%;
-    min-height: 40px;
+    min-height: 36px;
     padding: 7px 9px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-align: left;
   }
 }

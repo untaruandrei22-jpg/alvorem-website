@@ -1,11 +1,11 @@
 .hero {
   position: relative;
-  min-height: 720px;
+  min-height: 760px;
   display: grid;
-  grid-template-columns: minmax(0, 0.84fr) minmax(540px, 1.16fr);
+  grid-template-columns: minmax(0, 0.86fr) minmax(530px, 1.14fr);
   align-items: center;
-  gap: clamp(34px, 5vw, 76px);
-  padding-block: 70px 74px;
+  gap: clamp(36px, 5vw, 72px);
+  padding-block: 66px 84px;
   isolation: isolate;
   overflow: hidden;
 }
@@ -18,16 +18,16 @@
   width: 100vw;
   transform: translateX(50%);
   background:
-    radial-gradient(ellipse 44% 64% at 79% 30%, rgba(101, 78, 228, 0.15), transparent 72%),
-    radial-gradient(ellipse 28% 34% at 61% 71%, rgba(243, 195, 154, 0.13), transparent 74%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 62%);
+    radial-gradient(ellipse 42% 60% at 80% 30%, rgba(101, 78, 228, 0.13), transparent 72%),
+    radial-gradient(ellipse 27% 32% at 61% 71%, rgba(243, 195, 154, 0.11), transparent 74%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 62%);
 }
 
 :global(html[data-theme="dark"]) .hero::before {
   background:
-    radial-gradient(ellipse 48% 72% at 79% 29%, rgba(86, 63, 229, 0.28), transparent 70%),
-    radial-gradient(ellipse 28% 34% at 61% 71%, rgba(255, 205, 162, 0.09), transparent 73%),
-    linear-gradient(180deg, rgba(10, 12, 28, 0.08), rgba(7, 8, 20, 0.22));
+    radial-gradient(ellipse 46% 66% at 80% 29%, rgba(86, 63, 229, 0.23), transparent 70%),
+    radial-gradient(ellipse 27% 32% at 61% 71%, rgba(255, 205, 162, 0.07), transparent 73%),
+    linear-gradient(180deg, rgba(10, 12, 28, 0.06), rgba(7, 8, 20, 0.18));
 }
 
 .ambient {
@@ -39,42 +39,42 @@
 
 .planet {
   position: absolute;
-  top: -40px;
-  right: 4%;
-  width: clamp(390px, 43vw, 690px);
+  top: -56px;
+  right: 7%;
+  width: clamp(360px, 39vw, 610px);
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 38% 34%, rgba(255, 255, 255, 0.85), rgba(219, 221, 240, 0.22) 20%, rgba(101, 86, 191, 0.12) 51%, rgba(18, 18, 42, 0.08) 66%, transparent 68%);
+    radial-gradient(circle at 38% 34%, rgba(255, 255, 255, 0.82), rgba(219, 221, 240, 0.2) 20%, rgba(101, 86, 191, 0.11) 51%, rgba(18, 18, 42, 0.07) 66%, transparent 68%);
   box-shadow:
-    0 0 55px rgba(126, 103, 255, 0.13),
-    0 0 110px rgba(111, 91, 217, 0.09);
-  opacity: 0.55;
+    0 0 48px rgba(126, 103, 255, 0.11),
+    0 0 96px rgba(111, 91, 217, 0.08);
+  opacity: 0.48;
 }
 
 :global(html[data-theme="dark"]) .planet {
   background:
-    radial-gradient(circle at 42% 40%, rgba(52, 58, 98, 0.9), rgba(18, 21, 45, 0.95) 36%, rgba(7, 9, 24, 0.99) 67%),
+    radial-gradient(circle at 42% 40%, rgba(52, 58, 98, 0.82), rgba(18, 21, 45, 0.92) 36%, rgba(7, 9, 24, 0.98) 67%),
     #080a17;
-  border: 1px solid rgba(164, 150, 255, 0.18);
+  border: 1px solid rgba(164, 150, 255, 0.14);
   box-shadow:
-    -16px 2px 52px rgba(255, 224, 183, 0.15),
-    18px 5px 62px rgba(117, 94, 255, 0.34),
-    0 0 145px rgba(65, 49, 178, 0.3);
-  opacity: 0.95;
+    -12px 2px 42px rgba(255, 224, 183, 0.1),
+    16px 5px 52px rgba(117, 94, 255, 0.27),
+    0 0 120px rgba(65, 49, 178, 0.23);
+  opacity: 0.78;
 }
 
 .horizon {
   position: absolute;
   right: -8%;
-  bottom: 54px;
-  width: 70%;
+  bottom: 62px;
+  width: 68%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(233, 203, 177, 0.45), rgba(111, 91, 217, 0.7), transparent);
+  background: linear-gradient(90deg, transparent, rgba(233, 203, 177, 0.42), rgba(111, 91, 217, 0.64), transparent);
   box-shadow:
-    0 0 14px rgba(255, 221, 187, 0.34),
-    0 0 34px rgba(111, 91, 217, 0.34);
-  transform: rotate(-1.5deg);
+    0 0 12px rgba(255, 221, 187, 0.28),
+    0 0 28px rgba(111, 91, 217, 0.28);
+  transform: rotate(-1.2deg);
 }
 
 .copy {
@@ -90,10 +90,10 @@
 .copy h1 {
   max-width: 660px;
   color: var(--text);
-  font-size: clamp(4.35rem, 6.05vw, 5.9rem);
+  font-size: clamp(4.2rem, 5.8vw, 5.65rem);
   font-weight: 500;
-  letter-spacing: -0.074em;
-  line-height: 0.93;
+  letter-spacing: -0.072em;
+  line-height: 0.94;
 }
 
 .copy h1 span,
@@ -107,22 +107,29 @@
   font-family: "Lora", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  letter-spacing: -0.062em;
+  letter-spacing: -0.06em;
 }
 
 .description {
-  max-width: 610px;
-  margin-top: 28px;
+  max-width: 600px;
+  margin-top: 27px;
   color: var(--muted);
-  font-size: clamp(1rem, 1.2vw, 1.1rem);
-  line-height: 1.72;
+  font-size: clamp(0.98rem, 1.15vw, 1.07rem);
+  line-height: 1.7;
+}
+
+.inlineAgent {
+  --agent-gap: 0.08em;
+  margin-inline: 0.12em;
+  letter-spacing: 0.09em;
+  vertical-align: -0.02em;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 13px;
-  margin-top: 31px;
+  margin-top: 30px;
 }
 
 .actions :global(.button--primary) {
@@ -130,27 +137,29 @@
 }
 
 .buttonAgent {
+  --agent-gap: 0.07em;
   color: inherit !important;
+  letter-spacing: 0.08em;
 }
 
 .proofList {
   display: grid;
-  gap: 11px;
-  margin-top: 32px;
+  gap: 10px;
+  margin-top: 29px;
 }
 
 .proofList span {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   line-height: 1.35;
 }
 
 .proofList svg {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
   fill: none;
   stroke: var(--text);
@@ -161,7 +170,7 @@
 
 .stage {
   position: relative;
-  min-height: 570px;
+  min-height: 610px;
   isolation: isolate;
 }
 
@@ -170,96 +179,87 @@
   position: absolute;
   z-index: -4;
   top: 15%;
-  right: -4%;
-  width: 95%;
-  height: 74%;
+  right: -2%;
+  width: 92%;
+  height: 72%;
   border-radius: 48%;
-  background: radial-gradient(circle at 55% 52%, rgba(111, 91, 217, 0.22), transparent 63%);
+  background: radial-gradient(circle at 55% 52%, rgba(111, 91, 217, 0.18), transparent 63%);
   filter: blur(28px);
 }
 
 .oremPanel {
   position: absolute;
   z-index: 1;
-  top: 54px;
+  top: 48px;
   right: 0;
-  width: min(370px, 64%);
-  min-height: 382px;
-  padding: 34px 32px;
-  border: 1px solid rgba(153, 139, 255, 0.34);
+  width: min(360px, 63%);
+  min-height: 350px;
+  padding: 31px 30px;
+  border: 1px solid rgba(153, 139, 255, 0.3);
   border-radius: 22px;
   background:
-    radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.18), transparent 28%),
+    radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.15), transparent 28%),
     linear-gradient(150deg, rgba(16, 17, 35, 0.97), rgba(7, 9, 23, 0.99));
   color: #f7f6ff;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 28px 80px rgba(15, 12, 48, 0.28),
-    0 0 48px rgba(92, 70, 231, 0.16);
-  transform: rotate(-2.1deg);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 26px 72px rgba(15, 12, 48, 0.24),
+    0 0 42px rgba(92, 70, 231, 0.13);
+  transform: rotate(-1.2deg);
   transform-origin: 80% 100%;
 }
 
 :global(html[data-theme="light"]) .oremPanel {
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 34px 84px rgba(42, 32, 89, 0.22),
-    0 0 58px rgba(92, 70, 231, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 76px rgba(42, 32, 89, 0.19),
+    0 0 50px rgba(92, 70, 231, 0.15);
 }
 
 .oremTopline {
   display: flex;
   align-items: center;
-  gap: 13px;
+  min-height: 30px;
 }
 
-.eclipse {
-  position: relative;
-  width: 37px;
-  height: 37px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: #070817;
-  border: 1px solid rgba(211, 205, 255, 0.82);
-  box-shadow:
-    0 0 7px rgba(240, 236, 255, 0.95),
-    0 0 18px rgba(125, 101, 255, 0.94),
-    0 0 36px rgba(82, 61, 224, 0.58);
+.oremIdentity {
+  --agent-gap: 0.1em;
+  letter-spacing: 0.11em;
 }
 
 .upgradeLabel {
-  margin-top: 28px;
+  margin-top: 25px;
   color: #9188e8;
-  font-size: 0.57rem;
+  font-size: 0.56rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
 }
 
 .oremPanel h2 {
   margin-top: 8px;
   color: #f4f1ff;
-  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  font-size: clamp(1.4rem, 1.9vw, 1.8rem);
   font-weight: 500;
   letter-spacing: -0.04em;
 }
 
 .oremList {
   display: grid;
-  gap: 15px;
-  margin-top: 26px;
+  gap: 14px;
+  margin-top: 24px;
 }
 
 .oremList span {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   color: #b8b3ca;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .oremList svg {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   flex: 0 0 auto;
   fill: none;
   stroke: #9184ff;
@@ -271,17 +271,17 @@
 .alvoPanel {
   position: absolute;
   z-index: 4;
-  top: 165px;
+  top: 142px;
   left: 0;
-  width: min(500px, 78%);
-  padding: 16px 16px 18px;
+  width: min(500px, 79%);
+  padding: 15px 15px 17px;
   border: 1px solid color-mix(in srgb, var(--line-strong) 86%, transparent);
   border-radius: 24px;
   background: color-mix(in srgb, var(--surface) 91%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.62),
-    0 34px 86px rgba(43, 36, 76, 0.2),
-    0 0 48px rgba(111, 91, 217, 0.08);
+    0 30px 76px rgba(43, 36, 76, 0.18),
+    0 0 42px rgba(111, 91, 217, 0.07);
   backdrop-filter: blur(20px);
 }
 
@@ -290,13 +290,13 @@
   border-color: rgba(220, 214, 245, 0.17);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 34px 92px rgba(0, 0, 0, 0.36),
-    -14px 8px 44px rgba(245, 214, 186, 0.06),
-    14px 8px 56px rgba(111, 91, 217, 0.13);
+    0 30px 82px rgba(0, 0, 0, 0.34),
+    -12px 8px 38px rgba(245, 214, 186, 0.05),
+    12px 8px 48px rgba(111, 91, 217, 0.11);
 }
 
 .alvoTopline {
-  min-height: 38px;
+  min-height: 36px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -306,17 +306,17 @@
 
 .alvoTopline > span {
   color: var(--muted-soft);
-  font-size: 0.54rem;
+  font-size: 0.53rem;
   font-weight: 700;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.12em;
   text-align: right;
 }
 
 .alvoPanel > small {
   display: block;
-  margin: 2px 7px 10px;
+  margin: 1px 7px 9px;
   color: var(--muted);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
 }
 
 .alvoPanel :global(.agent-card) {
@@ -329,60 +329,69 @@
   border-radius: 16px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 20px 46px rgba(8, 6, 23, 0.24);
+    0 18px 40px rgba(8, 6, 23, 0.22);
+}
+
+.alvoPanel :global(.agent-card__header) {
+  min-height: 56px;
+  padding-inline: 18px;
+}
+
+.alvoPanel :global(.agent-card__body) {
+  padding: 18px;
 }
 
 .relationNote {
   position: absolute;
   z-index: 6;
-  right: 24px;
-  bottom: 6px;
+  right: 20px;
+  bottom: 18px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  max-width: 320px;
+  gap: 11px;
+  max-width: 300px;
 }
 
 .relationLine {
-  width: 60px;
+  width: 52px;
   height: 1px;
   flex: 0 0 auto;
-  background: linear-gradient(90deg, rgba(213, 182, 154, 0.8), rgba(116, 95, 228, 0.8));
-  box-shadow: 0 0 12px rgba(111, 91, 217, 0.35);
+  background: linear-gradient(90deg, rgba(213, 182, 154, 0.72), rgba(116, 95, 228, 0.72));
+  box-shadow: 0 0 10px rgba(111, 91, 217, 0.28);
 }
 
 .relationNote p {
   color: var(--muted);
   font-family: "Lora", Georgia, serif;
-  font-size: 0.77rem;
+  font-size: 0.73rem;
   font-style: italic;
   line-height: 1.45;
 }
 
 @media (max-width: 1120px) {
   .hero {
-    grid-template-columns: minmax(0, 0.82fr) minmax(480px, 1.18fr);
+    grid-template-columns: minmax(0, 0.84fr) minmax(475px, 1.16fr);
     gap: 28px;
   }
 
   .copy h1 {
-    font-size: clamp(4rem, 6.4vw, 5.2rem);
+    font-size: clamp(3.9rem, 6.2vw, 5.1rem);
   }
 
   .oremPanel {
-    width: min(345px, 65%);
+    width: min(340px, 65%);
   }
 
   .alvoPanel {
-    width: min(470px, 80%);
+    width: min(465px, 81%);
   }
 }
 
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
-    gap: 20px;
-    padding-block: 62px 62px;
+    gap: 18px;
+    padding-block: 58px 68px;
   }
 
   .copy {
@@ -390,18 +399,18 @@
   }
 
   .copy h1 {
-    font-size: clamp(4rem, 10vw, 5.6rem);
+    font-size: clamp(3.9rem, 9.5vw, 5.4rem);
   }
 
   .stage {
     width: min(720px, 100%);
-    min-height: 620px;
+    min-height: 600px;
     margin-inline: auto;
   }
 
   .planet {
     top: 2%;
-    right: -18%;
+    right: -16%;
   }
 
   .oremPanel {
@@ -422,12 +431,12 @@
   }
 
   .copy h1 {
-    font-size: clamp(3.35rem, 15vw, 4.55rem);
+    font-size: clamp(3.2rem, 14vw, 4.4rem);
   }
 
   .description {
-    margin-top: 23px;
-    line-height: 1.64;
+    margin-top: 22px;
+    line-height: 1.62;
   }
 
   .actions {
@@ -439,31 +448,31 @@
   }
 
   .proofList {
-    margin-top: 25px;
+    margin-top: 24px;
   }
 
   .stage {
-    min-height: 790px;
-    margin-top: 4px;
+    min-height: 730px;
+    margin-top: 2px;
   }
 
   .planet {
     top: 10px;
-    right: -48%;
-    width: 430px;
+    right: -44%;
+    width: 400px;
   }
 
   .oremPanel {
-    top: 28px;
+    top: 26px;
     right: 0;
     width: 88%;
-    min-height: 335px;
-    padding: 27px 24px;
-    transform: rotate(-1.3deg);
+    min-height: 315px;
+    padding: 25px 22px;
+    transform: rotate(-0.8deg);
   }
 
   .alvoPanel {
-    top: 272px;
+    top: 246px;
     left: 0;
     width: 100%;
     padding: 12px;

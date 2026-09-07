@@ -128,7 +128,7 @@ export default function Home() {
           <nav className="desktop-nav" aria-label="Main navigation">
             <a href="/solutions">Solutions</a>
             <a href="/work">Work</a>
-            <a href="#about">About</a>
+            <a href="/about">About</a>
             <a href="#insights">Insights</a>
             <a href="mailto:hello@alvorem.ro?subject=Careers%20at%20ALVOREM">Careers</a>
           </nav>
@@ -287,7 +287,7 @@ export default function Home() {
           </div>
           <nav aria-label="Footer navigation">
             <a href="mailto:hello@alvorem.ro">Contact</a>
-            <a href="#about">About</a>
+            <a href="/about">About</a>
             <a href="#top">Back to top</a>
           </nav>
           <p className="copyright">© 2026 ALVOREM. All rights reserved.</p>

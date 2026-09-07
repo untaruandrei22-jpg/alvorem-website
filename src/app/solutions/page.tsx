@@ -349,10 +349,10 @@ export default function SolutionsPage() {
                   <path d="M0 0 8 4 0 8Z" />
                 </marker>
               </defs>
-              <path d="M250 48 C340 48 335 150 430 150" />
-              <path d="M250 150 H430" />
-              <path d="M250 252 C340 252 335 150 430 150" />
-              <path d="M570 150 H750" markerEnd="url(#flow-arrow)" />
+              <path d="M250 48 C340 48 350 150 452 150" />
+              <path d="M250 150 H452" />
+              <path d="M250 252 C340 252 350 150 452 150" />
+              <path d="M548 150 H750" markerEnd="url(#flow-arrow)" />
             </svg>
 
             <div className={styles.contextInputs}>
@@ -368,7 +368,9 @@ export default function SolutionsPage() {
             </div>
 
             <div className={styles.contextCore}>
-              <Logo compact />
+              <div className={styles.coreBrand}>
+                <Logo compact />
+              </div>
               <span className={styles.contextHalo} aria-hidden="true" />
               <p>Understands. Connects.<br />Gets to work.</p>
             </div>

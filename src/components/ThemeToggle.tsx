@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 type Theme = "light" | "dark";
 
 function getActiveTheme(): Theme {
@@ -9,16 +7,9 @@ function getActiveTheme(): Theme {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
-    setTheme(getActiveTheme());
-  }, []);
-
   function toggleTheme() {
     const nextTheme: Theme = getActiveTheme() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = nextTheme;
-    setTheme(nextTheme);
 
     try {
       window.localStorage.setItem("alvorem-theme", nextTheme);
@@ -32,8 +23,7 @@ export function ThemeToggle() {
       className="theme-toggle"
       type="button"
       onClick={toggleTheme}
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-      aria-pressed={theme === "dark"}
+      aria-label="Toggle color theme"
     >
       <svg className="theme-icon theme-icon--sun" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="3.25" />

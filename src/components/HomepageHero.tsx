@@ -66,8 +66,9 @@ const copy = {
     eyebrow: "PRIVATE AI FOR A CLEARER TOMORROW",
     titleLead: "Your business,",
     titleEm: "simpler.",
-    description:
-      "One private AI team for your business. ALVO handles everyday work. OREM adds deeper reasoning and automation when more is needed.",
+    descriptionStart: "One private AI team for your business. ",
+    alvoDescription: " handles everyday work. ",
+    oremDescription: " adds deeper reasoning and automation when more is needed.",
     primary: "Start with",
     secondary: "See how the team works",
     proof: ["Private by design", "Built for real business", "From daily clarity to deeper strategy"],
@@ -82,8 +83,9 @@ const copy = {
     eyebrow: "AI PRIVAT PENTRU UN MÂINE MAI CLAR",
     titleLead: "Afacerea ta,",
     titleEm: "mai simplă.",
-    description:
-      "O singură echipă AI privată pentru afacerea ta. ALVO se ocupă de munca de zi cu zi. OREM adaugă analiză profundă și automatizare când este nevoie de mai mult.",
+    descriptionStart: "O singură echipă AI privată pentru afacerea ta. ",
+    alvoDescription: " se ocupă de munca de zi cu zi. ",
+    oremDescription: " adaugă analiză profundă și automatizare când este nevoie de mai mult.",
     primary: "Începe cu",
     secondary: "Vezi cum lucrează echipa",
     proof: ["Privat prin design", "Construit pentru business real", "De la claritate zilnică la strategie profundă"],
@@ -118,7 +120,13 @@ export function HomepageHero() {
           <em>{t.titleEm}</em>
         </h1>
 
-        <p className={styles.description}>{t.description}</p>
+        <p className={styles.description}>
+          {t.descriptionStart}
+          <AgentWordmark agent="alvo" size="sm" />
+          {t.alvoDescription}
+          <AgentWordmark agent="orem" size="sm" />
+          {t.oremDescription}
+        </p>
 
         <div className={styles.actions}>
           <a className="button button--primary" href="#agent-demo">

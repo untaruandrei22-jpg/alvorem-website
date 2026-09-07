@@ -1,7 +1,6 @@
-import { AgentTeamFlow } from "@/components/AgentTeamFlow";
-import { AgentsSplit } from "@/components/AgentsSplit";
-import { HomeClosing } from "@/components/HomeClosing";
-import { HomeFooter, HomeValueStrip } from "@/components/HomeLocaleSections";
+import { HomeCompactTeam } from "@/components/HomeCompactTeam";
+import { HomeFooter } from "@/components/HomeLocaleSections";
+import { HomeTrustCTA } from "@/components/HomeTrustCTA";
 import { HomepageHero } from "@/components/HomepageHero";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -12,10 +11,8 @@ export default function Home() {
       <SiteHeader activePage="home" />
 
       <HomepageHero />
-      <HomeValueStrip />
-      <AgentsSplit />
-      <AgentTeamFlow />
-      <HomeClosing />
+      <HomeCompactTeam />
+      <HomeTrustCTA />
       <HomeFooter />
     </main>
   );

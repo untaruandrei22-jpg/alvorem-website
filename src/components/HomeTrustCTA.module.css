@@ -1,0 +1,244 @@
+.section {
+  background: var(--surface);
+}
+
+:global(html[data-theme="dark"]) .section {
+  background: linear-gradient(180deg, #11101f 0%, #0d0d18 100%);
+}
+
+.trust {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
+  gap: clamp(36px, 6vw, 80px);
+  align-items: center;
+  padding-block: clamp(80px, 9vw, 118px);
+}
+
+.copy {
+  max-width: 560px;
+}
+
+.copy :global(.eyebrow) {
+  margin-bottom: 14px;
+}
+
+.copy h2,
+.ctaInner h2 {
+  font-family: "Lora", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+}
+
+.copy h2 {
+  font-size: clamp(2.8rem, 4.6vw, 4.6rem);
+  line-height: 1;
+}
+
+.copy > p:not(:global(.eyebrow)) {
+  margin-top: 21px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.list {
+  margin-top: 31px;
+  border-top: 1px solid var(--line);
+}
+
+.list > div {
+  min-height: 62px;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.list span {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  color: var(--violet);
+}
+
+.list svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.list p {
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.image {
+  position: relative;
+  min-height: 500px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 26px;
+  background: var(--surface-soft);
+  box-shadow: var(--soft-shadow);
+}
+
+.image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 58%, rgba(10, 10, 20, 0.66));
+}
+
+.image img {
+  object-fit: cover;
+}
+
+.image figcaption {
+  position: absolute;
+  z-index: 2;
+  right: 24px;
+  bottom: 22px;
+  left: 24px;
+  color: #fff;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.cta {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(145, 130, 255, 0.18);
+  background:
+    radial-gradient(ellipse 42% 50% at 50% 110%, rgba(129, 101, 255, 0.36), transparent 68%),
+    linear-gradient(180deg, #11101e 0%, #090a12 100%);
+  color: #f8f7ff;
+}
+
+.glow {
+  position: absolute;
+  left: 50%;
+  bottom: -170px;
+  width: min(940px, 86vw);
+  height: 250px;
+  transform: translateX(-50%);
+  border-radius: 50% 50% 0 0;
+  border-top: 1px solid rgba(220, 212, 255, 0.74);
+  box-shadow:
+    0 -2px 16px rgba(235, 230, 255, 0.7),
+    0 -18px 54px rgba(111, 91, 217, 0.35),
+    0 -55px 110px rgba(65, 47, 180, 0.18);
+}
+
+.ctaInner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: clamp(82px, 9vw, 122px) clamp(80px, 8vw, 108px);
+  text-align: center;
+}
+
+.ctaInner :global(.eyebrow) {
+  color: #9e96c4;
+}
+
+.ctaInner h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.16em;
+  margin-top: 15px;
+  font-size: clamp(3.3rem, 6vw, 6rem);
+  line-height: 0.95;
+}
+
+.alvoPhrase {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.02em;
+}
+
+.alvoPhrase :global([role="img"]) {
+  font-size: 0.7em;
+  letter-spacing: 0.13em;
+}
+
+.alvoPhrase i {
+  font-style: normal;
+}
+
+.ctaInner > p:not(:global(.eyebrow)) {
+  margin-top: 17px;
+  color: #bbb6cc;
+  font-size: clamp(1rem, 1.5vw, 1.14rem);
+}
+
+.ctaInner :global(.button--primary) {
+  margin-top: 28px;
+  min-width: 210px;
+  background: #f4f1ff;
+  color: #171520;
+}
+
+.ctaInner :global(.button) svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 22px;
+  color: #8f8aa3;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 900px) {
+  .trust {
+    grid-template-columns: 1fr;
+  }
+
+  .copy {
+    max-width: 680px;
+  }
+
+  .image {
+    min-height: 430px;
+  }
+}
+
+@media (max-width: 620px) {
+  .trust {
+    width: min(100% - 32px, 620px);
+  }
+
+  .copy h2 {
+    font-size: clamp(2.6rem, 12vw, 4rem);
+  }
+
+  .image {
+    min-height: 340px;
+    border-radius: 20px;
+  }
+
+  .ctaInner h2 {
+    gap: 0.1em;
+    font-size: clamp(3rem, 15vw, 4.7rem);
+  }
+}

@@ -1,0 +1,310 @@
+.hero {
+  padding-block: clamp(82px, 9vw, 126px) clamp(48px, 5vw, 70px);
+}
+
+.hero :global(.eyebrow) {
+  margin-bottom: 16px;
+}
+
+.hero h1,
+.custom h2,
+.value h2,
+.faq > h2 {
+  font-family: "Lora", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+}
+
+.hero h1 {
+  max-width: 980px;
+  font-size: clamp(3.4rem, 6vw, 6.1rem);
+  line-height: 0.95;
+}
+
+.hero > p:last-child {
+  max-width: 780px;
+  margin-top: 23px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding-bottom: clamp(72px, 8vw, 110px);
+}
+
+.plan {
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--surface) 93%, transparent);
+  box-shadow: 0 20px 58px rgba(32, 25, 62, 0.07);
+}
+
+.alvo {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(228, 202, 177, 0.13), transparent 28%),
+    color-mix(in srgb, var(--surface) 94%, transparent);
+}
+
+.orem {
+  color: #f8f7ff;
+  border-color: rgba(129, 108, 255, 0.28);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.21), transparent 30%),
+    linear-gradient(160deg, #141423, #090a13);
+}
+
+.team {
+  border-color: color-mix(in srgb, var(--violet) 30%, var(--line));
+  background:
+    radial-gradient(circle at 16% 88%, rgba(226, 196, 168, 0.1), transparent 27%),
+    radial-gradient(circle at 86% 10%, rgba(111, 91, 217, 0.13), transparent 30%),
+    color-mix(in srgb, var(--surface) 94%, transparent);
+}
+
+.planTop {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.planTop > span:first-child {
+  color: var(--muted-soft);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.orem .planTop > span:first-child {
+  color: #998ee6;
+}
+
+.teamMarks {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.teamMarks i {
+  color: var(--muted-soft);
+  font-style: normal;
+}
+
+.plan h2 {
+  margin-top: 56px;
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+.plan > p {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.66;
+}
+
+.orem > p {
+  color: #b7b2c6;
+}
+
+.features {
+  display: grid;
+  gap: 11px;
+  margin-top: 28px;
+}
+
+.features span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.features span::before {
+  content: "✓";
+  margin-right: 9px;
+  color: var(--violet);
+}
+
+.orem .features span {
+  color: #b2adbf;
+}
+
+.plan > a {
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: auto;
+  padding: 0 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.orem > a {
+  border-color: rgba(127, 105, 255, 0.64);
+  background: linear-gradient(90deg, rgba(92, 71, 235, 0.92), rgba(48, 41, 132, 0.9));
+}
+
+.plan > a svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.custom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 36px;
+  align-items: center;
+  margin-bottom: clamp(78px, 9vw, 120px);
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--surface-soft) 64%, transparent);
+}
+
+.custom :global(.eyebrow) {
+  margin-bottom: 11px;
+}
+
+.custom h2 {
+  font-size: clamp(2rem, 3.4vw, 3.3rem);
+  line-height: 1;
+}
+
+.custom > div > p:last-child {
+  max-width: 760px;
+  margin-top: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.value {
+  padding: clamp(78px, 8vw, 112px) 0;
+  border-block: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 82% 14%, rgba(111, 91, 217, 0.09), transparent 30%),
+    color-mix(in srgb, var(--surface) 84%, transparent);
+}
+
+.valueInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
+  gap: 70px;
+  align-items: end;
+}
+
+.value h2 {
+  margin-top: 12px;
+  font-size: clamp(2.8rem, 4.8vw, 4.7rem);
+}
+
+.valueInner > div:first-child > p:last-child {
+  max-width: 720px;
+  margin-top: 18px;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
+.valueItems {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.valueItems span {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.valueItems span::before {
+  content: "·";
+  margin-right: 12px;
+  color: var(--violet);
+}
+
+.faq {
+  padding-block: clamp(78px, 9vw, 118px);
+}
+
+.faq > h2 {
+  font-size: clamp(2.6rem, 4.5vw, 4.4rem);
+}
+
+.faq > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 42px;
+  margin-top: 34px;
+}
+
+.faq article {
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+}
+
+.faq h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.faq p {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 960px) {
+  .plans {
+    grid-template-columns: 1fr;
+  }
+
+  .plan {
+    min-height: 430px;
+  }
+
+  .custom,
+  .valueInner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero,
+  .plans,
+  .custom,
+  .valueInner,
+  .faq {
+    width: min(100% - 32px, 700px);
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 14vw, 4.7rem);
+  }
+
+  .faq > div {
+    grid-template-columns: 1fr;
+  }
+}

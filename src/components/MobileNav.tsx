@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useLocale } from "@/components/LocaleProvider";
 
-export type PageKey = "home" | "solutions" | "work" | "about" | "careers";
+export type PageKey = "home" | "solutions" | "work" | "pricing" | "about" | "careers";
 
 const links: { href: string; page: PageKey; en: string; ro: string }[] = [
   { href: "/", en: "Home", ro: "Acasă", page: "home" },
   { href: "/solutions", en: "Solutions", ro: "Soluții", page: "solutions" },
   { href: "/work", en: "Work", ro: "Proiecte", page: "work" },
+  { href: "/pricing", en: "Pricing", ro: "Prețuri", page: "pricing" },
   { href: "/about", en: "About", ro: "Despre", page: "about" },
   { href: "/careers", en: "Careers", ro: "Cariere", page: "careers" },
 ];

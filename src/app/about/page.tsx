@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { ManifestoSection } from "@/components/ManifestoSection";
-import { MobileNav } from "@/components/MobileNav";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { SiteHeader } from "@/components/SiteHeader";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = {
@@ -25,31 +24,7 @@ export default function AboutPage() {
   return (
     <main className={styles.page} id="top">
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <header className="site-header" role="banner">
-        <div className="site-shell header-inner">
-          <Link className="logo-link" href="/" aria-label="ALVOREM home">
-            <Logo />
-          </Link>
-
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <Link href="/solutions">Solutions</Link>
-            <Link href="/work">Work</Link>
-            <Link className={styles.activeNav} href="/about" aria-current="page">About</Link>
-            <Link href="/careers">Careers</Link>
-          </nav>
-
-          <div className="header-actions">
-            <MobileNav activePage="about" />
-            <ThemeToggle />
-            <a
-              className="button button--small button--primary header-cta"
-              href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation"
-            >
-              Start a conversation
-            </a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader activePage="about" />
 
       <section className={["site-shell", styles.hero].join(" ")} id="main-content" aria-labelledby="about-hero-title">
         <p className="eyebrow">ABOUT ALVOREM</p>

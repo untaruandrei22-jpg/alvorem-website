@@ -1,0 +1,259 @@
+.demoHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.demoBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 1px solid rgba(230, 216, 251, 0.16);
+  border-radius: 999px;
+  background: rgba(111, 91, 217, 0.14);
+  color: #d9cdf1;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.demoBadge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9d85ff;
+  box-shadow: 0 0 8px rgba(157, 133, 255, 0.85);
+}
+
+.industryLabel {
+  display: block;
+  margin-top: 18px;
+  color: #aaa3bc;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.industryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.industryButton {
+  min-height: 35px;
+  padding: 0 10px;
+  border: 1px solid rgba(230, 216, 251, 0.13);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #9e97b0;
+  font-size: 0.64rem;
+  text-align: left;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.industryButton:hover:not(:disabled),
+.industryButtonActive {
+  border-color: rgba(181, 154, 244, 0.52);
+  background: rgba(111, 91, 217, 0.18);
+  color: #f8f9fe;
+}
+
+.industryButton:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.promptList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.promptButton {
+  padding: 7px 9px;
+  border: 1px solid rgba(230, 216, 251, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #bfb8ce;
+  font-size: 0.61rem;
+  line-height: 1.25;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.promptButton:hover:not(:disabled) {
+  border-color: rgba(181, 154, 244, 0.5);
+  background: rgba(111, 91, 217, 0.14);
+  color: #f8f9fe;
+}
+
+.promptButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.responseCard {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(230, 216, 251, 0.2);
+  border-radius: 13px;
+  background: linear-gradient(135deg, rgba(62, 55, 96, 0.86), rgba(33, 30, 61, 0.92));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.responseHeadline {
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.responseSummary {
+  margin-top: 5px;
+  color: #c4bdd3;
+  font-size: 0.69rem;
+  line-height: 1.5;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 11px;
+}
+
+.kpi {
+  min-width: 0;
+  padding: 8px 9px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.kpi span,
+.kpi strong {
+  display: block;
+}
+
+.kpi span {
+  overflow: hidden;
+  color: #9890ab;
+  font-size: 0.56rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kpi strong {
+  margin-top: 3px;
+  color: #ede7f7;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.proofRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 9px;
+  color: #938ba6;
+  font-size: 0.57rem;
+}
+
+.proofRow span + span::before {
+  content: "·";
+  margin-right: 10px;
+}
+
+.form {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 5px 6px 5px 12px;
+  border: 1px solid rgba(230, 216, 251, 0.2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #f8f9fe;
+  font-size: 0.69rem;
+}
+
+.input::placeholder {
+  color: #817a92;
+}
+
+.sendButton {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #6f5bd9;
+  color: #ffffff;
+}
+
+.sendButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.sendButton svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.status {
+  display: block;
+  margin-top: 8px;
+  color: #817a92;
+  font-size: 0.57rem;
+  line-height: 1.4;
+}
+
+.error {
+  margin-top: 10px;
+  color: #d9c8f3;
+  font-size: 0.66rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 520px) {
+  .industryGrid {
+    gap: 6px;
+  }
+
+  .industryButton {
+    min-height: 33px;
+    font-size: 0.6rem;
+  }
+
+  .promptList {
+    gap: 5px;
+  }
+
+  .promptButton {
+    padding: 6px 8px;
+    font-size: 0.57rem;
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./PricingContent.module.css";
@@ -51,6 +52,8 @@ const copy = {
       ["Do ALVO and OREM use the same business context?", "Yes. The product direction is one trusted business memory and shared access rules."],
       ["Do you offer pilots?", "Yes. Pilot scope, integrations and commercial terms are agreed around the business case."],
     ],
+    pricingSubject: "Pricing conversation",
+    customSubject: "Custom ALVOREM deployment",
   },
   ro: {
     eyebrow: "PREȚURI",
@@ -94,6 +97,8 @@ const copy = {
       ["ALVO și OREM folosesc același context de business?", "Da. Direcția produsului este o singură memorie de business de încredere și aceleași reguli de acces."],
       ["Oferiți pilot?", "Da. Scopul pilotului, integrările și termenii comerciali se stabilesc în jurul cazului de business."],
     ],
+    pricingSubject: "Conversație despre prețuri ALVOREM",
+    customSubject: "Implementare ALVOREM personalizată",
   },
 } as const;
 
@@ -111,7 +116,7 @@ export function PricingContent() {
       <section className={["site-shell", styles.hero].join(" ")} id="main-content" aria-labelledby="pricing-title">
         <p className="eyebrow">{t.eyebrow}</p>
         <h1 id="pricing-title">{t.title}</h1>
-        <p>{t.body}</p>
+        <p><AgentInlineText text={t.body} /></p>
       </section>
 
       <section className={["site-shell", styles.plans].join(" ")} aria-label={locale === "ro" ? "Opțiuni de abonament" : "Subscription options"}>
@@ -128,12 +133,12 @@ export function PricingContent() {
               )}
             </div>
             <h2>{plan.title}</h2>
-            <p>{plan.body}</p>
+            <p><AgentInlineText text={plan.body} /></p>
             <div className={styles.features}>
-              {plan.features.map((feature) => <span key={feature}>{feature}</span>)}
+              {plan.features.map((feature) => <span key={feature}><AgentInlineText text={feature} /></span>)}
             </div>
-            <a href="mailto:hello@alvorem.ro?subject=Pricing%20conversation">
-              {plan.cta} <ArrowIcon />
+            <a href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.pricingSubject)}`}>
+              <AgentInlineText text={plan.cta} /> <ArrowIcon />
             </a>
           </article>
         ))}
@@ -145,7 +150,12 @@ export function PricingContent() {
           <h2>{t.enterpriseTitle}</h2>
           <p>{t.enterpriseBody}</p>
         </div>
-        <a className="button button--secondary" href="mailto:hello@alvorem.ro?subject=Custom%20ALVOREM%20deployment">{t.enterpriseCta}</a>
+        <a
+          className="button button--secondary"
+          href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.customSubject)}`}
+        >
+          {t.enterpriseCta}
+        </a>
       </section>
 
       <section className={styles.value}>
@@ -166,8 +176,8 @@ export function PricingContent() {
         <div>
           {t.faqs.map(([question, answer]) => (
             <article key={question}>
-              <h3>{question}</h3>
-              <p>{answer}</p>
+              <h3><AgentInlineText text={question} /></h3>
+              <p><AgentInlineText text={answer} /></p>
             </article>
           ))}
         </div>

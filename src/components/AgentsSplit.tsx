@@ -113,22 +113,44 @@ export function AgentsSplit() {
     <section className={styles.section} aria-labelledby="agents-title" data-no-translate>
       <div className={styles.sectionIntro}>
         <p className="eyebrow">{ro ? "FĂ CUNOȘTINȚĂ CU ECHIPA TA AI" : "MEET YOUR AI TEAM"}</p>
-        <h2 id="agents-title">
-          {ro ? "O singură afacere. Context comun. Profunzime diferită." : "One business. Shared context. Different depth."}
-        </h2>
+        <div className={styles.introGrid}>
+          <h2 id="agents-title">
+            {ro ? "Două niveluri de inteligență. O singură echipă." : "Two levels of intelligence. One team."}
+          </h2>
+          <p>
+            {ro
+              ? "ALVO este locul în care începe munca de zi cu zi. Când este nevoie de mai multă profunzime, OREM intră în aceeași conversație — cu același context de business."
+              : "ALVO is where everyday work begins. When more depth is needed, OREM joins the same conversation — with the same business context."}
+          </p>
+        </div>
       </div>
 
-      <div className={styles.split}>
-        <article className={`${styles.panel} ${styles.alvoPanel}`} id="alvo">
-          <div className={styles.panelInner}>
-            <div className={`${styles.orb} ${styles.alvoOrb}`} aria-hidden="true" />
-            <AgentWordmark agent="alvo" size="lg" />
-            <h3>{ro ? "Claritate pentru fiecare zi." : "Clarity for every day."}</h3>
-            <p className={styles.description}>
-              {ro
-                ? "Chat-ul privat de business pentru fiecare zi. Rapid, calm și ancorat în ceea ce se întâmplă cu adevărat în compania ta."
-                : "Your everyday private business chat. Fast, calm and grounded in what is really happening inside your company."}
-            </p>
+      <div className={styles.systemFrame}>
+        <div className={styles.ambientGlow} aria-hidden="true" />
+        <div className={styles.systemRail}>
+          <span>{ro ? "UN SINGUR SISTEM PRIVAT" : "ONE PRIVATE SYSTEM"}</span>
+          <i aria-hidden="true" />
+          <span>{ro ? "CONTEXT COMUN" : "SHARED CONTEXT"}</span>
+          <i aria-hidden="true" />
+          <span>{ro ? "ACELEAȘI REGULI DE ACCES" : "SAME ACCESS RULES"}</span>
+        </div>
+
+        <div className={styles.cards}>
+          <article className={`${styles.agentCard} ${styles.alvoCard}`} id="alvo">
+            <div className={styles.cardHalo} aria-hidden="true"><span /></div>
+            <div className={styles.cardTopline}>
+              <AgentWordmark agent="alvo" size="md" />
+              <span>{ro ? "ZI DE ZI" : "EVERYDAY"}</span>
+            </div>
+
+            <div className={styles.cardCopy}>
+              <h3>{ro ? "Claritate pentru fiecare zi." : "Clarity for every day."}</h3>
+              <p>
+                {ro
+                  ? "Chat-ul privat de business pe care echipa ta îl folosește pentru întrebări, rapoarte, rezumate și lucru curent."
+                  : "The private business chat your team uses for questions, reports, summaries and everyday work."}
+              </p>
+            </div>
 
             <div className={styles.featureList}>
               {alvoItems.map((item) => (
@@ -142,27 +164,29 @@ export function AgentsSplit() {
             <a className={`${styles.cta} ${styles.alvoCta}`} href="#agent-demo">
               {ro ? "Vorbește cu" : "Talk to"} <AgentWordmark agent="alvo" size="xs" /> <ArrowIcon />
             </a>
+          </article>
+
+          <div className={styles.handoff} aria-label={ro ? "ALVO poate apela la OREM" : "ALVO can bring in OREM"}>
+            <div className={styles.handoffLine} aria-hidden="true"><span /><i /><b /></div>
+            <p>{ro ? "ALVO știe când are nevoie de mai multă profunzime." : "ALVO knows when more depth is needed."}</p>
+            <strong>{ro ? "apelează" : "brings in"}</strong>
           </div>
-        </article>
 
-        <div className={styles.bridge} aria-hidden="true">
-          <span>{ro ? "O SINGURĂ" : "ONE"}</span>
-          <span>{ro ? "AFACERE" : "BUSINESS"}</span>
-          <i />
-          <span>{ro ? "ACELAȘI" : "SHARED"}</span>
-          <span>{ro ? "CONTEXT" : "CONTEXT"}</span>
-        </div>
+          <article className={`${styles.agentCard} ${styles.oremCard}`} id="orem">
+            <div className={styles.cardEclipse} aria-hidden="true"><span /></div>
+            <div className={styles.cardTopline}>
+              <AgentWordmark agent="orem" size="md" />
+              <span className={styles.subscription}>{ro ? "ABONAMENT" : "SUBSCRIPTION"}</span>
+            </div>
 
-        <article className={`${styles.panel} ${styles.oremPanel}`} id="orem">
-          <div className={styles.panelInner}>
-            <div className={`${styles.orb} ${styles.oremOrb}`} aria-hidden="true" />
-            <AgentWordmark agent="orem" size="lg" />
-            <h3>{ro ? "Gândește mai profund când contează." : "Think deeper when it matters."}</h3>
-            <p className={styles.description}>
-              {ro
-                ? "Nivelul superior ALVOREM pentru raționament profund și automatizare. Intervine când munca are nevoie de mai mult decât un răspuns de zi cu zi."
-                : "The upgraded ALVOREM layer for deeper reasoning and automation. It steps in when the work needs more than an everyday answer."}
-            </p>
+            <div className={styles.cardCopy}>
+              <h3>{ro ? "Mai profund când contează." : "Deeper when it matters."}</h3>
+              <p>
+                {ro
+                  ? "Nivelul superior pentru analiză complexă, automatizare și întrebări care au nevoie de mai mult context și raționament."
+                  : "The upgraded layer for complex analysis, automation and questions that need broader context and deeper reasoning."}
+              </p>
+            </div>
 
             <div className={styles.featureList}>
               {oremItems.map((item) => (
@@ -174,17 +198,23 @@ export function AgentsSplit() {
             </div>
 
             <Link className={`${styles.cta} ${styles.oremCta}`} href="/about#orem-story">
-              {ro ? "Deblochează" : "Unlock"} <AgentWordmark agent="orem" size="xs" /> <ArrowIcon />
+              {ro ? "Descoperă" : "Explore"} <AgentWordmark agent="orem" size="xs" /> <ArrowIcon />
             </Link>
-          </div>
-        </article>
-      </div>
+          </article>
+        </div>
 
-      <p className={styles.sharedLine}>
-        {ro
-          ? "Folosesc același context de business de încredere. Lucrează ca o singură echipă."
-          : "They share the same trusted business context. They work as one team."}
-      </p>
+        <div className={styles.sharedContext}>
+          <div className={styles.sharedMark} aria-hidden="true"><span /><i /></div>
+          <div>
+            <strong>{ro ? "Aceeași memorie de business." : "The same business memory."}</strong>
+            <p>
+              {ro
+                ? "Nu alegi între doi roboți. Lucrezi cu o singură echipă care folosește nivelul potrivit de inteligență pentru fiecare situație."
+                : "You are not choosing between two bots. You work with one team that uses the right level of intelligence for each situation."}
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

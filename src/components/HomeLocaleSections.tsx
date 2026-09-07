@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { useLocale } from "@/components/LocaleProvider";
 
@@ -38,6 +39,8 @@ const copy = {
     footerTagline: "PEOPLE · TECH · A BRIGHTER TOMORROW",
     footerNavLabel: "Footer navigation",
     contact: "Contact",
+    solutions: "Solutions",
+    pricing: "Pricing",
     about: "About",
     back: "Back to top",
     copyright: "© 2026 ALVOREM. All rights reserved.",
@@ -48,6 +51,8 @@ const copy = {
     footerTagline: "OAMENI · TEHNOLOGIE · UN MÂINE MAI LUMINOS",
     footerNavLabel: "Navigare subsol",
     contact: "Contact",
+    solutions: "Soluții",
+    pricing: "Prețuri",
     about: "Despre",
     back: "Înapoi sus",
     copyright: "© 2026 ALVOREM. Toate drepturile rezervate.",
@@ -82,13 +87,17 @@ export function HomeFooter() {
     <footer className="site-footer" role="contentinfo">
       <div className="site-shell footer-inner">
         <div className="footer-brand">
-          <Logo compact />
+          <Link href="/" aria-label={locale === "ro" ? "Pagina principală ALVOREM" : "ALVOREM home"}>
+            <Logo compact />
+          </Link>
           <span className="footer-divider" aria-hidden="true" />
           <p>{t.footerTagline}</p>
         </div>
         <nav aria-label={t.footerNavLabel}>
           <a href="mailto:hello@alvorem.ro">{t.contact}</a>
-          <a href="/about">{t.about}</a>
+          <Link href="/solutions">{t.solutions}</Link>
+          <Link href="/pricing">{t.pricing}</Link>
+          <Link href="/about">{t.about}</Link>
           <a href="#top">{t.back}</a>
         </nav>
         <p className="copyright">{t.copyright}</p>

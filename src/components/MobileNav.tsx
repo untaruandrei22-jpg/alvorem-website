@@ -2,18 +2,22 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useLocale } from "@/components/LocaleProvider";
 
-type PageKey = "solutions" | "work" | "about" | "careers";
+export type PageKey = "home" | "solutions" | "work" | "about" | "careers";
 
-const links: { href: string; label: string; page: PageKey }[] = [
-  { href: "/solutions", label: "Solutions", page: "solutions" },
-  { href: "/work", label: "Work", page: "work" },
-  { href: "/about", label: "About", page: "about" },
-  { href: "/careers", label: "Careers", page: "careers" },
+const links: { href: string; page: PageKey; en: string; ro: string }[] = [
+  { href: "/", en: "Home", ro: "Acasă", page: "home" },
+  { href: "/solutions", en: "Solutions", ro: "Soluții", page: "solutions" },
+  { href: "/work", en: "Work", ro: "Work", page: "work" },
+  { href: "/about", en: "About", ro: "Despre", page: "about" },
+  { href: "/careers", en: "Careers", ro: "Cariere", page: "careers" },
 ];
 
 export function MobileNav({ activePage }: { activePage?: PageKey }) {
   const [open, setOpen] = useState(false);
+  const { locale } = useLocale();
+  const cta = locale === "ro" ? "Începe o conversație" : "Start a conversation";
 
   return (
     <div
@@ -25,7 +29,11 @@ export function MobileNav({ activePage }: { activePage?: PageKey }) {
       <button
         className="mobile-nav__trigger"
         type="button"
-        aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+        aria-label={
+          open
+            ? locale === "ro" ? "Închide meniul" : "Close navigation menu"
+            : locale === "ro" ? "Deschide meniul" : "Open navigation menu"
+        }
         aria-expanded={open}
         aria-controls="mobile-navigation"
         onClick={() => setOpen((current) => !current)}
@@ -37,7 +45,7 @@ export function MobileNav({ activePage }: { activePage?: PageKey }) {
       <nav
         className="mobile-nav__panel"
         id="mobile-navigation"
-        aria-label="Mobile navigation"
+        aria-label={locale === "ro" ? "Navigație mobilă" : "Mobile navigation"}
         hidden={!open}
       >
         {links.map((link) => (
@@ -47,16 +55,16 @@ export function MobileNav({ activePage }: { activePage?: PageKey }) {
             aria-current={activePage === link.page ? "page" : undefined}
             onClick={() => setOpen(false)}
           >
-            <span>{link.label}</span>
+            <span>{link[locale]}</span>
             <span aria-hidden="true">→</span>
           </Link>
         ))}
         <a
           className="mobile-nav__cta"
-          href="mailto:hello@alvorem.ro?subject=Start%20a%20project"
+          href="mailto:hello@alvorem.ro?subject=Start%20a%20conversation"
           onClick={() => setOpen(false)}
         >
-          Start a project <span aria-hidden="true">→</span>
+          {cta} <span aria-hidden="true">→</span>
         </a>
       </nav>
     </div>

@@ -18,6 +18,10 @@ const copy = {
       alvo: {
         badge: "STARTING PLAN",
         title: "Everyday intelligence",
+        priceLabel: "STARTING FROM",
+        price: "1,490 RON",
+        period: "/ month",
+        priceNote: "excl. VAT",
         body: "Your private business intelligence for everyday questions, KPIs, summaries and reports.",
         features: ["Everyday business chat", "KPI summaries", "Reports", "Trusted business context"],
         cta: "Start with ALVO",
@@ -25,6 +29,10 @@ const copy = {
       orem: {
         badge: "SUBSCRIPTION UPGRADE",
         title: "Deep intelligence",
+        priceLabel: "ADD-ON FROM",
+        price: "+1,490 RON",
+        period: "/ month",
+        priceNote: "excl. VAT",
         body: "Add deeper reasoning, investigation, scenario work and advanced automation when the work needs more.",
         features: ["Deep analysis", "Multi-source reasoning", "Scenario modelling", "Advanced automation"],
         cta: "Add OREM",
@@ -32,6 +40,10 @@ const copy = {
       team: {
         badge: "BEST FOR GROWING TEAMS",
         title: "The full private AI team",
+        priceLabel: "STARTING FROM",
+        price: "2,990 RON",
+        period: "/ month",
+        priceNote: "excl. VAT",
         body: "ALVO as the everyday interface. OREM as the deeper layer. One business memory and the right depth for every task.",
         features: ["ALVO + OREM", "Shared business memory", "One conversation", "Intelligent handoff"],
         cta: "Talk to us",
@@ -63,6 +75,10 @@ const copy = {
       alvo: {
         badge: "PLAN DE PORNIRE",
         title: "Inteligență de zi cu zi",
+        priceLabel: "DE LA",
+        price: "1.490 RON",
+        period: "/ lună",
+        priceNote: "fără TVA",
         body: "Inteligența ta privată de business pentru întrebări, KPI, rezumate și rapoarte zilnice.",
         features: ["Chat zilnic de business", "Rezumate KPI", "Rapoarte", "Context de business de încredere"],
         cta: "Începe cu ALVO",
@@ -70,6 +86,10 @@ const copy = {
       orem: {
         badge: "UPGRADE PRIN ABONAMENT",
         title: "Inteligență profundă",
+        priceLabel: "ADD-ON DE LA",
+        price: "+1.490 RON",
+        period: "/ lună",
+        priceNote: "fără TVA",
         body: "Adaugă raționament mai profund, investigație, scenarii și automatizare avansată când munca are nevoie de mai mult.",
         features: ["Analiză profundă", "Raționament din surse multiple", "Modelare de scenarii", "Automatizare avansată"],
         cta: "Adaugă OREM",
@@ -77,6 +97,10 @@ const copy = {
       team: {
         badge: "PENTRU ECHIPE ÎN CREȘTERE",
         title: "Echipa AI privată completă",
+        priceLabel: "DE LA",
+        price: "2.990 RON",
+        period: "/ lună",
+        priceNote: "fără TVA",
         body: "ALVO ca interfață zilnică. OREM ca nivel profund. O singură memorie de business și profunzimea potrivită pentru fiecare task.",
         features: ["ALVO + OREM", "Memorie comună de business", "O singură conversație", "Transfer inteligent"],
         cta: "Vorbește cu noi",
@@ -133,6 +157,14 @@ export function PricingContent() {
               )}
             </div>
             <h2>{plan.title}</h2>
+            <div className={styles.price}>
+              <span className={styles.priceLabel}>{plan.priceLabel}</span>
+              <div className={styles.priceLine}>
+                <strong>{plan.price}</strong>
+                <span>{plan.period}</span>
+              </div>
+              <small>{plan.priceNote}</small>
+            </div>
             <p><AgentInlineText text={plan.body} /></p>
             <div className={styles.features}>
               {plan.features.map((feature) => <span key={feature}><AgentInlineText text={feature} /></span>)}

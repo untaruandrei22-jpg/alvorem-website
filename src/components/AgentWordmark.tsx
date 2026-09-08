@@ -17,20 +17,8 @@ export function AgentWordmark({
   return (
     <span
       className={`${styles.wordmark} ${styles[agent]} ${styles[size]} ${className}`.trim()}
-      role="img"
-      aria-label={name}
     >
-      {agent === "alvo" ? (
-        <>
-          <span className={styles.letters} aria-hidden="true">ALV</span>
-          <span className={styles.oMark} aria-hidden="true" />
-        </>
-      ) : (
-        <>
-          <span className={styles.oMark} aria-hidden="true" />
-          <span className={styles.letters} aria-hidden="true">REM</span>
-        </>
-      )}
+      {name}
     </span>
   );
 }

@@ -12,7 +12,7 @@ export default function Home() {
         alt="ALVOREM"
         width={420}
         height={110}
-        style={{ width: "420px", height: "auto" }}
+        className="cs-logo"
         priority
       />
 

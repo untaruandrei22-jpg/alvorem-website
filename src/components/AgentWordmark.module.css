@@ -1,19 +1,35 @@
 .wordmark {
   --agent-size: 1rem;
-  --agent-tracking: 0.18em;
-  display: inline-block;
+  --agent-gap: 0.18em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--agent-gap);
   width: max-content;
   color: currentColor;
   font-family: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
   font-size: var(--agent-size);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: var(--agent-tracking);
-  text-transform: uppercase;
   white-space: nowrap;
-  vertical-align: baseline;
-  font-feature-settings: "kern" 1;
+  vertical-align: -0.03em;
   text-rendering: geometricPrecision;
+}
+
+.wordmark > span {
+  display: inline-block;
+  line-height: 1;
+}
+
+.brandA {
+  width: 1.03em;
+  height: 0.9em;
+  flex: 0 0 auto;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 3.1;
 }
 
 .alvo,
@@ -23,21 +39,20 @@
 
 .xs {
   --agent-size: 0.72rem;
-  --agent-tracking: 0.13em;
+  --agent-gap: 0.11em;
 }
 
 .sm {
   --agent-size: 0.9rem;
-  --agent-tracking: 0.15em;
+  --agent-gap: 0.13em;
 }
 
 .md {
   --agent-size: 1.18rem;
-  --agent-tracking: 0.18em;
+  --agent-gap: 0.16em;
 }
 
 .lg {
   --agent-size: clamp(2.6rem, 5vw, 4.6rem);
-  --agent-tracking: 0.22em;
-  font-weight: 400;
+  --agent-gap: 0.18em;
 }

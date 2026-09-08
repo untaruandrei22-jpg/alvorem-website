@@ -171,9 +171,12 @@ export function PricingContent() {
               <span>{plan.badge}</span>
               <AgentRingMark variant={key} size="md" />
             </div>
-            <h2>
+            <h2 className={key === "team" ? styles.teamTitle : undefined}>
               {key === "team" ? (
-                <AgentInlineText text={plan.title} size="md" className={styles.productName} />
+                <>
+                  <AgentWordmark agent="alvorem" size="md" className={styles.privateWordmark} />
+                  <span className={styles.privateSuffix}>Private</span>
+                </>
               ) : (
                 <AgentWordmark agent={key} size="md" />
               )}

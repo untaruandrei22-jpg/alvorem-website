@@ -19,6 +19,8 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY);
       if (stored === "en" || stored === "ro") {
+        // The server-safe initial locale is English; hydrate the persisted browser preference after mount.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setLocaleState(stored);
         document.documentElement.lang = stored;
         document.documentElement.dataset.locale = stored;

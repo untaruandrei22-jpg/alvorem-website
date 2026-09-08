@@ -24,10 +24,10 @@ const copy = {
     title: "Ask. Report. Automate. Analyze.",
     body: "The interface stays simple. The depth changes with the work.",
     items: [
-      ["01", "Ask", "Ask what changed, what matters and what to do next.", "alvo", "EVERYDAY", <MessageIcon />],
-      ["02", "Report", "Turn business data into clear summaries, recurring reports and deeper analysis.", "team", "SHARED CONTEXT", <ChartIcon />],
-      ["03", "Automate", "Move repeatable work forward with clear rules and people still in control.", "orem", "DEEPER LAYER", <SparkIcon />],
-      ["04", "Analyze", "Investigate complex questions, compare scenarios and reason across multiple sources.", "orem", "DEEP MODE", <BrainIcon />],
+      ["01", "Ask", "Ask what changed, what matters and what to do next.", "alvo", "EVERYDAY", MessageIcon],
+      ["02", "Report", "Turn business data into clear summaries, recurring reports and deeper analysis.", "team", "SHARED CONTEXT", ChartIcon],
+      ["03", "Automate", "Move repeatable work forward with clear rules and people still in control.", "orem", "DEEPER LAYER", SparkIcon],
+      ["04", "Analyze", "Investigate complex questions, compare scenarios and reason across multiple sources.", "orem", "DEEP MODE", BrainIcon],
     ],
     noteTitle: "You do not need to choose a model every time.",
     noteBody: "Start with ALVO. When the work needs more depth, OREM can join the same trusted context. One conversation. One business memory.",
@@ -38,10 +38,10 @@ const copy = {
     title: "Întreabă. Raportează. Automatizează. Analizează.",
     body: "Interfața rămâne simplă. Profunzimea se schimbă în funcție de muncă.",
     items: [
-      ["01", "Întreabă", "Întreabă ce s-a schimbat, ce contează și ce urmează.", "alvo", "ZI DE ZI", <MessageIcon />],
-      ["02", "Raportează", "Transformă datele în rezumate clare, rapoarte recurente și analiză mai profundă.", "team", "CONTEXT COMUN", <ChartIcon />],
-      ["03", "Automatizează", "Du munca repetitivă mai departe cu reguli clare și cu oamenii rămași la control.", "orem", "NIVEL PROFUND", <SparkIcon />],
-      ["04", "Analizează", "Investighează întrebări complexe, compară scenarii și raționează din mai multe surse.", "orem", "MOD PROFUND", <BrainIcon />],
+      ["01", "Întreabă", "Întreabă ce s-a schimbat, ce contează și ce urmează.", "alvo", "ZI DE ZI", MessageIcon],
+      ["02", "Raportează", "Transformă datele în rezumate clare, rapoarte recurente și analiză mai profundă.", "team", "CONTEXT COMUN", ChartIcon],
+      ["03", "Automatizează", "Du munca repetitivă mai departe cu reguli clare și cu oamenii rămași la control.", "orem", "NIVEL PROFUND", SparkIcon],
+      ["04", "Analizează", "Investighează întrebări complexe, compară scenarii și raționează din mai multe surse.", "orem", "MOD PROFUND", BrainIcon],
     ],
     noteTitle: "Nu trebuie să alegi un model de fiecare dată.",
     noteBody: "Începe cu ALVO. Când munca are nevoie de mai multă profunzime, OREM poate intra în același context de încredere. O conversație. O memorie de business.",
@@ -65,11 +65,12 @@ export function SolutionsCapabilities() {
         <div className={styles.grid}>
           {t.items.map((item) => {
             const mode = item[3];
+            const Icon = item[5];
             return (
               <article key={item[0]}>
                 <div className={styles.topline}>
                   <span>{item[0]}</span>
-                  <span className={styles.icon}>{item[5]}</span>
+                  <span className={styles.icon}><Icon /></span>
                 </div>
                 <h3>{item[1]}</h3>
                 <p>{item[2]}</p>

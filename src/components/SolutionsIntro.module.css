@@ -3,14 +3,8 @@
   padding-block: clamp(58px, 6vw, 86px) clamp(46px, 5vw, 66px);
 }
 
-.copy {
-  max-width: 840px;
-}
-
-.copy :global(.eyebrow) {
-  margin-bottom: 14px;
-}
-
+.copy { max-width: 840px; }
+.copy :global(.eyebrow) { margin-bottom: 14px; }
 .copy h1 {
   max-width: 940px;
   font-family: "Lora", Georgia, serif;
@@ -19,7 +13,6 @@
   letter-spacing: -0.066em;
   line-height: 0.95;
 }
-
 .copy > p:not(:global(.eyebrow)) {
   max-width: 740px;
   margin-top: 20px;
@@ -27,58 +20,58 @@
   font-size: 0.98rem;
   line-height: 1.66;
 }
-
-.copy :global(.button) {
-  margin-top: 24px;
-}
+.copy :global(.button) { margin-top: 24px; }
 
 .visual {
   position: absolute;
-  top: 52px;
+  top: 42px;
   right: 0;
-  width: min(360px, 31vw);
-  height: 260px;
+  width: min(380px, 32vw);
+  height: 286px;
   pointer-events: none;
 }
-
 .alvoOrbit,
 .oremOrbit {
   position: absolute;
   border-radius: 50%;
 }
-
 .alvoOrbit {
   top: 14px;
-  left: 8px;
-  width: 168px;
-  height: 168px;
-  border: 1px solid rgba(220, 197, 176, 0.54);
+  left: 4px;
+  width: 172px;
+  height: 172px;
+  border: 1px solid rgba(220, 197, 176, 0.5);
   box-shadow: 0 0 32px rgba(219, 195, 173, 0.1);
 }
-
 .oremOrbit {
-  right: 10px;
-  bottom: 10px;
-  width: 196px;
-  height: 196px;
-  border: 1px solid rgba(121, 103, 255, 0.72);
+  right: 4px;
+  bottom: 18px;
+  width: 204px;
+  height: 204px;
+  border: 1px solid rgba(121, 103, 255, 0.65);
   box-shadow: 0 0 52px rgba(111, 91, 217, 0.2);
 }
-
 .visualMarks {
   position: absolute;
   top: 50%;
   left: 50%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 0;
   transform: translate(-50%, -50%);
 }
-
-.visualMarks > span {
-  color: var(--muted-soft);
+.visualNames {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: -10px;
 }
-
+.visualNames i {
+  color: var(--muted-soft);
+  font-size: .7rem;
+  font-style: normal;
+}
 .visual > p {
   position: absolute;
   right: 10px;
@@ -89,93 +82,81 @@
   letter-spacing: 0.15em;
 }
 
-.modeSection {
-  margin-top: clamp(54px, 7vw, 84px);
-}
-
+.modeSection { margin-top: clamp(54px, 7vw, 84px); }
 .modeLabel {
   color: var(--muted-soft);
   font-size: 0.54rem;
   font-weight: 700;
   letter-spacing: 0.15em;
 }
-
 .modes {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-top: 14px;
 }
-
 .modes article {
-  min-height: 190px;
+  min-height: 204px;
   padding: 22px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: color-mix(in srgb, var(--surface) 92%, transparent);
 }
-
 .modes article.deep {
   color: #f8f7ff;
   border-color: rgba(126, 104, 255, 0.24);
   background: linear-gradient(155deg, #141423, #0a0a14);
 }
-
 .modes article.team {
   border-color: color-mix(in srgb, var(--violet) 26%, var(--line));
   background:
     radial-gradient(circle at 88% 12%, rgba(111, 91, 217, 0.12), transparent 28%),
     color-mix(in srgb, var(--surface) 93%, transparent);
 }
-
 .modeTop {
-  min-height: 28px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
 }
-
 .modeTop > span:first-child {
   color: var(--muted-soft);
   font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.13em;
 }
-
-.deep .modeTop > span:first-child {
-  color: #968ce2;
+.deep .modeTop > span:first-child { color: #968ce2; }
+.modeIdentity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
 }
-
+.modeIdentity > :global(.agent-wordmark) { margin-left: -5px; }
 .teamMarks {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  margin-left: -5px;
 }
-
 .teamMarks i {
   color: var(--muted-soft);
   font-style: normal;
 }
-
 .modes h2 {
-  margin-top: 31px;
+  margin-top: 25px;
   font-family: "Lora", Georgia, serif;
   font-size: clamp(1.55rem, 2.1vw, 2.05rem);
   font-weight: 400;
   letter-spacing: -0.045em;
 }
-
 .modes p {
   margin-top: 8px;
   color: var(--muted);
   font-size: 0.82rem;
   line-height: 1.56;
 }
-
-.deep p {
-  color: #b9b4c9;
-}
+.deep p { color: #b9b4c9; }
 
 @media (max-width: 980px) {
   .visual {
@@ -185,18 +166,10 @@
     width: min(500px, 100%);
     margin: 32px auto 0;
   }
-
-  .modes {
-    grid-template-columns: 1fr;
-  }
+  .modes { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 620px) {
-  .section {
-    width: min(100% - 32px, 620px);
-  }
-
-  .copy h1 {
-    font-size: clamp(3rem, 14vw, 4.8rem);
-  }
+  .section { width: min(100% - 32px, 620px); }
+  .copy h1 { font-size: clamp(3rem, 14vw, 4.8rem); }
 }

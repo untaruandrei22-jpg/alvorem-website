@@ -1,7 +1,7 @@
 .teamTitle {
   display: flex;
-  align-items: baseline;
-  gap: 0.42em;
+  align-items: center;
+  gap: 0.7em;
   flex-wrap: nowrap;
   letter-spacing: 0;
 }
@@ -15,16 +15,18 @@
 .privateSuffix {
   display: inline-block;
   flex: 0 0 auto;
-  font-family: "Lora", Georgia, serif;
-  font-size: clamp(1.45rem, 2vw, 1.85rem);
-  font-weight: 400;
-  letter-spacing: -0.045em;
+  color: var(--muted);
+  font-family: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   line-height: 1;
+  transform: translateY(0.02em);
 }
 
 @media (max-width: 1180px) and (min-width: 961px) {
   .teamTitle {
-    gap: 0.32em;
+    gap: 0.58em;
   }
 
   .privateWordmark {
@@ -33,6 +35,6 @@
   }
 
   .privateSuffix {
-    font-size: 1.45rem;
+    font-size: 0.74rem;
   }
 }

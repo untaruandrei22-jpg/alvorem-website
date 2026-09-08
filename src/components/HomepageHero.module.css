@@ -18,15 +18,17 @@
   width: 100vw;
   transform: translateX(50%);
   background:
-    radial-gradient(ellipse 42% 60% at 80% 30%, rgba(101, 78, 228, 0.13), transparent 72%),
-    radial-gradient(ellipse 27% 32% at 61% 71%, rgba(243, 195, 154, 0.11), transparent 74%),
+    radial-gradient(ellipse 24% 34% at 61% 67%, rgba(255, 231, 207, 0.16), transparent 72%),
+    radial-gradient(ellipse 44% 62% at 82% 29%, rgba(101, 78, 228, 0.15), transparent 72%),
+    radial-gradient(ellipse 34% 22% at 88% 82%, rgba(148, 123, 236, 0.08), transparent 76%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 62%);
 }
 
 :global(html[data-theme="dark"]) .hero::before {
   background:
-    radial-gradient(ellipse 48% 68% at 81% 29%, rgba(86, 63, 229, 0.27), transparent 70%),
-    radial-gradient(ellipse 28% 30% at 59% 72%, rgba(255, 205, 162, 0.055), transparent 73%),
+    radial-gradient(ellipse 22% 32% at 60% 68%, rgba(255, 216, 180, 0.075), transparent 72%),
+    radial-gradient(ellipse 50% 70% at 82% 28%, rgba(86, 63, 229, 0.3), transparent 70%),
+    radial-gradient(ellipse 36% 24% at 88% 83%, rgba(103, 77, 213, 0.13), transparent 76%),
     linear-gradient(180deg, rgba(10, 12, 28, 0.03), rgba(7, 8, 20, 0.24));
 }
 
@@ -182,13 +184,44 @@
   content: "";
   position: absolute;
   z-index: -4;
-  top: 15%;
-  right: -2%;
-  width: 92%;
-  height: 72%;
+  top: 8%;
+  right: -5%;
+  width: 104%;
+  height: 82%;
   border-radius: 48%;
-  background: radial-gradient(circle at 55% 52%, rgba(111, 91, 217, 0.18), transparent 63%);
-  filter: blur(28px);
+  background:
+    radial-gradient(circle at 27% 60%, rgba(255, 232, 210, 0.2), transparent 20%),
+    radial-gradient(ellipse 64% 62% at 67% 43%, rgba(111, 91, 217, 0.2), transparent 68%);
+  filter: blur(26px);
+  opacity: 0.88;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  z-index: -3;
+  right: -3%;
+  bottom: 4px;
+  width: 96%;
+  height: 126px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 35% 48%, rgba(248, 219, 193, 0.2), transparent 30%),
+    radial-gradient(ellipse at 62% 48%, rgba(111, 91, 217, 0.19), rgba(32, 25, 70, 0.08) 42%, transparent 72%);
+  filter: blur(10px);
+  transform: rotate(-1.2deg);
+}
+
+:global(html[data-theme="dark"]) .stage::before {
+  background:
+    radial-gradient(circle at 27% 60%, rgba(255, 220, 188, 0.075), transparent 20%),
+    radial-gradient(ellipse 66% 64% at 68% 42%, rgba(91, 67, 210, 0.3), transparent 69%);
+}
+
+:global(html[data-theme="dark"]) .stage::after {
+  background:
+    radial-gradient(ellipse at 35% 48%, rgba(249, 211, 178, 0.075), transparent 30%),
+    radial-gradient(ellipse at 62% 48%, rgba(82, 61, 185, 0.28), rgba(3, 4, 13, 0.24) 44%, transparent 72%);
 }
 
 .oremPanel {
@@ -202,13 +235,14 @@
   border: 1px solid rgba(153, 139, 255, 0.3);
   border-radius: 18px;
   background:
-    radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.15), transparent 28%),
+    linear-gradient(112deg, rgba(255, 255, 255, 0.045), transparent 27%),
+    radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.2), transparent 30%),
     linear-gradient(150deg, rgba(16, 17, 35, 0.97), rgba(7, 9, 23, 0.99));
   color: #f7f6ff;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 26px 72px rgba(15, 12, 48, 0.24),
-    0 0 42px rgba(92, 70, 231, 0.13);
+    0 32px 82px rgba(15, 12, 48, 0.28),
+    20px 10px 58px rgba(92, 70, 231, 0.16);
   transform: rotate(-1.2deg);
   transform-origin: 80% 100%;
 }
@@ -216,8 +250,8 @@
 :global(html[data-theme="light"]) .oremPanel {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 30px 76px rgba(42, 32, 89, 0.19),
-    0 0 50px rgba(92, 70, 231, 0.15);
+    0 34px 82px rgba(42, 32, 89, 0.2),
+    20px 10px 58px rgba(92, 70, 231, 0.17);
 }
 
 .oremTopline {
@@ -281,22 +315,42 @@
   padding: 15px 15px 17px;
   border: 1px solid color-mix(in srgb, var(--line-strong) 86%, transparent);
   border-radius: 19px;
-  background: color-mix(in srgb, var(--surface) 91%, transparent);
+  background:
+    radial-gradient(circle at 8% -12%, rgba(255, 251, 246, 0.78), transparent 32%),
+    radial-gradient(circle at 100% 92%, rgba(111, 91, 217, 0.11), transparent 42%),
+    color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.62),
-    0 30px 76px rgba(43, 36, 76, 0.18),
-    0 0 42px rgba(111, 91, 217, 0.07);
+    0 36px 88px rgba(43, 36, 76, 0.2),
+    -18px 8px 52px rgba(244, 211, 183, 0.12),
+    18px 10px 62px rgba(111, 91, 217, 0.11);
   backdrop-filter: blur(20px);
 }
 
+.alvoPanel::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 7%;
+  width: 43%;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 246, 237, 0.92), rgba(205, 184, 242, 0.45), transparent);
+  box-shadow: 0 0 14px rgba(255, 225, 199, 0.2);
+  pointer-events: none;
+}
+
 :global(html[data-theme="dark"]) .alvoPanel {
-  background: linear-gradient(145deg, rgba(27, 29, 49, 0.96), rgba(15, 17, 32, 0.98));
+  background:
+    radial-gradient(circle at 7% -12%, rgba(255, 237, 219, 0.075), transparent 31%),
+    radial-gradient(circle at 100% 92%, rgba(111, 91, 217, 0.16), transparent 43%),
+    linear-gradient(145deg, rgba(27, 29, 49, 0.96), rgba(15, 17, 32, 0.98));
   border-color: rgba(220, 214, 245, 0.17);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 30px 82px rgba(0, 0, 0, 0.34),
-    -12px 8px 38px rgba(245, 214, 186, 0.05),
-    12px 8px 54px rgba(111, 91, 217, 0.14);
+    0 38px 92px rgba(0, 0, 0, 0.4),
+    -18px 8px 48px rgba(245, 214, 186, 0.065),
+    18px 10px 66px rgba(111, 91, 217, 0.18);
 }
 
 .alvoTopline {
@@ -464,6 +518,12 @@
     top: 10px;
     right: -44%;
     width: 400px;
+  }
+
+  .stage::after {
+    right: 0;
+    width: 100%;
+    height: 112px;
   }
 
   .oremPanel {

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./WorkContent.module.css";
@@ -119,7 +120,7 @@ export function WorkContent() {
           <div className={styles.heroCopy}>
             <p className="eyebrow">{t.eyebrow}</p>
             <h1>{t.title}</h1>
-            <p className={styles.intro}>{t.intro}</p>
+            <p className={styles.intro}><AgentInlineText text={t.intro} /></p>
             <a className="button button--primary" href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.subject)}`}>{t.heroCta} <ArrowIcon /></a>
           </div>
           <div className={styles.orbit} aria-hidden="true">
@@ -140,8 +141,8 @@ export function WorkContent() {
                 <div className={styles.caseCopy}>
                   <ModeMark mode={item.mode} />
                   <h2>{item.title}</h2>
-                  <p>{item.summary}</p>
-                  <Link className={styles.caseLink} href={item.href}>{item.action} <ArrowIcon /></Link>
+                  <p><AgentInlineText text={item.summary} /></p>
+                  <Link className={styles.caseLink} href={item.href}><AgentInlineText text={item.action} /> <ArrowIcon /></Link>
                 </div>
                 <div className={styles.journey}>
                   {steps.map((step, index) => (
@@ -151,7 +152,7 @@ export function WorkContent() {
                         {index < steps.length - 1 && <span className={styles.stepArrow}>→</span>}
                       </div>
                       <h3>{t.labels[step]}</h3>
-                      <p>{item[step]}</p>
+                      <p><AgentInlineText text={item[step]} /></p>
                     </div>
                   ))}
                   {item.mode === "team" && <p className={styles.flow}>{t.flow}</p>}

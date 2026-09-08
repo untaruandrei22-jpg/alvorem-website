@@ -80,9 +80,9 @@ export function HomeCompactTeam() {
     <section className={styles.section} aria-labelledby="home-team-title">
       <div className="site-shell">
         <div className={styles.intro}>
-          <p className="eyebrow">{t.eyebrow}</p>
+          <p className="eyebrow"><AgentInlineText text={t.eyebrow} /></p>
           <h2 id="home-team-title">{t.title}</h2>
-          <p>{t.intro}</p>
+          <p><AgentInlineText text={t.intro} /></p>
         </div>
 
         <div className={styles.grid}>
@@ -117,7 +117,7 @@ export function HomeCompactTeam() {
         </div>
 
         <Link className={styles.cta} href="/solutions">
-          {t.cta} <ArrowIcon />
+          <AgentInlineText text={t.cta} /> <ArrowIcon />
         </Link>
       </div>
     </section>

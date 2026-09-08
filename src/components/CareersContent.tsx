@@ -1,5 +1,6 @@
 "use client";
 
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./CareersContent.module.css";
 
@@ -244,7 +245,7 @@ export function CareersContent() {
       <section className={styles.final}>
         <div className={["site-shell", styles.finalInner].join(" ")}>
           <h2>{t.finalTitle}</h2>
-          <p>{t.finalBody}</p>
+          <p><AgentInlineText text={t.finalBody} /></p>
           <a className="button button--primary" href={applicationHref}>
             {t.email}
             <ArrowIcon />

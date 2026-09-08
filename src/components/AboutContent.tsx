@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { Logo } from "@/components/Logo";
 import { useLocale } from "@/components/LocaleProvider";
@@ -99,7 +100,7 @@ export function AboutContent() {
     <>
       <section className={["site-shell", styles.hero].join(" ")} id="main-content">
         <div className={styles.heroCopy}>
-          <p className="eyebrow">{t.eyebrow}</p>
+          <p className="eyebrow"><AgentInlineText text={t.eyebrow} /></p>
           <h1>{t.titleStart} <em>{t.titleAccent}</em></h1>
           <p>{t.intro}</p>
           <div className={styles.heroActions}>
@@ -131,13 +132,13 @@ export function AboutContent() {
               </div>
               <small>{card.cue}</small>
               <h3>{card.title}</h3>
-              <p>{card.body}</p>
+              <p><AgentInlineText text={card.body} /></p>
             </article>
           ))}
         </div>
         <div className={styles.bridge}>
           <p><AgentWordmark agent="alvo" size="md" /> <span>{t.bridgeStart}</span> <AgentWordmark agent="orem" size="md" /> <span>{t.bridgeEnd}</span></p>
-          <small>{t.bridgeBody}</small>
+          <small><AgentInlineText text={t.bridgeBody} /></small>
         </div>
       </section>
 
@@ -146,7 +147,7 @@ export function AboutContent() {
           <div className={styles.faithCopy}>
             <p className="eyebrow">{t.faith}</p>
             <h2>{t.faithTitle}</h2>
-            <p>{t.faithBody}</p>
+            <p><AgentInlineText text={t.faithBody} /></p>
             <p>{t.faithWelcome}</p>
           </div>
           <div className={styles.principles}>

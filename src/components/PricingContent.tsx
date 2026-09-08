@@ -9,6 +9,12 @@ function ArrowIcon() {
   return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>;
 }
 
+function ValueIcon({ index }: { index: number }) {
+  if (index === 0) return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>;
+  if (index === 1) return <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="7" ry="3" /><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7" /></svg>;
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3" /><circle cx="17" cy="9" r="2.5" /><path d="M2.5 21c.3-4.8 2.1-7.2 5.5-7.2s5.3 2.4 5.5 7.2M13 15.2c1-.8 2.2-1.2 3.7-1.2 3 0 4.6 2.1 4.8 6.3" /></svg>;
+}
+
 const copy = {
   en: {
     eyebrow: "PRICING",
@@ -16,43 +22,43 @@ const copy = {
     body: "Start with ALVO. Add OREM when deeper reasoning or automation becomes valuable. Choose the full team when you want both working from the same business memory.",
     plans: {
       alvo: {
-        badge: "STARTING PLAN",
-        title: "Everyday intelligence",
+        badge: "EVERYDAY INTELLIGENCE",
+        title: "ALVO",
         priceLabel: "STARTING FROM",
         price: "1,490 RON",
         period: "/ month",
-        priceNote: "excl. VAT",
+        priceNote: "Prices exclude VAT.",
         body: "Your private business intelligence for everyday questions, KPIs, summaries and reports.",
         features: ["Everyday business chat", "KPI summaries", "Reports", "Trusted business context"],
         cta: "Start with ALVO",
       },
       orem: {
-        badge: "SUBSCRIPTION UPGRADE",
-        title: "Deep intelligence",
+        badge: "DEEPER CAPABILITIES",
+        title: "OREM",
         priceLabel: "ADD-ON FROM",
         price: "+1,490 RON",
         period: "/ month",
-        priceNote: "excl. VAT",
+        priceNote: "Prices exclude VAT.",
         body: "Add deeper reasoning, investigation, scenario work and advanced automation when the work needs more.",
         features: ["Deep analysis", "Multi-source reasoning", "Scenario modelling", "Advanced automation"],
         cta: "Add OREM",
       },
       team: {
         badge: "RECOMMENDED",
-        title: "The full private AI team",
+        title: "ALVO + OREM",
         priceLabel: "STARTING FROM",
         price: "2,790 RON",
         period: "/ month",
-        priceNote: "excl. VAT",
+        priceNote: "Prices exclude VAT.",
         body: "ALVO as the everyday interface. OREM as the deeper layer. One business memory and the right depth for every task.",
-        features: ["ALVO + OREM", "Shared business memory", "One conversation", "Intelligent handoff"],
+        features: ["Shared business memory", "One conversation", "Intelligent handoff", "Full team capability"],
         cta: "Talk to us",
       },
     },
     enterpriseEyebrow: "CUSTOM DEPLOYMENTS",
     enterpriseTitle: "Need something more private or more complex?",
     enterpriseBody: "Dedicated infrastructure, custom integrations, governance requirements and larger deployments are scoped around your business.",
-    enterpriseCta: "Talk to ALVOREM",
+    enterpriseCta: "Scoped separately",
     valueEyebrow: "WHAT YOU ARE ACTUALLY BUYING",
     valueTitle: "Not another chatbot.",
     valueBody: "You are paying for an AI team that understands your business context, works with trusted data and helps reduce the work your people carry.",
@@ -73,43 +79,43 @@ const copy = {
     body: "Începe cu ALVO. Adaugă OREM când raționamentul mai profund sau automatizarea devin valoroase. Alege echipa completă când vrei ca amândoi să lucreze din aceeași memorie de business.",
     plans: {
       alvo: {
-        badge: "PLAN DE PORNIRE",
-        title: "Inteligență de zi cu zi",
+        badge: "INTELIGENȚĂ DE ZI CU ZI",
+        title: "ALVO",
         priceLabel: "DE LA",
         price: "1.490 RON",
         period: "/ lună",
-        priceNote: "fără TVA",
+        priceNote: "Prețurile nu includ TVA.",
         body: "Inteligența ta privată de business pentru întrebări, KPI, rezumate și rapoarte zilnice.",
         features: ["Chat zilnic de business", "Rezumate KPI", "Rapoarte", "Context de business de încredere"],
         cta: "Începe cu ALVO",
       },
       orem: {
-        badge: "UPGRADE PRIN ABONAMENT",
-        title: "Inteligență profundă",
+        badge: "CAPABILITĂȚI PROFUNDE",
+        title: "OREM",
         priceLabel: "ADD-ON DE LA",
         price: "+1.490 RON",
         period: "/ lună",
-        priceNote: "fără TVA",
+        priceNote: "Prețurile nu includ TVA.",
         body: "Adaugă raționament mai profund, investigație, scenarii și automatizare avansată când munca are nevoie de mai mult.",
         features: ["Analiză profundă", "Raționament din surse multiple", "Modelare de scenarii", "Automatizare avansată"],
         cta: "Adaugă OREM",
       },
       team: {
         badge: "RECOMANDAT",
-        title: "Echipa AI privată completă",
+        title: "ALVO + OREM",
         priceLabel: "DE LA",
         price: "2.790 RON",
         period: "/ lună",
-        priceNote: "fără TVA",
+        priceNote: "Prețurile nu includ TVA.",
         body: "ALVO ca interfață zilnică. OREM ca nivel profund. O singură memorie de business și profunzimea potrivită pentru fiecare task.",
-        features: ["ALVO + OREM", "Memorie comună de business", "O singură conversație", "Transfer inteligent"],
+        features: ["Memorie comună de business", "O singură conversație", "Transfer inteligent", "Capabilitatea echipei complete"],
         cta: "Vorbește cu noi",
       },
     },
     enterpriseEyebrow: "IMPLEMENTĂRI PERSONALIZATE",
     enterpriseTitle: "Ai nevoie de ceva mai privat sau mai complex?",
     enterpriseBody: "Infrastructura dedicată, integrările personalizate, cerințele de guvernanță și implementările mai mari sunt configurate în jurul afacerii tale.",
-    enterpriseCta: "Vorbește cu ALVOREM",
+    enterpriseCta: "Evaluat separat",
     valueEyebrow: "CE CUMPERI DE FAPT",
     valueTitle: "Nu încă un chatbot.",
     valueBody: "Plătești pentru o echipă AI care înțelege contextul afacerii tale, lucrează cu date de încredere și reduce din munca pe care oamenii tăi o duc zilnic.",
@@ -156,7 +162,7 @@ export function PricingContent() {
                 <span className={styles.teamMarks}><AgentWordmark agent="alvo" size="xs" /><i>+</i><AgentWordmark agent="orem" size="xs" /></span>
               )}
             </div>
-            <h2>{plan.title}</h2>
+            <h2><AgentInlineText text={plan.title} size="md" className={styles.productName} /></h2>
             <div className={styles.price}>
               <span className={styles.priceLabel}>{plan.priceLabel}</span>
               <div className={styles.priceLine}>
@@ -198,7 +204,7 @@ export function PricingContent() {
             <p>{t.valueBody}</p>
           </div>
           <div className={styles.valueItems}>
-            {t.valueItems.map((item) => <span key={item}>{item}</span>)}
+            {t.valueItems.map((item, index) => <span key={item}><ValueIcon index={index} />{item}</span>)}
           </div>
         </div>
       </section>

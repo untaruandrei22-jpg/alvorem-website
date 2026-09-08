@@ -13,11 +13,22 @@ export function AgentInlineText({
   size?: Size;
   className?: string;
 }) {
-  const parts = text.split(/(ALVO|OREM)/g);
+  const parts = text.split(/(ALVOREM|ALVO|OREM)/g);
 
   return (
     <>
       {parts.map((part, index) => {
+        if (part === "ALVOREM") {
+          return (
+            <AgentWordmark
+              key={`${part}-${index}`}
+              agent="alvorem"
+              size={size}
+              className={`${styles.inline} ${className}`.trim()}
+            />
+          );
+        }
+
         if (part === "ALVO") {
           return (
             <AgentWordmark

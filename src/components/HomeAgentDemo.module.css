@@ -278,6 +278,7 @@
   min-width: 0;
   flex: 1;
   resize: none;
+  scrollbar-width: none;
   border: 0;
   outline: 0;
   background: transparent;
@@ -285,6 +286,10 @@
   font: inherit;
   font-size: 0.8rem;
   line-height: 1.45;
+}
+
+.input::-webkit-scrollbar {
+  display: none;
 }
 
 .input::placeholder {

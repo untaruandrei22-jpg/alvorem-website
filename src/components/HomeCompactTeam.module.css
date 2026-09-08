@@ -1,15 +1,15 @@
 .section {
-  padding: clamp(54px, 5.5vw, 72px) 0;
+  padding: clamp(58px, 5.5vw, 76px) 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(circle at 82% 12%, rgba(111, 91, 217, 0.08), transparent 28%),
+    radial-gradient(circle at 82% 12%, rgba(111, 91, 217, 0.055), transparent 28%),
     color-mix(in srgb, var(--surface) 78%, transparent);
 }
 
 :global(html[data-theme="dark"]) .section {
   background:
-    radial-gradient(circle at 82% 8%, rgba(111, 91, 217, 0.13), transparent 32%),
+    radial-gradient(circle at 82% 8%, rgba(111, 91, 217, 0.1), transparent 32%),
     linear-gradient(180deg, rgba(13, 14, 26, 0.98), rgba(10, 11, 21, 0.99));
 }
 
@@ -34,7 +34,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
   margin-top: clamp(30px, 4vw, 42px);
 }
 .grid::before {
@@ -45,32 +45,33 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(111, 91, 217, 0.44), transparent);
   box-shadow: 0 0 12px rgba(111, 91, 217, 0.15);
+  opacity: 0.52;
 }
 
 .card {
   position: relative;
   z-index: 1;
-  min-height: 350px;
+  min-height: 344px;
   display: flex;
   flex-direction: column;
-  padding: 25px;
+  padding: 26px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: color-mix(in srgb, var(--surface) 92%, transparent);
-  box-shadow: 0 18px 50px rgba(31, 24, 60, 0.06);
+  box-shadow: 0 20px 54px rgba(31, 24, 60, 0.055);
 }
 .card::after {
   content: "";
   position: absolute;
-  width: 190px;
-  height: 190px;
-  right: -76px;
+  width: 164px;
+  height: 164px;
+  right: -72px;
   top: 42px;
   border-radius: 50%;
   pointer-events: none;
-  opacity: .55;
-  filter: blur(28px);
+  opacity: .3;
+  filter: blur(34px);
 }
 .alvo {
   background:
@@ -109,20 +110,20 @@
 .orem .topline > span:first-child { color: #9489dd; }
 
 .identity {
-  min-height: 110px;
+  min-height: 106px;
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 11px;
 }
 .identity > :global(.agent-wordmark) { position: relative; z-index: 2; }
-.team .identity { gap: 0; }
+.team .identity { gap: 2px; }
 
 .teamMarks {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  margin-left: -5px;
+  gap: 6px;
+  margin-left: -2px;
 }
 .teamMarks i {
   color: var(--muted-soft);
@@ -149,7 +150,7 @@
   display: grid;
   gap: 8px;
   margin-top: auto;
-  padding-top: 22px;
+  padding-top: 19px;
 }
 .points span { color: var(--muted); font-size: 0.73rem; }
 .points span::before { content: "·"; margin-right: 8px; color: var(--violet); }
@@ -161,7 +162,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 24px;
   padding: 0 17px;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
@@ -170,24 +171,42 @@
   font-weight: 600;
   transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
 }
+.cta :global(.agent-wordmark) {
+  --agent-size: 0.78rem;
+  vertical-align: -0.05em;
+}
 .cta:hover { transform: translateY(-2px); border-color: var(--violet); background: rgba(111, 91, 217, 0.06); }
-.cta svg {
+.cta > svg {
   width: 16px; height: 16px;
   fill: none; stroke: currentColor; stroke-width: 1.6;
   stroke-linecap: round; stroke-linejoin: round;
 }
 
+@media (min-width: 901px) and (max-width: 1120px) {
+  .team .identity > :global(svg[aria-label="ALVO and OREM interlocking rings"]) {
+    width: 108px;
+    height: 87px;
+  }
+
+  .teamMarks :global(.agent-wordmark) {
+    --agent-size: 0.76rem;
+  }
+}
+
 @media (max-width: 900px) {
-  .grid { grid-template-columns: 1fr; }
+  .grid {
+    grid-template-columns: 1fr;
+    margin-top: 32px;
+  }
   .grid::before {
     top: 4%; bottom: 4%; left: 50%; width: 1px; height: auto;
     background: linear-gradient(180deg, transparent, rgba(111, 91, 217, 0.4), transparent);
   }
-  .card { min-height: 330px; }
+  .card { min-height: 286px; }
 }
 
 @media (max-width: 620px) {
   .section :global(.site-shell) { width: min(100% - 32px, 620px); }
-  .card { min-height: 315px; padding: 22px; }
-  .identity { min-height: 100px; }
+  .card { min-height: 0; padding: 22px; }
+  .identity { min-height: 98px; }
 }

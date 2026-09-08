@@ -7,14 +7,14 @@ export default function Home() {
       <div className="cs-horizon" />
 
       <div className="cs-content">
-        <Image
-          src="/alvorem-logo-dark.png"
-          alt="ALVOREM"
-          width={1200}
-          height={420}
-          priority
-          className="cs-logo"
-        />
+      <Image
+        src="/alvorem-logo-new.png"
+        alt="ALVOREM"
+        width={420}
+        height={110}
+        style={{ width: "420px", height: "auto" }}
+        priority
+      />
 
         <h1>Coming soon.</h1>
 

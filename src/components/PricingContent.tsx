@@ -4,6 +4,7 @@ import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentRingMark } from "@/components/AgentRingMark";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
+import brandStyles from "./PricingBrandLockup.module.css";
 import styles from "./PricingContent.module.css";
 
 function ArrowIcon() {
@@ -171,11 +172,11 @@ export function PricingContent() {
               <span>{plan.badge}</span>
               <AgentRingMark variant={key} size="md" />
             </div>
-            <h2 className={key === "team" ? styles.teamTitle : undefined}>
+            <h2 className={key === "team" ? brandStyles.teamTitle : undefined}>
               {key === "team" ? (
                 <>
-                  <AgentWordmark agent="alvorem" size="md" className={styles.privateWordmark} />
-                  <span className={styles.privateSuffix}>Private</span>
+                  <AgentWordmark agent="alvorem" size="md" className={brandStyles.privateWordmark} />
+                  <span className={brandStyles.privateSuffix}>Private</span>
                 </>
               ) : (
                 <AgentWordmark agent={key} size="md" />

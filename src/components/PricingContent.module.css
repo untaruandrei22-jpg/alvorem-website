@@ -1,11 +1,7 @@
 .hero {
   padding-block: clamp(54px, 5.5vw, 78px) clamp(34px, 3.5vw, 48px);
 }
-
-.hero :global(.eyebrow) {
-  margin-bottom: 13px;
-}
-
+.hero :global(.eyebrow) { margin-bottom: 13px; }
 .hero h1,
 .custom h2,
 .value h2,
@@ -14,15 +10,13 @@
   font-weight: 400;
   letter-spacing: -0.06em;
 }
-
 .hero h1 {
   max-width: 940px;
   font-size: clamp(3.3rem, 5.7vw, 5.7rem);
   line-height: 0.95;
 }
-
 .hero > p:last-child {
-  max-width: 760px;
+  max-width: 790px;
   margin-top: 19px;
   color: var(--muted);
   font-size: 0.96rem;
@@ -35,9 +29,8 @@
   gap: 14px;
   padding-bottom: clamp(46px, 5vw, 66px);
 }
-
 .plan {
-  min-height: 510px;
+  min-height: 570px;
   display: flex;
   flex-direction: column;
   padding: clamp(24px, 2.2vw, 30px);
@@ -46,26 +39,23 @@
   background: color-mix(in srgb, var(--surface) 93%, transparent);
   box-shadow: 0 20px 58px rgba(32, 25, 62, 0.07);
 }
-
 .alvo {
   background:
-    radial-gradient(circle at 88% 8%, rgba(228, 202, 177, 0.13), transparent 28%),
+    radial-gradient(circle at 88% 8%, rgba(228, 202, 177, 0.15), transparent 29%),
     color-mix(in srgb, var(--surface) 94%, transparent);
 }
-
 .orem {
-  border-color: color-mix(in srgb, var(--violet) 36%, var(--line));
+  border-color: color-mix(in srgb, var(--violet) 42%, var(--line));
   background:
-    radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.16), transparent 31%),
+    radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.19), transparent 31%),
     color-mix(in srgb, var(--surface) 95%, transparent);
+  box-shadow: 0 22px 62px rgba(69, 49, 154, 0.12);
 }
-
 :global(html[data-theme="dark"]) .orem {
   color: #f8f7ff;
-  border-color: rgba(129, 108, 255, 0.3);
-  background: radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.21), transparent 30%), linear-gradient(160deg, #171629, #0f0f1d);
+  border-color: rgba(129, 108, 255, 0.34);
+  background: radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.24), transparent 30%), linear-gradient(160deg, #171629, #0f0f1d);
 }
-
 .team {
   position: relative;
   border-color: color-mix(in srgb, var(--violet) 48%, var(--line));
@@ -80,72 +70,56 @@
 }
 
 .planTop {
-  min-height: 34px;
+  min-height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
-
 .planTop > span:first-child {
   color: var(--muted-soft);
   font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.14em;
 }
-
-:global(html[data-theme="dark"]) .orem .planTop > span:first-child {
-  color: #998ee6;
-}
-
+.orem .planTop > span:first-child,
 .team .planTop > span:first-child {
   padding: 6px 9px;
-  border: 1px solid color-mix(in srgb, var(--violet) 32%, var(--line));
+  border: 1px solid color-mix(in srgb, var(--violet) 34%, var(--line));
   border-radius: 999px;
-  background: color-mix(in srgb, var(--lilac) 36%, transparent);
+  background: color-mix(in srgb, var(--lilac) 34%, transparent);
   color: var(--violet-deep);
   letter-spacing: 0.12em;
 }
-
-.teamMarks {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.teamMarks i {
-  color: var(--muted-soft);
-  font-style: normal;
+:global(html[data-theme="dark"]) .orem .planTop > span:first-child {
+  border-color: rgba(151, 130, 255, .28);
+  background: rgba(107, 83, 225, .12);
+  color: #b9adff;
 }
 
 .plan h2 {
-  min-height: 45px;
+  min-height: 48px;
   display: flex;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 18px;
   font-family: "Lora", Georgia, serif;
   font-size: clamp(1.95rem, 2.6vw, 2.6rem);
   font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 1.02;
 }
-
 .productName {
   --agent-size: clamp(2rem, 2.45vw, 2.6rem);
-  --agent-tracking: 0.13em;
+  --agent-tracking: 0.1em;
   margin-inline: 0;
 }
 
 .price {
-  margin-top: 18px;
+  margin-top: 16px;
   padding-block: 14px 13px;
   border-block: 1px solid var(--line);
 }
-
-:global(html[data-theme="dark"]) .orem .price {
-  border-color: rgba(255, 255, 255, 0.11);
-}
-
+:global(html[data-theme="dark"]) .orem .price { border-color: rgba(255, 255, 255, 0.11); }
 .priceLabel {
   display: block;
   color: var(--muted-soft);
@@ -153,11 +127,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
 }
-
-:global(html[data-theme="dark"]) .orem .priceLabel {
-  color: #9187d4;
-}
-
+:global(html[data-theme="dark"]) .orem .priceLabel { color: #9187d4; }
 .priceLine {
   display: flex;
   flex-wrap: wrap;
@@ -165,71 +135,56 @@
   gap: 7px;
   margin-top: 6px;
 }
-
 .priceLine strong {
   color: var(--text);
   font-family: "Lora", Georgia, serif;
-  font-size: clamp(2.35rem, 3vw, 3.05rem);
+  font-size: clamp(2.45rem, 3.2vw, 3.2rem);
   font-weight: 500;
   letter-spacing: -0.045em;
   line-height: 1;
 }
+:global(html[data-theme="dark"]) .orem .priceLine strong { color: #f7f5ff; }
+.priceLine span { color: var(--muted); font-size: 0.72rem; }
+:global(html[data-theme="dark"]) .orem .priceLine span { color: #aaa5bb; }
 
-:global(html[data-theme="dark"]) .orem .priceLine strong {
-  color: #f7f5ff;
+.commercialLines {
+  display: grid;
+  gap: 5px;
+  margin-top: 11px;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--line-strong) 72%, transparent);
 }
-
-.priceLine span {
-  color: var(--muted);
-  font-size: 0.72rem;
+.commercialLines span {
+  color: var(--text);
+  font-size: 0.69rem;
+  font-weight: 560;
+  line-height: 1.35;
 }
-
-:global(html[data-theme="dark"]) .orem .priceLine span {
-  color: #aaa5bb;
-}
-
+:global(html[data-theme="dark"]) .orem .commercialLines span { color: #d5d0e1; }
 .price small {
   display: block;
-  margin-top: 5px;
+  margin-top: 8px;
   color: var(--muted-soft);
-  font-size: 0.63rem;
+  font-size: 0.61rem;
+  line-height: 1.4;
 }
-
-:global(html[data-theme="dark"]) .orem .price small {
-  color: #7f7995;
-}
+:global(html[data-theme="dark"]) .orem .price small { color: #7f7995; }
 
 .plan > p {
-  margin-top: 13px;
+  margin-top: 15px;
   color: var(--muted);
   font-size: 0.86rem;
   line-height: 1.6;
 }
-
-:global(html[data-theme="dark"]) .orem > p {
-  color: #b7b2c6;
-}
-
+:global(html[data-theme="dark"]) .orem > p { color: #b7b2c6; }
 .features {
   display: grid;
   gap: 9px;
   margin-top: 20px;
 }
-
-.features > span {
-  color: var(--muted);
-  font-size: 0.75rem;
-}
-
-.features > span::before {
-  content: "✓";
-  margin-right: 8px;
-  color: var(--violet);
-}
-
-:global(html[data-theme="dark"]) .orem .features > span {
-  color: #b2adbf;
-}
+.features > span { color: var(--muted); font-size: 0.75rem; }
+.features > span::before { content: "✓"; margin-right: 8px; color: var(--violet); }
+:global(html[data-theme="dark"]) .orem .features > span { color: #b2adbf; }
 
 .plan > a {
   min-height: 48px;
@@ -245,32 +200,32 @@
   font-weight: 600;
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
-
 :global(html[data-theme="dark"]) .orem > a {
   border-color: rgba(127, 105, 255, 0.64);
   background: linear-gradient(90deg, rgba(92, 71, 235, 0.92), rgba(48, 41, 132, 0.9));
 }
-
 .team > a {
   border-color: var(--violet);
   background: linear-gradient(100deg, var(--violet), #7659e8);
   color: #fff;
 }
-
 .plan > a:hover {
   border-color: var(--violet);
   box-shadow: 0 10px 26px rgba(111, 91, 217, 0.16);
   transform: translateY(-2px);
 }
-
 .plan > a svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  width: 16px; height: 16px;
+  fill: none; stroke: currentColor; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+.pricingFootnote {
+  margin-top: calc(clamp(46px, 5vw, 66px) * -0.58);
+  margin-bottom: clamp(34px, 4vw, 48px);
+  color: var(--muted-soft);
+  font-size: 0.69rem;
+  line-height: 1.55;
 }
 
 .custom {
@@ -284,16 +239,8 @@
   border-radius: 20px;
   background: color-mix(in srgb, var(--surface-soft) 64%, transparent);
 }
-
-.custom :global(.eyebrow) {
-  margin-bottom: 9px;
-}
-
-.custom h2 {
-  font-size: clamp(1.9rem, 3vw, 3rem);
-  line-height: 1;
-}
-
+.custom :global(.eyebrow) { margin-bottom: 9px; }
+.custom h2 { font-size: clamp(1.9rem, 3vw, 3rem); line-height: 1; }
 .custom > div > p:last-child {
   max-width: 740px;
   margin-top: 11px;
@@ -308,31 +255,20 @@
     radial-gradient(circle at 82% 14%, rgba(111, 91, 217, 0.09), transparent 30%),
     color-mix(in srgb, var(--surface) 84%, transparent);
 }
-
 .valueInner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
   gap: 54px;
   align-items: end;
 }
-
-.value h2 {
-  margin-top: 10px;
-  font-size: clamp(2.7rem, 4.4vw, 4.3rem);
-}
-
+.value h2 { margin-top: 10px; font-size: clamp(2.7rem, 4.4vw, 4.3rem); }
 .valueInner > div:first-child > p:last-child {
   max-width: 700px;
   margin-top: 15px;
   color: var(--muted);
   line-height: 1.62;
 }
-
-.valueItems {
-  display: grid;
-  border-top: 1px solid var(--line);
-}
-
+.valueItems { display: grid; border-top: 1px solid var(--line); }
 .valueItems span {
   min-height: 52px;
   display: flex;
@@ -341,90 +277,35 @@
   color: var(--text);
   font-size: 0.84rem;
 }
-
 .valueItems svg {
-  width: 20px;
-  height: 20px;
+  width: 20px; height: 20px;
   margin-right: 14px;
-  fill: none;
-  stroke: var(--violet);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  fill: none; stroke: var(--violet); stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
 }
+.valueItems span::before { content: ""; width: 0; margin: 0; }
 
-.valueItems span::before {
-  content: "";
-  width: 0;
-  margin: 0;
-  color: var(--violet);
-}
-
-.faq {
-  padding-block: clamp(48px, 5vw, 68px);
-}
-
-.faq > h2 {
-  font-size: clamp(2.55rem, 4.2vw, 4rem);
-}
-
+.faq { padding-block: clamp(48px, 5vw, 68px); }
+.faq > h2 { font-size: clamp(2.55rem, 4.2vw, 4rem); }
 .faq > div {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 38px;
   margin-top: 26px;
 }
-
-.faq article {
-  padding: 20px 0;
-  border-top: 1px solid var(--line);
-}
-
-.faq h3 {
-  font-size: 0.96rem;
-  font-weight: 600;
-}
-
-.faq p {
-  margin-top: 7px;
-  color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.56;
-}
+.faq article { padding: 20px 0; border-top: 1px solid var(--line); }
+.faq h3 { font-size: 0.96rem; font-weight: 600; }
+.faq p { margin-top: 7px; color: var(--muted); font-size: 0.82rem; line-height: 1.56; }
 
 @media (max-width: 960px) {
-  .plans {
-    grid-template-columns: 1fr;
-  }
-
-  .plan {
-    min-height: 0;
-  }
-
-  .plan > a {
-    margin-top: 28px;
-  }
-
-  .custom,
-  .valueInner {
-    grid-template-columns: 1fr;
-  }
+  .plans { grid-template-columns: 1fr; }
+  .plan { min-height: 0; }
+  .plan > a { margin-top: 28px; }
+  .custom, .valueInner { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {
-  .hero,
-  .plans,
-  .custom,
-  .valueInner,
-  .faq {
-    width: min(100% - 32px, 700px);
-  }
-
-  .hero h1 {
-    font-size: clamp(3rem, 14vw, 4.7rem);
-  }
-
-  .faq > div {
-    grid-template-columns: 1fr;
-  }
+  .hero, .plans, .pricingFootnote, .custom, .valueInner, .faq { width: min(100% - 32px, 700px); }
+  .hero h1 { font-size: clamp(3rem, 14vw, 4.7rem); }
+  .faq > div { grid-template-columns: 1fr; }
 }

@@ -8,7 +8,6 @@
 
 .privateWordmark {
   --agent-size: 1.18rem;
-  --agent-gap: 0.14em;
   flex: 0 0 auto;
 }
 
@@ -31,7 +30,6 @@
 
   .privateWordmark {
     --agent-size: 1rem;
-    --agent-gap: 0.11em;
   }
 
   .privateSuffix {

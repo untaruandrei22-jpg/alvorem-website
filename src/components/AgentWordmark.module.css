@@ -1,35 +1,44 @@
 .wordmark {
   --agent-size: 1rem;
-  --agent-gap: 0.18em;
   display: inline-flex;
   align-items: center;
-  gap: var(--agent-gap);
   width: max-content;
   color: currentColor;
-  font-family: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
   font-size: var(--agent-size);
-  font-weight: 500;
   line-height: 1;
   white-space: nowrap;
-  vertical-align: -0.03em;
+  vertical-align: -0.075em;
   text-rendering: geometricPrecision;
 }
 
-.wordmark > span {
-  display: inline-block;
-  line-height: 1;
-}
-
-.brandA {
-  width: 1.03em;
-  height: 0.9em;
+.geometry {
+  display: block;
+  width: auto;
+  height: 0.94em;
   flex: 0 0 auto;
   overflow: visible;
+}
+
+.letterforms {
   fill: none;
   stroke: currentColor;
+  stroke-width: 3.1;
   stroke-linecap: square;
   stroke-linejoin: miter;
+}
+
+.alvoRing,
+.oremRing {
+  fill: none;
   stroke-width: 3.1;
+}
+
+.alvoRing {
+  filter: drop-shadow(0 0 0.035em rgba(255, 242, 224, 0.72));
+}
+
+.oremRing {
+  filter: drop-shadow(0 0 0.045em rgba(111, 91, 217, 0.78));
 }
 
 .alvo,
@@ -40,20 +49,16 @@
 
 .xs {
   --agent-size: 0.72rem;
-  --agent-gap: 0.11em;
 }
 
 .sm {
   --agent-size: 0.9rem;
-  --agent-gap: 0.13em;
 }
 
 .md {
   --agent-size: 1.18rem;
-  --agent-gap: 0.16em;
 }
 
 .lg {
   --agent-size: clamp(2.6rem, 5vw, 4.6rem);
-  --agent-gap: 0.18em;
 }

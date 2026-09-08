@@ -193,60 +193,9 @@ html[data-theme="dark"] .site-header {
   color: var(--text);
 }
 
-.brand-wordmark {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.33em;
+.brand-logo .brand-wordmark {
+  --agent-size: 1.48rem;
   color: inherit;
-  font-size: 1.48rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  line-height: 1;
-}
-
-.brand-a {
-  width: 1.48em;
-  height: 1.18em;
-  margin-right: -0.04em;
-  overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
-  stroke-width: 3.1;
-}
-
-.brand-dual-o {
-  position: relative;
-  isolation: isolate;
-  width: 1.12em;
-  height: 1.03em;
-  flex: 0 0 auto;
-  margin-inline: -0.13em -0.11em;
-}
-
-.brand-ring {
-  position: absolute;
-  top: 50%;
-  width: 0.84em;
-  height: 0.84em;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 0.105em), #000 calc(100% - 0.095em));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 0.105em), #000 calc(100% - 0.095em));
-}
-
-.brand-ring--alvo {
-  z-index: 2;
-  left: 0;
-  background: conic-gradient(from 215deg, #d8b58f, #fff8ed 31%, #ffffff 52%, #d5bea5 78%, #d8b58f);
-  filter: drop-shadow(0 0 0.08em rgba(255, 242, 224, 0.72));
-}
-
-.brand-ring--orem {
-  right: 0;
-  background: conic-gradient(from 200deg, #4930ad, #7560f0 35%, #d0c3ff 55%, #7254e5 74%, #4930ad);
-  filter: drop-shadow(0 0 0.11em rgba(111, 91, 217, 0.86));
 }
 
 .brand-tagline {
@@ -271,8 +220,7 @@ html[data-theme="dark"] .site-header {
 }
 
 .brand-logo--compact .brand-wordmark {
-  gap: 0.3em;
-  font-size: 0.82rem;
+  --agent-size: 0.82rem;
 }
 
 .brand-logo--inverse {
@@ -1303,9 +1251,7 @@ html[data-theme="dark"] .step-card:hover {
 }
 
 .footer-brand .brand-logo--compact .brand-wordmark {
-  gap: 0.31em;
-  font-size: 1.08rem;
-  letter-spacing: 0.16em;
+  --agent-size: 1.08rem;
 }
 
 .footer-divider {
@@ -1522,10 +1468,8 @@ html[data-theme="dark"] .step-card:hover {
     gap: 10px;
   }
 
-  .brand-wordmark {
-    gap: 0.27em;
-    font-size: 1rem;
-    letter-spacing: 0.11em;
+  .brand-logo .brand-wordmark {
+    --agent-size: 1rem;
   }
 
   .brand-tagline {

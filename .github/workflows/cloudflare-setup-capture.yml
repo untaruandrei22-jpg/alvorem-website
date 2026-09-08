@@ -1,0 +1,50 @@
+name: Cloudflare setup capture
+
+on:
+  push:
+    branches:
+      - fix/cloudflare-next-worker
+    paths:
+      - .github/workflows/cloudflare-setup-capture.yml
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install current dependencies
+        run: npm ci
+
+      - name: Run Wrangler setup
+        run: npx wrangler@4.130.0 setup --yes
+
+      - name: Remove local-only secret file
+        run: rm -f .dev.vars
+
+      - name: Capture generated configuration
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-generated-config
+          if-no-files-found: error
+          path: |
+            package.json
+            package-lock.json
+            wrangler.jsonc
+            open-next.config.ts
+            next.config.ts
+            .gitignore
+            public/_headers

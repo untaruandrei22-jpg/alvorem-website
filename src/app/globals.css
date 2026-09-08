@@ -216,31 +216,37 @@ html[data-theme="dark"] .site-header {
   stroke-width: 3.1;
 }
 
-.brand-halo {
+.brand-dual-o {
   position: relative;
-  width: 1.03em;
+  isolation: isolate;
+  width: 1.12em;
   height: 1.03em;
-  margin-inline: -0.03em 0.02em;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, var(--local-logo-hole) 0 56%, transparent 59%),
-    conic-gradient(from 220deg, #ffcfaa 0deg, #fff6e8 20deg, #ffffff 44deg, #ae6ef0 125deg, #6f5bd9 250deg, #ffd2a8 360deg);
-  box-shadow:
-    0 0 9px rgba(111, 91, 217, 0.48),
-    0 0 20px rgba(180, 123, 238, 0.25);
+  flex: 0 0 auto;
+  margin-inline: -0.13em -0.11em;
 }
 
-.brand-halo::after {
-  content: "";
+.brand-ring {
   position: absolute;
-  left: 50%;
-  bottom: -0.14em;
-  width: 0.36em;
-  height: 0.18em;
+  top: 50%;
+  width: 0.84em;
+  height: 0.84em;
   border-radius: 50%;
-  background: #ffd0a8;
-  filter: blur(3px);
-  transform: translateX(-50%);
+  transform: translateY(-50%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 0.105em), #000 calc(100% - 0.095em));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 0.105em), #000 calc(100% - 0.095em));
+}
+
+.brand-ring--alvo {
+  z-index: 2;
+  left: 0;
+  background: conic-gradient(from 215deg, #d8b58f, #fff8ed 31%, #ffffff 52%, #d5bea5 78%, #d8b58f);
+  filter: drop-shadow(0 0 0.08em rgba(255, 242, 224, 0.72));
+}
+
+.brand-ring--orem {
+  right: 0;
+  background: conic-gradient(from 200deg, #4930ad, #7560f0 35%, #d0c3ff 55%, #7254e5 74%, #4930ad);
+  filter: drop-shadow(0 0 0.11em rgba(111, 91, 217, 0.86));
 }
 
 .brand-tagline {

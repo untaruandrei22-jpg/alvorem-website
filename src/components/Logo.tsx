@@ -16,7 +16,10 @@ export function Logo({ compact = false, inverse = false }: LogoProps) {
         </svg>
         <span>L</span>
         <span>V</span>
-        <span className="brand-halo" />
+        <span className="brand-dual-o">
+          <i className="brand-ring brand-ring--alvo" />
+          <i className="brand-ring brand-ring--orem" />
+        </span>
         <span>R</span>
         <span>E</span>
         <span>M</span>

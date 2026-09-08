@@ -1,0 +1,38 @@
+.teamTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 0.42em;
+  flex-wrap: nowrap;
+  letter-spacing: 0;
+}
+
+.privateWordmark {
+  --agent-size: 1.18rem;
+  --agent-gap: 0.14em;
+  flex: 0 0 auto;
+}
+
+.privateSuffix {
+  display: inline-block;
+  flex: 0 0 auto;
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+@media (max-width: 1180px) and (min-width: 961px) {
+  .teamTitle {
+    gap: 0.32em;
+  }
+
+  .privateWordmark {
+    --agent-size: 1rem;
+    --agent-gap: 0.11em;
+  }
+
+  .privateSuffix {
+    font-size: 1.45rem;
+  }
+}

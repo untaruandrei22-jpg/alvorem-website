@@ -107,7 +107,7 @@ const copy = {
     finalTitle: "Different minds build a brighter tomorrow.",
     finalBody:
       "If there is something you think ALVOREM should build, improve or question, that is already a better start than a conventional cover letter.",
-    email: "Open your email",
+    email: "Email your weird CV",
     subject: "My weird CV — ALVOREM",
   },
   ro: {
@@ -147,7 +147,7 @@ const copy = {
     finalTitle: "Minți diferite construiesc un mâine mai luminos.",
     finalBody:
       "Dacă există ceva ce crezi că ALVOREM ar trebui să construiască, să îmbunătățească sau să pună sub semnul întrebării, este deja un început mai bun decât o scrisoare de intenție convențională.",
-    email: "Deschide email-ul",
+    email: "Trimite CV-ul ciudat pe email",
     subject: "CV-ul meu ciudat — ALVOREM",
   },
 } as const;
@@ -245,7 +245,7 @@ export function CareersContent() {
       <section className={styles.final}>
         <div className={["site-shell", styles.finalInner].join(" ")}>
           <h2>{t.finalTitle}</h2>
-          <p><AgentInlineText text={t.finalBody} /></p>
+          <p><AgentInlineText text={t.finalBody} size="sm" /></p>
           <a className="button button--primary" href={applicationHref}>
             {t.email}
             <ArrowIcon />

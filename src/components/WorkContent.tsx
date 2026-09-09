@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
@@ -19,6 +20,135 @@ function StepIcon({ step, team = false }: { step: Step; team?: boolean }) {
   if (step === "data") return <svg viewBox="0 0 28 28" aria-hidden="true"><ellipse cx="14" cy="6.5" rx="8.5" ry="3.5" /><path d="M5.5 6.5v7c0 1.9 3.8 3.5 8.5 3.5s8.5-1.6 8.5-3.5v-7M5.5 13.5v7c0 1.9 3.8 3.5 8.5 3.5s8.5-1.6 8.5-3.5v-7" /></svg>;
   if (step === "intelligence") return <svg viewBox="0 0 36 28" aria-hidden="true"><path d="M13 2c1.2 6 4.1 9.1 10 10.3-5.9 1.2-8.8 4.4-10 10.4-1.2-6-4.1-9.2-10-10.4C8.9 11.1 11.8 8 13 2Z" />{team && <path d="M27 8c.7 3.4 2.4 5.2 5.8 5.9-3.4.7-5.1 2.5-5.8 5.9-.7-3.4-2.4-5.2-5.8-5.9C24.6 13.2 26.3 11.4 27 8Z" />}</svg>;
   return <svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 23V16h4v7M12 23V10h4v13M19 23V4h4v19M3 23.5h22" /></svg>;
+}
+
+const stepOrder: Step[] = ["problem", "data", "intelligence", "outcome"];
+const connectorClasses = [styles.connectorFirst, styles.connectorMiddle, styles.connectorLast];
+
+const straightPath = "M0 21 H100";
+const branchPaths = [
+  "M0 21 C28 21 34 5 58 5 C78 5 84 18 100 21",
+  straightPath,
+  "M0 21 C28 21 34 37 58 37 C78 37 84 24 100 21",
+];
+const joinPath = "M48 39 C60 39 68 21 100 21";
+
+function MotionPath({ path, className }: { path: string; className: string }) {
+  return <path className={className} d={path} pathLength="1" vectorEffect="non-scaling-stroke" />;
+}
+
+function WorkflowConnector({ mode, index }: { mode: Mode; index: number }) {
+  const isReasoningBranch = mode === "orem" && index === 1;
+  const isTeamJoin = mode === "team" && index === 1;
+  const isTeamOutcome = mode === "team" && index === 2;
+
+  return (
+    <span className={[styles.connector, connectorClasses[index]].join(" ")} aria-hidden="true">
+      <svg className={styles.connectorSvg} viewBox="0 0 100 42" preserveAspectRatio="none">
+        {isReasoningBranch ? (
+          branchPaths.map((path, branchIndex) => (
+            <MotionPath
+              key={path}
+              path={path}
+              className={[styles.routeBase, styles.routeBranch, branchIndex === 1 ? styles.routeBranchCenter : ""].filter(Boolean).join(" ")}
+            />
+          ))
+        ) : (
+          <MotionPath path={straightPath} className={styles.routeBase} />
+        )}
+
+        {isTeamJoin && <MotionPath path={joinPath} className={[styles.routeBase, styles.joinRoute].join(" ")} />}
+        {isTeamJoin && <circle className={styles.depthCue} cx="48" cy="21" r="4" vectorEffect="non-scaling-stroke" />}
+
+        {isReasoningBranch ? (
+          branchPaths.map((path, branchIndex) => (
+            <MotionPath
+              key={`signal-${path}`}
+              path={path}
+              className={[
+                styles.signalPath,
+                styles.signalViolet,
+                branchIndex === 1 ? styles.branchSignalCenter : "",
+                branchIndex === 2 ? styles.branchSignalLower : "",
+              ].filter(Boolean).join(" ")}
+            />
+          ))
+        ) : (
+          <MotionPath
+            path={straightPath}
+            className={[
+              styles.signalPath,
+              mode === "alvo" || (mode === "team" && index < 2) ? styles.signalWarm : styles.signalViolet,
+              isTeamOutcome ? styles.signalUnified : "",
+            ].filter(Boolean).join(" ")}
+          />
+        )}
+
+        {isTeamJoin && <MotionPath path={joinPath} className={[styles.signalPath, styles.signalViolet, styles.joinSignal].join(" ")} />}
+      </svg>
+
+      <span className={styles.mobileTrack}>
+        <i className={styles.mobileSignalPrimary} />
+        {isTeamJoin && <i className={styles.mobileSignalJoin} />}
+      </span>
+    </span>
+  );
+}
+
+function WorkflowMotion({
+  mode,
+  labels,
+  content,
+  flow,
+}: {
+  mode: Mode;
+  labels: Readonly<Record<Step, string>>;
+  content: Readonly<Record<Step, string>>;
+  flow?: string;
+}) {
+  const journeyRef = useRef<HTMLDivElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const journey = journeyRef.current;
+    if (!journey) return;
+
+    if (!("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsPlaying(true);
+        observer.disconnect();
+      },
+      { threshold: 0.28, rootMargin: "0px 0px -10%" },
+    );
+
+    observer.observe(journey);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={journeyRef}
+      className={[styles.journey, styles[mode], isPlaying ? styles.isPlaying : ""].filter(Boolean).join(" ")}
+      data-workflow={mode}
+    >
+      {stepOrder.map((step, index) => (
+        <div className={styles.step} data-step={step} key={step}>
+          <div className={styles.stepHead}>
+            <span className={styles.stepIcon}>
+              <StepIcon step={step} team={mode === "team"} />
+            </span>
+            {index < stepOrder.length - 1 && <WorkflowConnector mode={mode} index={index} />}
+          </div>
+          <h3>{labels[step]}</h3>
+          <p><AgentInlineText text={content[step]} /></p>
+        </div>
+      ))}
+      {flow && <p className={styles.flow}>{flow}</p>}
+    </div>
+  );
 }
 
 function ModeMark({ mode }: { mode: Mode }) {
@@ -106,7 +236,6 @@ const copy = {
 export function WorkContent() {
   const { locale } = useLocale();
   const t = copy[locale];
-  const steps: Step[] = ["problem", "data", "intelligence", "outcome"];
 
   return (
     <>
@@ -134,19 +263,12 @@ export function WorkContent() {
                   <p><AgentInlineText text={item.summary} /></p>
                   <Link className={styles.caseLink} href={item.href}><AgentInlineText text={item.action} /> <ArrowIcon /></Link>
                 </div>
-                <div className={styles.journey}>
-                  {steps.map((step, index) => (
-                    <div className={styles.step} key={step}>
-                      <div className={styles.stepHead}>
-                        <StepIcon step={step} team={item.mode === "team"} />
-                        {index < steps.length - 1 && <span className={styles.stepArrow}>→</span>}
-                      </div>
-                      <h3>{t.labels[step]}</h3>
-                      <p><AgentInlineText text={item[step]} /></p>
-                    </div>
-                  ))}
-                  {item.mode === "team" && <p className={styles.flow}>{t.flow}</p>}
-                </div>
+                <WorkflowMotion
+                  mode={item.mode}
+                  labels={t.labels}
+                  content={item}
+                  flow={item.mode === "team" ? t.flow : undefined}
+                />
               </div>
             </div>
           </article>

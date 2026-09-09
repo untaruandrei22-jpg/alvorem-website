@@ -1,0 +1,109 @@
+.scope {
+  margin-bottom: clamp(46px, 5vw, 66px);
+  padding: clamp(28px, 3vw, 38px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 84% 12%, rgba(111, 91, 217, 0.09), transparent 28%),
+    radial-gradient(circle at 12% 88%, rgba(226, 196, 168, 0.07), transparent 26%),
+    color-mix(in srgb, var(--surface-soft) 66%, transparent);
+}
+
+.heading {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1.2fr);
+  gap: 14px clamp(28px, 5vw, 70px);
+  align-items: end;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.heading :global(.eyebrow) {
+  grid-column: 1 / -1;
+  margin-bottom: -2px;
+}
+.heading h2 {
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(2.1rem, 3.7vw, 3.7rem);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+.heading > p:last-child {
+  max-width: 650px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.62;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 8px;
+}
+.grid article {
+  min-height: 148px;
+  padding: 24px 24px 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.grid article:nth-child(3n + 2),
+.grid article:nth-child(3n + 3) {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+.grid h3 {
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+.grid p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.73rem;
+  line-height: 1.58;
+}
+
+.footer {
+  margin-top: 19px;
+  color: var(--muted-soft);
+  font-size: 0.69rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 960px) {
+  .heading {
+    grid-template-columns: 1fr;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid article:nth-child(3n + 2),
+  .grid article:nth-child(3n + 3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .grid article:nth-child(even) {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 700px) {
+  .scope {
+    width: min(100% - 32px, 700px);
+    padding: 24px 20px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .grid article,
+  .grid article:nth-child(even) {
+    min-height: 0;
+    padding: 20px 0;
+    border-left: 0;
+  }
+  .heading h2 {
+    font-size: clamp(2.35rem, 11vw, 3.5rem);
+  }
+}

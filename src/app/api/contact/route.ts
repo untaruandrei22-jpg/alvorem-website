@@ -7,8 +7,95 @@ function clean(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
+function singleLine(value: string) {
+  return value.replace(/[\r\n]+/g, " ").trim();
+}
+
 function validEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+type LeadPayload = {
+  type: "alvorem.website.lead";
+  submitted_at: string;
+  name: string;
+  email: string;
+  company: string;
+  intent: string;
+  message: string;
+  source: string;
+  locale: string;
+};
+
+async function deliverWithResend(payload: LeadPayload, apiKey: string) {
+  const to = process.env.CONTACT_TO_EMAIL?.trim() || "hello@alvorem.ro";
+  const from = process.env.CONTACT_FROM_EMAIL?.trim() || "ALVOREM <hello@alvorem.ro>";
+  const subject = `New ALVOREM lead — ${singleLine(payload.company || payload.name)}`;
+  const text = [
+    "New ALVOREM website conversation",
+    "",
+    `Name: ${payload.name}`,
+    `Email: ${payload.email}`,
+    `Company: ${payload.company}`,
+    `Interest: ${payload.intent}`,
+    `Source: ${payload.source}`,
+    `Locale: ${payload.locale}`,
+    `Submitted: ${payload.submitted_at}`,
+    "",
+    "What they want to simplify:",
+    payload.message,
+  ].join("\n");
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "Idempotency-Key": `alvorem-lead-${crypto.randomUUID()}`,
+    },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject,
+      text,
+      reply_to: payload.email,
+      tags: [
+        { name: "source", value: payload.source.replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 256) || "direct" },
+        { name: "intent", value: payload.intent },
+      ],
+    }),
+    redirect: "error",
+    signal: AbortSignal.timeout(8000),
+  });
+
+  return response.ok;
+}
+
+async function deliverWithWebhook(payload: LeadPayload, webhookUrl: string) {
+  let parsedWebhook: URL;
+  try {
+    parsedWebhook = new URL(webhookUrl);
+  } catch {
+    return false;
+  }
+  if (parsedWebhook.protocol !== "https:") return false;
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "User-Agent": "ALVOREM-Website/1.0",
+  };
+  const bearer = process.env.CONTACT_WEBHOOK_BEARER_TOKEN?.trim();
+  if (bearer) headers.Authorization = `Bearer ${bearer}`;
+
+  const response = await fetch(parsedWebhook, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload),
+    redirect: "error",
+    signal: AbortSignal.timeout(8000),
+  });
+
+  return response.ok;
 }
 
 export async function POST(request: Request) {
@@ -39,22 +126,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, code: "invalid_input" }, { status: 400 });
   }
 
-  const webhookUrl = process.env.CONTACT_WEBHOOK_URL?.trim();
-  if (!webhookUrl) {
-    return NextResponse.json({ ok: false, code: "contact_not_configured" }, { status: 503 });
-  }
-
-  let parsedWebhook: URL;
-  try {
-    parsedWebhook = new URL(webhookUrl);
-  } catch {
-    return NextResponse.json({ ok: false, code: "contact_not_configured" }, { status: 503 });
-  }
-  if (parsedWebhook.protocol !== "https:") {
-    return NextResponse.json({ ok: false, code: "contact_not_configured" }, { status: 503 });
-  }
-
-  const payload = {
+  const payload: LeadPayload = {
     type: "alvorem.website.lead",
     submitted_at: new Date().toISOString(),
     name,
@@ -66,28 +138,25 @@ export async function POST(request: Request) {
     locale,
   };
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    "User-Agent": "ALVOREM-Website/1.0",
-  };
-  const bearer = process.env.CONTACT_WEBHOOK_BEARER_TOKEN?.trim();
-  if (bearer) headers.Authorization = `Bearer ${bearer}`;
+  const resendApiKey = process.env.RESEND_API_KEY?.trim();
+  const webhookUrl = process.env.CONTACT_WEBHOOK_URL?.trim();
 
-  try {
-    const response = await fetch(parsedWebhook, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
-      redirect: "error",
-      signal: AbortSignal.timeout(8000),
-    });
-
-    if (!response.ok) {
-      return NextResponse.json({ ok: false, code: "delivery_failed" }, { status: 502 });
-    }
-  } catch {
-    return NextResponse.json({ ok: false, code: "delivery_failed" }, { status: 502 });
+  if (!resendApiKey && !webhookUrl) {
+    return NextResponse.json({ ok: false, code: "contact_not_configured" }, { status: 503 });
   }
 
-  return NextResponse.json({ ok: true });
+  try {
+    if (resendApiKey && await deliverWithResend(payload, resendApiKey)) {
+      return NextResponse.json({ ok: true, delivery: "email" });
+    }
+
+    // Keep the webhook path as a secondary delivery route if configured.
+    if (webhookUrl && await deliverWithWebhook(payload, webhookUrl)) {
+      return NextResponse.json({ ok: true, delivery: "webhook" });
+    }
+  } catch {
+    // Deliberately do not log lead PII. The client will offer its prefilled email fallback.
+  }
+
+  return NextResponse.json({ ok: false, code: "delivery_failed" }, { status: 502 });
 }

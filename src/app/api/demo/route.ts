@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const DEVELOPMENT_DEMO_API = "http://127.0.0.1:8000";
+const PRODUCTION_DEMO_API = "https://private-ai-business-agent-production.up.railway.app";
 const MAX_QUESTION_LENGTH = 300;
 const MAX_REQUEST_BYTES = 4_096;
 const REQUEST_TIMEOUT_MS = 20_000;
@@ -33,7 +34,10 @@ function resolveDemoApiBaseUrl() {
     return DEVELOPMENT_DEMO_API;
   }
 
-  return null;
+  // The public synthetic demo backend is not a secret. Keep this production
+  // fallback so Cloudflare builds still work when runtime variables are not
+  // surfaced through process.env by the active Workers adapter.
+  return PRODUCTION_DEMO_API;
 }
 
 function upstreamHeaders(includeJsonBody = false) {

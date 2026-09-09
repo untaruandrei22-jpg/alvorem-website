@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { MouseEvent } from "react";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { HomeAgentDemo } from "@/components/HomeAgentDemo";
 import { useLocale } from "@/components/LocaleProvider";
@@ -103,6 +104,32 @@ export function HomepageHero() {
   const { locale } = useLocale();
   const t = copy[locale];
 
+  function handleStartWithAlvo(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+
+    const demo = document.getElementById("agent-demo");
+    const question = document.getElementById("home-agent-question");
+    const scrollTarget = question ?? demo;
+
+    if (!scrollTarget) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+    window.history.replaceState(null, "", "#agent-demo");
+    scrollTarget.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "center",
+    });
+
+    if (hasFinePointer && question instanceof HTMLTextAreaElement) {
+      window.setTimeout(
+        () => question.focus({ preventScroll: true }),
+        reduceMotion ? 0 : 420,
+      );
+    }
+  }
+
   return (
     <section
       className={["site-shell", styles.hero].join(" ")}
@@ -130,7 +157,7 @@ export function HomepageHero() {
         </p>
 
         <div className={styles.actions}>
-          <a className="button button--primary" href="#agent-demo">
+          <a className="button button--primary" href="#agent-demo" onClick={handleStartWithAlvo}>
             {t.primary} <AgentWordmark agent="alvo" size="xs" className={styles.buttonAgent} /> <ArrowIcon />
           </a>
           <Link className="button button--secondary" href="/solutions#team-modes">

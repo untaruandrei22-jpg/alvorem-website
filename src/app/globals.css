@@ -193,54 +193,9 @@ html[data-theme="dark"] .site-header {
   color: var(--text);
 }
 
-.brand-wordmark {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.33em;
+.brand-logo .brand-wordmark {
+  --agent-size: 1.48rem;
   color: inherit;
-  font-size: 1.48rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  line-height: 1;
-}
-
-.brand-a {
-  width: 1.48em;
-  height: 1.18em;
-  margin-right: -0.04em;
-  overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: square;
-  stroke-linejoin: miter;
-  stroke-width: 3.1;
-}
-
-.brand-halo {
-  position: relative;
-  width: 1.03em;
-  height: 1.03em;
-  margin-inline: -0.03em 0.02em;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, var(--local-logo-hole) 0 56%, transparent 59%),
-    conic-gradient(from 220deg, #ffcfaa 0deg, #fff6e8 20deg, #ffffff 44deg, #ae6ef0 125deg, #6f5bd9 250deg, #ffd2a8 360deg);
-  box-shadow:
-    0 0 9px rgba(111, 91, 217, 0.48),
-    0 0 20px rgba(180, 123, 238, 0.25);
-}
-
-.brand-halo::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -0.14em;
-  width: 0.36em;
-  height: 0.18em;
-  border-radius: 50%;
-  background: #ffd0a8;
-  filter: blur(3px);
-  transform: translateX(-50%);
 }
 
 .brand-tagline {
@@ -265,8 +220,7 @@ html[data-theme="dark"] .site-header {
 }
 
 .brand-logo--compact .brand-wordmark {
-  gap: 0.3em;
-  font-size: 0.82rem;
+  --agent-size: 0.82rem;
 }
 
 .brand-logo--inverse {
@@ -1297,9 +1251,7 @@ html[data-theme="dark"] .step-card:hover {
 }
 
 .footer-brand .brand-logo--compact .brand-wordmark {
-  gap: 0.31em;
-  font-size: 1.08rem;
-  letter-spacing: 0.16em;
+  --agent-size: 1.08rem;
 }
 
 .footer-divider {
@@ -1516,10 +1468,8 @@ html[data-theme="dark"] .step-card:hover {
     gap: 10px;
   }
 
-  .brand-wordmark {
-    gap: 0.27em;
-    font-size: 1rem;
-    letter-spacing: 0.11em;
+  .brand-logo .brand-wordmark {
+    --agent-size: 1rem;
   }
 
   .brand-tagline {

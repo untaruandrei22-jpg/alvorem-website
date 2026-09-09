@@ -1,0 +1,38 @@
+.teamTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  flex-wrap: nowrap;
+  letter-spacing: 0;
+}
+
+.privateWordmark {
+  --agent-size: 1.18rem;
+  flex: 0 0 auto;
+}
+
+.privateSuffix {
+  display: inline-block;
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-family: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  transform: translateY(0.02em);
+}
+
+@media (max-width: 1180px) and (min-width: 961px) {
+  .teamTitle {
+    gap: 0.58em;
+  }
+
+  .privateWordmark {
+    --agent-size: 1rem;
+  }
+
+  .privateSuffix {
+    font-size: 0.74rem;
+  }
+}

@@ -3,15 +3,15 @@
 }
 
 :global(html[data-theme="dark"]) .section {
-  background: linear-gradient(180deg, #11101f 0%, #0d0d18 100%);
+  background: linear-gradient(180deg, #0c0d18 0%, #0a0b14 100%);
 }
 
 .trust {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(400px, 1.08fr);
-  gap: clamp(34px, 5vw, 64px);
+  gap: clamp(38px, 4.8vw, 60px);
   align-items: center;
-  padding-block: clamp(58px, 6vw, 82px);
+  padding-block: clamp(58px, 5.5vw, 76px);
 }
 
 .copy {
@@ -82,10 +82,10 @@
   position: relative;
   min-height: 410px;
   overflow: hidden;
-  border: 1px solid var(--line-strong);
-  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--line-strong) 82%, transparent);
+  border-radius: 16px;
   background: var(--surface-soft);
-  box-shadow: var(--soft-shadow);
+  box-shadow: 0 24px 64px rgba(31, 24, 60, 0.1);
 }
 
 .image::after {
@@ -115,24 +115,24 @@
   overflow: hidden;
   border-top: 1px solid rgba(145, 130, 255, 0.18);
   background:
-    radial-gradient(ellipse 42% 50% at 50% 110%, rgba(129, 101, 255, 0.36), transparent 68%),
-    linear-gradient(180deg, #11101e 0%, #090a12 100%);
+    radial-gradient(ellipse 44% 52% at 50% 112%, rgba(129, 101, 255, 0.3), transparent 68%),
+    linear-gradient(180deg, #0e0f1b 0%, #080912 100%);
   color: #f8f7ff;
 }
 
 .glow {
   position: absolute;
   left: 50%;
-  bottom: -170px;
-  width: min(940px, 86vw);
+  bottom: -178px;
+  width: min(980px, 88vw);
   height: 250px;
   transform: translateX(-50%);
   border-radius: 50% 50% 0 0;
   border-top: 1px solid rgba(220, 212, 255, 0.74);
   box-shadow:
-    0 -2px 16px rgba(235, 230, 255, 0.7),
-    0 -18px 54px rgba(111, 91, 217, 0.35),
-    0 -55px 110px rgba(65, 47, 180, 0.18);
+    0 -2px 14px rgba(235, 230, 255, 0.52),
+    0 -18px 52px rgba(111, 91, 217, 0.27),
+    0 -52px 104px rgba(65, 47, 180, 0.13);
 }
 
 .ctaInner {
@@ -141,7 +141,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-block: clamp(58px, 6vw, 82px) clamp(64px, 6vw, 86px);
+  padding-block: clamp(54px, 5.5vw, 74px) clamp(60px, 5.5vw, 78px);
   text-align: center;
 }
 
@@ -154,9 +154,9 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
-  gap: 0.12em;
+  gap: 0.08em 0.16em;
   margin-top: 12px;
-  font-size: clamp(3.05rem, 5.5vw, 5.55rem);
+  font-size: clamp(3.05rem, 5vw, 4.9rem);
   line-height: 0.95;
 }
 
@@ -167,7 +167,8 @@
 }
 
 .alvoPhrase :global([role="img"]) {
-  font-size: 0.7em;
+  --agent-size: 0.66em;
+  vertical-align: -0.045em;
 }
 
 .alvoPhrase i {
@@ -198,14 +199,26 @@
 }
 
 .note {
-  display: flex;
+  min-height: 34px;
+  display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  margin-top: 18px;
-  color: #8f8aa3;
-  font-size: 0.72rem;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 7px 12px 8px;
+  border: 1px solid rgba(151, 135, 238, 0.18);
+  border-radius: 999px;
+  background: rgba(111, 91, 217, 0.075);
+  color: #aaa4bd;
+  font-size: 0.77rem;
+  line-height: 1.35;
+}
+
+.note :global(.agent-wordmark) {
+  --agent-size: 0.9rem;
+  color: #d8d0ff;
+  vertical-align: -0.04em;
 }
 
 @media (max-width: 900px) {
@@ -233,11 +246,20 @@
 
   .image {
     min-height: 320px;
-    border-radius: 20px;
+    border-radius: 15px;
   }
 
   .ctaInner h2 {
     gap: 0.08em;
     font-size: clamp(2.9rem, 14vw, 4.5rem);
+  }
+
+  .ctaInner {
+    width: min(100% - 32px, 620px);
+  }
+
+  .note {
+    max-width: 100%;
+    padding-inline: 11px;
   }
 }

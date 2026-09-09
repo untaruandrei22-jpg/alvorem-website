@@ -1,26 +1,20 @@
 .section {
-  padding: clamp(58px, 6vw, 78px) 0;
+  padding: clamp(58px, 5.5vw, 76px) 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(circle at 82% 12%, rgba(111, 91, 217, 0.08), transparent 28%),
+    radial-gradient(circle at 82% 12%, rgba(111, 91, 217, 0.055), transparent 28%),
     color-mix(in srgb, var(--surface) 78%, transparent);
 }
 
 :global(html[data-theme="dark"]) .section {
   background:
-    radial-gradient(circle at 82% 10%, rgba(111, 91, 217, 0.14), transparent 30%),
-    linear-gradient(180deg, rgba(18, 17, 32, 0.94), rgba(13, 13, 24, 0.98));
+    radial-gradient(circle at 82% 8%, rgba(111, 91, 217, 0.1), transparent 32%),
+    linear-gradient(180deg, rgba(13, 14, 26, 0.98), rgba(10, 11, 21, 0.99));
 }
 
-.intro {
-  max-width: 820px;
-}
-
-.intro :global(.eyebrow) {
-  margin-bottom: 12px;
-}
-
+.intro { max-width: 900px; }
+.intro :global(.eyebrow) { margin-bottom: 12px; }
 .intro h2 {
   font-family: "Lora", Georgia, serif;
   font-size: clamp(2.7rem, 4.7vw, 4.5rem);
@@ -28,9 +22,8 @@
   letter-spacing: -0.062em;
   line-height: 0.98;
 }
-
 .intro > p:last-child {
-  max-width: 730px;
+  max-width: 760px;
   margin-top: 17px;
   color: var(--muted);
   font-size: 0.96rem;
@@ -38,37 +31,62 @@
 }
 
 .grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
   margin-top: clamp(30px, 4vw, 42px);
+}
+.grid::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 50%; right: 4%; left: 4%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(111, 91, 217, 0.44), transparent);
+  box-shadow: 0 0 12px rgba(111, 91, 217, 0.15);
+  opacity: 0.52;
 }
 
 .card {
-  min-height: 290px;
+  position: relative;
+  z-index: 1;
+  min-height: 344px;
   display: flex;
   flex-direction: column;
-  padding: 25px;
+  padding: 26px;
+  overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: 18px;
   background: color-mix(in srgb, var(--surface) 92%, transparent);
-  box-shadow: 0 18px 50px rgba(31, 24, 60, 0.06);
+  box-shadow: 0 20px 54px rgba(31, 24, 60, 0.055);
 }
-
+.card::after {
+  content: "";
+  position: absolute;
+  width: 164px;
+  height: 164px;
+  right: -72px;
+  top: 42px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: .3;
+  filter: blur(34px);
+}
 .alvo {
   background:
     radial-gradient(circle at 88% 10%, rgba(227, 202, 177, 0.14), transparent 28%),
     color-mix(in srgb, var(--surface) 94%, transparent);
 }
-
+.alvo::after { background: rgba(224, 186, 154, .18); }
 .orem {
   color: #f7f5ff;
   border-color: rgba(142, 124, 255, 0.22);
   background:
     radial-gradient(circle at 88% 10%, rgba(111, 91, 217, 0.2), transparent 30%),
-    linear-gradient(160deg, #131322, #090a13);
+    linear-gradient(160deg, #141425, #090a14);
 }
-
+.orem::after { background: rgba(100, 68, 230, .22); }
 .team {
   border-color: color-mix(in srgb, var(--violet) 28%, var(--line));
   background:
@@ -76,79 +94,74 @@
     radial-gradient(circle at 86% 14%, rgba(111, 91, 217, 0.12), transparent 30%),
     color-mix(in srgb, var(--surface) 92%, transparent);
 }
+.team::after { background: linear-gradient(135deg, rgba(225,193,164,.16), rgba(103,69,231,.2)); }
 
 .topline {
-  min-height: 31px;
+  min-height: 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
 }
-
 .topline > span:first-child {
   color: var(--muted-soft);
   font-size: 0.54rem;
   font-weight: 700;
   letter-spacing: 0.15em;
 }
+.orem .topline > span:first-child { color: #9489dd; }
 
-.orem .topline > span:first-child {
-  color: #9489dd;
+.identity {
+  min-height: 106px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 11px;
 }
+.identity > :global(.agent-wordmark) {
+  position: relative;
+  z-index: 2;
+  --agent-size: clamp(1.22rem, 1.5vw, 1.34rem);
+}
+.team .identity { gap: 2px; }
 
 .teamMarks {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
+  margin-left: -2px;
 }
-
+.teamMarks :global(.agent-wordmark) {
+  --agent-size: clamp(0.94rem, 1.05vw, 1.02rem);
+}
 .teamMarks i {
   color: var(--muted-soft);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   font-style: normal;
 }
 
 .card h3 {
-  margin-top: 36px;
+  margin-top: 6px;
   font-family: "Lora", Georgia, serif;
   font-size: clamp(1.75rem, 2.45vw, 2.4rem);
   font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 1.02;
 }
-
 .card > p {
   margin-top: 13px;
   color: var(--muted);
   font-size: 0.86rem;
   line-height: 1.6;
 }
-
-.orem > p {
-  color: #b8b3c8;
-}
-
+.orem > p { color: #b8b3c8; }
 .points {
   display: grid;
   gap: 8px;
   margin-top: auto;
-  padding-top: 22px;
+  padding-top: 19px;
 }
-
-.points span {
-  color: var(--muted);
-  font-size: 0.73rem;
-}
-
-.points span::before {
-  content: "·";
-  margin-right: 8px;
-  color: var(--violet);
-}
-
-.orem .points span {
-  color: #aaa5bb;
-}
+.points span { color: var(--muted); font-size: 0.73rem; }
+.points span::before { content: "·"; margin-right: 8px; color: var(--violet); }
+.orem .points span { color: #aaa5bb; }
 
 .cta {
   width: max-content;
@@ -156,7 +169,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 22px;
+  margin-top: 24px;
   padding: 0 17px;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
@@ -165,43 +178,44 @@
   font-weight: 600;
   transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
 }
-
-.cta:hover {
-  transform: translateY(-2px);
-  border-color: var(--violet);
-  background: rgba(111, 91, 217, 0.06);
+.cta :global(.agent-wordmark) {
+  --agent-size: 0.84rem;
+  vertical-align: -0.05em;
+}
+.cta:hover { transform: translateY(-2px); border-color: var(--violet); background: rgba(111, 91, 217, 0.06); }
+.cta > svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: currentColor; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 
-.cta svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+@media (min-width: 901px) and (max-width: 1120px) {
+  .team .identity > :global(svg[aria-label="ALVO and OREM interlocking rings"]) {
+    width: 108px;
+    height: 87px;
+  }
+
+  .teamMarks :global(.agent-wordmark) {
+    --agent-size: 0.9rem;
+  }
 }
 
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;
+    margin-top: 32px;
   }
-
-  .card {
-    min-height: 260px;
+  .grid::before {
+    top: 4%; bottom: 4%; left: 50%; width: 1px; height: auto;
+    background: linear-gradient(180deg, transparent, rgba(111, 91, 217, 0.4), transparent);
   }
+  .card { min-height: 286px; }
 }
 
 @media (max-width: 620px) {
-  .section :global(.site-shell) {
-    width: min(100% - 32px, 620px);
-  }
-
-  .card {
-    padding: 23px;
-  }
-
-  .card h3 {
-    margin-top: 32px;
-  }
+  .section :global(.site-shell) { width: min(100% - 32px, 620px); }
+  .card { min-height: 0; padding: 22px; }
+  .identity { min-height: 98px; }
+  .identity > :global(.agent-wordmark) { --agent-size: 1.2rem; }
+  .teamMarks :global(.agent-wordmark) { --agent-size: 0.94rem; }
 }

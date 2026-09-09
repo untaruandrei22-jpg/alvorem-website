@@ -6,6 +6,7 @@ import { LocalizedSkipLink } from "@/components/LocalizedSkipLink";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SolutionsCapabilities } from "@/components/SolutionsCapabilities";
 import { SolutionsIntro } from "@/components/SolutionsIntro";
+import styles from "./solutions.module.css";
 
 export const metadata: Metadata = {
   title: "Solutions — ALVOREM",
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function SolutionsPage() {
   return (
-    <main id="top">
+    <main className={styles.page} id="top">
       <LocalizedSkipLink />
       <SiteHeader activePage="solutions" />
 

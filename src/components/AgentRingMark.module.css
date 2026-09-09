@@ -1,0 +1,49 @@
+.mark {
+  display: block;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.sm {
+  width: 42px;
+  height: 42px;
+}
+
+.md {
+  width: 64px;
+  height: 64px;
+}
+
+.lg {
+  width: 92px;
+  height: 92px;
+}
+
+.team.sm {
+  width: 56px;
+  height: 48px;
+}
+
+.team.md {
+  width: 86px;
+  height: 70px;
+}
+
+.team.lg {
+  width: 126px;
+  height: 102px;
+}
+
+.alvo {
+  filter: drop-shadow(0 10px 24px rgba(176, 126, 92, 0.16));
+}
+
+.orem {
+  filter: drop-shadow(0 10px 26px rgba(85, 54, 210, 0.2));
+}
+
+.team {
+  filter:
+    drop-shadow(0 10px 25px rgba(174, 122, 91, 0.1))
+    drop-shadow(0 12px 30px rgba(88, 58, 217, 0.18));
+}

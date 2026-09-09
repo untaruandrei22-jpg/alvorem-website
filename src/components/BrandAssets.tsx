@@ -6,6 +6,18 @@ type SymbolProps = { className?: string; variant?: "brand" | "hero" };
 function BrandDefs({ prefix }: { prefix: string }) {
   return (
     <defs>
+      <linearGradient id={`${prefix}-ring-alvo`} x1="0.08" y1="0.88" x2="0.9" y2="0.12">
+        <stop offset="0" stopColor="#D8B58F" />
+        <stop offset="0.38" stopColor="#FFF8ED" />
+        <stop offset="0.62" stopColor="#FFFFFF" />
+        <stop offset="1" stopColor="#CDB294" />
+      </linearGradient>
+      <linearGradient id={`${prefix}-ring-orem`} x1="0.08" y1="0.9" x2="0.9" y2="0.08">
+        <stop offset="0" stopColor="#4930AD" />
+        <stop offset="0.42" stopColor="#7560F0" />
+        <stop offset="0.7" stopColor="#D0C3FF" />
+        <stop offset="1" stopColor="#6244D1" />
+      </linearGradient>
       <linearGradient id={`${prefix}-petal-top`} x1="0.16" y1="0.96" x2="0.82" y2="0.05">
         <stop offset="0" stopColor="#513799" />
         <stop offset="0.44" stopColor="#6F58D9" />
@@ -51,23 +63,12 @@ function BrandDefs({ prefix }: { prefix: string }) {
 function SymbolGeometry({ prefix, hero = false }: { prefix: string; hero?: boolean }) {
   return (
     <g filter={`url(#${prefix}-${hero ? "hero-glow" : "soft-glow"})`}>
-      <path
-        d="M79 133C72 96 78 50 126 10C135 54 119 96 84 132C82 135 79 136 79 133Z"
-        fill={`url(#${prefix}-petal-top)`}
-      />
-      <path
-        d="M76 133C46 132 14 116 10 73C42 70 68 86 78 127C79 131 79 133 76 133Z"
-        fill={`url(#${prefix}-petal-left)`}
-      />
-      <path
-        d="M85 133C116 132 146 113 151 76C120 80 96 94 84 127C82 131 82 133 85 133Z"
-        fill={`url(#${prefix}-petal-right)`}
-      />
+      <circle cx="67" cy="75" r="42" fill="none" stroke={`url(#${prefix}-ring-alvo)`} strokeWidth="7" />
+      <circle cx="93" cy="75" r="42" fill="none" stroke={`url(#${prefix}-ring-orem)`} strokeWidth="7" />
       {hero && (
         <>
-          <path d="M86 124C91 78 104 43 126 16" stroke="#FFF9FF" strokeWidth="2.8" strokeLinecap="round" opacity=".28" />
-          <path d="M22 82C47 82 65 96 75 125" stroke="#EFE3FF" strokeWidth="2.1" strokeLinecap="round" opacity=".16" />
-          <path d="M91 125C105 101 122 88 145 82" stroke="#F5E9FF" strokeWidth="2.2" strokeLinecap="round" opacity=".18" />
+          <circle cx="67" cy="75" r="31" fill="none" stroke="#FFF8ED" strokeWidth="1.5" opacity=".13" />
+          <circle cx="93" cy="75" r="31" fill="none" stroke="#B7A6FF" strokeWidth="1.5" opacity=".16" />
         </>
       )}
     </g>
@@ -77,15 +78,17 @@ function SymbolGeometry({ prefix, hero = false }: { prefix: string; hero?: boole
 function WordmarkGeometry({ prefix }: { prefix: string }) {
   const stroke = `url(#${prefix}-wordmark)`;
   return (
-    <g className="wordmark-vector" fill="none" stroke={stroke} strokeWidth="3.15" strokeLinecap="square" strokeLinejoin="miter">
-      {/* custom open A — no crossbar, matching the brand board */}
-      <path d="M122 53L139 18L156 53" />
-      <path d="M181 18V53H207" />
-      <path d="M228 18L244 53L260 18" />
-      <ellipse cx="292" cy="35.5" rx="18" ry="17.5" />
-      <path d="M332 53V18H350C362 18 368 24 368 34C368 44 361 48 350 48H332M350 48L370 53" />
-      <path d="M396 18V53M396 18H423M396 35H419M396 53H423" />
-      <path d="M452 53V18L470 45L488 18V53" />
+    <g className="wordmark-vector" fill="none" strokeWidth="3.15" strokeLinecap="square" strokeLinejoin="miter">
+      <g stroke={stroke}>
+        <path d="M122 53L139 18L156 53" />
+        <path d="M181 18V53H207" />
+        <path d="M228 18L244 53L260 18" />
+        <path d="M332 53V18H350C362 18 368 24 368 34C368 44 361 48 350 48H332M350 48L370 53" />
+        <path d="M396 18V53M396 18H423M396 35H419M396 53H423" />
+        <path d="M452 53V18L470 45L488 18V53" />
+      </g>
+      <circle cx="288" cy="35.5" r="17.5" stroke={`url(#${prefix}-ring-alvo)`} />
+      <circle cx="299" cy="35.5" r="17.5" stroke={`url(#${prefix}-ring-orem)`} />
     </g>
   );
 }
@@ -159,7 +162,7 @@ export function AlvoremFavicon({ className = "" }: LogoProps) {
         </linearGradient>
       </defs>
       <rect x="4" y="4" width="120" height="120" rx="29" fill="url(#fav-bg)" />
-      <g transform="translate(18 22) scale(.58)">
+      <g transform="translate(18 20) scale(.58)">
         <BrandDefs prefix="fav" />
         <SymbolGeometry prefix="fav" />
       </g>

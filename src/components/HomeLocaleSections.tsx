@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AgentInlineText } from "@/components/AgentInlineText";
 import { Logo } from "@/components/Logo";
 import { useLocale } from "@/components/LocaleProvider";
 
@@ -100,7 +101,7 @@ export function HomeFooter() {
           <Link href="/about">{t.about}</Link>
           <a href="#top">{t.back}</a>
         </nav>
-        <p className="copyright">{t.copyright}</p>
+        <p className="copyright"><AgentInlineText text={t.copyright} /></p>
       </div>
     </footer>
   );

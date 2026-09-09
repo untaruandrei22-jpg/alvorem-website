@@ -1,28 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
   <defs>
-    <linearGradient id="bg" x1="8" y1="4" x2="64" y2="69" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#252243"/>
-      <stop offset="1" stop-color="#111020"/>
-    </linearGradient>
-    <linearGradient id="ring" x1="17" y1="57" x2="54" y2="12" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFD0A8"/>
-      <stop offset=".18" stop-color="#FFF9F2"/>
-      <stop offset=".4" stop-color="#FFFFFF"/>
-      <stop offset=".68" stop-color="#C58CF3"/>
-      <stop offset="1" stop-color="#6F5BD9"/>
-    </linearGradient>
-    <filter id="glow" x="-65%" y="-65%" width="230%" height="230%">
-      <feGaussianBlur stdDeviation="2.2" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+    <linearGradient id="bg" x1="8" y1="4" x2="64" y2="69" gradientUnits="userSpaceOnUse"><stop stop-color="#252243"/><stop offset="1" stop-color="#0D0C1D"/></linearGradient>
+    <linearGradient id="alvo" x1="13" y1="52" x2="39" y2="17" gradientUnits="userSpaceOnUse"><stop stop-color="#D8B58F"/><stop offset=".42" stop-color="#FFF8ED"/><stop offset=".68" stop-color="#FFFFFF"/><stop offset="1" stop-color="#CDB294"/></linearGradient>
+    <linearGradient id="orem" x1="34" y1="53" x2="60" y2="16" gradientUnits="userSpaceOnUse"><stop stop-color="#4930AD"/><stop offset=".42" stop-color="#7560F0"/><stop offset=".7" stop-color="#D0C3FF"/><stop offset="1" stop-color="#6244D1"/></linearGradient>
+    <filter id="glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="1.8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
   <rect width="72" height="72" rx="18" fill="url(#bg)"/>
-  <g filter="url(#glow)">
-    <circle cx="36" cy="34" r="18" fill="none" stroke="url(#ring)" stroke-width="2.6"/>
-    <path d="M8 53h56" stroke="#CBB4F2" stroke-width="1.2" stroke-linecap="round" opacity=".72"/>
-    <ellipse cx="36" cy="52.5" rx="6.5" ry="2.5" fill="#FFD0A8" opacity=".9"/>
-  </g>
+  <g filter="url(#glow)" fill="none" stroke-width="3.2"><circle cx="29.5" cy="36" r="15.5" stroke="url(#alvo)"/><circle cx="42.5" cy="36" r="15.5" stroke="url(#orem)"/></g>
 </svg>

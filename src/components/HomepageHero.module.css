@@ -1,11 +1,11 @@
 .hero {
   position: relative;
-  min-height: 760px;
+  min-height: 780px;
   display: grid;
-  grid-template-columns: minmax(0, 0.86fr) minmax(530px, 1.14fr);
+  grid-template-columns: minmax(0, 1fr) minmax(530px, 1fr);
   align-items: center;
-  gap: clamp(36px, 5vw, 72px);
-  padding-block: 66px 84px;
+  gap: clamp(30px, 4.2vw, 58px);
+  padding-block: 56px 64px;
   isolation: isolate;
   overflow: hidden;
 }
@@ -18,16 +18,18 @@
   width: 100vw;
   transform: translateX(50%);
   background:
-    radial-gradient(ellipse 42% 60% at 80% 30%, rgba(101, 78, 228, 0.13), transparent 72%),
-    radial-gradient(ellipse 27% 32% at 61% 71%, rgba(243, 195, 154, 0.11), transparent 74%),
+    radial-gradient(ellipse 24% 34% at 61% 67%, rgba(255, 231, 207, 0.13), transparent 72%),
+    radial-gradient(ellipse 44% 62% at 82% 29%, rgba(101, 78, 228, 0.13), transparent 72%),
+    radial-gradient(ellipse 34% 22% at 88% 82%, rgba(148, 123, 236, 0.065), transparent 76%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 62%);
 }
 
 :global(html[data-theme="dark"]) .hero::before {
   background:
-    radial-gradient(ellipse 46% 66% at 80% 29%, rgba(86, 63, 229, 0.23), transparent 70%),
-    radial-gradient(ellipse 27% 32% at 61% 71%, rgba(255, 205, 162, 0.07), transparent 73%),
-    linear-gradient(180deg, rgba(10, 12, 28, 0.06), rgba(7, 8, 20, 0.18));
+    radial-gradient(ellipse 22% 32% at 60% 68%, rgba(255, 216, 180, 0.065), transparent 72%),
+    radial-gradient(ellipse 50% 70% at 82% 28%, rgba(86, 63, 229, 0.25), transparent 70%),
+    radial-gradient(ellipse 36% 24% at 88% 83%, rgba(103, 77, 213, 0.1), transparent 76%),
+    linear-gradient(180deg, rgba(10, 12, 28, 0.03), rgba(7, 8, 20, 0.24));
 }
 
 .ambient {
@@ -49,7 +51,7 @@
   box-shadow:
     0 0 48px rgba(126, 103, 255, 0.11),
     0 0 96px rgba(111, 91, 217, 0.08);
-  opacity: 0.48;
+  opacity: 0.4;
 }
 
 :global(html[data-theme="dark"]) .planet {
@@ -61,7 +63,7 @@
     -12px 2px 42px rgba(255, 224, 183, 0.1),
     16px 5px 52px rgba(117, 94, 255, 0.27),
     0 0 120px rgba(65, 49, 178, 0.23);
-  opacity: 0.78;
+  opacity: 0.38;
 }
 
 .horizon {
@@ -74,6 +76,7 @@
   box-shadow:
     0 0 12px rgba(255, 221, 187, 0.28),
     0 0 28px rgba(111, 91, 217, 0.28);
+  opacity: 0.78;
   transform: rotate(-1.2deg);
 }
 
@@ -90,7 +93,7 @@
 .copy h1 {
   max-width: 660px;
   color: var(--text);
-  font-size: clamp(4.2rem, 5.8vw, 5.65rem);
+  font-size: clamp(4.2rem, 5.8vw, 5.3rem);
   font-weight: 500;
   letter-spacing: -0.072em;
   line-height: 0.94;
@@ -99,6 +102,10 @@
 .copy h1 span,
 .copy h1 em {
   display: block;
+}
+
+:global(html[data-theme="dark"]) .copy h1 em {
+  color: #bba8ef;
 }
 
 .copy h1 em {
@@ -112,24 +119,24 @@
 
 .description {
   max-width: 600px;
-  margin-top: 27px;
+  margin-top: 25px;
   color: var(--muted);
   font-size: clamp(0.98rem, 1.15vw, 1.07rem);
-  line-height: 1.7;
+  line-height: 1.68;
 }
 
 .inlineAgent {
   --agent-gap: 0.08em;
   margin-inline: 0.12em;
   letter-spacing: 0.09em;
-  vertical-align: -0.02em;
+  vertical-align: -0.045em;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 13px;
-  margin-top: 30px;
+  margin-top: 28px;
 }
 
 .actions :global(.button--primary) {
@@ -137,15 +144,26 @@
 }
 
 .buttonAgent {
+  --agent-size: 0.78rem;
   --agent-gap: 0.07em;
   color: inherit !important;
   letter-spacing: 0.08em;
 }
 
+.actions .buttonAgent > svg {
+  width: auto;
+  height: 0.94em;
+  transform: none;
+}
+
+.actions :global(.button:hover) .buttonAgent > svg {
+  transform: none;
+}
+
 .proofList {
   display: grid;
   gap: 10px;
-  margin-top: 29px;
+  margin-top: 27px;
 }
 
 .proofList span {
@@ -170,7 +188,12 @@
 
 .stage {
   position: relative;
-  min-height: 610px;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: start;
+  padding-top: 20px;
   isolation: isolate;
 }
 
@@ -178,42 +201,75 @@
   content: "";
   position: absolute;
   z-index: -4;
-  top: 15%;
-  right: -2%;
-  width: 92%;
-  height: 72%;
+  top: 8%;
+  right: -5%;
+  width: 104%;
+  height: 82%;
   border-radius: 48%;
-  background: radial-gradient(circle at 55% 52%, rgba(111, 91, 217, 0.18), transparent 63%);
-  filter: blur(28px);
+  background:
+    radial-gradient(circle at 27% 60%, rgba(255, 232, 210, 0.2), transparent 20%),
+    radial-gradient(ellipse 64% 62% at 67% 43%, rgba(111, 91, 217, 0.2), transparent 68%);
+  filter: blur(26px);
+  opacity: 0.72;
+}
+
+.stage::after {
+  content: "";
+  position: absolute;
+  z-index: -3;
+  right: -3%;
+  bottom: 20px;
+  width: 96%;
+  height: 126px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 35% 48%, rgba(248, 219, 193, 0.2), transparent 30%),
+    radial-gradient(ellipse at 62% 48%, rgba(111, 91, 217, 0.19), rgba(32, 25, 70, 0.08) 42%, transparent 72%);
+  filter: blur(10px);
+  transform: rotate(-1.2deg);
+}
+
+:global(html[data-theme="dark"]) .stage::before {
+  background:
+    radial-gradient(circle at 27% 60%, rgba(255, 220, 188, 0.075), transparent 20%),
+    radial-gradient(ellipse 66% 64% at 68% 42%, rgba(91, 67, 210, 0.3), transparent 69%);
+}
+
+:global(html[data-theme="dark"]) .stage::after {
+  background:
+    radial-gradient(ellipse at 35% 48%, rgba(249, 211, 178, 0.075), transparent 30%),
+    radial-gradient(ellipse at 62% 48%, rgba(82, 61, 185, 0.28), rgba(3, 4, 13, 0.24) 44%, transparent 72%);
 }
 
 .oremPanel {
-  position: absolute;
+  position: relative;
   z-index: 1;
-  top: 48px;
-  right: 0;
-  width: min(360px, 63%);
-  min-height: 350px;
+  grid-area: 1 / 1;
+  justify-self: end;
+  width: min(374px, 65%);
+  min-height: 360px;
   padding: 31px 30px;
   border: 1px solid rgba(153, 139, 255, 0.3);
-  border-radius: 22px;
+  border-radius: 18px;
   background:
-    radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.15), transparent 28%),
+    linear-gradient(112deg, rgba(255, 255, 255, 0.045), transparent 27%),
+    radial-gradient(circle at 86% 15%, rgba(91, 70, 226, 0.2), transparent 30%),
     linear-gradient(150deg, rgba(16, 17, 35, 0.97), rgba(7, 9, 23, 0.99));
   color: #f7f6ff;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 26px 72px rgba(15, 12, 48, 0.24),
-    0 0 42px rgba(92, 70, 231, 0.13);
-  transform: rotate(-1.2deg);
+    0 32px 82px rgba(15, 12, 48, 0.28),
+    20px 10px 58px rgba(92, 70, 231, 0.16);
+  opacity: 0.96;
+  transform: rotate(-0.8deg);
   transform-origin: 80% 100%;
 }
 
 :global(html[data-theme="light"]) .oremPanel {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 30px 76px rgba(42, 32, 89, 0.19),
-    0 0 50px rgba(92, 70, 231, 0.15);
+    0 34px 82px rgba(42, 32, 89, 0.2),
+    20px 10px 58px rgba(92, 70, 231, 0.17);
 }
 
 .oremTopline {
@@ -228,7 +284,7 @@
 }
 
 .upgradeLabel {
-  margin-top: 25px;
+  margin-top: 16px;
   color: #9188e8;
   font-size: 0.56rem;
   font-weight: 700;
@@ -236,17 +292,17 @@
 }
 
 .oremPanel h2 {
-  margin-top: 8px;
+  margin-top: 7px;
   color: #f4f1ff;
-  font-size: clamp(1.4rem, 1.9vw, 1.8rem);
+  font-size: clamp(1.35rem, 1.75vw, 1.68rem);
   font-weight: 500;
   letter-spacing: -0.04em;
 }
 
 .oremList {
   display: grid;
-  gap: 14px;
-  margin-top: 24px;
+  gap: 12px;
+  margin-top: 19px;
 }
 
 .oremList span {
@@ -269,30 +325,51 @@
 }
 
 .alvoPanel {
-  position: absolute;
+  position: relative;
   z-index: 4;
-  top: 142px;
-  left: 0;
-  width: min(500px, 79%);
-  padding: 15px 15px 17px;
+  grid-area: 1 / 1;
+  justify-self: start;
+  width: min(510px, 81%);
+  margin-top: 172px;
+  padding: 13px 13px 15px;
   border: 1px solid color-mix(in srgb, var(--line-strong) 86%, transparent);
-  border-radius: 24px;
-  background: color-mix(in srgb, var(--surface) 91%, transparent);
+  border-radius: 19px;
+  background:
+    radial-gradient(circle at 8% -12%, rgba(255, 251, 246, 0.78), transparent 32%),
+    radial-gradient(circle at 100% 92%, rgba(111, 91, 217, 0.11), transparent 42%),
+    color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.62),
-    0 30px 76px rgba(43, 36, 76, 0.18),
-    0 0 42px rgba(111, 91, 217, 0.07);
+    0 38px 90px rgba(43, 36, 76, 0.22),
+    -16px 7px 46px rgba(244, 211, 183, 0.1),
+    18px 10px 58px rgba(111, 91, 217, 0.1);
   backdrop-filter: blur(20px);
 }
 
+.alvoPanel::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 7%;
+  width: 43%;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 246, 237, 0.92), rgba(205, 184, 242, 0.45), transparent);
+  box-shadow: 0 0 14px rgba(255, 225, 199, 0.2);
+  pointer-events: none;
+}
+
 :global(html[data-theme="dark"]) .alvoPanel {
-  background: linear-gradient(145deg, rgba(31, 34, 55, 0.94), rgba(18, 20, 38, 0.96));
+  background:
+    radial-gradient(circle at 7% -12%, rgba(255, 237, 219, 0.075), transparent 31%),
+    radial-gradient(circle at 100% 92%, rgba(111, 91, 217, 0.16), transparent 43%),
+    linear-gradient(145deg, rgba(27, 29, 49, 0.96), rgba(15, 17, 32, 0.98));
   border-color: rgba(220, 214, 245, 0.17);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 30px 82px rgba(0, 0, 0, 0.34),
-    -12px 8px 38px rgba(245, 214, 186, 0.05),
-    12px 8px 48px rgba(111, 91, 217, 0.11);
+    0 40px 94px rgba(0, 0, 0, 0.42),
+    -16px 7px 44px rgba(245, 214, 186, 0.055),
+    18px 10px 62px rgba(111, 91, 217, 0.16);
 }
 
 .alvoTopline {
@@ -333,23 +410,25 @@
 }
 
 .alvoPanel :global(.agent-card__header) {
-  min-height: 56px;
+  min-height: 54px;
   padding-inline: 18px;
 }
 
 .alvoPanel :global(.agent-card__body) {
-  padding: 18px;
+  padding: 17px;
 }
 
 .relationNote {
-  position: absolute;
+  position: relative;
   z-index: 6;
-  right: 20px;
-  bottom: 18px;
+  grid-row: 2;
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 11px;
   max-width: 300px;
+  margin-top: 16px;
+  margin-right: 4px;
 }
 
 .relationLine {
@@ -384,6 +463,7 @@
 
   .alvoPanel {
     width: min(465px, 81%);
+    margin-top: 170px;
   }
 }
 
@@ -391,7 +471,7 @@
   .hero {
     grid-template-columns: 1fr;
     gap: 18px;
-    padding-block: 58px 68px;
+    padding-block: 52px 62px;
   }
 
   .copy {
@@ -404,8 +484,8 @@
 
   .stage {
     width: min(720px, 100%);
-    min-height: 600px;
     margin-inline: auto;
+    padding-top: 18px;
   }
 
   .planet {
@@ -414,11 +494,15 @@
   }
 
   .oremPanel {
-    right: 2%;
+    margin-right: 2%;
   }
 
   .alvoPanel {
-    left: 2%;
+    margin-left: 2%;
+  }
+
+  .relationNote {
+    margin-right: 2%;
   }
 }
 
@@ -426,7 +510,7 @@
   .hero {
     width: min(100% - 30px, 640px);
     min-height: auto;
-    padding-top: 42px;
+    padding-top: 38px;
     overflow: visible;
   }
 
@@ -452,8 +536,8 @@
   }
 
   .stage {
-    min-height: 730px;
-    margin-top: 2px;
+    margin-top: 8px;
+    padding-top: 26px;
   }
 
   .planet {
@@ -462,19 +546,24 @@
     width: 400px;
   }
 
-  .oremPanel {
-    top: 26px;
+  .stage::after {
     right: 0;
+    width: 100%;
+    height: 112px;
+  }
+
+  .oremPanel {
     width: 88%;
     min-height: 315px;
+    margin-right: 0;
     padding: 25px 22px;
     transform: rotate(-0.8deg);
   }
 
   .alvoPanel {
-    top: 246px;
-    left: 0;
     width: 100%;
+    margin-top: 220px;
+    margin-left: 0;
     padding: 12px;
     border-radius: 20px;
   }
@@ -491,9 +580,10 @@
   }
 
   .relationNote {
-    right: 2px;
-    bottom: 5px;
+    justify-self: end;
     max-width: 86%;
+    margin-top: 14px;
+    margin-right: 2px;
   }
 
   .relationLine {

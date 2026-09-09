@@ -1,11 +1,7 @@
 .hero {
-  padding-block: clamp(58px, 6vw, 86px) clamp(38px, 4vw, 54px);
+  padding-block: clamp(54px, 5.5vw, 78px) clamp(34px, 3.5vw, 48px);
 }
-
-.hero :global(.eyebrow) {
-  margin-bottom: 13px;
-}
-
+.hero :global(.eyebrow) { margin-bottom: 13px; }
 .hero h1,
 .custom h2,
 .value h2,
@@ -14,15 +10,13 @@
   font-weight: 400;
   letter-spacing: -0.06em;
 }
-
 .hero h1 {
   max-width: 940px;
   font-size: clamp(3.3rem, 5.7vw, 5.7rem);
   line-height: 0.95;
 }
-
 .hero > p:last-child {
-  max-width: 760px;
+  max-width: 790px;
   margin-top: 19px;
   color: var(--muted);
   font-size: 0.96rem;
@@ -33,91 +27,111 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  padding-bottom: clamp(52px, 6vw, 76px);
+  padding-bottom: clamp(46px, 5vw, 66px);
 }
-
 .plan {
-  min-height: 500px;
+  min-height: 570px;
   display: flex;
   flex-direction: column;
-  padding: 27px;
+  padding: clamp(24px, 2.2vw, 30px);
   border: 1px solid var(--line);
   border-radius: 22px;
   background: color-mix(in srgb, var(--surface) 93%, transparent);
   box-shadow: 0 20px 58px rgba(32, 25, 62, 0.07);
 }
-
 .alvo {
   background:
-    radial-gradient(circle at 88% 8%, rgba(228, 202, 177, 0.13), transparent 28%),
+    radial-gradient(circle at 88% 8%, rgba(228, 202, 177, 0.15), transparent 29%),
     color-mix(in srgb, var(--surface) 94%, transparent);
 }
-
 .orem {
-  color: #f8f7ff;
-  border-color: rgba(129, 108, 255, 0.28);
+  border-color: color-mix(in srgb, var(--violet) 42%, var(--line));
   background:
-    radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.21), transparent 30%),
-    linear-gradient(160deg, #141423, #090a13);
+    radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.19), transparent 31%),
+    color-mix(in srgb, var(--surface) 95%, transparent);
+  box-shadow: 0 22px 62px rgba(69, 49, 154, 0.12);
 }
-
+:global(html[data-theme="dark"]) .orem {
+  color: #f8f7ff;
+  border-color: rgba(129, 108, 255, 0.34);
+  background: radial-gradient(circle at 88% 8%, rgba(111, 91, 217, 0.24), transparent 30%), linear-gradient(160deg, #171629, #0f0f1d);
+}
 .team {
-  border-color: color-mix(in srgb, var(--violet) 30%, var(--line));
+  position: relative;
+  border-color: color-mix(in srgb, var(--violet) 48%, var(--line));
   background:
-    radial-gradient(circle at 16% 88%, rgba(226, 196, 168, 0.1), transparent 27%),
-    radial-gradient(circle at 86% 10%, rgba(111, 91, 217, 0.13), transparent 30%),
+    radial-gradient(circle at 16% 88%, rgba(226, 196, 168, 0.12), transparent 28%),
+    radial-gradient(circle at 86% 10%, rgba(111, 91, 217, 0.18), transparent 32%),
     color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow:
+    0 22px 62px rgba(61, 45, 133, 0.14),
+    0 0 0 1px color-mix(in srgb, var(--violet) 16%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--lavender) 44%, transparent);
 }
 
 .planTop {
-  min-height: 34px;
+  min-height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
-
 .planTop > span:first-child {
   color: var(--muted-soft);
   font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.14em;
 }
-
 .orem .planTop > span:first-child {
-  color: #998ee6;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--violet) 42%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--violet) 12%, var(--surface));
+  color: var(--violet-deep);
+  letter-spacing: 0.12em;
 }
-
-.teamMarks {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+.team .planTop > span:first-child {
+  padding: 6px 9px;
+  border: 1px solid color-mix(in srgb, var(--line-strong) 86%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+  color: var(--muted);
+  letter-spacing: 0.12em;
 }
-
-.teamMarks i {
-  color: var(--muted-soft);
-  font-style: normal;
+:global(html[data-theme="dark"]) .orem .planTop > span:first-child {
+  border-color: rgba(151, 130, 255, 0.38);
+  background: rgba(107, 83, 225, 0.18);
+  color: #c5bbff;
+}
+:global(html[data-theme="dark"]) .team .planTop > span:first-child {
+  border-color: rgba(224, 218, 248, 0.16);
+  background: rgba(255, 255, 255, 0.035);
+  color: #aaa4bb;
 }
 
 .plan h2 {
-  margin-top: 34px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  margin-top: 18px;
   font-family: "Lora", Georgia, serif;
   font-size: clamp(1.95rem, 2.6vw, 2.6rem);
   font-weight: 400;
   letter-spacing: -0.05em;
   line-height: 1.02;
 }
+.productName {
+  --agent-size: clamp(2rem, 2.45vw, 2.6rem);
+  --agent-tracking: 0.1em;
+  margin-inline: 0;
+}
 
 .price {
-  margin-top: 18px;
+  margin-top: 16px;
   padding-block: 14px 13px;
   border-block: 1px solid var(--line);
 }
-
-.orem .price {
-  border-color: rgba(255, 255, 255, 0.11);
-}
-
+:global(html[data-theme="dark"]) .orem .price { border-color: rgba(255, 255, 255, 0.11); }
 .priceLabel {
   display: block;
   color: var(--muted-soft);
@@ -125,11 +139,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
 }
-
-.orem .priceLabel {
-  color: #9187d4;
-}
-
+:global(html[data-theme="dark"]) .orem .priceLabel { color: #9187d4; }
 .priceLine {
   display: flex;
   flex-wrap: wrap;
@@ -137,71 +147,56 @@
   gap: 7px;
   margin-top: 6px;
 }
-
 .priceLine strong {
   color: var(--text);
   font-family: "Lora", Georgia, serif;
-  font-size: clamp(1.75rem, 2.4vw, 2.35rem);
-  font-weight: 400;
+  font-size: clamp(2.45rem, 3.2vw, 3.2rem);
+  font-weight: 500;
   letter-spacing: -0.045em;
   line-height: 1;
 }
+:global(html[data-theme="dark"]) .orem .priceLine strong { color: #f7f5ff; }
+.priceLine span { color: var(--muted); font-size: 0.72rem; }
+:global(html[data-theme="dark"]) .orem .priceLine span { color: #aaa5bb; }
 
-.orem .priceLine strong {
-  color: #f7f5ff;
+.commercialLines {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed color-mix(in srgb, var(--line-strong) 54%, transparent);
 }
-
-.priceLine span {
+.commercialLines span {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.65rem;
+  font-weight: 520;
+  line-height: 1.38;
 }
-
-.orem .priceLine span {
-  color: #aaa5bb;
-}
-
+:global(html[data-theme="dark"]) .orem .commercialLines span { color: #aaa5bb; }
 .price small {
   display: block;
-  margin-top: 5px;
+  margin-top: 7px;
   color: var(--muted-soft);
   font-size: 0.58rem;
+  line-height: 1.4;
 }
-
-.orem .price small {
-  color: #7f7995;
-}
+:global(html[data-theme="dark"]) .orem .price small { color: #77718c; }
 
 .plan > p {
-  margin-top: 13px;
+  margin-top: 15px;
   color: var(--muted);
   font-size: 0.86rem;
   line-height: 1.6;
 }
-
-.orem > p {
-  color: #b7b2c6;
-}
-
+:global(html[data-theme="dark"]) .orem > p { color: #b7b2c6; }
 .features {
   display: grid;
   gap: 9px;
   margin-top: 20px;
 }
-
-.features > span {
-  color: var(--muted);
-  font-size: 0.75rem;
-}
-
-.features > span::before {
-  content: "✓";
-  margin-right: 8px;
-  color: var(--violet);
-}
-
-.orem .features > span {
-  color: #b2adbf;
-}
+.features > span { color: var(--muted); font-size: 0.75rem; }
+.features > span::before { content: "✓"; margin-right: 8px; color: var(--violet); }
+:global(html[data-theme="dark"]) .orem .features > span { color: #b2adbf; }
 
 .plan > a {
   min-height: 48px;
@@ -215,21 +210,42 @@
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 600;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
-
 .orem > a {
-  border-color: rgba(127, 105, 255, 0.64);
-  background: linear-gradient(90deg, rgba(92, 71, 235, 0.92), rgba(48, 41, 132, 0.9));
+  border-color: color-mix(in srgb, var(--violet) 72%, transparent);
+  background: linear-gradient(100deg, #6f5bd9, #5946c6);
+  color: #fff;
+  box-shadow: 0 9px 24px rgba(82, 62, 178, 0.15);
+}
+:global(html[data-theme="dark"]) .orem > a {
+  border-color: rgba(151, 132, 255, 0.7);
+  background: linear-gradient(90deg, rgba(100, 78, 237, 0.96), rgba(55, 45, 148, 0.94));
+  color: #fff;
+}
+.team > a {
+  border-color: var(--violet);
+  background: linear-gradient(100deg, var(--violet), #7659e8);
+  color: #fff;
+  box-shadow: 0 9px 24px rgba(111, 91, 217, 0.13);
+}
+.plan > a:hover {
+  border-color: var(--violet);
+  box-shadow: 0 10px 26px rgba(111, 91, 217, 0.2);
+  transform: translateY(-2px);
+}
+.plan > a svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: currentColor; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 
-.plan > a svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.pricingFootnote {
+  margin-top: calc(clamp(46px, 5vw, 66px) * -0.58);
+  margin-bottom: clamp(34px, 4vw, 48px);
+  color: var(--muted-soft);
+  font-size: 0.69rem;
+  line-height: 1.55;
 }
 
 .custom {
@@ -237,22 +253,14 @@
   grid-template-columns: 1fr auto;
   gap: 30px;
   align-items: center;
-  margin-bottom: clamp(54px, 6vw, 78px);
+  margin-bottom: clamp(48px, 5vw, 66px);
   padding: 28px;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: color-mix(in srgb, var(--surface-soft) 64%, transparent);
 }
-
-.custom :global(.eyebrow) {
-  margin-bottom: 9px;
-}
-
-.custom h2 {
-  font-size: clamp(1.9rem, 3vw, 3rem);
-  line-height: 1;
-}
-
+.custom :global(.eyebrow) { margin-bottom: 9px; }
+.custom h2 { font-size: clamp(1.9rem, 3vw, 3rem); line-height: 1; }
 .custom > div > p:last-child {
   max-width: 740px;
   margin-top: 11px;
@@ -261,37 +269,26 @@
 }
 
 .value {
-  padding: clamp(56px, 6vw, 78px) 0;
+  padding: clamp(48px, 5vw, 66px) 0;
   border-block: 1px solid var(--line);
   background:
     radial-gradient(circle at 82% 14%, rgba(111, 91, 217, 0.09), transparent 30%),
     color-mix(in srgb, var(--surface) 84%, transparent);
 }
-
 .valueInner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
   gap: 54px;
   align-items: end;
 }
-
-.value h2 {
-  margin-top: 10px;
-  font-size: clamp(2.7rem, 4.4vw, 4.3rem);
-}
-
+.value h2 { margin-top: 10px; font-size: clamp(2.7rem, 4.4vw, 4.3rem); }
 .valueInner > div:first-child > p:last-child {
   max-width: 700px;
   margin-top: 15px;
   color: var(--muted);
   line-height: 1.62;
 }
-
-.valueItems {
-  display: grid;
-  border-top: 1px solid var(--line);
-}
-
+.valueItems { display: grid; border-top: 1px solid var(--line); }
 .valueItems span {
   min-height: 52px;
   display: flex;
@@ -300,74 +297,35 @@
   color: var(--text);
   font-size: 0.84rem;
 }
-
-.valueItems span::before {
-  content: "·";
-  margin-right: 11px;
-  color: var(--violet);
+.valueItems svg {
+  width: 20px; height: 20px;
+  margin-right: 14px;
+  fill: none; stroke: var(--violet); stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
 }
+.valueItems span::before { content: ""; width: 0; margin: 0; }
 
-.faq {
-  padding-block: clamp(56px, 6vw, 82px);
-}
-
-.faq > h2 {
-  font-size: clamp(2.55rem, 4.2vw, 4rem);
-}
-
+.faq { padding-block: clamp(48px, 5vw, 68px); }
+.faq > h2 { font-size: clamp(2.55rem, 4.2vw, 4rem); }
 .faq > div {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 38px;
   margin-top: 26px;
 }
-
-.faq article {
-  padding: 20px 0;
-  border-top: 1px solid var(--line);
-}
-
-.faq h3 {
-  font-size: 0.96rem;
-  font-weight: 600;
-}
-
-.faq p {
-  margin-top: 7px;
-  color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.56;
-}
+.faq article { padding: 20px 0; border-top: 1px solid var(--line); }
+.faq h3 { font-size: 0.96rem; font-weight: 600; }
+.faq p { margin-top: 7px; color: var(--muted); font-size: 0.82rem; line-height: 1.56; }
 
 @media (max-width: 960px) {
-  .plans {
-    grid-template-columns: 1fr;
-  }
-
-  .plan {
-    min-height: 430px;
-  }
-
-  .custom,
-  .valueInner {
-    grid-template-columns: 1fr;
-  }
+  .plans { grid-template-columns: 1fr; }
+  .plan { min-height: 0; }
+  .plan > a { margin-top: 28px; }
+  .custom, .valueInner { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {
-  .hero,
-  .plans,
-  .custom,
-  .valueInner,
-  .faq {
-    width: min(100% - 32px, 700px);
-  }
-
-  .hero h1 {
-    font-size: clamp(3rem, 14vw, 4.7rem);
-  }
-
-  .faq > div {
-    grid-template-columns: 1fr;
-  }
+  .hero, .plans, .pricingFootnote, .custom, .valueInner, .faq { width: min(100% - 32px, 700px); }
+  .hero h1 { font-size: clamp(3rem, 14vw, 4.7rem); }
+  .faq > div { grid-template-columns: 1fr; }
 }

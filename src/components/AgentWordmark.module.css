@@ -1,148 +1,64 @@
 .wordmark {
   --agent-size: 1rem;
-  --agent-gap: 0.08em;
-  --agent-tracking: 0.17em;
   display: inline-flex;
   align-items: center;
-  gap: var(--agent-gap);
   width: max-content;
   color: currentColor;
   font-size: var(--agent-size);
-  font-weight: 400;
   line-height: 1;
   white-space: nowrap;
-  vertical-align: -0.04em;
+  vertical-align: -0.075em;
+  text-rendering: geometricPrecision;
 }
 
-.letters {
-  display: inline-block;
-  letter-spacing: var(--agent-tracking);
-  line-height: 1;
-}
-
-.alvo .letters {
-  margin-right: calc(var(--agent-tracking) * -0.78);
-}
-
-.orem .letters {
-  margin-left: calc(var(--agent-tracking) * -0.18);
-}
-
-.oMark {
-  position: relative;
-  isolation: isolate;
-  width: 0.96em;
-  height: 0.96em;
+.wordmark > .geometry {
+  display: block;
+  width: auto;
+  height: 0.94em;
   flex: 0 0 auto;
-  border-radius: 50%;
+  overflow: visible;
 }
 
-/* ALVO is intentionally an open ring. The centre is transparent so the
-   surrounding surface passes through it instead of looking like a white disc. */
-.alvo .oMark {
-  background: conic-gradient(
-    from 214deg,
-    #dec6ad 0deg,
-    #f3e8dc 72deg,
-    #d9d5df 170deg,
-    #9c91ad 282deg,
-    #dec6ad 360deg
-  );
-  box-shadow:
-    0 0 0 1px rgba(75, 69, 88, 0.06),
-    0 5px 14px rgba(72, 62, 90, 0.08);
-  -webkit-mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 0.16em),
-    #000 calc(100% - 0.145em)
-  );
-  mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 0.16em),
-    #000 calc(100% - 0.145em)
-  );
+.letterforms {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.1;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
 }
 
-.orem {
-  color: #b9afff;
+.alvoRing,
+.oremRing {
+  fill: none;
+  stroke-width: 3.1;
 }
 
-.orem .oMark {
-  background: #090a15;
-  border: 1px solid rgba(202, 194, 255, 0.7);
-  box-shadow:
-    0 0 5px rgba(224, 219, 255, 0.95),
-    0 0 12px rgba(126, 101, 255, 0.9),
-    0 0 26px rgba(91, 67, 255, 0.5);
+.alvoRing {
+  filter: drop-shadow(0 0 0.035em rgba(255, 242, 224, 0.72));
 }
 
-.orem .oMark::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: inherit;
-  background: conic-gradient(
-    from 194deg,
-    #ffffff 0 7%,
-    #7564ff 12% 43%,
-    #302a7b 50% 73%,
-    #ffffff 78% 84%,
-    #7564ff 90% 100%
-  );
-  filter: blur(0.7px);
+.oremRing {
+  filter: drop-shadow(0 0 0.045em rgba(111, 91, 217, 0.78));
 }
 
-.orem .oMark::after {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  background: #090a15;
+.alvo,
+.orem,
+.alvorem {
+  color: currentColor;
 }
 
 .xs {
   --agent-size: 0.72rem;
-  --agent-gap: 0.055em;
-  --agent-tracking: 0.12em;
 }
 
 .sm {
   --agent-size: 0.9rem;
-  --agent-gap: 0.06em;
-  --agent-tracking: 0.14em;
 }
 
 .md {
   --agent-size: 1.18rem;
-  --agent-gap: 0.07em;
-  --agent-tracking: 0.17em;
 }
 
 .lg {
   --agent-size: clamp(2.6rem, 5vw, 4.6rem);
-  --agent-gap: 0.08em;
-  --agent-tracking: 0.19em;
-  font-weight: 400;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .orem .oMark {
-    animation: orem-breathe 4.8s ease-in-out infinite;
-  }
-}
-
-@keyframes orem-breathe {
-  0%, 100% {
-    box-shadow:
-      0 0 5px rgba(224, 219, 255, 0.9),
-      0 0 12px rgba(126, 101, 255, 0.78),
-      0 0 24px rgba(91, 67, 255, 0.42);
-  }
-  50% {
-    box-shadow:
-      0 0 7px rgba(236, 232, 255, 1),
-      0 0 16px rgba(126, 101, 255, 0.94),
-      0 0 31px rgba(91, 67, 255, 0.57);
-  }
 }

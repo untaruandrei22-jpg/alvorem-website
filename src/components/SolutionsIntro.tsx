@@ -1,6 +1,7 @@
 "use client";
 
 import { AgentInlineText } from "@/components/AgentInlineText";
+import { AgentRingMark } from "@/components/AgentRingMark";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./SolutionsIntro.module.css";
@@ -49,9 +50,12 @@ export function SolutionsIntro() {
         <div className={styles.alvoOrbit} />
         <div className={styles.oremOrbit} />
         <div className={styles.visualMarks}>
-          <AgentWordmark agent="alvo" size="md" />
-          <span>+</span>
-          <AgentWordmark agent="orem" size="md" />
+          <AgentRingMark variant="team" size="lg" />
+          <span className={styles.visualNames}>
+            <AgentWordmark agent="alvo" size="sm" />
+            <i>+</i>
+            <AgentWordmark agent="orem" size="sm" />
+          </span>
         </div>
         <p>{locale === "ro" ? "UN CONTEXT · PROFUNZIME DIFERITĂ" : "ONE CONTEXT · DIFFERENT DEPTH"}</p>
       </div>
@@ -60,19 +64,28 @@ export function SolutionsIntro() {
         <p className={styles.modeLabel}>{t.choose}</p>
         <div className={styles.modes}>
           <article>
-            <div className={styles.modeTop}><span>{t.modes.alvo[0]}</span><AgentWordmark agent="alvo" size="sm" /></div>
+            <div className={styles.modeTop}>
+              <span>{t.modes.alvo[0]}</span>
+              <span className={styles.modeIdentity}><AgentRingMark variant="alvo" size="sm" /><AgentWordmark agent="alvo" size="sm" /></span>
+            </div>
             <h2>{t.modes.alvo[1]}</h2>
             <p>{t.modes.alvo[2]}</p>
           </article>
           <article className={styles.deep}>
-            <div className={styles.modeTop}><span>{t.modes.orem[0]}</span><AgentWordmark agent="orem" size="sm" /></div>
+            <div className={styles.modeTop}>
+              <span>{t.modes.orem[0]}</span>
+              <span className={styles.modeIdentity}><AgentRingMark variant="orem" size="sm" /><AgentWordmark agent="orem" size="sm" /></span>
+            </div>
             <h2>{t.modes.orem[1]}</h2>
             <p>{t.modes.orem[2]}</p>
           </article>
           <article className={styles.team}>
             <div className={styles.modeTop}>
               <span>{t.modes.team[0]}</span>
-              <span className={styles.teamMarks}><AgentWordmark agent="alvo" size="xs" /><i>+</i><AgentWordmark agent="orem" size="xs" /></span>
+              <span className={styles.modeIdentity}>
+                <AgentRingMark variant="team" size="sm" />
+                <span className={styles.teamMarks}><AgentWordmark agent="alvo" size="xs" /><i>+</i><AgentWordmark agent="orem" size="xs" /></span>
+              </span>
             </div>
             <h2>{t.modes.team[1]}</h2>
             <p>{t.modes.team[2]}</p>

@@ -2,6 +2,7 @@
 
 import { AgentInlineText } from "@/components/AgentInlineText";
 import { useLocale } from "@/components/LocaleProvider";
+import brandStyles from "./CareersInlineBrand.module.css";
 import styles from "./CareersContent.module.css";
 
 const formatOrder = ["video", "repo", "notion", "pdf", "voice", "other"] as const;
@@ -245,7 +246,9 @@ export function CareersContent() {
       <section className={styles.final}>
         <div className={["site-shell", styles.finalInner].join(" ")}>
           <h2>{t.finalTitle}</h2>
-          <p><AgentInlineText text={t.finalBody} size="md" /></p>
+          <p>
+            <AgentInlineText text={t.finalBody} size="sm" className={brandStyles.brand} />
+          </p>
           <a className="button button--primary" href={applicationHref}>
             {t.email}
             <ArrowIcon />

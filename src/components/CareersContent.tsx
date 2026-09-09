@@ -245,7 +245,7 @@ export function CareersContent() {
       <section className={styles.final}>
         <div className={["site-shell", styles.finalInner].join(" ")}>
           <h2>{t.finalTitle}</h2>
-          <p><AgentInlineText text={t.finalBody} size="sm" /></p>
+          <p><AgentInlineText text={t.finalBody} size="md" /></p>
           <a className="button button--primary" href={applicationHref}>
             {t.email}
             <ArrowIcon />

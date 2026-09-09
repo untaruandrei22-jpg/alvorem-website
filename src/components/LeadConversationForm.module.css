@@ -1,0 +1,190 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 82px);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 78% 18%, rgba(111, 91, 217, 0.16), transparent 28%),
+    radial-gradient(circle at 15% 88%, rgba(226, 196, 168, 0.08), transparent 30%);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(420px, 1.14fr);
+  gap: clamp(48px, 7vw, 100px);
+  align-items: center;
+  padding-block: clamp(62px, 8vw, 104px);
+}
+
+.copy h1 {
+  max-width: 700px;
+  margin-top: 17px;
+  font-family: "Lora", Georgia, serif;
+  font-size: clamp(3.3rem, 5.8vw, 6.2rem);
+  font-weight: 400;
+  letter-spacing: -0.068em;
+  line-height: 0.94;
+}
+
+.copy > p:last-of-type {
+  max-width: 620px;
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.66;
+}
+
+.teamLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  color: var(--muted-soft);
+}
+.teamLine > span { color: var(--violet); }
+.teamLine small {
+  width: 100%;
+  color: var(--muted-soft);
+  font-size: 0.66rem;
+  letter-spacing: 0.03em;
+}
+
+.formCard {
+  padding: clamp(24px, 3vw, 34px);
+  border: 1px solid color-mix(in srgb, var(--violet) 34%, var(--line));
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(111, 91, 217, 0.12), transparent 31%),
+    color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow: 0 28px 90px rgba(33, 25, 72, 0.13);
+}
+
+.formCard form {
+  display: grid;
+  gap: 16px;
+}
+.twoCols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.formCard label {
+  display: grid;
+  gap: 7px;
+}
+.formCard label > span {
+  color: var(--muted-soft);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.formCard input,
+.formCard select,
+.formCard textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 13px;
+  outline: none;
+  background: color-mix(in srgb, var(--surface-soft) 82%, transparent);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.84rem;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.formCard input,
+.formCard select {
+  min-height: 47px;
+  padding: 0 13px;
+}
+.formCard textarea {
+  min-height: 150px;
+  resize: vertical;
+  padding: 12px 13px;
+  line-height: 1.55;
+}
+.formCard input:focus,
+.formCard select:focus,
+.formCard textarea:focus {
+  border-color: color-mix(in srgb, var(--violet) 70%, var(--line));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--violet) 13%, transparent);
+  background: var(--surface);
+}
+.formCard textarea::placeholder { color: var(--muted-soft); }
+.formCard button {
+  width: 100%;
+  justify-content: center;
+  margin-top: 2px;
+}
+.formCard button:disabled { opacity: 0.62; cursor: wait; }
+
+.privacy {
+  color: var(--muted-soft);
+  font-size: 0.64rem;
+  line-height: 1.5;
+}
+.honeypot {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.status {
+  margin-top: 18px;
+  padding: 16px 17px;
+  border: 1px solid color-mix(in srgb, var(--violet) 34%, var(--line));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--violet) 7%, var(--surface));
+}
+.status strong {
+  font-size: 0.84rem;
+}
+.status p {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+.status a {
+  display: inline-flex;
+  margin-top: 9px;
+  color: var(--lavender);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+.direct {
+  display: inline-flex;
+  margin-top: 17px;
+  color: var(--muted);
+  font-size: 0.69rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 940px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .copy { max-width: 760px; }
+}
+
+@media (max-width: 620px) {
+  .layout {
+    padding-block: 46px 60px;
+    gap: 34px;
+  }
+  .twoCols {
+    grid-template-columns: 1fr;
+  }
+  .copy h1 {
+    font-size: clamp(3rem, 15vw, 4.5rem);
+  }
+  .formCard {
+    padding: 20px;
+    border-radius: 20px;
+  }
+}

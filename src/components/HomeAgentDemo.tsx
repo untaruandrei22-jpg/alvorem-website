@@ -177,6 +177,7 @@ export function HomeAgentDemo() {
     setQuestion(prompt);
     setAnswer(null);
     setError(null);
+    void ask(prompt);
   }
 
   return (

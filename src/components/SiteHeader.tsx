@@ -20,7 +20,6 @@ const nav = [
 export function SiteHeader({ activePage }: { activePage?: PageKey }) {
   const { locale } = useLocale();
   const cta = locale === "ro" ? "Începe o conversație" : "Start a conversation";
-  const ctaSubject = locale === "ro" ? "Începe o conversație" : "Start a conversation";
 
   return (
     <header className="site-header" role="banner">
@@ -50,12 +49,12 @@ export function SiteHeader({ activePage }: { activePage?: PageKey }) {
           <LanguageToggle />
           <MobileNav activePage={activePage} />
           <ThemeToggle />
-          <a
+          <Link
             className="button button--small button--primary header-cta"
-            href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(ctaSubject)}`}
+            href="/start?source=header"
           >
             {cta}
-          </a>
+          </Link>
         </div>
       </div>
     </header>

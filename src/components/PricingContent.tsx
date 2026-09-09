@@ -21,7 +21,13 @@ const copy = {
   en: {
     eyebrow: "PRICING",
     title: "Private AI, priced for real business work.",
-    body: "Start with ALVO for everyday clarity. Choose OREM when you want the deepest reasoning layer in our standard agent plans. Move to ALVOREM Private when both agents, integrations and dedicated implementation need to work as one system.",
+    body: "Start with ALVO for everyday clarity. Upgrade to OREM when you need deeper reasoning: the OREM plan keeps ALVO as your everyday interface and adds OREM in the same shared context. Move to ALVOREM Private when the full team, integrations and dedicated implementation need to work as one system.",
+    planPathEyebrow: "HOW THE PLANS RELATE",
+    planPathItems: [
+      ["01", "Start with ALVO", "Everyday business intelligence. ALVO can run independently."],
+      ["02", "Add OREM", "ALVO stays with you. OREM joins for deeper reasoning in the same shared context."],
+      ["03", "Go Private", "ALVO + OREM with integrations and dedicated implementation around your company."],
+    ],
     plans: {
       alvo: {
         badge: "EVERYDAY INTELLIGENCE",
@@ -37,7 +43,7 @@ const copy = {
         cta: "Start with ALVO",
       },
       orem: {
-        badge: "DEEP REASONING",
+        badge: "UPGRADE · INCLUDES ALVO",
         title: "OREM",
         priceLabel: "MONTHLY",
         price: "€549",
@@ -45,9 +51,9 @@ const copy = {
         onboarding: "€990 one-time onboarding",
         annual: "€6,039 / year · 1 month free",
         priceNote: "Prices exclude VAT where applicable.",
-        body: "Deeper reasoning, investigation, scenario work and advanced automation for higher-complexity work.",
-        features: ["Deep analysis", "Multi-source reasoning", "Scenario modelling", "Advanced automation"],
-        cta: "Choose OREM",
+        body: "Keep ALVO for everyday work and unlock OREM for deeper reasoning, investigation, scenarios and advanced automation — with one shared context.",
+        features: ["Everything in ALVO", "Deep analysis", "Multi-source reasoning", "Scenario modelling", "Advanced automation"],
+        cta: "Upgrade to OREM",
       },
       team: {
         badge: "PRIVATE DEPLOYMENT",
@@ -75,7 +81,7 @@ const copy = {
     faqTitle: "A few useful answers.",
     faqs: [
       ["Can I start only with ALVO?", "Yes. ALVO is the everyday starting point and can be deployed independently."],
-      ["Is OREM an add-on?", "OREM is the standalone plan for deeper reasoning. ALVOREM Private brings ALVO and OREM together with integrations and dedicated implementation."],
+      ["Does the OREM plan include ALVO?", "Yes. The OREM plan keeps the ALVO everyday interface and adds OREM for deeper reasoning in the same shared context. You are upgrading the team, not replacing ALVO."],
       ["What does onboarding cover?", "Onboarding covers the real setup work needed to configure access, context and the agreed integration scope."],
       ["Do annual plans include a discount?", "Yes. Public annual pricing includes one month free."],
     ],
@@ -85,7 +91,13 @@ const copy = {
   ro: {
     eyebrow: "PREȚURI",
     title: "AI privat, cu prețuri pentru muncă reală de business.",
-    body: "Începe cu ALVO pentru claritatea de zi cu zi. Alege OREM când vrei cel mai profund nivel de raționament dintre planurile standard de agenți. Treci la ALVOREM Private când ambii agenți, integrările și implementarea dedicată trebuie să funcționeze ca un singur sistem.",
+    body: "Începe cu ALVO pentru claritatea de zi cu zi. Treci la OREM când ai nevoie de raționament mai profund: planul OREM păstrează ALVO ca interfață de zi cu zi și îl adaugă pe OREM în același context comun. Treci la ALVOREM Private când echipa completă, integrările și implementarea dedicată trebuie să funcționeze ca un singur sistem.",
+    planPathEyebrow: "CUM SE LEAGĂ PLANURILE",
+    planPathItems: [
+      ["01", "Începe cu ALVO", "Inteligență de business de zi cu zi. ALVO poate funcționa independent."],
+      ["02", "Adaugă OREM", "ALVO rămâne cu tine. OREM intră pentru raționament mai profund, în același context comun."],
+      ["03", "Treci la Private", "ALVO + OREM cu integrări și implementare dedicată în jurul companiei tale."],
+    ],
     plans: {
       alvo: {
         badge: "INTELIGENȚĂ DE ZI CU ZI",
@@ -101,7 +113,7 @@ const copy = {
         cta: "Începe cu ALVO",
       },
       orem: {
-        badge: "RAȚIONAMENT PROFUND",
+        badge: "UPGRADE · INCLUDE ALVO",
         title: "OREM",
         priceLabel: "LUNAR",
         price: "€549",
@@ -109,9 +121,9 @@ const copy = {
         onboarding: "€990 onboarding o singură dată",
         annual: "€6.039 / an · 1 lună gratuită",
         priceNote: "Prețurile nu includ TVA, unde este cazul.",
-        body: "Raționament mai profund, investigație, scenarii și automatizare avansată pentru munca cu complexitate mai mare.",
-        features: ["Analiză profundă", "Raționament din surse multiple", "Modelare de scenarii", "Automatizare avansată"],
-        cta: "Alege OREM",
+        body: "Păstrezi ALVO pentru lucrul de zi cu zi și deblochezi OREM pentru raționament profund, investigație, scenarii și automatizare avansată — cu un singur context comun.",
+        features: ["Tot ce include ALVO", "Analiză profundă", "Raționament din surse multiple", "Modelare de scenarii", "Automatizare avansată"],
+        cta: "Treci la OREM",
       },
       team: {
         badge: "IMPLEMENTARE PRIVATĂ",
@@ -139,7 +151,7 @@ const copy = {
     faqTitle: "Câteva răspunsuri utile.",
     faqs: [
       ["Pot începe doar cu ALVO?", "Da. ALVO este punctul de pornire pentru lucrul de zi cu zi și poate fi implementat independent."],
-      ["OREM este un add-on?", "OREM este planul separat pentru raționament mai profund. ALVOREM Private îi aduce pe ALVO și OREM împreună, cu integrări și implementare dedicată."],
+      ["Planul OREM include ALVO?", "Da. Planul OREM păstrează interfața ALVO pentru lucrul de zi cu zi și îl adaugă pe OREM pentru raționament mai profund, în același context comun. Faci upgrade echipei, nu îl înlocuiești pe ALVO."],
       ["Ce acoperă onboarding-ul?", "Onboarding-ul acoperă munca reală de configurare pentru acces, context și scopul de integrare agreat."],
       ["Planurile anuale au discount?", "Da. Prețurile publice anuale includ o lună gratuită."],
     ],
@@ -163,6 +175,24 @@ export function PricingContent() {
         <p className="eyebrow">{t.eyebrow}</p>
         <h1 id="pricing-title">{t.title}</h1>
         <p><AgentInlineText text={t.body} /></p>
+      </section>
+
+      <section
+        className={["site-shell", styles.planPath].join(" ")}
+        aria-label={locale === "ro" ? "Relația dintre planurile ALVOREM" : "How ALVOREM plans relate"}
+      >
+        <p className="eyebrow">{t.planPathEyebrow}</p>
+        <div className={styles.pathGrid}>
+          {t.planPathItems.map(([step, title, body]) => (
+            <article className={styles.pathItem} key={step}>
+              <span className={styles.pathStep}>{step}</span>
+              <div>
+                <h2><AgentInlineText text={title} /></h2>
+                <p><AgentInlineText text={body} /></p>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className={["site-shell", styles.plans].join(" ")} aria-label={locale === "ro" ? "Opțiuni de abonament" : "Subscription options"}>

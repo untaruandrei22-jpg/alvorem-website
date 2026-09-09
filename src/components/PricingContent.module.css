@@ -23,6 +23,61 @@
   line-height: 1.66;
 }
 
+.planPath {
+  margin-bottom: 18px;
+  padding: 20px 22px 22px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 67% 8%, rgba(111, 91, 217, 0.08), transparent 32%),
+    color-mix(in srgb, var(--surface-soft) 60%, transparent);
+}
+.planPath :global(.eyebrow) { margin-bottom: 14px; }
+.pathGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}
+.pathItem {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 13px;
+  min-height: 90px;
+  padding: 14px 30px 12px 0;
+}
+.pathItem + .pathItem {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+.pathItem:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  color: var(--violet);
+  font-size: 1rem;
+  transform: translateY(-50%);
+}
+.pathStep {
+  color: var(--violet);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.55;
+}
+.pathItem h2 {
+  font-size: 0.94rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.pathItem p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
 .plans {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -318,14 +373,23 @@
 .faq p { margin-top: 7px; color: var(--muted); font-size: 0.82rem; line-height: 1.56; }
 
 @media (max-width: 960px) {
-  .plans { grid-template-columns: 1fr; }
+  .pathGrid, .plans { grid-template-columns: 1fr; }
+  .pathItem,
+  .pathItem + .pathItem {
+    min-height: 0;
+    padding: 15px 0;
+    border-left: 0;
+  }
+  .pathItem + .pathItem { border-top: 1px solid var(--line); }
+  .pathItem:not(:last-child)::after { display: none; }
   .plan { min-height: 0; }
   .plan > a { margin-top: 28px; }
   .custom, .valueInner { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 700px) {
-  .hero, .plans, .pricingFootnote, .custom, .valueInner, .faq { width: min(100% - 32px, 700px); }
+  .hero, .planPath, .plans, .pricingFootnote, .custom, .valueInner, .faq { width: min(100% - 32px, 700px); }
   .hero h1 { font-size: clamp(3rem, 14vw, 4.7rem); }
+  .planPath { padding: 18px; }
   .faq > div { grid-template-columns: 1fr; }
 }

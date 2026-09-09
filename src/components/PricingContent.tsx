@@ -21,7 +21,7 @@ const copy = {
   en: {
     eyebrow: "PRICING",
     title: "Private AI, priced for real business work.",
-    body: "Start with ALVO for everyday clarity. Choose OREM when you want the most capable reasoning layer. Move to ALVOREM Private when both agents, integrations and dedicated implementation need to work as one system.",
+    body: "Start with ALVO for everyday clarity. Choose OREM when you want the deepest reasoning layer in our standard agent plans. Move to ALVOREM Private when both agents, integrations and dedicated implementation need to work as one system.",
     plans: {
       alvo: {
         badge: "EVERYDAY INTELLIGENCE",
@@ -37,7 +37,7 @@ const copy = {
         cta: "Start with ALVO",
       },
       orem: {
-        badge: "MOST CAPABLE",
+        badge: "DEEP REASONING",
         title: "OREM",
         priceLabel: "MONTHLY",
         price: "€549",
@@ -75,7 +75,7 @@ const copy = {
     faqTitle: "A few useful answers.",
     faqs: [
       ["Can I start only with ALVO?", "Yes. ALVO is the everyday starting point and can be deployed independently."],
-      ["Is OREM an add-on?", "OREM is a standalone, more capable plan. ALVOREM Private brings ALVO and OREM together in one deployment."],
+      ["Is OREM an add-on?", "OREM is the standalone plan for deeper reasoning. ALVOREM Private brings ALVO and OREM together with integrations and dedicated implementation."],
       ["What does onboarding cover?", "Onboarding covers the real setup work needed to configure access, context and the agreed integration scope."],
       ["Do annual plans include a discount?", "Yes. Public annual pricing includes one month free."],
     ],
@@ -85,7 +85,7 @@ const copy = {
   ro: {
     eyebrow: "PREȚURI",
     title: "AI privat, cu prețuri pentru muncă reală de business.",
-    body: "Începe cu ALVO pentru claritatea de zi cu zi. Alege OREM când vrei cel mai capabil nivel de raționament. Treci la ALVOREM Private când ambii agenți, integrările și implementarea dedicată trebuie să funcționeze ca un singur sistem.",
+    body: "Începe cu ALVO pentru claritatea de zi cu zi. Alege OREM când vrei cel mai profund nivel de raționament dintre planurile standard de agenți. Treci la ALVOREM Private când ambii agenți, integrările și implementarea dedicată trebuie să funcționeze ca un singur sistem.",
     plans: {
       alvo: {
         badge: "INTELIGENȚĂ DE ZI CU ZI",
@@ -101,7 +101,7 @@ const copy = {
         cta: "Începe cu ALVO",
       },
       orem: {
-        badge: "CEL MAI CAPABIL",
+        badge: "RAȚIONAMENT PROFUND",
         title: "OREM",
         priceLabel: "LUNAR",
         price: "€549",
@@ -139,7 +139,7 @@ const copy = {
     faqTitle: "Câteva răspunsuri utile.",
     faqs: [
       ["Pot începe doar cu ALVO?", "Da. ALVO este punctul de pornire pentru lucrul de zi cu zi și poate fi implementat independent."],
-      ["OREM este un add-on?", "OREM este un plan separat și mai capabil. ALVOREM Private îi aduce pe ALVO și OREM împreună în aceeași implementare."],
+      ["OREM este un add-on?", "OREM este planul separat pentru raționament mai profund. ALVOREM Private îi aduce pe ALVO și OREM împreună, cu integrări și implementare dedicată."],
       ["Ce acoperă onboarding-ul?", "Onboarding-ul acoperă munca reală de configurare pentru acces, context și scopul de integrare agreat."],
       ["Planurile anuale au discount?", "Da. Prețurile publice anuale includ o lună gratuită."],
     ],

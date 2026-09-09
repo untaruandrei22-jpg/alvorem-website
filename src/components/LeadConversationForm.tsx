@@ -95,7 +95,8 @@ export function LeadConversationForm() {
     event.preventDefault();
     if (status === "sending") return;
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const payload = {
       name: String(form.get("name") || "").trim(),
       email: String(form.get("email") || "").trim(),
@@ -131,7 +132,7 @@ export function LeadConversationForm() {
 
       if (response.ok) {
         setStatus("success");
-        event.currentTarget.reset();
+        formElement.reset();
         return;
       }
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import "@fontsource/montserrat/400.css";
 import "@fontsource/montserrat/500.css";
 import "@fontsource/montserrat/600.css";
@@ -7,6 +8,7 @@ import "@fontsource/lora/400.css";
 import "@fontsource/lora/400-italic.css";
 import "@fontsource/lora/500.css";
 import { LocaleProvider } from "@/components/LocaleProvider";
+import { PublicComingSoon } from "@/components/PublicComingSoon";
 import { SiteLocaleCopy } from "@/components/SiteLocaleCopy";
 import "./globals.css";
 
@@ -48,18 +50,30 @@ const localeScript = `
   })();
 `;
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+const publicHosts = new Set(["alvorem.ro", "www.alvorem.ro"]);
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const requestHeaders = await headers();
+  const host = (requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "")
+    .split(":")[0]
+    .toLowerCase();
+  const isPublicComingSoonHost = publicHosts.has(host);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-        <script dangerouslySetInnerHTML={{ __html: localeScript }} />
+        {!isPublicComingSoonHost && <script dangerouslySetInnerHTML={{ __html: themeScript }} />}
+        {!isPublicComingSoonHost && <script dangerouslySetInnerHTML={{ __html: localeScript }} />}
       </head>
       <body>
-        <LocaleProvider>
-          <SiteLocaleCopy />
-          {children}
-        </LocaleProvider>
+        {isPublicComingSoonHost ? (
+          <PublicComingSoon />
+        ) : (
+          <LocaleProvider>
+            <SiteLocaleCopy />
+            {children}
+          </LocaleProvider>
+        )}
       </body>
     </html>
   );

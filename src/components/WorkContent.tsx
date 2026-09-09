@@ -6,6 +6,7 @@ import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import { WorkIntelligenceField } from "@/components/WorkIntelligenceField";
+import { WorkTrustProof } from "@/components/WorkTrustProof";
 import styles from "./WorkContent.module.css";
 
 type Mode = "alvo" | "orem" | "team";
@@ -274,6 +275,8 @@ export function WorkContent() {
           </article>
         ))}
       </section>
+
+      <WorkTrustProof locale={locale} />
 
       <section className={styles.finalCta}>
         <div className="site-shell">

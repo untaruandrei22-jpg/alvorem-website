@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./HomeTrustCTA.module.css";
@@ -112,12 +113,12 @@ export function HomeTrustCTA() {
             </span>
           </h2>
           <p>{t.ctaBody}</p>
-          <a
+          <Link
             className="button button--primary"
-            href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.ctaButton)}`}
+            href="/start?source=home-trust&intent=alvo"
           >
             {t.ctaButton} <ArrowIcon />
-          </a>
+          </Link>
           <div className={styles.note}>
             <AgentWordmark agent="orem" size="xs" />
             <span>{t.ctaNote}</span>

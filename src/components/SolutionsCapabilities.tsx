@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
@@ -92,12 +93,9 @@ export function SolutionsCapabilities() {
             <h3>{t.noteTitle}</h3>
             <p><AgentInlineText text={t.noteBody} /></p>
           </div>
-          <a
-            className="button button--primary"
-            href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.cta)}`}
-          >
+          <Link className="button button--primary" href="/start?source=solutions">
             {t.cta}
-          </a>
+          </Link>
         </div>
       </div>
     </section>

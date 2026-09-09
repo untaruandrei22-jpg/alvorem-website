@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
+import { WorkIntelligenceField } from "@/components/WorkIntelligenceField";
 import styles from "./WorkContent.module.css";
 
 type Mode = "alvo" | "orem" | "team";
@@ -33,9 +34,6 @@ const copy = {
     title: <>AI that earns<br />its place <em>in<br />the business.</em></>,
     intro: "Three ways ALVOREM turns everyday work into clearer decisions, deeper insight and real progress.",
     heroCta: "Bring us a process worth simplifying",
-    orbit: ["PEOPLE", "IDEAS", "CONTEXT", "INTELLIGENCE", "PROGRESS"],
-    orbitNote: "SAME PEOPLE. A CLEARER TOMORROW.",
-    orbitEnd: "A BRIGHTER TOMORROW",
     cases: [
       {
         number: "01", modeLabel: "EVERYDAY INTELLIGENCE", mode: "alvo" as const,
@@ -72,9 +70,6 @@ const copy = {
     title: <>AI care își câștigă<br />locul <em>în business.</em></>,
     intro: "Trei moduri prin care ALVOREM transformă munca de zi cu zi în decizii mai clare, analiză profundă și progres real.",
     heroCta: "Adu-ne un proces care merită simplificat",
-    orbit: ["OAMENI", "IDEI", "CONTEXT", "INTELIGENȚĂ", "PROGRES"],
-    orbitNote: "ACEIAȘI OAMENI. UN VIITOR MAI CLAR.",
-    orbitEnd: "UN VIITOR MAI LUMINOS",
     cases: [
       {
         number: "01", modeLabel: "INTELIGENȚĂ DE ZI CU ZI", mode: "alvo" as const,
@@ -123,12 +118,7 @@ export function WorkContent() {
             <p className={styles.intro}><AgentInlineText text={t.intro} /></p>
             <a className="button button--primary" href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.subject)}`}>{t.heroCta} <ArrowIcon /></a>
           </div>
-          <div className={styles.orbit} aria-hidden="true">
-            <span className={styles.orbitGlow} />
-            <p className={styles.orbitNote}>{t.orbitNote}</p>
-            <div className={styles.orbitList}>{t.orbit.map((word) => <span key={word}>{word}</span>)}</div>
-            <p className={styles.orbitEnd}>{t.orbitEnd}</p>
-          </div>
+          <WorkIntelligenceField locale={locale} />
         </div>
       </section>
 

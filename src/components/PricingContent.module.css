@@ -82,19 +82,31 @@
   font-weight: 700;
   letter-spacing: 0.14em;
 }
-.orem .planTop > span:first-child,
-.team .planTop > span:first-child {
-  padding: 6px 9px;
-  border: 1px solid color-mix(in srgb, var(--violet) 34%, var(--line));
+.orem .planTop > span:first-child {
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--violet) 42%, var(--line));
   border-radius: 999px;
-  background: color-mix(in srgb, var(--lilac) 34%, transparent);
+  background: color-mix(in srgb, var(--violet) 12%, var(--surface));
   color: var(--violet-deep);
   letter-spacing: 0.12em;
 }
+.team .planTop > span:first-child {
+  padding: 6px 9px;
+  border: 1px solid color-mix(in srgb, var(--line-strong) 86%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-soft) 72%, transparent);
+  color: var(--muted);
+  letter-spacing: 0.12em;
+}
 :global(html[data-theme="dark"]) .orem .planTop > span:first-child {
-  border-color: rgba(151, 130, 255, .28);
-  background: rgba(107, 83, 225, .12);
-  color: #b9adff;
+  border-color: rgba(151, 130, 255, 0.38);
+  background: rgba(107, 83, 225, 0.18);
+  color: #c5bbff;
+}
+:global(html[data-theme="dark"]) .team .planTop > span:first-child {
+  border-color: rgba(224, 218, 248, 0.16);
+  background: rgba(255, 255, 255, 0.035);
+  color: #aaa4bb;
 }
 
 .plan h2 {
@@ -149,26 +161,26 @@
 
 .commercialLines {
   display: grid;
-  gap: 5px;
-  margin-top: 11px;
-  padding-top: 10px;
-  border-top: 1px dashed color-mix(in srgb, var(--line-strong) 72%, transparent);
+  gap: 4px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed color-mix(in srgb, var(--line-strong) 54%, transparent);
 }
 .commercialLines span {
-  color: var(--text);
-  font-size: 0.69rem;
-  font-weight: 560;
-  line-height: 1.35;
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-weight: 520;
+  line-height: 1.38;
 }
-:global(html[data-theme="dark"]) .orem .commercialLines span { color: #d5d0e1; }
+:global(html[data-theme="dark"]) .orem .commercialLines span { color: #aaa5bb; }
 .price small {
   display: block;
-  margin-top: 8px;
+  margin-top: 7px;
   color: var(--muted-soft);
-  font-size: 0.61rem;
+  font-size: 0.58rem;
   line-height: 1.4;
 }
-:global(html[data-theme="dark"]) .orem .price small { color: #7f7995; }
+:global(html[data-theme="dark"]) .orem .price small { color: #77718c; }
 
 .plan > p {
   margin-top: 15px;
@@ -200,18 +212,26 @@
   font-weight: 600;
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
+.orem > a {
+  border-color: color-mix(in srgb, var(--violet) 72%, transparent);
+  background: linear-gradient(100deg, #6f5bd9, #5946c6);
+  color: #fff;
+  box-shadow: 0 9px 24px rgba(82, 62, 178, 0.15);
+}
 :global(html[data-theme="dark"]) .orem > a {
-  border-color: rgba(127, 105, 255, 0.64);
-  background: linear-gradient(90deg, rgba(92, 71, 235, 0.92), rgba(48, 41, 132, 0.9));
+  border-color: rgba(151, 132, 255, 0.7);
+  background: linear-gradient(90deg, rgba(100, 78, 237, 0.96), rgba(55, 45, 148, 0.94));
+  color: #fff;
 }
 .team > a {
   border-color: var(--violet);
   background: linear-gradient(100deg, var(--violet), #7659e8);
   color: #fff;
+  box-shadow: 0 9px 24px rgba(111, 91, 217, 0.13);
 }
 .plan > a:hover {
   border-color: var(--violet);
-  box-shadow: 0 10px 26px rgba(111, 91, 217, 0.16);
+  box-shadow: 0 10px 26px rgba(111, 91, 217, 0.2);
   transform: translateY(-2px);
 }
 .plan > a svg {

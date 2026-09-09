@@ -60,13 +60,13 @@ export function MobileNav({ activePage }: { activePage?: PageKey }) {
             <span aria-hidden="true">→</span>
           </Link>
         ))}
-        <a
+        <Link
           className="mobile-nav__cta"
-          href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(cta)}`}
+          href="/start?source=mobile-nav"
           onClick={() => setOpen(false)}
         >
           {cta} <span aria-hidden="true">→</span>
-        </a>
+        </Link>
       </nav>
     </div>
   );

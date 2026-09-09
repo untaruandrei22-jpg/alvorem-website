@@ -11,7 +11,7 @@
   text-rendering: geometricPrecision;
 }
 
-.geometry {
+.wordmark > .geometry {
   display: block;
   width: auto;
   height: 0.94em;

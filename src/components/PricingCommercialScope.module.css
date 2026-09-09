@@ -63,12 +63,21 @@
   line-height: 1.58;
 }
 
-.footer {
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
   margin-top: 19px;
+}
+.footer {
   color: var(--muted-soft);
   font-size: 0.69rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+}
+.footerRow :global(.button) {
+  flex: 0 0 auto;
 }
 
 @media (max-width: 960px) {
@@ -105,5 +114,13 @@
   }
   .heading h2 {
     font-size: clamp(2.35rem, 11vw, 3.5rem);
+  }
+  .footerRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .footerRow :global(.button) {
+    width: 100%;
+    justify-content: center;
   }
 }

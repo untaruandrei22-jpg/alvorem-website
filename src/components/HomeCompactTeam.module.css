@@ -116,18 +116,25 @@
   gap: 10px;
   margin-top: 11px;
 }
-.identity > :global(.agent-wordmark) { position: relative; z-index: 2; }
+.identity > :global(.agent-wordmark) {
+  position: relative;
+  z-index: 2;
+  --agent-size: clamp(1.22rem, 1.5vw, 1.34rem);
+}
 .team .identity { gap: 2px; }
 
 .teamMarks {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   margin-left: -2px;
+}
+.teamMarks :global(.agent-wordmark) {
+  --agent-size: clamp(0.94rem, 1.05vw, 1.02rem);
 }
 .teamMarks i {
   color: var(--muted-soft);
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   font-style: normal;
 }
 
@@ -172,7 +179,7 @@
   transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
 }
 .cta :global(.agent-wordmark) {
-  --agent-size: 0.78rem;
+  --agent-size: 0.84rem;
   vertical-align: -0.05em;
 }
 .cta:hover { transform: translateY(-2px); border-color: var(--violet); background: rgba(111, 91, 217, 0.06); }
@@ -189,7 +196,7 @@
   }
 
   .teamMarks :global(.agent-wordmark) {
-    --agent-size: 0.76rem;
+    --agent-size: 0.9rem;
   }
 }
 
@@ -209,4 +216,6 @@
   .section :global(.site-shell) { width: min(100% - 32px, 620px); }
   .card { min-height: 0; padding: 22px; }
   .identity { min-height: 98px; }
+  .identity > :global(.agent-wordmark) { --agent-size: 1.2rem; }
+  .teamMarks :global(.agent-wordmark) { --agent-size: 0.94rem; }
 }

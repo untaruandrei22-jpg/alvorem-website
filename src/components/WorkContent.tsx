@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { AgentInlineText } from "@/components/AgentInlineText";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
+import { WorkIntelligenceField } from "@/components/WorkIntelligenceField";
 import styles from "./WorkContent.module.css";
 
 type Mode = "alvo" | "orem" | "team";
@@ -20,6 +22,135 @@ function StepIcon({ step, team = false }: { step: Step; team?: boolean }) {
   return <svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 23V16h4v7M12 23V10h4v13M19 23V4h4v19M3 23.5h22" /></svg>;
 }
 
+const stepOrder: Step[] = ["problem", "data", "intelligence", "outcome"];
+const connectorClasses = [styles.connectorFirst, styles.connectorMiddle, styles.connectorLast];
+
+const straightPath = "M0 21 H100";
+const branchPaths = [
+  "M0 21 C28 21 34 5 58 5 C78 5 84 18 100 21",
+  straightPath,
+  "M0 21 C28 21 34 37 58 37 C78 37 84 24 100 21",
+];
+const joinPath = "M48 39 C60 39 68 21 100 21";
+
+function MotionPath({ path, className }: { path: string; className: string }) {
+  return <path className={className} d={path} pathLength="1" vectorEffect="non-scaling-stroke" />;
+}
+
+function WorkflowConnector({ mode, index }: { mode: Mode; index: number }) {
+  const isReasoningBranch = mode === "orem" && index === 1;
+  const isTeamJoin = mode === "team" && index === 1;
+  const isTeamOutcome = mode === "team" && index === 2;
+
+  return (
+    <span className={[styles.connector, connectorClasses[index]].join(" ")} aria-hidden="true">
+      <svg className={styles.connectorSvg} viewBox="0 0 100 42" preserveAspectRatio="none">
+        {isReasoningBranch ? (
+          branchPaths.map((path, branchIndex) => (
+            <MotionPath
+              key={path}
+              path={path}
+              className={[styles.routeBase, styles.routeBranch, branchIndex === 1 ? styles.routeBranchCenter : ""].filter(Boolean).join(" ")}
+            />
+          ))
+        ) : (
+          <MotionPath path={straightPath} className={styles.routeBase} />
+        )}
+
+        {isTeamJoin && <MotionPath path={joinPath} className={[styles.routeBase, styles.joinRoute].join(" ")} />}
+        {isTeamJoin && <circle className={styles.depthCue} cx="48" cy="21" r="4" vectorEffect="non-scaling-stroke" />}
+
+        {isReasoningBranch ? (
+          branchPaths.map((path, branchIndex) => (
+            <MotionPath
+              key={`signal-${path}`}
+              path={path}
+              className={[
+                styles.signalPath,
+                styles.signalViolet,
+                branchIndex === 1 ? styles.branchSignalCenter : "",
+                branchIndex === 2 ? styles.branchSignalLower : "",
+              ].filter(Boolean).join(" ")}
+            />
+          ))
+        ) : (
+          <MotionPath
+            path={straightPath}
+            className={[
+              styles.signalPath,
+              mode === "alvo" || (mode === "team" && index < 2) ? styles.signalWarm : styles.signalViolet,
+              isTeamOutcome ? styles.signalUnified : "",
+            ].filter(Boolean).join(" ")}
+          />
+        )}
+
+        {isTeamJoin && <MotionPath path={joinPath} className={[styles.signalPath, styles.signalViolet, styles.joinSignal].join(" ")} />}
+      </svg>
+
+      <span className={styles.mobileTrack}>
+        <i className={styles.mobileSignalPrimary} />
+        {isTeamJoin && <i className={styles.mobileSignalJoin} />}
+      </span>
+    </span>
+  );
+}
+
+function WorkflowMotion({
+  mode,
+  labels,
+  content,
+  flow,
+}: {
+  mode: Mode;
+  labels: Readonly<Record<Step, string>>;
+  content: Readonly<Record<Step, string>>;
+  flow?: string;
+}) {
+  const journeyRef = useRef<HTMLDivElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const journey = journeyRef.current;
+    if (!journey) return;
+
+    if (!("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsPlaying(true);
+        observer.disconnect();
+      },
+      { threshold: 0.28, rootMargin: "0px 0px -10%" },
+    );
+
+    observer.observe(journey);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={journeyRef}
+      className={[styles.journey, styles[mode], isPlaying ? styles.isPlaying : ""].filter(Boolean).join(" ")}
+      data-workflow={mode}
+    >
+      {stepOrder.map((step, index) => (
+        <div className={styles.step} data-step={step} key={step}>
+          <div className={styles.stepHead}>
+            <span className={styles.stepIcon}>
+              <StepIcon step={step} team={mode === "team"} />
+            </span>
+            {index < stepOrder.length - 1 && <WorkflowConnector mode={mode} index={index} />}
+          </div>
+          <h3>{labels[step]}</h3>
+          <p><AgentInlineText text={content[step]} /></p>
+        </div>
+      ))}
+      {flow && <p className={styles.flow}>{flow}</p>}
+    </div>
+  );
+}
+
 function ModeMark({ mode }: { mode: Mode }) {
   if (mode === "team") {
     return <span className={styles.teamMark}><AgentWordmark agent="alvo" size="md" /><i>+</i><AgentWordmark agent="orem" size="md" /></span>;
@@ -33,9 +164,6 @@ const copy = {
     title: <>AI that earns<br />its place <em>in<br />the business.</em></>,
     intro: "Three ways ALVOREM turns everyday work into clearer decisions, deeper insight and real progress.",
     heroCta: "Bring us a process worth simplifying",
-    orbit: ["PEOPLE", "IDEAS", "CONTEXT", "INTELLIGENCE", "PROGRESS"],
-    orbitNote: "SAME PEOPLE. A CLEARER TOMORROW.",
-    orbitEnd: "A BRIGHTER TOMORROW",
     cases: [
       {
         number: "01", modeLabel: "EVERYDAY INTELLIGENCE", mode: "alvo" as const,
@@ -72,9 +200,6 @@ const copy = {
     title: <>AI care își câștigă<br />locul <em>în business.</em></>,
     intro: "Trei moduri prin care ALVOREM transformă munca de zi cu zi în decizii mai clare, analiză profundă și progres real.",
     heroCta: "Adu-ne un proces care merită simplificat",
-    orbit: ["OAMENI", "IDEI", "CONTEXT", "INTELIGENȚĂ", "PROGRES"],
-    orbitNote: "ACEIAȘI OAMENI. UN VIITOR MAI CLAR.",
-    orbitEnd: "UN VIITOR MAI LUMINOS",
     cases: [
       {
         number: "01", modeLabel: "INTELIGENȚĂ DE ZI CU ZI", mode: "alvo" as const,
@@ -111,7 +236,6 @@ const copy = {
 export function WorkContent() {
   const { locale } = useLocale();
   const t = copy[locale];
-  const steps: Step[] = ["problem", "data", "intelligence", "outcome"];
 
   return (
     <>
@@ -123,12 +247,7 @@ export function WorkContent() {
             <p className={styles.intro}><AgentInlineText text={t.intro} /></p>
             <a className="button button--primary" href={`mailto:hello@alvorem.ro?subject=${encodeURIComponent(t.subject)}`}>{t.heroCta} <ArrowIcon /></a>
           </div>
-          <div className={styles.orbit} aria-hidden="true">
-            <span className={styles.orbitGlow} />
-            <p className={styles.orbitNote}>{t.orbitNote}</p>
-            <div className={styles.orbitList}>{t.orbit.map((word) => <span key={word}>{word}</span>)}</div>
-            <p className={styles.orbitEnd}>{t.orbitEnd}</p>
-          </div>
+          <WorkIntelligenceField locale={locale} />
         </div>
       </section>
 
@@ -144,19 +263,12 @@ export function WorkContent() {
                   <p><AgentInlineText text={item.summary} /></p>
                   <Link className={styles.caseLink} href={item.href}><AgentInlineText text={item.action} /> <ArrowIcon /></Link>
                 </div>
-                <div className={styles.journey}>
-                  {steps.map((step, index) => (
-                    <div className={styles.step} key={step}>
-                      <div className={styles.stepHead}>
-                        <StepIcon step={step} team={item.mode === "team"} />
-                        {index < steps.length - 1 && <span className={styles.stepArrow}>→</span>}
-                      </div>
-                      <h3>{t.labels[step]}</h3>
-                      <p><AgentInlineText text={item[step]} /></p>
-                    </div>
-                  ))}
-                  {item.mode === "team" && <p className={styles.flow}>{t.flow}</p>}
-                </div>
+                <WorkflowMotion
+                  mode={item.mode}
+                  labels={t.labels}
+                  content={item}
+                  flow={item.mode === "team" ? t.flow : undefined}
+                />
               </div>
             </div>
           </article>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { AgentInlineText } from "@/components/AgentInlineText";
 import { useLocale } from "@/components/LocaleProvider";
 import styles from "./PricingCommercialScope.module.css";
@@ -18,6 +19,7 @@ const copy = {
       ["Deployment", "ALVO and OREM are the standard agent plans. ALVOREM Private is the scoped route for dedicated implementation, governance requirements, complex integrations and larger rollouts."],
     ],
     footer: "No hidden scope assumptions: the commercial scope is agreed before activation.",
+    cta: "Start a conversation",
   },
   ro: {
     eyebrow: "SCOP COMERCIAL",
@@ -32,6 +34,7 @@ const copy = {
       ["Implementare", "ALVO și OREM sunt planurile standard de agenți. ALVOREM Private este ruta configurată pentru implementare dedicată, cerințe de guvernanță, integrări complexe și rollout-uri mai mari."],
     ],
     footer: "Fără presupuneri ascunse: scopul comercial este agreat înainte de activare.",
+    cta: "Începe o conversație",
   },
 } as const;
 
@@ -56,7 +59,10 @@ export function PricingCommercialScope() {
         ))}
       </div>
 
-      <p className={styles.footer}>{t.footer}</p>
+      <div className={styles.footerRow}>
+        <p className={styles.footer}>{t.footer}</p>
+        <Link className="button button--primary" href="/start?source=pricing-scope">{t.cta} →</Link>
+      </div>
     </section>
   );
 }

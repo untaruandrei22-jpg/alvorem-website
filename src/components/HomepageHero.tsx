@@ -108,8 +108,9 @@ export function HomepageHero() {
     event.preventDefault();
 
     const demo = document.getElementById("agent-demo");
+    const conversation = document.getElementById("alvo-conversation");
     const question = document.getElementById("home-agent-question");
-    const scrollTarget = question ?? demo;
+    const scrollTarget = conversation ?? question ?? demo;
 
     if (!scrollTarget) return;
 
@@ -120,12 +121,27 @@ export function HomepageHero() {
     scrollTarget.scrollIntoView({
       behavior: reduceMotion ? "auto" : "smooth",
       block: "center",
+      inline: "nearest",
     });
+
+    if (!reduceMotion && conversation instanceof HTMLElement) {
+      conversation.animate(
+        [
+          { transform: "scale(1)", filter: "drop-shadow(0 0 0 rgba(129, 103, 255, 0))" },
+          { transform: "scale(1.012)", filter: "drop-shadow(0 0 28px rgba(129, 103, 255, 0.36))", offset: 0.45 },
+          { transform: "scale(1)", filter: "drop-shadow(0 0 0 rgba(129, 103, 255, 0))" },
+        ],
+        {
+          duration: 1250,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        },
+      );
+    }
 
     if (hasFinePointer && question instanceof HTMLTextAreaElement) {
       window.setTimeout(
         () => question.focus({ preventScroll: true }),
-        reduceMotion ? 0 : 420,
+        reduceMotion ? 0 : 520,
       );
     }
   }
@@ -189,7 +205,7 @@ export function HomepageHero() {
           </div>
         </article>
 
-        <div className={styles.alvoPanel}>
+        <div className={styles.alvoPanel} id="alvo-conversation">
           <div className={styles.alvoTopline}>
             <AgentWordmark agent="alvo" size="md" />
             <span>{t.daily}</span>

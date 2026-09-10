@@ -1,9 +1,17 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import { Logo } from "@/components/Logo";
+import {
+  appendConversationTurn,
+  createEmptyDemoSession,
+  resetDemoSession,
+  restoreDemoSession,
+  saveDemoSession,
+  type DemoConversationLocale,
+} from "@/lib/alvo-demo-session";
 import styles from "./HomeAgentDemo.module.css";
 
 type DemoProfile = {
@@ -69,6 +77,29 @@ export function HomeAgentDemo() {
   const [answer, setAnswer] = useState<DemoAnswer | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const sessionLocale: DemoConversationLocale = ro ? "ro" : "en";
+  const [conversationSession, setConversationSession] = useState(() =>
+    createEmptyDemoSession(sessionLocale),
+  );
+  const [sessionRestored, setSessionRestored] = useState(false);
+  const initialSessionLocale = useRef(sessionLocale);
+
+  useEffect(() => {
+    const restored = restoreDemoSession(undefined, initialSessionLocale.current);
+    setConversationSession({ ...restored, locale: initialSessionLocale.current });
+    setSessionRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!sessionRestored) return;
+    setConversationSession((current) =>
+      current.locale === sessionLocale ? current : { ...current, locale: sessionLocale },
+    );
+  }, [sessionLocale, sessionRestored]);
+
+  useEffect(() => {
+    if (sessionRestored) saveDemoSession(conversationSession);
+  }, [conversationSession, sessionRestored]);
 
   useEffect(() => {
     let cancelled = false;
@@ -148,6 +179,9 @@ export function HomeAgentDemo() {
       }
 
       setAnswer(payload);
+      setConversationSession((current) =>
+        appendConversationTurn(current, cleaned, payload.headline),
+      );
       setQuestion("");
     } catch (requestError) {
       setError(
@@ -171,6 +205,7 @@ export function HomeAgentDemo() {
     setAnswer(null);
     setError(null);
     setQuestion("");
+    setConversationSession(resetDemoSession(undefined, sessionLocale));
   }
 
   function applyPrompt(prompt: string) {

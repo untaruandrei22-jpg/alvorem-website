@@ -52,6 +52,13 @@ export function createEmptyDemoSession(
   return { conversationId: null, history: [], locale };
 }
 
+export function isDemoSessionReadyForSubmission(
+  sessionRestored: boolean,
+  loading: boolean,
+): boolean {
+  return sessionRestored && !loading;
+}
+
 export function validateDemoSession(value: unknown): DemoConversationSession | null {
   if (!isRecord(value) || !hasExactFields(value, SESSION_FIELDS)) return null;
   if (!isLocale(value.locale)) return null;

@@ -9,6 +9,7 @@ import {
   buildBoundedHistory,
   completeDemoConversationTurn,
   createEmptyDemoSession,
+  isDemoSessionReadyForSubmission,
   resetDemoSession,
   restoreDemoSession,
   saveDemoSession,
@@ -31,6 +32,12 @@ test("creates an empty browser session", () => {
     history: [],
     locale: "ro",
   });
+});
+
+test("blocks demo submission until browser session restore completes", () => {
+  assert.equal(isDemoSessionReadyForSubmission(false, false), false);
+  assert.equal(isDemoSessionReadyForSubmission(true, false), true);
+  assert.equal(isDemoSessionReadyForSubmission(true, true), false);
 });
 
 test("preserves the authoritative backend conversation ID", () => {

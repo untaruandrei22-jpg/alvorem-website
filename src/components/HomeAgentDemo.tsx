@@ -9,6 +9,7 @@ import {
   DEMO_MESSAGE_MAX_CHARACTERS,
   completeDemoConversationTurn,
   createEmptyDemoSession,
+  isDemoSessionReadyForSubmission,
   resetDemoSession,
   restoreDemoSession,
   saveDemoSession,
@@ -155,7 +156,12 @@ export function HomeAgentDemo() {
 
   async function ask(nextQuestion: string) {
     const cleaned = nextQuestion.trim();
-    if (!cleaned || loading) return;
+    if (
+      !cleaned ||
+      !isDemoSessionReadyForSubmission(sessionRestored, loading)
+    ) {
+      return;
+    }
     if (cleaned.length > DEMO_MESSAGE_MAX_CHARACTERS) {
       setError(
         `Message must contain 1-${DEMO_MESSAGE_MAX_CHARACTERS} characters.`,

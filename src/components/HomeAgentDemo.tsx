@@ -91,15 +91,10 @@ export function HomeAgentDemo() {
   }, []);
 
   useEffect(() => {
-    if (!sessionRestored) return;
-    setConversationSession((current) =>
-      current.locale === sessionLocale ? current : { ...current, locale: sessionLocale },
-    );
-  }, [sessionLocale, sessionRestored]);
-
-  useEffect(() => {
-    if (sessionRestored) saveDemoSession(conversationSession);
-  }, [conversationSession, sessionRestored]);
+    if (sessionRestored) {
+      saveDemoSession({ ...conversationSession, locale: sessionLocale });
+    }
+  }, [conversationSession, sessionLocale, sessionRestored]);
 
   useEffect(() => {
     let cancelled = false;

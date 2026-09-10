@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { AgentWordmark } from "@/components/AgentWordmark";
 
 export function PublicComingSoon() {
   return (
@@ -7,14 +7,10 @@ export function PublicComingSoon() {
       <div className="cs-horizon" />
 
       <div className="cs-content">
-        <Image
-          src="/alvorem-logo-dark.png"
-          alt="ALVOREM"
-          width={1200}
-          height={420}
-          priority
-          className="cs-logo"
-        />
+        <div className="cs-brand" role="img" aria-label="ALVOREM — People, Tech, A Brighter Tomorrow">
+          <AgentWordmark agent="alvorem" size="lg" className="cs-logo" decorative />
+          <span className="cs-brandline">PEOPLE · TECH · A BRIGHTER TOMORROW</span>
+        </div>
 
         <h1>Coming soon.</h1>
 
@@ -46,9 +42,15 @@ export function PublicComingSoon() {
           position: relative; z-index: 2; width: min(1100px, 92vw); display: flex; flex-direction: column;
           align-items: center; text-align: center; transform: translateY(-4vh);
         }
-        .cs-logo {
-          width: clamp(470px, 47vw, 790px); height: auto; object-fit: contain;
-          margin-bottom: clamp(12px, 2vh, 22px); filter: drop-shadow(0 0 28px rgba(124,91,255,.14));
+        .cs-brand {
+          display: flex; flex-direction: column; align-items: center; gap: 11px;
+          margin-bottom: clamp(22px, 3vh, 34px); color: #f8f7ff;
+          filter: drop-shadow(0 0 28px rgba(124,91,255,.14));
+        }
+        .cs-logo { --agent-size: clamp(3.4rem, 6.3vw, 6.25rem); }
+        .cs-brandline {
+          font-size: clamp(8px, .72vw, 11px); font-weight: 600; letter-spacing: .34em;
+          color: rgba(222,216,243,.62);
         }
         .cs-page h1 {
           margin: 0; font-size: clamp(58px, 5.6vw, 94px); line-height: .94; font-weight: 300;
@@ -75,7 +77,9 @@ export function PublicComingSoon() {
         @media (max-width: 700px) {
           .cs-page { padding: 24px; min-height: 560px; }
           .cs-content { width: 100%; transform: translateY(-2vh); }
-          .cs-logo { width: 92vw; margin-bottom: 22px; }
+          .cs-brand { gap: 9px; margin-bottom: 26px; }
+          .cs-logo { --agent-size: clamp(2.65rem, 12vw, 4rem); }
+          .cs-brandline { font-size: 7px; letter-spacing: .27em; }
           .cs-page h1 { font-size: clamp(54px,16vw,74px); }
           .cs-description { font-size: 15px; }
           .cs-bottom { margin-top: 36px; }

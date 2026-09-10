@@ -4,8 +4,10 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import { Logo } from "@/components/Logo";
+import { buildDemoChatBrowserRequest } from "@/lib/alvo-demo-chat";
 import {
-  appendConversationTurn,
+  DEMO_MESSAGE_MAX_CHARACTERS,
+  completeDemoConversationTurn,
   createEmptyDemoSession,
   resetDemoSession,
   restoreDemoSession,
@@ -23,6 +25,7 @@ type DemoProfile = {
 };
 
 type DemoAnswer = {
+  conversation_id: string;
   industry: string;
   industry_display_name: string;
   action: "answer" | "clarification";
@@ -153,6 +156,12 @@ export function HomeAgentDemo() {
   async function ask(nextQuestion: string) {
     const cleaned = nextQuestion.trim();
     if (!cleaned || loading) return;
+    if (cleaned.length > DEMO_MESSAGE_MAX_CHARACTERS) {
+      setError(
+        `Message must contain 1-${DEMO_MESSAGE_MAX_CHARACTERS} characters.`,
+      );
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -161,21 +170,33 @@ export function HomeAgentDemo() {
       const response = await fetch("/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: JSON.stringify(buildDemoChatBrowserRequest({
           industry: activeIndustry,
-          question: cleaned,
-        }),
+          message: cleaned,
+          conversationId: conversationSession.conversationId,
+          history: conversationSession.history,
+        })),
       });
 
       const payload = (await response.json()) as DemoAnswer | { error?: string };
 
-      if (!response.ok || !("headline" in payload)) {
+      if (
+        !response.ok ||
+        !("headline" in payload) ||
+        !("conversation_id" in payload) ||
+        typeof payload.conversation_id !== "string"
+      ) {
         throw new Error("error" in payload && payload.error ? payload.error : "Demo unavailable.");
       }
 
       setAnswer(payload);
       setConversationSession((current) =>
-        appendConversationTurn(current, cleaned, payload.headline),
+        completeDemoConversationTurn(
+          current,
+          payload.conversation_id,
+          cleaned,
+          payload.headline,
+        ),
       );
       setQuestion("");
     } catch (requestError) {
@@ -298,7 +319,7 @@ export function HomeAgentDemo() {
             className={styles.input}
             value={question}
             rows={1}
-            maxLength={300}
+            maxLength={DEMO_MESSAGE_MAX_CHARACTERS}
             disabled={loading}
             onChange={(event) => setQuestion(event.target.value)}
             onKeyDown={(event) => {

@@ -7,6 +7,7 @@ import {
   DEMO_SESSION_STORAGE_KEY,
   appendConversationTurn,
   buildBoundedHistory,
+  completeDemoConversationTurn,
   createEmptyDemoSession,
   resetDemoSession,
   restoreDemoSession,
@@ -44,6 +45,27 @@ test("appends a chronological user and assistant turn", () => {
     { role: "user", content: "Question" },
     { role: "assistant", content: "Answer" },
   ]);
+});
+
+test("completes a successful turn with the authoritative conversation ID atomically", () => {
+  const previous = setDemoConversationId(
+    createEmptyDemoSession(),
+    "demo_previous",
+  );
+  const next = completeDemoConversationTurn(
+    previous,
+    "demo_authoritative",
+    "What about margin?",
+    "Margin is stable.",
+  );
+
+  assert.equal(next.conversationId, "demo_authoritative");
+  assert.deepEqual(next.history, [
+    { role: "user", content: "What about margin?" },
+    { role: "assistant", content: "Margin is stable." },
+  ]);
+  assert.equal(previous.conversationId, "demo_previous");
+  assert.deepEqual(previous.history, []);
 });
 
 test("keeps only the latest eight messages in chronological order", () => {

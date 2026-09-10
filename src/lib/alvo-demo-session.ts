@@ -119,6 +119,19 @@ export function setDemoConversationId(
   return { ...session, conversationId };
 }
 
+export function completeDemoConversationTurn(
+  session: DemoConversationSession,
+  conversationId: string,
+  userContent: string,
+  assistantContent: string,
+): DemoConversationSession {
+  return appendConversationTurn(
+    setDemoConversationId(session, conversationId),
+    userContent,
+    assistantContent,
+  );
+}
+
 function browserSessionStorage(): DemoSessionStorage | null {
   if (typeof window === "undefined") return null;
   try {

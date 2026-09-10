@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  DEMO_CHAT_UPSTREAM_PATH,
+  buildDemoChatUpstreamRequest,
+  calculateDemoChatMaxRequestBytes,
+  normalizeDemoChatGatewayResponse,
+  validateDemoChatRequest,
+  type DemoChatRequestLimits,
+} from "@/lib/alvo-demo-chat";
+import {
+  DEMO_CONVERSATION_ID_MAX_CHARACTERS,
+  DEMO_HISTORY_MAX_MESSAGES,
+  DEMO_MESSAGE_MAX_CHARACTERS,
+} from "@/lib/alvo-demo-session";
 
 const DEVELOPMENT_DEMO_API = "http://127.0.0.1:8000";
 const PRODUCTION_DEMO_API = "https://private-ai-business-agent-production.up.railway.app";
-const MAX_QUESTION_LENGTH = 300;
-const MAX_REQUEST_BYTES = 4_096;
 const REQUEST_TIMEOUT_MS = 20_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 12;
@@ -17,6 +28,12 @@ const SUPPORTED_INDUSTRIES = new Set([
   "healthcare_operations",
   "construction_real_estate",
 ]);
+const DEMO_CHAT_LIMITS = {
+  messageCharacters: DEMO_MESSAGE_MAX_CHARACTERS,
+  historyMessages: DEMO_HISTORY_MAX_MESSAGES,
+  conversationIdCharacters: DEMO_CONVERSATION_ID_MAX_CHARACTERS,
+} satisfies DemoChatRequestLimits;
+const MAX_REQUEST_BYTES = calculateDemoChatMaxRequestBytes(DEMO_CHAT_LIMITS);
 
 type JsonRecord = Record<string, unknown>;
 type RateLimitEntry = { count: number; resetAt: number };
@@ -150,51 +167,6 @@ function normalizeProfiles(payload: unknown) {
   return profiles.length > 0 ? profiles : null;
 }
 
-function normalizeAnswer(payload: unknown) {
-  if (
-    !isRecord(payload) ||
-    typeof payload.industry !== "string" ||
-    typeof payload.industry_display_name !== "string" ||
-    (payload.action !== "answer" && payload.action !== "clarification") ||
-    typeof payload.question !== "string" ||
-    !(typeof payload.capability === "string" || payload.capability === null) ||
-    !(typeof payload.data_month === "string" || payload.data_month === null) ||
-    typeof payload.headline !== "string" ||
-    typeof payload.summary !== "string" ||
-    !Array.isArray(payload.kpis) ||
-    !isStringArray(payload.details) ||
-    !isStringArray(payload.provenance) ||
-    typeof payload.disclaimer !== "string" ||
-    !isStringArray(payload.suggested_prompts)
-  ) {
-    return null;
-  }
-
-  const kpis = payload.kpis.flatMap((kpi) => {
-    if (!isRecord(kpi) || typeof kpi.label !== "string" || typeof kpi.value !== "string") {
-      return [];
-    }
-
-    return [{ label: kpi.label, value: kpi.value }];
-  });
-
-  return {
-    industry: payload.industry,
-    industry_display_name: payload.industry_display_name,
-    action: payload.action,
-    question: payload.question,
-    capability: payload.capability,
-    data_month: payload.data_month,
-    headline: payload.headline,
-    summary: payload.summary,
-    kpis: kpis.slice(0, 8),
-    details: payload.details.slice(0, 8),
-    provenance: payload.provenance.slice(0, 12),
-    disclaimer: payload.disclaimer,
-    suggested_prompts: payload.suggested_prompts.slice(0, 6),
-  };
-}
-
 function upstreamFailure(status: number) {
   if (status === 429) {
     return json({ error: "The demo is busy. Please try again in a moment." }, 429);
@@ -260,53 +232,68 @@ export async function POST(request: NextRequest) {
     return json({ error: "Request body is too large." }, 413);
   }
 
-  let body: unknown;
+  let serializedBody: string;
 
   try {
-    body = await request.json();
+    serializedBody = await request.text();
   } catch {
     return json({ error: "Invalid JSON body." }, 400);
   }
 
-  if (!isRecord(body)) {
-    return json({ error: "Invalid request." }, 400);
+  if (new TextEncoder().encode(serializedBody).byteLength > MAX_REQUEST_BYTES) {
+    return json({ error: "Request body is too large." }, 413);
   }
 
-  const { industry, question } = body;
+  let body: unknown;
 
-  if (
-    typeof industry !== "string" ||
-    !SUPPORTED_INDUSTRIES.has(industry) ||
-    typeof question !== "string"
-  ) {
-    return json({ error: "Choose a valid industry and enter a question." }, 400);
+  try {
+    body = JSON.parse(serializedBody) as unknown;
+  } catch {
+    return json({ error: "Invalid JSON body." }, 400);
   }
 
-  const cleanedQuestion = question.trim();
+  const validated = validateDemoChatRequest(
+    body,
+    SUPPORTED_INDUSTRIES,
+    DEMO_CHAT_LIMITS,
+  );
 
-  if (!cleanedQuestion || cleanedQuestion.length > MAX_QUESTION_LENGTH) {
+  if (!validated.ok) {
+    if (validated.reason === "invalid_message") {
+      return json(
+        {
+          error:
+            `Message must contain 1-${DEMO_MESSAGE_MAX_CHARACTERS} characters.`,
+        },
+        400,
+      );
+    }
     return json(
-      { error: `Question must contain 1-${MAX_QUESTION_LENGTH} characters.` },
+      { error: "Choose a valid industry and enter a valid conversation." },
       400,
     );
   }
 
   try {
-    const response = await fetchWithTimeout(`${baseUrl}/v1/demo`, {
-      method: "POST",
-      headers: upstreamHeaders(true),
-      body: JSON.stringify({
-        industry,
-        question: cleanedQuestion,
-      }),
-    });
+    const response = await fetchWithTimeout(
+      `${baseUrl}${DEMO_CHAT_UPSTREAM_PATH}`,
+      {
+        method: "POST",
+        headers: upstreamHeaders(true),
+        body: JSON.stringify(buildDemoChatUpstreamRequest(validated.value)),
+      },
+    );
 
     if (!response.ok) return upstreamFailure(response.status);
 
-    const answer = normalizeAnswer(await readJson(response));
-    if (!answer) return json({ error: "The demo returned an invalid response." }, 502);
+    const result = normalizeDemoChatGatewayResponse(await readJson(response), {
+      industry: validated.value.industry,
+      message: validated.value.message,
+      conversationId: validated.value.conversation_id,
+      conversationIdCharacters: DEMO_CONVERSATION_ID_MAX_CHARACTERS,
+    });
 
-    return json(answer);
+    return json(result.body, result.status);
   } catch {
     return json({ error: "The ALVO demo is temporarily unavailable." }, 503);
   }

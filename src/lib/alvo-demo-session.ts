@@ -52,6 +52,13 @@ export function createEmptyDemoSession(
   return { conversationId: null, history: [], locale };
 }
 
+export function isDemoSessionReadyForSubmission(
+  sessionRestored: boolean,
+  loading: boolean,
+): boolean {
+  return sessionRestored && !loading;
+}
+
 export function validateDemoSession(value: unknown): DemoConversationSession | null {
   if (!isRecord(value) || !hasExactFields(value, SESSION_FIELDS)) return null;
   if (!isLocale(value.locale)) return null;
@@ -117,6 +124,19 @@ export function setDemoConversationId(
     throw new TypeError("Invalid demo conversation ID.");
   }
   return { ...session, conversationId };
+}
+
+export function completeDemoConversationTurn(
+  session: DemoConversationSession,
+  conversationId: string,
+  userContent: string,
+  assistantContent: string,
+): DemoConversationSession {
+  return appendConversationTurn(
+    setDemoConversationId(session, conversationId),
+    userContent,
+    assistantContent,
+  );
 }
 
 function browserSessionStorage(): DemoSessionStorage | null {

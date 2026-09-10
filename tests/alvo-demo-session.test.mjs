@@ -7,7 +7,9 @@ import {
   DEMO_SESSION_STORAGE_KEY,
   appendConversationTurn,
   buildBoundedHistory,
+  completeDemoConversationTurn,
   createEmptyDemoSession,
+  isDemoSessionReadyForSubmission,
   resetDemoSession,
   restoreDemoSession,
   saveDemoSession,
@@ -32,6 +34,12 @@ test("creates an empty browser session", () => {
   });
 });
 
+test("blocks demo submission until browser session restore completes", () => {
+  assert.equal(isDemoSessionReadyForSubmission(false, false), false);
+  assert.equal(isDemoSessionReadyForSubmission(true, false), true);
+  assert.equal(isDemoSessionReadyForSubmission(true, true), false);
+});
+
 test("preserves the authoritative backend conversation ID", () => {
   const session = setDemoConversationId(createEmptyDemoSession(), "demo_abc-123");
   const next = appendConversationTurn(session, "Question", "Answer");
@@ -44,6 +52,27 @@ test("appends a chronological user and assistant turn", () => {
     { role: "user", content: "Question" },
     { role: "assistant", content: "Answer" },
   ]);
+});
+
+test("completes a successful turn with the authoritative conversation ID atomically", () => {
+  const previous = setDemoConversationId(
+    createEmptyDemoSession(),
+    "demo_previous",
+  );
+  const next = completeDemoConversationTurn(
+    previous,
+    "demo_authoritative",
+    "What about margin?",
+    "Margin is stable.",
+  );
+
+  assert.equal(next.conversationId, "demo_authoritative");
+  assert.deepEqual(next.history, [
+    { role: "user", content: "What about margin?" },
+    { role: "assistant", content: "Margin is stable." },
+  ]);
+  assert.equal(previous.conversationId, "demo_previous");
+  assert.deepEqual(previous.history, []);
 });
 
 test("keeps only the latest eight messages in chronological order", () => {

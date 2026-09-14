@@ -222,6 +222,7 @@ export function HomeAgentDemo() {
   }
 
   function selectIndustry(industry: string) {
+    if (!isDemoSessionReadyForSubmission(sessionRestored, loading)) return;
     if (!availableIndustries.has(industry)) return;
     setActiveIndustry(industry);
     setAnswer(null);
@@ -264,7 +265,7 @@ export function HomeAgentDemo() {
           id="home-agent-industry"
           className={styles.industrySelect}
           value={activeIndustry}
-          disabled={loading}
+          disabled={loading || !sessionRestored}
           onChange={(event) => selectIndustry(event.target.value)}
         >
           {availableIndustryOptions.map(([industry, label]) => (
@@ -272,14 +273,28 @@ export function HomeAgentDemo() {
           ))}
         </select>
 
-        {!answer && prompts.length > 0 && (
+        <div className={styles.demoControls}>
+          <small id="home-agent-language" className={styles.languageHint}>
+            {ro ? "În acest demo, întreabă în engleză." : "Ask in English in this demo."}
+          </small>
+          <button
+            type="button"
+            className={styles.resetButton}
+            disabled={loading || !sessionRestored}
+            onClick={() => selectIndustry(activeIndustry)}
+          >
+            {ro ? "Conversație nouă" : "New conversation"}
+          </button>
+        </div>
+
+        {(!answer || answer.action === "clarification" || error) && prompts.length > 0 && (
           <div className={styles.promptList} aria-label={ro ? "Întrebări sugerate" : "Suggested questions"}>
             {prompts.slice(0, 2).map((prompt) => (
               <button
                 key={prompt}
                 type="button"
                 className={styles.promptButton}
-                disabled={loading}
+                disabled={loading || !sessionRestored}
                 onClick={() => applyPrompt(prompt)}
               >
                 {prompt}
@@ -325,8 +340,9 @@ export function HomeAgentDemo() {
             className={styles.input}
             value={question}
             rows={1}
+            aria-describedby="home-agent-language"
             maxLength={DEMO_MESSAGE_MAX_CHARACTERS}
-            disabled={loading}
+            disabled={loading || !sessionRestored}
             onChange={(event) => setQuestion(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
@@ -334,12 +350,12 @@ export function HomeAgentDemo() {
                 void ask(question);
               }
             }}
-            placeholder={ro ? "Întreabă ceva despre acest business…" : "Ask anything about this business…"}
+            placeholder={ro ? "Întreabă în engleză despre acest business…" : "Ask about sales, targets, margin or inventory…"}
           />
           <button
             className={styles.sendButton}
             type="submit"
-            disabled={loading || !question.trim()}
+            disabled={loading || !sessionRestored || !question.trim()}
             aria-label={loading ? (ro ? "Agentul răspunde" : "Agent is answering") : (ro ? "Întreabă agentul" : "Ask the agent")}
           >
             <ArrowIcon />

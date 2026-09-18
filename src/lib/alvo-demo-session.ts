@@ -6,9 +6,30 @@ export const DEMO_SESSION_STORAGE_KEY = "alvorem:alvo-demo-session:v1";
 export type DemoConversationRole = "user" | "assistant";
 export type DemoConversationLocale = "en" | "ro";
 
+export type DemoPriorResultContext = {
+  client_brain_id: string;
+  capability_id: string;
+  metric_ids: string[];
+  dimension_ids: string[];
+  selected_entity_ref: string | null;
+  entity_refs: string[];
+  evidence_refs: string[];
+};
+
+export type DemoConversationPresentation = {
+  action: "answer" | "clarification";
+  headline: string;
+  summary: string;
+  kpis: { label: string; value: string }[];
+  provenance: string[];
+  disclaimer: string;
+};
+
 export type DemoConversationMessage = {
   role: DemoConversationRole;
   content: string;
+  presentation?: DemoConversationPresentation;
+  priorResultContext?: DemoPriorResultContext | null;
 };
 
 export type DemoConversationSession = {
@@ -17,11 +38,48 @@ export type DemoConversationSession = {
   locale: DemoConversationLocale;
 };
 
+export type DemoAssistantTurnInput = {
+  content: string;
+  presentation: DemoConversationPresentation;
+  priorResultContext?: DemoPriorResultContext | null;
+};
+
 export type DemoSessionStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 const SESSION_FIELDS = new Set(["conversationId", "history", "locale"]);
-const MESSAGE_FIELDS = new Set(["role", "content"]);
+const USER_MESSAGE_FIELDS = new Set(["role", "content"]);
+const ASSISTANT_MESSAGE_FIELDS = new Set([
+  "role",
+  "content",
+  "presentation",
+  "priorResultContext",
+]);
+const PRESENTATION_FIELDS = new Set([
+  "action",
+  "headline",
+  "summary",
+  "kpis",
+  "provenance",
+  "disclaimer",
+]);
+const KPI_FIELDS = new Set(["label", "value"]);
+const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
+  "client_brain_id",
+  "capability_id",
+  "metric_ids",
+  "dimension_ids",
+  "selected_entity_ref",
+  "entity_refs",
+  "evidence_refs",
+]);
 const CONVERSATION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/;
+const SAFE_ID_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
+const SAFE_REF_PATTERN = /^[a-z][a-z0-9_]{0,31}:[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}$/;
+const MAX_SUMMARY_CHARACTERS = 2_000;
+const MAX_DISCLAIMER_CHARACTERS = 500;
+const MAX_KPIS = 4;
+const MAX_PROVENANCE_ITEMS = 12;
+const MAX_CONTEXT_ITEMS = 12;
 
 function hasExactFields(value: Record<string, unknown>, allowed: Set<string>) {
   const keys = Object.keys(value);
@@ -32,18 +90,145 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+function isBoundedText(value: unknown, maxCharacters: number): value is string {
+  return (
+    typeof value === "string" &&
+    value.trim().length > 0 &&
+    value.length <= maxCharacters
+  );
+}
+
 function isLocale(value: unknown): value is DemoConversationLocale {
   return value === "en" || value === "ro";
 }
 
-function isMessage(value: unknown): value is DemoConversationMessage {
-  if (!isRecord(value) || !hasExactFields(value, MESSAGE_FIELDS)) return false;
-  if (value.role !== "user" && value.role !== "assistant") return false;
+function isSafeIdArray(value: unknown, maxItems: number): value is string[] {
   return (
-    typeof value.content === "string" &&
-    value.content.trim().length > 0 &&
-    value.content.length <= DEMO_MESSAGE_MAX_CHARACTERS
+    Array.isArray(value) &&
+    value.length <= maxItems &&
+    value.every((item) => typeof item === "string" && SAFE_ID_PATTERN.test(item)) &&
+    new Set(value).size === value.length
   );
+}
+
+function isSafeRefArray(value: unknown, maxItems: number): value is string[] {
+  return (
+    Array.isArray(value) &&
+    value.length <= maxItems &&
+    value.every((item) => typeof item === "string" && SAFE_REF_PATTERN.test(item)) &&
+    new Set(value).size === value.length
+  );
+}
+
+function isPriorResultContext(value: unknown): value is DemoPriorResultContext {
+  if (
+    !isRecord(value) ||
+    !hasExactFields(value, PRIOR_RESULT_CONTEXT_FIELDS) ||
+    typeof value.client_brain_id !== "string" ||
+    !SAFE_ID_PATTERN.test(value.client_brain_id) ||
+    typeof value.capability_id !== "string" ||
+    !SAFE_ID_PATTERN.test(value.capability_id) ||
+    !isSafeIdArray(value.metric_ids, 8) ||
+    !isSafeIdArray(value.dimension_ids, 8) ||
+    !isSafeRefArray(value.entity_refs, 8) ||
+    !isSafeRefArray(value.evidence_refs, MAX_CONTEXT_ITEMS)
+  ) {
+    return false;
+  }
+
+  if (
+    value.selected_entity_ref !== null &&
+    (typeof value.selected_entity_ref !== "string" ||
+      !SAFE_REF_PATTERN.test(value.selected_entity_ref) ||
+      !value.entity_refs.includes(value.selected_entity_ref))
+  ) {
+    return false;
+  }
+
+  if (value.entity_refs.length > 0 && value.dimension_ids.length === 0) {
+    return false;
+  }
+  return true;
+}
+
+function isPresentation(value: unknown): value is DemoConversationPresentation {
+  if (
+    !isRecord(value) ||
+    !hasExactFields(value, PRESENTATION_FIELDS) ||
+    (value.action !== "answer" && value.action !== "clarification") ||
+    !isBoundedText(value.headline, DEMO_MESSAGE_MAX_CHARACTERS) ||
+    !isBoundedText(value.summary, MAX_SUMMARY_CHARACTERS) ||
+    !isBoundedText(value.disclaimer, MAX_DISCLAIMER_CHARACTERS) ||
+    !Array.isArray(value.kpis) ||
+    value.kpis.length > MAX_KPIS ||
+    !Array.isArray(value.provenance) ||
+    value.provenance.length > MAX_PROVENANCE_ITEMS
+  ) {
+    return false;
+  }
+
+  if (
+    !value.kpis.every(
+      (kpi) =>
+        isRecord(kpi) &&
+        hasExactFields(kpi, KPI_FIELDS) &&
+        isBoundedText(kpi.label, DEMO_MESSAGE_MAX_CHARACTERS) &&
+        isBoundedText(kpi.value, DEMO_MESSAGE_MAX_CHARACTERS),
+    )
+  ) {
+    return false;
+  }
+
+  return value.provenance.every((item) =>
+    isBoundedText(item, DEMO_MESSAGE_MAX_CHARACTERS),
+  );
+}
+
+function isMessage(value: unknown): value is DemoConversationMessage {
+  if (!isRecord(value)) return false;
+
+  if (value.role === "user") {
+    return (
+      hasExactFields(value, USER_MESSAGE_FIELDS) &&
+      isBoundedText(value.content, DEMO_MESSAGE_MAX_CHARACTERS)
+    );
+  }
+
+  if (value.role !== "assistant" || !hasExactFields(value, ASSISTANT_MESSAGE_FIELDS)) {
+    return false;
+  }
+
+  return (
+    isBoundedText(value.content, DEMO_MESSAGE_MAX_CHARACTERS) &&
+    isPresentation(value.presentation) &&
+    (value.priorResultContext === null ||
+      isPriorResultContext(value.priorResultContext))
+  );
+}
+
+function copyMessage(message: DemoConversationMessage): DemoConversationMessage {
+  if (message.role === "user") {
+    return { role: "user", content: message.content };
+  }
+
+  return {
+    role: "assistant",
+    content: message.content,
+    presentation: {
+      ...message.presentation!,
+      kpis: message.presentation!.kpis.map((kpi) => ({ ...kpi })),
+      provenance: [...message.presentation!.provenance],
+    },
+    priorResultContext: message.priorResultContext
+      ? {
+          ...message.priorResultContext,
+          metric_ids: [...message.priorResultContext.metric_ids],
+          dimension_ids: [...message.priorResultContext.dimension_ids],
+          entity_refs: [...message.priorResultContext.entity_refs],
+          evidence_refs: [...message.priorResultContext.evidence_refs],
+        }
+      : null,
+  };
 }
 
 export function createEmptyDemoSession(
@@ -79,7 +264,7 @@ export function validateDemoSession(value: unknown): DemoConversationSession | n
   }
   return {
     conversationId: value.conversationId,
-    history: value.history.map((message) => ({ ...message })),
+    history: value.history.map(copyMessage),
     locale: value.locale,
   };
 }
@@ -92,20 +277,29 @@ export function buildBoundedHistory(
   }
   return messages
     .slice(-DEMO_HISTORY_MAX_MESSAGES)
-    .map((message) => ({ ...message }));
+    .map(copyMessage);
 }
 
 export function appendConversationTurn(
   session: DemoConversationSession,
   userContent: string,
-  assistantContent: string,
+  assistant: DemoAssistantTurnInput,
 ): DemoConversationSession {
   const additions: DemoConversationMessage[] = [
     { role: "user", content: userContent },
-    { role: "assistant", content: assistantContent },
+    {
+      role: "assistant",
+      content: assistant.content,
+      presentation: {
+        ...assistant.presentation,
+        kpis: assistant.presentation.kpis.map((kpi) => ({ ...kpi })),
+        provenance: [...assistant.presentation.provenance],
+      },
+      priorResultContext: assistant.priorResultContext ?? null,
+    },
   ];
   if (!additions.every(isMessage)) {
-    throw new RangeError("Conversation messages must contain 1 to 500 characters.");
+    throw new RangeError("Conversation messages contain invalid or oversized safe data.");
   }
   return {
     ...session,
@@ -130,12 +324,12 @@ export function completeDemoConversationTurn(
   session: DemoConversationSession,
   conversationId: string,
   userContent: string,
-  assistantContent: string,
+  assistant: DemoAssistantTurnInput,
 ): DemoConversationSession {
   return appendConversationTurn(
     setDemoConversationId(session, conversationId),
     userContent,
-    assistantContent,
+    assistant,
   );
 }
 

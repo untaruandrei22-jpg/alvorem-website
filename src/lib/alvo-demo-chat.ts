@@ -498,6 +498,9 @@ export function normalizeDemoChatGatewayResponse(
     MAX_PROVENANCE_ITEMS,
     MAX_HEADLINE_CHARACTERS,
   );
+  const priorResultContext = parsePriorResultContext(
+    payload.prior_result_context,
+  );
   const details = parseStringArray(
     answer.details,
     MAX_ARRAY_ITEMS,
@@ -517,6 +520,7 @@ export function normalizeDemoChatGatewayResponse(
   if (
     capabilities === null ||
     provenance === null ||
+    priorResultContext === undefined ||
     details === null ||
     suggestedPrompts === null ||
     checks === null ||
@@ -537,6 +541,16 @@ export function normalizeDemoChatGatewayResponse(
   const capabilitySet = new Set(capabilities);
   const kpis = parseKpis(answer.kpis, capabilitySet);
   if (kpis === null) return invalidGatewayResult();
+
+  if (
+    priorResultContext !== null &&
+    (
+      !capabilitySet.has(priorResultContext.capability_id) ||
+      !priorResultContext.evidence_refs.every((ref) => provenance.includes(ref))
+    )
+  ) {
+    return invalidGatewayResult();
+  }
 
   const hasCapabilityEvidence = capabilities.length > 0;
   const hasExpectedVerification = checks.includes(
@@ -579,6 +593,7 @@ export function normalizeDemoChatGatewayResponse(
       provenance: provenance.slice(0, 12),
       disclaimer: payload.disclaimer.trim(),
       suggested_prompts: suggestedPrompts.slice(0, 6),
+      prior_result_context: priorResultContext,
     },
   };
 }

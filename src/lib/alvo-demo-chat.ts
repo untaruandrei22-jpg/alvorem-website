@@ -156,6 +156,102 @@ function parseStringArray(
   return value.map((item) => item.trim());
 }
 
+function parseUniqueSafeStringArray(
+  value: unknown,
+  maxItems: number,
+  pattern: RegExp,
+  maxCharacters: number,
+): string[] | null {
+  if (
+    !Array.isArray(value) ||
+    value.length > maxItems ||
+    !value.every(
+      (item) =>
+        typeof item === "string" &&
+        item.length <= maxCharacters &&
+        pattern.test(item),
+    ) ||
+    new Set(value).size !== value.length
+  ) {
+    return null;
+  }
+  return [...value];
+}
+
+function parsePriorResultContext(
+  value: unknown,
+): DemoPriorResultContext | null | undefined {
+  if (value === undefined || value === null) return null;
+  if (!isRecord(value) || !hasExactFields(value, PRIOR_RESULT_CONTEXT_FIELDS)) {
+    return undefined;
+  }
+  if (
+    typeof value.client_brain_id !== "string" ||
+    !SAFE_ID_PATTERN.test(value.client_brain_id) ||
+    typeof value.capability_id !== "string" ||
+    !APPROVED_CAPABILITIES.has(value.capability_id)
+  ) {
+    return undefined;
+  }
+
+  const metricIds = parseUniqueSafeStringArray(
+    value.metric_ids,
+    MAX_CONTEXT_IDS,
+    SAFE_ID_PATTERN,
+    64,
+  );
+  const dimensionIds = parseUniqueSafeStringArray(
+    value.dimension_ids,
+    MAX_CONTEXT_IDS,
+    SAFE_ID_PATTERN,
+    64,
+  );
+  const entityRefs = parseUniqueSafeStringArray(
+    value.entity_refs,
+    MAX_CONTEXT_ENTITY_REFS,
+    SAFE_REF_PATTERN,
+    MAX_CONTEXT_REF_CHARACTERS,
+  );
+  const evidenceRefs = parseUniqueSafeStringArray(
+    value.evidence_refs,
+    MAX_CONTEXT_EVIDENCE_REFS,
+    SAFE_REF_PATTERN,
+    MAX_CONTEXT_REF_CHARACTERS,
+  );
+  if (
+    metricIds === null ||
+    dimensionIds === null ||
+    entityRefs === null ||
+    evidenceRefs === null ||
+    !evidenceRefs.every((ref) => ref.startsWith("synthetic:"))
+  ) {
+    return undefined;
+  }
+
+  const selected =
+    value.selected_entity_ref === null
+      ? null
+      : typeof value.selected_entity_ref === "string" &&
+          value.selected_entity_ref.length <= MAX_CONTEXT_REF_CHARACTERS &&
+          SAFE_REF_PATTERN.test(value.selected_entity_ref) &&
+          entityRefs.includes(value.selected_entity_ref)
+        ? value.selected_entity_ref
+        : undefined;
+  if (selected === undefined || (entityRefs.length > 0 && dimensionIds.length === 0)) {
+    return undefined;
+  }
+
+  return {
+    client_brain_id: value.client_brain_id,
+    capability_id: value.capability_id,
+    metric_ids: metricIds,
+    dimension_ids: dimensionIds,
+    selected_entity_ref: selected,
+    entity_refs: entityRefs,
+    evidence_refs: evidenceRefs,
+  };
+}
+
 function isIsoDate(value: unknown): value is string {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return false;

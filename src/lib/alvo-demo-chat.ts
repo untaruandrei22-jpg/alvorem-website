@@ -19,7 +19,7 @@ export type DemoPriorResultContext = {
   dimension_ids: string[];
   selected_entity_ref: string | null;
   entity_refs: string[];
-  evidence_refs: string[];
+  result_refs: string[];
 };
 
 export type DemoChatHistoryMessage = {
@@ -95,7 +95,7 @@ const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
   "dimension_ids",
   "selected_entity_ref",
   "entity_refs",
-  "evidence_refs",
+  "result_refs",
 ]);
 const CONVERSATION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 const APPROVED_CAPABILITIES = new Set<string>(DEMO_CHAT_APPROVED_CAPABILITIES);
@@ -119,7 +119,7 @@ const MAX_PROVENANCE_ITEMS = 12;
 const MAX_CAPABILITIES = DEMO_CHAT_APPROVED_CAPABILITIES.length;
 const MAX_CONTEXT_IDS = 4;
 const MAX_CONTEXT_ENTITY_REFS = 4;
-const MAX_CONTEXT_EVIDENCE_REFS = 4;
+const MAX_CONTEXT_RESULT_REFS = 4;
 const MAX_CONTEXT_REF_CHARACTERS = 160;
 const JSON_MAX_BYTES_PER_CHARACTER = 6;
 const JSON_ENVELOPE_BYTES = 1_024;
@@ -212,9 +212,9 @@ function parsePriorResultContext(
     SAFE_REF_PATTERN,
     MAX_CONTEXT_REF_CHARACTERS,
   );
-  const evidenceRefs = parseUniqueSafeStringArray(
-    value.evidence_refs,
-    MAX_CONTEXT_EVIDENCE_REFS,
+  const resultRefs = parseUniqueSafeStringArray(
+    value.result_refs,
+    MAX_CONTEXT_RESULT_REFS,
     SAFE_REF_PATTERN,
     MAX_CONTEXT_REF_CHARACTERS,
   );
@@ -222,8 +222,9 @@ function parsePriorResultContext(
     metricIds === null ||
     dimensionIds === null ||
     entityRefs === null ||
-    evidenceRefs === null ||
-    !evidenceRefs.every((ref) => ref.startsWith("synthetic:"))
+    resultRefs === null ||
+    resultRefs.length !== 1 ||
+    resultRefs[0] !== `result:${value.client_brain_id}:${value.capability_id}`
   ) {
     return undefined;
   }
@@ -248,7 +249,7 @@ function parsePriorResultContext(
     dimension_ids: dimensionIds,
     selected_entity_ref: selected,
     entity_refs: entityRefs,
-    evidence_refs: evidenceRefs,
+    result_refs: resultRefs,
   };
 }
 
@@ -405,7 +406,7 @@ export function calculateDemoChatMaxRequestBytes(limits: DemoChatRequestLimits) 
     assistantContextCount *
     (
       (MAX_CONTEXT_IDS * 2 * 64) +
-      ((MAX_CONTEXT_ENTITY_REFS + MAX_CONTEXT_EVIDENCE_REFS + 1) *
+      ((MAX_CONTEXT_ENTITY_REFS + MAX_CONTEXT_RESULT_REFS + 1) *
         MAX_CONTEXT_REF_CHARACTERS) +
       256
     );
@@ -546,7 +547,8 @@ export function normalizeDemoChatGatewayResponse(
     priorResultContext !== null &&
     (
       !capabilitySet.has(priorResultContext.capability_id) ||
-      !priorResultContext.evidence_refs.every((ref) => provenance.includes(ref))
+      priorResultContext.result_refs[0] !==
+        `result:${priorResultContext.client_brain_id}:${priorResultContext.capability_id}`
     )
   ) {
     return invalidGatewayResult();

@@ -79,7 +79,9 @@ const MAX_SUMMARY_CHARACTERS = 2_000;
 const MAX_DISCLAIMER_CHARACTERS = 500;
 const MAX_KPIS = 4;
 const MAX_PROVENANCE_ITEMS = 12;
-const MAX_CONTEXT_ITEMS = 12;
+const MAX_CONTEXT_IDS = 4;
+const MAX_CONTEXT_ENTITY_REFS = 4;
+const MAX_CONTEXT_RESULT_REFS = 1;
 
 function hasExactFields(value: Record<string, unknown>, allowed: Set<string>) {
   const keys = Object.keys(value);
@@ -128,10 +130,13 @@ function isPriorResultContext(value: unknown): value is DemoPriorResultContext {
     !SAFE_ID_PATTERN.test(value.client_brain_id) ||
     typeof value.capability_id !== "string" ||
     !SAFE_ID_PATTERN.test(value.capability_id) ||
-    !isSafeIdArray(value.metric_ids, 8) ||
-    !isSafeIdArray(value.dimension_ids, 8) ||
-    !isSafeRefArray(value.entity_refs, 8) ||
-    !isSafeRefArray(value.evidence_refs, MAX_CONTEXT_ITEMS)
+    !isSafeIdArray(value.metric_ids, MAX_CONTEXT_IDS) ||
+    !isSafeIdArray(value.dimension_ids, MAX_CONTEXT_IDS) ||
+    !isSafeRefArray(value.entity_refs, MAX_CONTEXT_ENTITY_REFS) ||
+    !isSafeRefArray(value.result_refs, MAX_CONTEXT_RESULT_REFS) ||
+    value.result_refs.length !== 1 ||
+    value.result_refs[0] !==
+      `result:${value.client_brain_id}:${value.capability_id}`
   ) {
     return false;
   }

@@ -13,7 +13,7 @@ export type DemoPriorResultContext = {
   dimension_ids: string[];
   selected_entity_ref: string | null;
   entity_refs: string[];
-  evidence_refs: string[];
+  result_refs: string[];
 };
 
 export type DemoConversationPresentation = {
@@ -70,7 +70,7 @@ const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
   "dimension_ids",
   "selected_entity_ref",
   "entity_refs",
-  "evidence_refs",
+  "result_refs",
 ]);
 const CONVERSATION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/;
 const SAFE_ID_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
@@ -225,7 +225,7 @@ function copyMessage(message: DemoConversationMessage): DemoConversationMessage 
           metric_ids: [...message.priorResultContext.metric_ids],
           dimension_ids: [...message.priorResultContext.dimension_ids],
           entity_refs: [...message.priorResultContext.entity_refs],
-          evidence_refs: [...message.priorResultContext.evidence_refs],
+          result_refs: [...message.priorResultContext.result_refs],
         }
       : null,
   };

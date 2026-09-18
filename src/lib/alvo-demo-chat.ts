@@ -312,15 +312,40 @@ export function validateDemoChatRequest(
   for (const message of payload.history) {
     if (
       !isRecord(message) ||
-      !hasExactFields(message, HISTORY_MESSAGE_FIELDS) ||
       (message.role !== "user" && message.role !== "assistant") ||
       !isBoundedText(message.content, limits.messageCharacters)
     ) {
       return { ok: false, reason: "invalid_history" };
     }
+
+    if (message.role === "user") {
+      if (!hasExactFields(message, USER_HISTORY_MESSAGE_FIELDS)) {
+        return { ok: false, reason: "invalid_history" };
+      }
+      history.push({
+        role: "user",
+        content: message.content.trim(),
+      });
+      continue;
+    }
+
+    const hasContextField = Object.hasOwn(message, "prior_result_context");
+    const validShape =
+      hasExactFields(message, USER_HISTORY_MESSAGE_FIELDS) ||
+      hasExactFields(message, ASSISTANT_HISTORY_MESSAGE_FIELDS);
+    if (!validShape) {
+      return { ok: false, reason: "invalid_history" };
+    }
+    const context = hasContextField
+      ? parsePriorResultContext(message.prior_result_context)
+      : null;
+    if (context === undefined) {
+      return { ok: false, reason: "invalid_history" };
+    }
     history.push({
-      role: message.role,
+      role: "assistant",
       content: message.content.trim(),
+      ...(hasContextField ? { prior_result_context: context } : {}),
     });
   }
 
@@ -339,13 +364,25 @@ export function buildDemoChatBrowserRequest(input: {
   industry: string;
   message: string;
   conversationId: string | null;
-  history: readonly DemoChatHistoryMessage[];
+  history: readonly {
+    role: "user" | "assistant";
+    content: string;
+    priorResultContext?: DemoPriorResultContext | null;
+  }[];
 }): DemoChatBrowserRequest {
   return {
     industry: input.industry,
     message: input.message,
     conversation_id: input.conversationId,
-    history: input.history.map((message) => ({ ...message })),
+    history: input.history.map((message) => (
+      message.role === "assistant"
+        ? {
+            role: "assistant",
+            content: message.content,
+            prior_result_context: message.priorResultContext ?? null,
+          }
+        : { role: "user", content: message.content }
+    )),
   };
 }
 
@@ -363,8 +400,19 @@ export function calculateDemoChatMaxRequestBytes(limits: DemoChatRequestLimits) 
     limits.conversationIdCharacters +
     MAX_INDUSTRY_CHARACTERS;
 
+  const assistantContextCount = Math.ceil(limits.historyMessages / 2);
+  const boundedContextCharacters =
+    assistantContextCount *
+    (
+      (MAX_CONTEXT_IDS * 2 * 64) +
+      ((MAX_CONTEXT_ENTITY_REFS + MAX_CONTEXT_EVIDENCE_REFS + 1) *
+        MAX_CONTEXT_REF_CHARACTERS) +
+      256
+    );
+
   return (
-    boundedStringCharacters * JSON_MAX_BYTES_PER_CHARACTER +
+    (boundedStringCharacters + boundedContextCharacters) *
+      JSON_MAX_BYTES_PER_CHARACTER +
     JSON_ENVELOPE_BYTES
   );
 }

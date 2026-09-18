@@ -12,9 +12,20 @@ export const DEMO_CHAT_APPROVED_CAPABILITIES = [
   "inventory_risk",
 ] as const;
 
+export type DemoPriorResultContext = {
+  client_brain_id: string;
+  capability_id: string;
+  metric_ids: string[];
+  dimension_ids: string[];
+  selected_entity_ref: string | null;
+  entity_refs: string[];
+  evidence_refs: string[];
+};
+
 export type DemoChatHistoryMessage = {
   role: "user" | "assistant";
   content: string;
+  prior_result_context?: DemoPriorResultContext | null;
 };
 
 export type DemoChatBrowserRequest = {
@@ -56,6 +67,7 @@ export type DemoChatPresentationResponse = {
   provenance: string[];
   disclaimer: string;
   suggested_prompts: string[];
+  prior_result_context: DemoPriorResultContext | null;
 };
 
 export type DemoChatGatewayResult =
@@ -70,9 +82,25 @@ const REQUEST_FIELDS = new Set([
   "conversation_id",
   "history",
 ]);
-const HISTORY_MESSAGE_FIELDS = new Set(["role", "content"]);
+const USER_HISTORY_MESSAGE_FIELDS = new Set(["role", "content"]);
+const ASSISTANT_HISTORY_MESSAGE_FIELDS = new Set([
+  "role",
+  "content",
+  "prior_result_context",
+]);
+const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
+  "client_brain_id",
+  "capability_id",
+  "metric_ids",
+  "dimension_ids",
+  "selected_entity_ref",
+  "entity_refs",
+  "evidence_refs",
+]);
 const CONVERSATION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 const APPROVED_CAPABILITIES = new Set<string>(DEMO_CHAT_APPROVED_CAPABILITIES);
+const SAFE_ID_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
+const SAFE_REF_PATTERN = /^[a-z][a-z0-9_]{0,31}:[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}$/;
 const REQUIRED_VERIFICATION_CHECKS = [
   "synthetic_only_contract",
   "approved_capability_scope",
@@ -89,6 +117,10 @@ const MAX_ARRAY_ITEMS = 24;
 const MAX_KPIS = 24;
 const MAX_PROVENANCE_ITEMS = 12;
 const MAX_CAPABILITIES = DEMO_CHAT_APPROVED_CAPABILITIES.length;
+const MAX_CONTEXT_IDS = 4;
+const MAX_CONTEXT_ENTITY_REFS = 4;
+const MAX_CONTEXT_EVIDENCE_REFS = 4;
+const MAX_CONTEXT_REF_CHARACTERS = 160;
 const JSON_MAX_BYTES_PER_CHARACTER = 6;
 const JSON_ENVELOPE_BYTES = 1_024;
 

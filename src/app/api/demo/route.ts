@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { env as cloudflareEnv } from "cloudflare:workers";
 import {
   buildDemoChatUpstreamRequest,
   calculateDemoChatMaxRequestBytes,
@@ -41,18 +40,6 @@ type JsonRecord = Record<string, unknown>;
 type RateLimitEntry = { count: number; resetAt: number };
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
-
-function runtimeSecret(name: string): string | undefined {
-  const cloudflareValue = (cloudflareEnv as Record<string, unknown>)[name];
-  if (typeof cloudflareValue === "string" && cloudflareValue.trim()) {
-    return cloudflareValue;
-  }
-
-  const processValue = process.env[name];
-  return typeof processValue === "string" && processValue.trim()
-    ? processValue
-    : undefined;
-}
 
 function upstreamHeaders(
   includeJsonBody = false,
@@ -325,9 +312,8 @@ export async function POST(request: NextRequest) {
       stagingCanaryEnabled: isCloudflarePreviewHostname(
         request.nextUrl.hostname,
       ),
-      stagingCanaryToken: runtimeSecret(
-        "PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN",
-      ),
+      stagingCanaryToken:
+        process.env.PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN,
     });
     const response = await fetchWithTimeout(
       `${baseUrl}${upstreamTarget.path}`,

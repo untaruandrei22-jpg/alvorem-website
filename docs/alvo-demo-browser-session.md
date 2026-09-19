@@ -118,4 +118,4 @@ Node compatibility bridge (`nodejs_compat` +
 the server-side canary token through `process.env`. Production behavior remains
 host-gated and unchanged.
 
-Preview Worker versions declare the staging canary token as a required secret so a branch deployment cannot succeed without the runtime binding.
+Preview Worker versions receive the staging canary token only during the non-production version upload from Cloudflare Build secrets. The upload must fail closed when that build secret is absent.

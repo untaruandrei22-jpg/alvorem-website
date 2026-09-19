@@ -28,3 +28,32 @@ export function resolveDemoApiBaseUrl(input: {
 
   return PRODUCTION_DEMO_API;
 }
+
+
+export const STAGING_MODEL_ASSISTED_PATH =
+  "/v1/demo/staging/model-assisted-chat";
+
+export type DemoChatUpstreamTarget = {
+  path: "/v1/demo/chat" | typeof STAGING_MODEL_ASSISTED_PATH;
+  canaryToken: string | null;
+};
+
+export function resolveDemoChatUpstreamTarget(input: {
+  baseUrl: string;
+  stagingCanaryEnabled: boolean;
+  stagingCanaryToken?: string | null;
+}): DemoChatUpstreamTarget {
+  if (!input.stagingCanaryEnabled) {
+    return { path: "/v1/demo/chat", canaryToken: null };
+  }
+
+  const token = input.stagingCanaryToken?.trim() ?? "";
+  if (input.baseUrl !== STAGING_DEMO_API || token.length < 32) {
+    throw new Error("staging_canary_not_configured");
+  }
+
+  return {
+    path: STAGING_MODEL_ASSISTED_PATH,
+    canaryToken: token,
+  };
+}

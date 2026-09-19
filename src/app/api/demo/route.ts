@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  DEMO_CHAT_UPSTREAM_PATH,
   buildDemoChatUpstreamRequest,
   calculateDemoChatMaxRequestBytes,
   normalizeDemoChatGatewayResponse,

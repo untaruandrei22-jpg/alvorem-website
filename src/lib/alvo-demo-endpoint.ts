@@ -5,6 +5,10 @@ export const STAGING_DEMO_API =
 export const PRODUCTION_DEMO_API =
   "https://private-ai-business-agent-production.up.railway.app";
 
+export function isCloudflarePreviewHostname(hostname?: string): boolean {
+  return Boolean(hostname?.endsWith(".workers.dev"));
+}
+
 export function resolveDemoApiBaseUrl(input: {
   hostname?: string;
   configuredUrl?: string | null;
@@ -13,7 +17,7 @@ export function resolveDemoApiBaseUrl(input: {
   // Cloudflare branch/version previews must always rehearse against the
   // synthetic staging runtime. Do this before configuredUrl so a project-wide
   // production URL cannot accidentally route a preview rehearsal to prod.
-  if (input.hostname?.endsWith(".workers.dev")) {
+  if (isCloudflarePreviewHostname(input.hostname)) {
     return STAGING_DEMO_API;
   }
 

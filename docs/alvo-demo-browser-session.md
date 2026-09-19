@@ -112,10 +112,11 @@ Safety properties:
 This preview boundary exists only so founder/QA browser rehearsal can validate
 Romanian/no-diacritics/typo semantic rescue before any public runtime decision.
 
-Cloudflare preview runtime must expose Worker secrets through the configured
-Node compatibility bridge (`nodejs_compat` +
-`nodejs_compat_populate_process_env`) because the Next.js server route reads
-the server-side canary token through `process.env`. Production behavior remains
-host-gated and unchanged.
+The Next.js server route reads the canary secret at request time from
+`getCloudflareContext().env`, OpenNext's supported Worker binding API. Node/local
+execution falls back to `process.env` when no OpenNext request context exists.
+Do not import `cloudflare:workers` directly in this route: the managed OpenNext
+server bundler cannot resolve that module, even when Next.js externalizes it.
+Production behavior remains host-gated and unchanged.
 
 Preview Worker versions receive the staging canary token only during the non-production version upload from Cloudflare Build secrets. The upload must fail closed when that build secret is absent.

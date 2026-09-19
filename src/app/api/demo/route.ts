@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import {
   buildDemoChatUpstreamRequest,
   calculateDemoChatMaxRequestBytes,
@@ -43,13 +44,13 @@ const rateLimitStore = new Map<string, RateLimitEntry>();
 
 async function runtimeEnvironmentValue(name: string): Promise<string | undefined> {
   try {
-    const { env } = await import("cloudflare:workers");
+    const { env } = getCloudflareContext();
     const cloudflareValue = (env as Record<string, unknown>)[name];
     if (typeof cloudflareValue === "string" && cloudflareValue.trim()) {
       return cloudflareValue.trim();
     }
   } catch {
-    // Node/local builds do not provide the Cloudflare runtime module.
+    // Next.js on Node has no OpenNext request context; use its environment below.
   }
 
   const environment = process.env as Record<string, string | undefined>;

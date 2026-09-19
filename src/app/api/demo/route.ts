@@ -14,6 +14,7 @@ import {
 } from "@/lib/alvo-demo-session";
 
 const DEVELOPMENT_DEMO_API = "http://127.0.0.1:8000";
+const STAGING_DEMO_API = "https://private-ai-business-agent-staging.up.railway.app";
 const PRODUCTION_DEMO_API = "https://private-ai-business-agent-production.up.railway.app";
 const REQUEST_TIMEOUT_MS = 20_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -40,7 +41,7 @@ type RateLimitEntry = { count: number; resetAt: number };
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
-function resolveDemoApiBaseUrl() {
+function resolveDemoApiBaseUrl(hostname?: string) {
   const configured = process.env.PRIVATE_AI_DEMO_API_URL?.trim();
 
   if (configured) {
@@ -51,9 +52,15 @@ function resolveDemoApiBaseUrl() {
     return DEVELOPMENT_DEMO_API;
   }
 
-  // The public synthetic demo backend is not a secret. Keep this production
-  // fallback so Cloudflare builds still work when runtime variables are not
-  // surfaced through process.env by the active Workers adapter.
+  // Cloudflare branch/version previews run on workers.dev. Keep them on the
+  // synthetic Railway staging environment so browser rehearsal can exercise
+  // candidate semantic runtime flags without widening the production backend.
+  if (hostname?.endsWith(".workers.dev")) {
+    return STAGING_DEMO_API;
+  }
+
+  // The public synthetic demo backend is not a secret. Custom production
+  // domains keep using the production Railway environment.
   return PRODUCTION_DEMO_API;
 }
 
@@ -179,8 +186,8 @@ function upstreamFailure(status: number) {
   return json({ error: "The ALVO demo is temporarily unavailable." }, 503);
 }
 
-export async function GET() {
-  const baseUrl = resolveDemoApiBaseUrl();
+export async function GET(request: NextRequest) {
+  const baseUrl = resolveDemoApiBaseUrl(request.nextUrl.hostname);
 
   if (!baseUrl) {
     return json({ error: "Demo service is not configured." }, 503);
@@ -203,7 +210,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const baseUrl = resolveDemoApiBaseUrl();
+  const baseUrl = resolveDemoApiBaseUrl(request.nextUrl.hostname);
 
   if (!baseUrl) {
     return json({ error: "Demo service is not configured." }, 503);

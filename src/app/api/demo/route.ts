@@ -12,7 +12,10 @@ import {
   DEMO_HISTORY_MAX_MESSAGES,
   DEMO_MESSAGE_MAX_CHARACTERS,
 } from "@/lib/alvo-demo-session";
-import { resolveDemoApiBaseUrl } from "@/lib/alvo-demo-endpoint";
+import {
+  resolveDemoApiBaseUrl,
+  resolveDemoChatUpstreamTarget,
+} from "@/lib/alvo-demo-endpoint";
 const REQUEST_TIMEOUT_MS = 20_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 12;
@@ -38,7 +41,10 @@ type RateLimitEntry = { count: number; resetAt: number };
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
-function upstreamHeaders(includeJsonBody = false) {
+function upstreamHeaders(
+  includeJsonBody = false,
+  canaryToken: string | null = null,
+) {
   const headers: Record<string, string> = { Accept: "application/json" };
   const apiKey = process.env.PRIVATE_AI_DEMO_API_KEY?.trim();
 
@@ -48,6 +54,10 @@ function upstreamHeaders(includeJsonBody = false) {
 
   if (apiKey) {
     headers.Authorization = `Bearer ${apiKey}`;
+  }
+
+  if (canaryToken) {
+    headers["X-ALVOREM-Canary-Token"] = canaryToken;
   }
 
   return headers;
@@ -110,6 +120,39 @@ async function readJson(response: Response) {
   } catch {
     return null;
   }
+}
+
+function unwrapStagingCanaryResponse(payload: unknown) {
+  if (!isRecord(payload)) return null;
+
+  const fields = new Set(Object.keys(payload));
+  const expectedFields = [
+    "response",
+    "grounded_text",
+    "grounded_mode",
+    "orem_reasoning_used",
+    "orem_fallback_reason",
+  ];
+
+  if (
+    fields.size !== expectedFields.length ||
+    !expectedFields.every((field) => fields.has(field)) ||
+    !isRecord(payload.response) ||
+    !(
+      payload.grounded_text === null ||
+      typeof payload.grounded_text === "string"
+    ) ||
+    !["none", "d1", "d2"].includes(String(payload.grounded_mode)) ||
+    typeof payload.orem_reasoning_used !== "boolean" ||
+    !(
+      payload.orem_fallback_reason === null ||
+      typeof payload.orem_fallback_reason === "string"
+    )
+  ) {
+    return null;
+  }
+
+  return payload.response;
 }
 
 function isRecord(value: unknown): value is JsonRecord {
@@ -264,18 +307,34 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const upstreamTarget = resolveDemoChatUpstreamTarget({
+      baseUrl,
+      stagingCanaryEnabled:
+        process.env.PRIVATE_AI_DEMO_STAGING_CANARY_ENABLED === "true",
+      stagingCanaryToken:
+        process.env.PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN,
+    });
     const response = await fetchWithTimeout(
-      `${baseUrl}${DEMO_CHAT_UPSTREAM_PATH}`,
+      `${baseUrl}${upstreamTarget.path}`,
       {
         method: "POST",
-        headers: upstreamHeaders(true),
+        headers: upstreamHeaders(true, upstreamTarget.canaryToken),
         body: JSON.stringify(buildDemoChatUpstreamRequest(validated.value)),
       },
     );
 
     if (!response.ok) return upstreamFailure(response.status);
 
-    const result = normalizeDemoChatGatewayResponse(await readJson(response), {
+    const rawPayload = await readJson(response);
+    const normalizedPayload = upstreamTarget.canaryToken
+      ? unwrapStagingCanaryResponse(rawPayload)
+      : rawPayload;
+
+    if (!normalizedPayload) {
+      return json({ error: "The demo returned an invalid response." }, 502);
+    }
+
+    const result = normalizeDemoChatGatewayResponse(normalizedPayload, {
       industry: validated.value.industry,
       message: validated.value.message,
       conversationId: validated.value.conversation_id,

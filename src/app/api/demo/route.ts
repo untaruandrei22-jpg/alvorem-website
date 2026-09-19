@@ -41,6 +41,12 @@ type RateLimitEntry = { count: number; resetAt: number };
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
+function runtimeEnvironmentValue(name: string): string | undefined {
+  const environment = process.env as Record<string, string | undefined>;
+  const value = environment[name];
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
 function upstreamHeaders(
   includeJsonBody = false,
   canaryToken: string | null = null,
@@ -312,8 +318,9 @@ export async function POST(request: NextRequest) {
       stagingCanaryEnabled: isCloudflarePreviewHostname(
         request.nextUrl.hostname,
       ),
-      stagingCanaryToken:
-        process.env.PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN,
+      stagingCanaryToken: runtimeEnvironmentValue(
+        "PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN",
+      ),
     });
     const response = await fetchWithTimeout(
       `${baseUrl}${upstreamTarget.path}`,

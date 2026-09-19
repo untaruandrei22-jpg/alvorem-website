@@ -51,6 +51,19 @@ function validRequest(overrides = {}) {
   };
 }
 
+function validPriorResultContext(overrides = {}) {
+  return {
+    client_brain_id: "retail_public_v1",
+    capability_id: "margin_analysis",
+    metric_ids: ["gross_margin_pct"],
+    dimension_ids: ["store"],
+    selected_entity_ref: "store:S003",
+    entity_refs: ["store:S003"],
+    result_refs: ["result:retail_public_v1:margin_analysis"],
+    ...overrides,
+  };
+}
+
 function validBackendResponse() {
   return {
     conversation_id: "demo_0123456789abcdef0123456789abcdef",
@@ -102,6 +115,7 @@ function validBackendResponse() {
       provider_detail: "must not cross the proxy",
     },
     provenance: ["synthetic:generated/retail_v1"],
+    prior_result_context: null,
     limitations: ["Synthetic scope only."],
     disclaimer: "Synthetic demo — no real company data.",
     synthetic_only: true,
@@ -147,12 +161,50 @@ test("sends prior successful turns without adding the current message to history
 
   assert.equal(request.message, "What about margin?");
   assert.equal(request.conversation_id, "demo_follow_up");
-  assert.deepEqual(request.history, history);
+  assert.deepEqual(request.history, [
+    { role: "user", content: "Which stores are below target?" },
+    {
+      role: "assistant",
+      content: "Two stores are below target.",
+      prior_result_context: null,
+    },
+  ]);
   assert.equal(
     request.history.some((message) => message.content === request.message),
     false,
   );
   assert.notEqual(request.history, history);
+});
+
+test("browser request strips presentation but preserves safe typed continuation", () => {
+  const context = validPriorResultContext();
+  const request = buildDemoChatBrowserRequest({
+    industry: "retail",
+    message: "Why?",
+    conversationId: "demo_follow_up",
+    history: [
+      { role: "user", content: "Which store is weakest?" },
+      {
+        role: "assistant",
+        content: "Store S003 has the weakest margin.",
+        presentation: {
+          headline: "Store S003 has the weakest margin.",
+          summary: "Presentation only.",
+        },
+        priorResultContext: context,
+      },
+    ],
+  });
+
+  assert.deepEqual(request.history, [
+    { role: "user", content: "Which store is weakest?" },
+    {
+      role: "assistant",
+      content: "Store S003 has the weakest margin.",
+      prior_result_context: context,
+    },
+  ]);
+  assert.doesNotMatch(JSON.stringify(request), /presentation/i);
 });
 
 test("accepts a valid chat request at the message boundary", () => {
@@ -192,6 +244,66 @@ test("trims the current message and each prior history message", () => {
     { role: "user", content: "Show the recent revenue trend." },
     { role: "assistant", content: "Revenue increased." },
   ]);
+});
+
+test("accepts bounded typed continuation only on assistant history", () => {
+  const context = validPriorResultContext();
+  const result = validateDemoChatRequest(
+    validRequest({
+      message: "Why?",
+      history: [
+        { role: "user", content: "Which store is weakest?" },
+        {
+          role: "assistant",
+          content: "Store S003 has the weakest margin.",
+          prior_result_context: context,
+        },
+      ],
+    }),
+    supportedIndustries,
+    limits,
+  );
+
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.value.history[1].prior_result_context, context);
+});
+
+test("rejects typed continuation metadata on user history", () => {
+  const result = validateDemoChatRequest(
+    validRequest({
+      history: [
+        {
+          role: "user",
+          content: "Which store is weakest?",
+          prior_result_context: validPriorResultContext(),
+        },
+      ],
+    }),
+    supportedIndustries,
+    limits,
+  );
+
+  assert.deepEqual(result, { ok: false, reason: "invalid_history" });
+});
+
+test("rejects malformed assistant continuation metadata", () => {
+  const result = validateDemoChatRequest(
+    validRequest({
+      history: [
+        {
+          role: "assistant",
+          content: "Store S003 has the weakest margin.",
+          prior_result_context: validPriorResultContext({
+            selected_entity_ref: "store:S999",
+          }),
+        },
+      ],
+    }),
+    supportedIndustries,
+    limits,
+  );
+
+  assert.deepEqual(result, { ok: false, reason: "invalid_history" });
 });
 
 test("rejects unsupported industries", () => {
@@ -328,7 +440,7 @@ test("uses only the approved backend chat path", () => {
   assert.equal(DEMO_CHAT_UPSTREAM_PATH, "/v1/demo/chat");
 });
 
-test("adds the backend-only English locale and never forwards Romanian locale", () => {
+test("keeps backend compatibility locale metadata separate from bilingual user text", () => {
   const upstream = buildDemoChatUpstreamRequest(validRequest());
   assert.equal(upstream.locale, DEMO_CHAT_UPSTREAM_LOCALE);
   assert.equal(upstream.locale, "en");
@@ -386,7 +498,38 @@ test("normalizes a verified synthetic chat response to the presentation shape", 
     provenance: ["synthetic:generated/retail_v1"],
     disclaimer: "Synthetic demo — no real company data.",
     suggested_prompts: ["Which stores are furthest below target?"],
+    prior_result_context: null,
   });
+});
+
+test("whitelists presentation-safe typed continuation from verified backend response", () => {
+  const payload = validBackendResponse();
+  payload.capabilities_used = ["margin_analysis"];
+  payload.answer.kpis[0].source_capability = "margin_analysis";
+  payload.prior_result_context = validPriorResultContext();
+
+  const result = normalize(payload);
+
+  assert.equal(result.status, 200);
+  assert.deepEqual(
+    result.body.prior_result_context,
+    validPriorResultContext(),
+  );
+  assert.doesNotMatch(
+    JSON.stringify(result.body.prior_result_context),
+    /prompt|provider|token|cost|trace|database/i,
+  );
+});
+
+test("rejects malformed typed continuation from backend", () => {
+  const payload = validBackendResponse();
+  payload.capabilities_used = ["margin_analysis"];
+  payload.answer.kpis[0].source_capability = "margin_analysis";
+  payload.prior_result_context = validPriorResultContext({
+    result_refs: ["database:customers/sales"],
+  });
+
+  assertSafe502(normalize(payload));
 });
 
 test("rejects a response that is not synthetic-only", () => {
@@ -501,6 +644,7 @@ test("accepts a verified safe clarification without capability evidence", () => 
   payload.answer.kpis = [];
   payload.capabilities_used = [];
   payload.provenance = [];
+  payload.prior_result_context = null;
   payload.verification.checks = [
     "synthetic_only_contract",
     "approved_capability_scope",

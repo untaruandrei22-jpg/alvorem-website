@@ -111,3 +111,9 @@ Safety properties:
 
 This preview boundary exists only so founder/QA browser rehearsal can validate
 Romanian/no-diacritics/typo semantic rescue before any public runtime decision.
+
+Cloudflare preview runtime must expose Worker secrets through the configured
+Node compatibility bridge (`nodejs_compat` +
+`nodejs_compat_populate_process_env`) because the Next.js server route reads
+the server-side canary token through `process.env`. Production behavior remains
+host-gated and unchanged.

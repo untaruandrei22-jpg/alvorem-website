@@ -13,6 +13,7 @@ import {
   DEMO_MESSAGE_MAX_CHARACTERS,
 } from "@/lib/alvo-demo-session";
 import {
+  isCloudflarePreviewHostname,
   resolveDemoApiBaseUrl,
   resolveDemoChatUpstreamTarget,
 } from "@/lib/alvo-demo-endpoint";
@@ -309,8 +310,9 @@ export async function POST(request: NextRequest) {
   try {
     const upstreamTarget = resolveDemoChatUpstreamTarget({
       baseUrl,
-      stagingCanaryEnabled:
-        process.env.PRIVATE_AI_DEMO_STAGING_CANARY_ENABLED === "true",
+      stagingCanaryEnabled: isCloudflarePreviewHostname(
+        request.nextUrl.hostname,
+      ),
       stagingCanaryToken:
         process.env.PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN,
     });

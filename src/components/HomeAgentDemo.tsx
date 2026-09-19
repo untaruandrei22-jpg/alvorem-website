@@ -23,6 +23,15 @@ type DemoProfile = {
   description: string;
   synthetic_only: true;
   suggested_prompts: string[];
+  prior_result_context: {
+    client_brain_id: string;
+    capability_id: string;
+    metric_ids: string[];
+    dimension_ids: string[];
+    selected_entity_ref: string | null;
+    entity_refs: string[];
+    result_refs: string[];
+  } | null;
 };
 
 type DemoAnswer = {
@@ -78,7 +87,6 @@ export function HomeAgentDemo() {
     retail: retailPrompts,
   });
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState<DemoAnswer | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sessionLocale: DemoConversationLocale = ro ? "ro" : "en";
@@ -87,6 +95,7 @@ export function HomeAgentDemo() {
   );
   const [sessionRestored, setSessionRestored] = useState(false);
   const initialSessionLocale = useRef(sessionLocale);
+  const transcriptEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const restored = restoreDemoSession(undefined, initialSessionLocale.current);
@@ -154,6 +163,22 @@ export function HomeAgentDemo() {
     [availableIndustries],
   );
 
+  const latestAssistantMessage = useMemo(
+    () =>
+      [...conversationSession.history]
+        .reverse()
+        .find((message) => message.role === "assistant") ?? null,
+    [conversationSession.history],
+  );
+
+  useEffect(() => {
+    if (!sessionRestored || conversationSession.history.length === 0) return;
+    transcriptEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [conversationSession.history.length, loading, sessionRestored]);
+
   async function ask(nextQuestion: string) {
     const cleaned = nextQuestion.trim();
     if (
@@ -195,13 +220,23 @@ export function HomeAgentDemo() {
         throw new Error("error" in payload && payload.error ? payload.error : "Demo unavailable.");
       }
 
-      setAnswer(payload);
       setConversationSession((current) =>
         completeDemoConversationTurn(
           current,
           payload.conversation_id,
           cleaned,
-          payload.headline,
+          {
+            content: payload.headline,
+            presentation: {
+              action: payload.action,
+              headline: payload.headline,
+              summary: payload.summary,
+              kpis: payload.kpis.slice(0, 4),
+              provenance: payload.provenance.slice(0, 12),
+              disclaimer: payload.disclaimer,
+            },
+            priorResultContext: payload.prior_result_context,
+          },
         ),
       );
       setQuestion("");
@@ -225,7 +260,6 @@ export function HomeAgentDemo() {
     if (!isDemoSessionReadyForSubmission(sessionRestored, loading)) return;
     if (!availableIndustries.has(industry)) return;
     setActiveIndustry(industry);
-    setAnswer(null);
     setError(null);
     setQuestion("");
     setConversationSession(resetDemoSession(undefined, sessionLocale));
@@ -233,7 +267,6 @@ export function HomeAgentDemo() {
 
   function applyPrompt(prompt: string) {
     setQuestion(prompt);
-    setAnswer(null);
     setError(null);
     void ask(prompt);
   }
@@ -248,7 +281,7 @@ export function HomeAgentDemo() {
       </div>
 
       <div className="agent-card__body">
-        {!answer && (
+        {conversationSession.history.length === 0 && (
           <div className={styles.alvoIntro}>
             <AgentWordmark agent="alvo" size="md" />
             <div>
@@ -275,7 +308,7 @@ export function HomeAgentDemo() {
 
         <div className={styles.demoControls}>
           <small id="home-agent-language" className={styles.languageHint}>
-            {ro ? "În acest demo, întreabă în engleză." : "Ask in English in this demo."}
+            {ro ? "Întreabă în română sau engleză." : "Ask in English or Romanian."}
           </small>
           <button
             type="button"
@@ -287,7 +320,10 @@ export function HomeAgentDemo() {
           </button>
         </div>
 
-        {(!answer || answer.action === "clarification" || error) && prompts.length > 0 && (
+        {(conversationSession.history.length === 0 ||
+          latestAssistantMessage?.presentation?.action === "clarification" ||
+          error) &&
+          prompts.length > 0 && (
           <div className={styles.promptList} aria-label={ro ? "Întrebări sugerate" : "Suggested questions"}>
             {prompts.slice(0, 2).map((prompt) => (
               <button
@@ -303,31 +339,89 @@ export function HomeAgentDemo() {
           </div>
         )}
 
-        {answer && (
-          <div className={styles.responseCard} aria-live="polite">
-            <p className={styles.responseHeadline}>{answer.headline}</p>
-            <p className={styles.responseSummary}>{answer.summary}</p>
-
-            {answer.kpis.length > 0 && (
-              <div className={styles.kpis}>
-                {answer.kpis.slice(0, 4).map((kpi) => (
-                  <div className={styles.kpi} key={`${kpi.label}-${kpi.value}`}>
-                    <span>{kpi.label}</span>
-                    <strong>{kpi.value}</strong>
+        {conversationSession.history.length > 0 && (
+          <div
+            className={styles.transcript}
+            role="log"
+            aria-live="polite"
+            aria-relevant="additions"
+            aria-label={ro ? "Conversație cu ALVO" : "Conversation with ALVO"}
+          >
+            {conversationSession.history.map((message, index) => {
+              if (message.role === "user") {
+                return (
+                  <div
+                    className={styles.userTurn}
+                    key={`user-${index}-${message.content.slice(0, 24)}`}
+                  >
+                    <span>{ro ? "Tu" : "You"}</span>
+                    <p>{message.content}</p>
                   </div>
-                ))}
+                );
+              }
+
+              const presentation = message.presentation;
+              if (!presentation) return null;
+
+              return (
+                <div
+                  className={styles.assistantTurn}
+                  key={`assistant-${index}-${message.content.slice(0, 24)}`}
+                >
+                  <div className={styles.assistantTurnLabel}>
+                    <AgentWordmark agent="alvo" size="sm" />
+                  </div>
+                  <div className={styles.responseCard}>
+                    <p className={styles.responseHeadline}>
+                      {presentation.headline}
+                    </p>
+                    <p className={styles.responseSummary}>
+                      {presentation.summary}
+                    </p>
+
+                    {presentation.kpis.length > 0 && (
+                      <div className={styles.kpis}>
+                        {presentation.kpis.map((kpi) => (
+                          <div
+                            className={styles.kpi}
+                            key={`${index}-${kpi.label}-${kpi.value}`}
+                          >
+                            <span>{kpi.label}</span>
+                            <strong>{kpi.value}</strong>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className={styles.proofRow}>
+                      <span>
+                        {presentation.provenance.length}{" "}
+                        {ro
+                          ? presentation.provenance.length === 1
+                            ? "sursă verificată"
+                            : "surse verificate"
+                          : `source${presentation.provenance.length === 1 ? "" : "s"} checked`}
+                      </span>
+                      <span>{ro ? "Date sintetice" : "Synthetic data"}</span>
+                      <span>{ro ? "Doar citire" : "Read only"}</span>
+                    </div>
+
+                    {presentation.disclaimer && (
+                      <p className={styles.responseDisclaimer}>
+                        {presentation.disclaimer}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+            {loading && (
+              <div className={styles.assistantPending} aria-label={ro ? "ALVO răspunde" : "ALVO is answering"}>
+                <AgentWordmark agent="alvo" size="sm" />
+                <span>{ro ? "Verific datele sintetice…" : "Checking the synthetic business data…"}</span>
               </div>
             )}
-
-            <div className={styles.proofRow}>
-              <span>{answer.provenance.length} source{answer.provenance.length === 1 ? "" : "s"} checked</span>
-              <span>Synthetic data</span>
-              <span>Read only</span>
-            </div>
-
-            {answer.disclaimer && (
-              <p className={styles.responseDisclaimer}>{answer.disclaimer}</p>
-            )}
+            <div ref={transcriptEndRef} aria-hidden="true" />
           </div>
         )}
 
@@ -350,7 +444,7 @@ export function HomeAgentDemo() {
                 void ask(question);
               }
             }}
-            placeholder={ro ? "Întreabă în engleză despre acest business…" : "Ask about sales, targets, margin or inventory…"}
+            placeholder={ro ? "Întreabă despre vânzări, marjă, ținte sau stoc…" : "Ask about sales, targets, margin or inventory…"}
           />
           <button
             className={styles.sendButton}

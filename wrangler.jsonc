@@ -1,0 +1,20 @@
+{
+  "name": "alvorem-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-18",
+  "compatibility_flags": [
+    "global_fetch_strictly_public",
+    "nodejs_compat",
+    "nodejs_compat_populate_process_env"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "secrets": {
+    "required": [
+      "PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN"
+    ]
+  },
+  "preview_urls": true
+}

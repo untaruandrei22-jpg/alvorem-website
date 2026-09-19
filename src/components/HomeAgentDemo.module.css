@@ -219,10 +219,80 @@
   opacity: 0.55;
 }
 
-.responseCard {
-  max-height: 240px;
-  overflow: auto;
+.transcript {
+  display: flex;
+  max-height: 390px;
+  flex-direction: column;
+  gap: 12px;
   margin-top: 14px;
+  padding: 4px 4px 4px 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(181, 154, 244, 0.38) transparent;
+}
+
+.transcript::-webkit-scrollbar {
+  width: 6px;
+}
+
+.transcript::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(181, 154, 244, 0.38);
+}
+
+.userTurn {
+  align-self: flex-end;
+  width: min(88%, 420px);
+  padding: 10px 12px;
+  border: 1px solid rgba(181, 154, 244, 0.22);
+  border-radius: 13px 13px 4px 13px;
+  background: rgba(111, 91, 217, 0.16);
+}
+
+.userTurn span {
+  display: block;
+  margin-bottom: 3px;
+  color: #bdaaf0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.userTurn p {
+  color: #f4f0fb;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.assistantTurn {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.assistantTurnLabel {
+  padding-top: 8px;
+  opacity: 0.9;
+}
+
+.assistantPending {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #bfb8ce;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.responseCard {
+  max-height: none;
+  overflow: visible;
+  margin-top: 0;
   padding: 14px;
   border: 1px solid rgba(230, 216, 251, 0.2);
   border-radius: 13px;
@@ -405,6 +475,29 @@
 
   .agentProfile span {
     white-space: normal;
+  }
+
+  .transcript {
+    max-height: 430px;
+    gap: 10px;
+    padding-right: 2px;
+  }
+
+  .userTurn {
+    width: min(94%, 420px);
+  }
+
+  .assistantTurn {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .assistantTurnLabel {
+    padding-top: 0;
+  }
+
+  .responseCard {
+    border-radius: 11px;
   }
 
   .promptList {

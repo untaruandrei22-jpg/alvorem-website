@@ -12,9 +12,20 @@ export const DEMO_CHAT_APPROVED_CAPABILITIES = [
   "inventory_risk",
 ] as const;
 
+export type DemoPriorResultContext = {
+  client_brain_id: string;
+  capability_id: string;
+  metric_ids: string[];
+  dimension_ids: string[];
+  selected_entity_ref: string | null;
+  entity_refs: string[];
+  result_refs: string[];
+};
+
 export type DemoChatHistoryMessage = {
   role: "user" | "assistant";
   content: string;
+  prior_result_context?: DemoPriorResultContext | null;
 };
 
 export type DemoChatBrowserRequest = {
@@ -56,6 +67,7 @@ export type DemoChatPresentationResponse = {
   provenance: string[];
   disclaimer: string;
   suggested_prompts: string[];
+  prior_result_context: DemoPriorResultContext | null;
 };
 
 export type DemoChatGatewayResult =
@@ -70,9 +82,25 @@ const REQUEST_FIELDS = new Set([
   "conversation_id",
   "history",
 ]);
-const HISTORY_MESSAGE_FIELDS = new Set(["role", "content"]);
+const USER_HISTORY_MESSAGE_FIELDS = new Set(["role", "content"]);
+const ASSISTANT_HISTORY_MESSAGE_FIELDS = new Set([
+  "role",
+  "content",
+  "prior_result_context",
+]);
+const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
+  "client_brain_id",
+  "capability_id",
+  "metric_ids",
+  "dimension_ids",
+  "selected_entity_ref",
+  "entity_refs",
+  "result_refs",
+]);
 const CONVERSATION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 const APPROVED_CAPABILITIES = new Set<string>(DEMO_CHAT_APPROVED_CAPABILITIES);
+const SAFE_ID_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
+const SAFE_REF_PATTERN = /^[a-z][a-z0-9_]{0,31}:[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}$/;
 const REQUIRED_VERIFICATION_CHECKS = [
   "synthetic_only_contract",
   "approved_capability_scope",
@@ -89,6 +117,10 @@ const MAX_ARRAY_ITEMS = 24;
 const MAX_KPIS = 24;
 const MAX_PROVENANCE_ITEMS = 12;
 const MAX_CAPABILITIES = DEMO_CHAT_APPROVED_CAPABILITIES.length;
+const MAX_CONTEXT_IDS = 4;
+const MAX_CONTEXT_ENTITY_REFS = 4;
+const MAX_CONTEXT_RESULT_REFS = 4;
+const MAX_CONTEXT_REF_CHARACTERS = 160;
 const JSON_MAX_BYTES_PER_CHARACTER = 6;
 const JSON_ENVELOPE_BYTES = 1_024;
 
@@ -122,6 +154,103 @@ function parseStringArray(
     return null;
   }
   return value.map((item) => item.trim());
+}
+
+function parseUniqueSafeStringArray(
+  value: unknown,
+  maxItems: number,
+  pattern: RegExp,
+  maxCharacters: number,
+): string[] | null {
+  if (
+    !Array.isArray(value) ||
+    value.length > maxItems ||
+    !value.every(
+      (item) =>
+        typeof item === "string" &&
+        item.length <= maxCharacters &&
+        pattern.test(item),
+    ) ||
+    new Set(value).size !== value.length
+  ) {
+    return null;
+  }
+  return [...value];
+}
+
+function parsePriorResultContext(
+  value: unknown,
+): DemoPriorResultContext | null | undefined {
+  if (value === undefined || value === null) return null;
+  if (!isRecord(value) || !hasExactFields(value, PRIOR_RESULT_CONTEXT_FIELDS)) {
+    return undefined;
+  }
+  if (
+    typeof value.client_brain_id !== "string" ||
+    !SAFE_ID_PATTERN.test(value.client_brain_id) ||
+    typeof value.capability_id !== "string" ||
+    !APPROVED_CAPABILITIES.has(value.capability_id)
+  ) {
+    return undefined;
+  }
+
+  const metricIds = parseUniqueSafeStringArray(
+    value.metric_ids,
+    MAX_CONTEXT_IDS,
+    SAFE_ID_PATTERN,
+    64,
+  );
+  const dimensionIds = parseUniqueSafeStringArray(
+    value.dimension_ids,
+    MAX_CONTEXT_IDS,
+    SAFE_ID_PATTERN,
+    64,
+  );
+  const entityRefs = parseUniqueSafeStringArray(
+    value.entity_refs,
+    MAX_CONTEXT_ENTITY_REFS,
+    SAFE_REF_PATTERN,
+    MAX_CONTEXT_REF_CHARACTERS,
+  );
+  const resultRefs = parseUniqueSafeStringArray(
+    value.result_refs,
+    MAX_CONTEXT_RESULT_REFS,
+    SAFE_REF_PATTERN,
+    MAX_CONTEXT_REF_CHARACTERS,
+  );
+  if (
+    metricIds === null ||
+    dimensionIds === null ||
+    entityRefs === null ||
+    resultRefs === null ||
+    resultRefs.length !== 1 ||
+    resultRefs[0] !== `result:${value.client_brain_id}:${value.capability_id}`
+  ) {
+    return undefined;
+  }
+
+  const selected =
+    value.selected_entity_ref === null
+      ? null
+      : typeof value.selected_entity_ref === "string" &&
+          value.selected_entity_ref.length <= MAX_CONTEXT_REF_CHARACTERS &&
+          SAFE_REF_PATTERN.test(value.selected_entity_ref) &&
+          entityRefs.includes(value.selected_entity_ref)
+        ? value.selected_entity_ref
+        : undefined;
+  if (selected === undefined || (entityRefs.length > 0 && dimensionIds.length === 0)) {
+    return undefined;
+  }
+
+  return {
+    client_brain_id: value.client_brain_id,
+    capability_id: value.capability_id,
+    metric_ids: metricIds,
+    dimension_ids: dimensionIds,
+    selected_entity_ref: selected,
+    entity_refs: entityRefs,
+    result_refs: resultRefs,
+  };
 }
 
 function isIsoDate(value: unknown): value is string {
@@ -184,15 +313,40 @@ export function validateDemoChatRequest(
   for (const message of payload.history) {
     if (
       !isRecord(message) ||
-      !hasExactFields(message, HISTORY_MESSAGE_FIELDS) ||
       (message.role !== "user" && message.role !== "assistant") ||
       !isBoundedText(message.content, limits.messageCharacters)
     ) {
       return { ok: false, reason: "invalid_history" };
     }
+
+    if (message.role === "user") {
+      if (!hasExactFields(message, USER_HISTORY_MESSAGE_FIELDS)) {
+        return { ok: false, reason: "invalid_history" };
+      }
+      history.push({
+        role: "user",
+        content: message.content.trim(),
+      });
+      continue;
+    }
+
+    const hasContextField = Object.hasOwn(message, "prior_result_context");
+    const validShape =
+      hasExactFields(message, USER_HISTORY_MESSAGE_FIELDS) ||
+      hasExactFields(message, ASSISTANT_HISTORY_MESSAGE_FIELDS);
+    if (!validShape) {
+      return { ok: false, reason: "invalid_history" };
+    }
+    const context = hasContextField
+      ? parsePriorResultContext(message.prior_result_context)
+      : null;
+    if (context === undefined) {
+      return { ok: false, reason: "invalid_history" };
+    }
     history.push({
-      role: message.role,
+      role: "assistant",
       content: message.content.trim(),
+      ...(hasContextField ? { prior_result_context: context } : {}),
     });
   }
 
@@ -211,13 +365,25 @@ export function buildDemoChatBrowserRequest(input: {
   industry: string;
   message: string;
   conversationId: string | null;
-  history: readonly DemoChatHistoryMessage[];
+  history: readonly {
+    role: "user" | "assistant";
+    content: string;
+    priorResultContext?: DemoPriorResultContext | null;
+  }[];
 }): DemoChatBrowserRequest {
   return {
     industry: input.industry,
     message: input.message,
     conversation_id: input.conversationId,
-    history: input.history.map((message) => ({ ...message })),
+    history: input.history.map((message) => (
+      message.role === "assistant"
+        ? {
+            role: "assistant",
+            content: message.content,
+            prior_result_context: message.priorResultContext ?? null,
+          }
+        : { role: "user", content: message.content }
+    )),
   };
 }
 
@@ -235,8 +401,19 @@ export function calculateDemoChatMaxRequestBytes(limits: DemoChatRequestLimits) 
     limits.conversationIdCharacters +
     MAX_INDUSTRY_CHARACTERS;
 
+  const assistantContextCount = Math.ceil(limits.historyMessages / 2);
+  const boundedContextCharacters =
+    assistantContextCount *
+    (
+      (MAX_CONTEXT_IDS * 2 * 64) +
+      ((MAX_CONTEXT_ENTITY_REFS + MAX_CONTEXT_RESULT_REFS + 1) *
+        MAX_CONTEXT_REF_CHARACTERS) +
+      256
+    );
+
   return (
-    boundedStringCharacters * JSON_MAX_BYTES_PER_CHARACTER +
+    (boundedStringCharacters + boundedContextCharacters) *
+      JSON_MAX_BYTES_PER_CHARACTER +
     JSON_ENVELOPE_BYTES
   );
 }
@@ -322,6 +499,9 @@ export function normalizeDemoChatGatewayResponse(
     MAX_PROVENANCE_ITEMS,
     MAX_HEADLINE_CHARACTERS,
   );
+  const priorResultContext = parsePriorResultContext(
+    payload.prior_result_context,
+  );
   const details = parseStringArray(
     answer.details,
     MAX_ARRAY_ITEMS,
@@ -341,6 +521,7 @@ export function normalizeDemoChatGatewayResponse(
   if (
     capabilities === null ||
     provenance === null ||
+    priorResultContext === undefined ||
     details === null ||
     suggestedPrompts === null ||
     checks === null ||
@@ -361,6 +542,17 @@ export function normalizeDemoChatGatewayResponse(
   const capabilitySet = new Set(capabilities);
   const kpis = parseKpis(answer.kpis, capabilitySet);
   if (kpis === null) return invalidGatewayResult();
+
+  if (
+    priorResultContext !== null &&
+    (
+      !capabilitySet.has(priorResultContext.capability_id) ||
+      priorResultContext.result_refs[0] !==
+        `result:${priorResultContext.client_brain_id}:${priorResultContext.capability_id}`
+    )
+  ) {
+    return invalidGatewayResult();
+  }
 
   const hasCapabilityEvidence = capabilities.length > 0;
   const hasExpectedVerification = checks.includes(
@@ -403,6 +595,7 @@ export function normalizeDemoChatGatewayResponse(
       provenance: provenance.slice(0, 12),
       disclaimer: payload.disclaimer.trim(),
       suggested_prompts: suggestedPrompts.slice(0, 6),
+      prior_result_context: priorResultContext,
     },
   };
 }

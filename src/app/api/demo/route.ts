@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import {
-  DEMO_CHAT_UPSTREAM_PATH,
   buildDemoChatUpstreamRequest,
   calculateDemoChatMaxRequestBytes,
   normalizeDemoChatGatewayResponse,
@@ -12,9 +12,11 @@ import {
   DEMO_HISTORY_MAX_MESSAGES,
   DEMO_MESSAGE_MAX_CHARACTERS,
 } from "@/lib/alvo-demo-session";
-
-const DEVELOPMENT_DEMO_API = "http://127.0.0.1:8000";
-const PRODUCTION_DEMO_API = "https://private-ai-business-agent-production.up.railway.app";
+import {
+  isCloudflarePreviewHostname,
+  resolveDemoApiBaseUrl,
+  resolveDemoChatUpstreamTarget,
+} from "@/lib/alvo-demo-endpoint";
 const REQUEST_TIMEOUT_MS = 20_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 12;
@@ -40,24 +42,26 @@ type RateLimitEntry = { count: number; resetAt: number };
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
-function resolveDemoApiBaseUrl() {
-  const configured = process.env.PRIVATE_AI_DEMO_API_URL?.trim();
-
-  if (configured) {
-    return configured.replace(/\/$/, "");
+async function runtimeEnvironmentValue(name: string): Promise<string | undefined> {
+  try {
+    const { env } = getCloudflareContext();
+    const cloudflareValue = (env as Record<string, unknown>)[name];
+    if (typeof cloudflareValue === "string" && cloudflareValue.trim()) {
+      return cloudflareValue.trim();
+    }
+  } catch {
+    // Next.js on Node has no OpenNext request context; use its environment below.
   }
 
-  if (process.env.NODE_ENV === "development") {
-    return DEVELOPMENT_DEMO_API;
-  }
-
-  // The public synthetic demo backend is not a secret. Keep this production
-  // fallback so Cloudflare builds still work when runtime variables are not
-  // surfaced through process.env by the active Workers adapter.
-  return PRODUCTION_DEMO_API;
+  const environment = process.env as Record<string, string | undefined>;
+  const value = environment[name];
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
-function upstreamHeaders(includeJsonBody = false) {
+function upstreamHeaders(
+  includeJsonBody = false,
+  canaryToken: string | null = null,
+) {
   const headers: Record<string, string> = { Accept: "application/json" };
   const apiKey = process.env.PRIVATE_AI_DEMO_API_KEY?.trim();
 
@@ -67,6 +71,10 @@ function upstreamHeaders(includeJsonBody = false) {
 
   if (apiKey) {
     headers.Authorization = `Bearer ${apiKey}`;
+  }
+
+  if (canaryToken) {
+    headers["X-ALVOREM-Canary-Token"] = canaryToken;
   }
 
   return headers;
@@ -131,6 +139,39 @@ async function readJson(response: Response) {
   }
 }
 
+function unwrapStagingCanaryResponse(payload: unknown) {
+  if (!isRecord(payload)) return null;
+
+  const fields = new Set(Object.keys(payload));
+  const expectedFields = [
+    "response",
+    "grounded_text",
+    "grounded_mode",
+    "orem_reasoning_used",
+    "orem_fallback_reason",
+  ];
+
+  if (
+    fields.size !== expectedFields.length ||
+    !expectedFields.every((field) => fields.has(field)) ||
+    !isRecord(payload.response) ||
+    !(
+      payload.grounded_text === null ||
+      typeof payload.grounded_text === "string"
+    ) ||
+    !["none", "d1", "d2"].includes(String(payload.grounded_mode)) ||
+    typeof payload.orem_reasoning_used !== "boolean" ||
+    !(
+      payload.orem_fallback_reason === null ||
+      typeof payload.orem_fallback_reason === "string"
+    )
+  ) {
+    return null;
+  }
+
+  return payload.response;
+}
+
 function isRecord(value: unknown): value is JsonRecord {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -179,8 +220,12 @@ function upstreamFailure(status: number) {
   return json({ error: "The ALVO demo is temporarily unavailable." }, 503);
 }
 
-export async function GET() {
-  const baseUrl = resolveDemoApiBaseUrl();
+export async function GET(request: NextRequest) {
+  const baseUrl = resolveDemoApiBaseUrl({
+    hostname: request.nextUrl.hostname,
+    configuredUrl: process.env.PRIVATE_AI_DEMO_API_URL,
+    development: process.env.NODE_ENV === "development",
+  });
 
   if (!baseUrl) {
     return json({ error: "Demo service is not configured." }, 503);
@@ -203,7 +248,11 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const baseUrl = resolveDemoApiBaseUrl();
+  const baseUrl = resolveDemoApiBaseUrl({
+    hostname: request.nextUrl.hostname,
+    configuredUrl: process.env.PRIVATE_AI_DEMO_API_URL,
+    development: process.env.NODE_ENV === "development",
+  });
 
   if (!baseUrl) {
     return json({ error: "Demo service is not configured." }, 503);
@@ -275,18 +324,36 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const upstreamTarget = resolveDemoChatUpstreamTarget({
+      baseUrl,
+      stagingCanaryEnabled: isCloudflarePreviewHostname(
+        request.nextUrl.hostname,
+      ),
+      stagingCanaryToken: await runtimeEnvironmentValue(
+        "PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN",
+      ),
+    });
     const response = await fetchWithTimeout(
-      `${baseUrl}${DEMO_CHAT_UPSTREAM_PATH}`,
+      `${baseUrl}${upstreamTarget.path}`,
       {
         method: "POST",
-        headers: upstreamHeaders(true),
+        headers: upstreamHeaders(true, upstreamTarget.canaryToken),
         body: JSON.stringify(buildDemoChatUpstreamRequest(validated.value)),
       },
     );
 
     if (!response.ok) return upstreamFailure(response.status);
 
-    const result = normalizeDemoChatGatewayResponse(await readJson(response), {
+    const rawPayload = await readJson(response);
+    const normalizedPayload = upstreamTarget.canaryToken
+      ? unwrapStagingCanaryResponse(rawPayload)
+      : rawPayload;
+
+    if (!normalizedPayload) {
+      return json({ error: "The demo returned an invalid response." }, 502);
+    }
+
+    const result = normalizeDemoChatGatewayResponse(normalizedPayload, {
       industry: validated.value.industry,
       message: validated.value.message,
       conversationId: validated.value.conversation_id,

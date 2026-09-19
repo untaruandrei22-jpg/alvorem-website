@@ -95,7 +95,7 @@ export function HomeAgentDemo() {
   );
   const [sessionRestored, setSessionRestored] = useState(false);
   const initialSessionLocale = useRef(sessionLocale);
-  const transcriptEndRef = useRef<HTMLDivElement | null>(null);
+  const transcriptRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const restored = restoreDemoSession(undefined, initialSessionLocale.current);
@@ -173,9 +173,11 @@ export function HomeAgentDemo() {
 
   useEffect(() => {
     if (!sessionRestored || conversationSession.history.length === 0) return;
-    transcriptEndRef.current?.scrollIntoView({
+    const transcript = transcriptRef.current;
+    if (!transcript) return;
+    transcript.scrollTo({
+      top: transcript.scrollHeight,
       behavior: "smooth",
-      block: "nearest",
     });
   }, [conversationSession.history.length, loading, sessionRestored]);
 
@@ -341,6 +343,7 @@ export function HomeAgentDemo() {
 
         {conversationSession.history.length > 0 && (
           <div
+            ref={transcriptRef}
             className={styles.transcript}
             role="log"
             aria-live="polite"
@@ -421,7 +424,6 @@ export function HomeAgentDemo() {
                 <span>{ro ? "Verific datele sintetice…" : "Checking the synthetic business data…"}</span>
               </div>
             )}
-            <div ref={transcriptEndRef} aria-hidden="true" />
           </div>
         )}
 

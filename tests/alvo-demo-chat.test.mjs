@@ -462,22 +462,51 @@ test("preserves conversation continuity and chronological prior history upstream
   assert.notEqual(upstream.history, request.history);
 });
 
-test("calculates a bounded request byte ceiling from the public limits", () => {
+test("calculates a bounded request byte ceiling including typed continuation metadata", () => {
+  const context = validPriorResultContext({
+    metric_ids: [
+      "metric_alpha",
+      "metric_beta",
+      "metric_gamma",
+      "metric_delta",
+    ],
+    dimension_ids: [
+      "store",
+      "region",
+      "product",
+      "product_category",
+    ],
+    selected_entity_ref: "store:S003",
+    entity_refs: [
+      "store:S003",
+      "store:S004",
+      "store:S005",
+      "store:S006",
+    ],
+  });
   const worstCase = JSON.stringify(
     validRequest({
       industry: "construction_real_estate",
       message: "\0".repeat(DEMO_MESSAGE_MAX_CHARACTERS),
       conversation_id: "x".repeat(DEMO_CONVERSATION_ID_MAX_CHARACTERS),
-      history: Array.from({ length: DEMO_HISTORY_MAX_MESSAGES }, (_, index) => ({
-        role: index % 2 === 0 ? "user" : "assistant",
-        content: "\0".repeat(DEMO_MESSAGE_MAX_CHARACTERS),
-      })),
+      history: Array.from({ length: DEMO_HISTORY_MAX_MESSAGES }, (_, index) =>
+        index % 2 === 0
+          ? {
+              role: "user",
+              content: "\0".repeat(DEMO_MESSAGE_MAX_CHARACTERS),
+            }
+          : {
+              role: "assistant",
+              content: "\0".repeat(DEMO_MESSAGE_MAX_CHARACTERS),
+              prior_result_context: context,
+            },
+      ),
     }),
   );
   const ceiling = calculateDemoChatMaxRequestBytes(limits);
 
   assert.ok(ceiling >= Buffer.byteLength(worstCase));
-  assert.ok(ceiling < 64 * 1_024);
+  assert.ok(ceiling < 96 * 1_024);
 });
 
 test("normalizes a verified synthetic chat response to the presentation shape", () => {

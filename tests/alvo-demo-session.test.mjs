@@ -26,6 +26,52 @@ function memoryStorage(initial = {}) {
   };
 }
 
+function presentation(overrides = {}) {
+  return {
+    action: "answer",
+    headline: "Margin is stable.",
+    summary: "The latest synthetic month remains within the expected range.",
+    kpis: [{ label: "Gross margin", value: "45.4%" }],
+    provenance: ["synthetic:generated/retail_v1"],
+    disclaimer: "Synthetic demo — no real company data.",
+    ...overrides,
+  };
+}
+
+function priorResultContext(overrides = {}) {
+  return {
+    client_brain_id: "retail_public_v1",
+    capability_id: "margin_analysis",
+    metric_ids: ["gross_margin_pct"],
+    dimension_ids: ["store"],
+    selected_entity_ref: "store:S003",
+    entity_refs: ["store:S003"],
+    result_refs: ["result:retail_public_v1:margin_analysis"],
+    ...overrides,
+  };
+}
+
+function assistant(overrides = {}) {
+  return {
+    content: "Margin is stable.",
+    presentation: presentation(),
+    priorResultContext: null,
+    ...overrides,
+  };
+}
+
+function assistantMessage(index) {
+  return {
+    role: "assistant",
+    content: `answer-${index}`,
+    presentation: presentation({
+      headline: `answer-${index}`,
+      summary: `summary-${index}`,
+    }),
+    priorResultContext: null,
+  };
+}
+
 test("creates an empty browser session", () => {
   assert.deepEqual(createEmptyDemoSession("ro"), {
     conversationId: null,
@@ -42,62 +88,161 @@ test("blocks demo submission until browser session restore completes", () => {
 
 test("preserves the authoritative backend conversation ID", () => {
   const session = setDemoConversationId(createEmptyDemoSession(), "demo_abc-123");
-  const next = appendConversationTurn(session, "Question", "Answer");
+  const next = appendConversationTurn(session, "Question", assistant());
   assert.equal(next.conversationId, "demo_abc-123");
 });
 
-test("appends a chronological user and assistant turn", () => {
-  const session = appendConversationTurn(createEmptyDemoSession(), "Question", "Answer");
+test("appends a chronological user and presentation-safe assistant turn", () => {
+  const turn = assistant({
+    priorResultContext: priorResultContext(),
+  });
+  const session = appendConversationTurn(
+    createEmptyDemoSession(),
+    "Which store is weakest?",
+    turn,
+  );
+
   assert.deepEqual(session.history, [
-    { role: "user", content: "Question" },
-    { role: "assistant", content: "Answer" },
+    { role: "user", content: "Which store is weakest?" },
+    {
+      role: "assistant",
+      content: turn.content,
+      presentation: turn.presentation,
+      priorResultContext: turn.priorResultContext,
+    },
   ]);
 });
 
-test("completes a successful turn with the authoritative conversation ID atomically", () => {
+test("completes a successful turn with authoritative ID atomically", () => {
   const previous = setDemoConversationId(
     createEmptyDemoSession(),
     "demo_previous",
   );
+  const turn = assistant();
   const next = completeDemoConversationTurn(
     previous,
     "demo_authoritative",
     "What about margin?",
-    "Margin is stable.",
+    turn,
   );
 
   assert.equal(next.conversationId, "demo_authoritative");
   assert.deepEqual(next.history, [
     { role: "user", content: "What about margin?" },
-    { role: "assistant", content: "Margin is stable." },
+    {
+      role: "assistant",
+      content: turn.content,
+      presentation: turn.presentation,
+      priorResultContext: null,
+    },
   ]);
   assert.equal(previous.conversationId, "demo_previous");
   assert.deepEqual(previous.history, []);
 });
 
-test("keeps only the latest eight messages in chronological order", () => {
-  const messages = Array.from({ length: 10 }, (_, index) => ({
-    role: index % 2 === 0 ? "user" : "assistant",
-    content: `message-${index}`,
-  }));
+test("keeps only the latest eight valid messages in chronological order", () => {
+  const messages = Array.from({ length: 10 }, (_, index) =>
+    index % 2 === 0
+      ? { role: "user", content: `question-${index}` }
+      : assistantMessage(index),
+  );
   const bounded = buildBoundedHistory(messages);
   assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
-  assert.equal(bounded[0].content, "message-2");
-  assert.equal(bounded.at(-1).content, "message-9");
+  assert.equal(bounded[0].content, "question-2");
+  assert.equal(bounded.at(-1).content, "answer-9");
 });
 
-test("restores a valid sessionStorage value", () => {
+test("restores visible transcript content and typed continuation from sessionStorage", () => {
   const storage = memoryStorage();
-  const expected = appendConversationTurn(createEmptyDemoSession(), "Question", "Answer");
+  const expected = completeDemoConversationTurn(
+    createEmptyDemoSession("ro"),
+    "demo_restore",
+    "Care magazin e cel mai slab?",
+    assistant({
+      content: "Store S003 has the weakest margin.",
+      presentation: presentation({
+        headline: "Store S003 has the weakest margin.",
+        summary: "Its synthetic margin is lowest in the current ranked view.",
+      }),
+      priorResultContext: priorResultContext(),
+    }),
+  );
+
   assert.equal(saveDemoSession(expected, storage), true);
-  assert.deepEqual(restoreDemoSession(storage), expected);
+  assert.deepEqual(restoreDemoSession(storage, "ro"), expected);
+});
+
+test("persisted session contains only the approved presentation-safe shape", () => {
+  const storage = memoryStorage();
+  const session = completeDemoConversationTurn(
+    createEmptyDemoSession(),
+    "demo_safe",
+    "Why?",
+    assistant({ priorResultContext: priorResultContext() }),
+  );
+  assert.equal(saveDemoSession(session, storage), true);
+
+  const raw = storage.getItem(DEMO_SESSION_STORAGE_KEY);
+  assert.ok(raw);
+  const serialized = JSON.parse(raw);
+  const publicJson = JSON.stringify(serialized);
+
+  for (const forbidden of [
+    "team_trace",
+    "routing",
+    "usage",
+    "provider",
+    "prompt",
+    "chain_of_thought",
+    "token",
+    "cost",
+    "database",
+    "raw_model",
+  ]) {
+    assert.doesNotMatch(publicJson, new RegExp(forbidden, "i"));
+  }
 });
 
 for (const [name, raw] of [
   ["malformed JSON", "{"],
-  ["invalid role", JSON.stringify({ conversationId: null, history: [{ role: "tool", content: "x" }], locale: "en" })],
-  ["oversized content", JSON.stringify({ conversationId: null, history: [{ role: "user", content: "x".repeat(DEMO_MESSAGE_MAX_CHARACTERS + 1) }], locale: "en" })],
-  ["unexpected fields", JSON.stringify({ conversationId: null, history: [], locale: "en", routing: {} })],
+  [
+    "invalid role",
+    JSON.stringify({
+      conversationId: null,
+      history: [{ role: "tool", content: "x" }],
+      locale: "en",
+    }),
+  ],
+  [
+    "oversized content",
+    JSON.stringify({
+      conversationId: null,
+      history: [
+        {
+          role: "user",
+          content: "x".repeat(DEMO_MESSAGE_MAX_CHARACTERS + 1),
+        },
+      ],
+      locale: "en",
+    }),
+  ],
+  [
+    "legacy assistant without presentation",
+    JSON.stringify({
+      conversationId: "demo_old",
+      history: [{ role: "assistant", content: "Old headline only" }],
+      locale: "en",
+    }),
+  ],
+  [
+    "unexpected fields",
+    JSON.stringify({
+      conversationId: null,
+      history: [],
+      locale: "en",
+      routing: {},
+    }),
+  ],
 ]) {
   test(`discards ${name} from sessionStorage`, () => {
     const storage = memoryStorage({ [DEMO_SESSION_STORAGE_KEY]: raw });
@@ -106,9 +251,47 @@ for (const [name, raw] of [
   });
 }
 
-test("rejects oversized messages instead of persisting them", () => {
+test("rejects oversized user messages instead of persisting them", () => {
   assert.throws(
-    () => appendConversationTurn(createEmptyDemoSession(), "x".repeat(501), "Answer"),
+    () =>
+      appendConversationTurn(
+        createEmptyDemoSession(),
+        "x".repeat(DEMO_MESSAGE_MAX_CHARACTERS + 1),
+        assistant(),
+      ),
+    RangeError,
+  );
+});
+
+test("rejects assistant presentation with unexpected internal fields", () => {
+  assert.throws(
+    () =>
+      appendConversationTurn(
+        createEmptyDemoSession(),
+        "Question",
+        assistant({
+          presentation: {
+            ...presentation(),
+            routing: { strategy: "smart" },
+          },
+        }),
+      ),
+    RangeError,
+  );
+});
+
+test("rejects malformed typed continuation metadata", () => {
+  assert.throws(
+    () =>
+      appendConversationTurn(
+        createEmptyDemoSession(),
+        "Question",
+        assistant({
+          priorResultContext: priorResultContext({
+            selected_entity_ref: "store:S999",
+          }),
+        }),
+      ),
     RangeError,
   );
 });

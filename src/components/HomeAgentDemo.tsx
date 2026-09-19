@@ -23,15 +23,6 @@ type DemoProfile = {
   description: string;
   synthetic_only: true;
   suggested_prompts: string[];
-  prior_result_context: {
-    client_brain_id: string;
-    capability_id: string;
-    metric_ids: string[];
-    dimension_ids: string[];
-    selected_entity_ref: string | null;
-    entity_refs: string[];
-    result_refs: string[];
-  } | null;
 };
 
 type DemoAnswer = {
@@ -49,6 +40,15 @@ type DemoAnswer = {
   provenance: string[];
   disclaimer: string;
   suggested_prompts: string[];
+  prior_result_context: {
+    client_brain_id: string;
+    capability_id: string;
+    metric_ids: string[];
+    dimension_ids: string[];
+    selected_entity_ref: string | null;
+    entity_refs: string[];
+    result_refs: string[];
+  } | null;
 };
 
 const industries = [

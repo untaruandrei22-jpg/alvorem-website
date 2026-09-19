@@ -6,9 +6,24 @@ import {
   PRODUCTION_DEMO_API,
   STAGING_DEMO_API,
   STAGING_MODEL_ASSISTED_PATH,
+  isCloudflarePreviewHostname,
   resolveDemoApiBaseUrl,
   resolveDemoChatUpstreamTarget,
 } from "../src/lib/alvo-demo-endpoint.ts";
+
+test("recognizes only Cloudflare workers.dev preview hostnames", () => {
+  assert.equal(
+    isCloudflarePreviewHostname(
+      "feat-homepage-visible-transcript-bilingual-alvorem-website.untaruandrei22.workers.dev",
+    ),
+    true,
+  );
+  assert.equal(isCloudflarePreviewHostname("alvorem.ro"), false);
+  assert.equal(
+    isCloudflarePreviewHostname("workers.dev.evil.example"),
+    false,
+  );
+});
 
 test("uses explicit configured demo URL on non-preview hosts", () => {
   assert.equal(

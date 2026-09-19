@@ -92,3 +92,22 @@ This browser session does not:
 - activate a provider/model;
 - create persistent cross-tab or account memory;
 - grant write/action capability.
+
+
+## Preview-only model-assisted rehearsal boundary
+
+Cloudflare `*.workers.dev` branch/version previews may exercise the protected
+P1.3 model-assisted staging canary through the website server-side proxy.
+
+Safety properties:
+- preview host is forced to Railway staging;
+- custom/production domains remain on Railway production;
+- the canary token is a server-side secret only and must never enter browser
+  state, source control, logs or user-visible responses;
+- missing/invalid preview canary configuration fails closed;
+- the canary envelope is reduced back to the existing verified public
+  `DemoChatResponse` presentation contract before browser normalization;
+- this rehearsal path does not authorize production/public semantic activation.
+
+This preview boundary exists only so founder/QA browser rehearsal can validate
+Romanian/no-diacritics/typo semantic rescue before any public runtime decision.

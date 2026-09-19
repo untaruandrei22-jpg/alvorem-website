@@ -117,3 +117,5 @@ Node compatibility bridge (`nodejs_compat` +
 `nodejs_compat_populate_process_env`) because the Next.js server route reads
 the server-side canary token through `process.env`. Production behavior remains
 host-gated and unchanged.
+
+Preview Worker versions declare the staging canary token as a required secret so a branch deployment cannot succeed without the runtime binding.

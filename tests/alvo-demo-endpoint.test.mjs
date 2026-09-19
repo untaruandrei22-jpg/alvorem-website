@@ -8,14 +8,27 @@ import {
   resolveDemoApiBaseUrl,
 } from "../src/lib/alvo-demo-endpoint.ts";
 
-test("uses explicit configured demo URL before environment fallbacks", () => {
+test("uses explicit configured demo URL on non-preview hosts", () => {
   assert.equal(
     resolveDemoApiBaseUrl({
-      hostname: "preview.workers.dev",
+      hostname: "internal.example",
       configuredUrl: "https://configured.example/",
       development: false,
     }),
     "https://configured.example",
+  );
+});
+
+test("Cloudflare preview cannot be redirected to production by a global URL", () => {
+  assert.equal(
+    resolveDemoApiBaseUrl({
+      hostname:
+        "feat-homepage-visible-transcript-bilingual-alvorem-website.untaruandrei22.workers.dev",
+      configuredUrl:
+        "https://private-ai-business-agent-production.up.railway.app",
+      development: false,
+    }),
+    STAGING_DEMO_API,
   );
 });
 

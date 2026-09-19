@@ -1,20 +1,94 @@
 # ALVO demo browser session
 
-The homepage demo now has a small browser-session foundation for the future
-`POST /v1/demo/chat` integration:
+The homepage demo keeps a **bounded same-tab conversation session** for the public
+synthetic demo:
 
-`browser tab -> conversation ID + bounded history -> future chat request`
+`browser tab -> conversation ID + safe transcript state -> /api/demo -> backend /v1/demo/chat`
 
-- History contains only user questions and safe user-facing ALVO response text.
-- History is capped at 8 chronological user/assistant messages.
-- Every persisted message is non-blank and at most 500 characters.
-- The backend remains authoritative for `conversation_id`; the browser does not invent one.
-- State uses `sessionStorage` under `alvorem:alvo-demo-session:v1` only.
-- Restored JSON is treated as untrusted and discarded unless its complete shape is valid.
-- Reset removes the conversation ID, history, and sessionStorage entry without reloading.
-- This is not personal memory and has no cookies, localStorage, account, or server persistence.
-- Team Trace, routing/provider output, prompts, provenance, token usage, credentials, headers,
-  raw errors, and internal AI metadata are never stored as conversation history.
+## What is persisted
 
-This step does not connect `/v1/demo/chat`; the existing public demo transport and visual
-experience remain unchanged until the next integration step.
+The browser stores only presentation-safe state in `sessionStorage` under
+`alvorem:alvo-demo-session:v1`:
+
+- authoritative backend `conversation_id`;
+- at most 8 chronological user/assistant messages;
+- user message text;
+- ALVO headline + summary;
+- up to 4 displayed KPI label/value pairs;
+- synthetic provenance references;
+- public disclaimer;
+- presentation-safe typed `priorResultContext` required for bounded entity-aware follow-ups.
+
+Every stored message remains bounded. Restored JSON is treated as untrusted and is
+discarded unless the complete expected shape validates.
+
+## What is never persisted
+
+The browser session must never contain:
+
+- Team Trace;
+- routing/model/provider metadata;
+- prompts or hidden reasoning;
+- token/cost internals;
+- credentials or authorization headers;
+- database/real-data paths;
+- raw provider/model errors;
+- arbitrary tool output.
+
+The server-side proxy remains responsible for normalizing the backend response to
+the presentation contract before anything reaches browser state.
+
+## Visible transcript
+
+The homepage renders the bounded session as a visible user + ALVO transcript rather
+than replacing the previous response.
+
+Each ALVO turn restores from presentation-safe browser state after same-tab reload.
+The transcript scrolls internally to the latest turn so the surrounding homepage
+does not jump.
+
+## Continuation metadata
+
+P1.2F added bounded typed ranked-entity continuation context to the backend.
+The website carries only the safe public envelope returned by the proxy:
+
+- Client Brain id;
+- capability id;
+- metric/dimension ids;
+- selected entity ref;
+- bounded entity/result refs.
+
+It is sent back only on assistant history messages. The backend re-validates it
+against the active Client Brain, execution contract and canonical deterministic
+synthetic result. Browser state is not authoritative.
+
+## Language UX
+
+The homepage accepts free-form Romanian or English input. The frontend does not
+translate business facts or rewrite backend answers. Language understanding and
+answer wording remain backend responsibilities.
+
+The compatibility request locale sent upstream remains the backend-supported
+metadata value; it is not an instruction that restricts the user's input language.
+
+## Reset and persistence boundary
+
+`New conversation` explicitly clears:
+
+- conversation ID;
+- transcript history;
+- continuation metadata;
+- sessionStorage entry.
+
+This is not personal memory and has no cookies, localStorage, account persistence or
+server-side memory.
+
+## Non-goals
+
+This browser session does not:
+
+- remove Coming Soon / launch the public site;
+- enable production or real-data access;
+- activate a provider/model;
+- create persistent cross-tab or account memory;
+- grant write/action capability.

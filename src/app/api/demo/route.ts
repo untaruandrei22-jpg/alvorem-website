@@ -41,7 +41,17 @@ type RateLimitEntry = { count: number; resetAt: number };
 
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
-function runtimeEnvironmentValue(name: string): string | undefined {
+async function runtimeEnvironmentValue(name: string): Promise<string | undefined> {
+  try {
+    const { env } = await import("cloudflare:workers");
+    const cloudflareValue = (env as Record<string, unknown>)[name];
+    if (typeof cloudflareValue === "string" && cloudflareValue.trim()) {
+      return cloudflareValue.trim();
+    }
+  } catch {
+    // Node/local builds do not provide the Cloudflare runtime module.
+  }
+
   const environment = process.env as Record<string, string | undefined>;
   const value = environment[name];
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
@@ -318,7 +328,7 @@ export async function POST(request: NextRequest) {
       stagingCanaryEnabled: isCloudflarePreviewHostname(
         request.nextUrl.hostname,
       ),
-      stagingCanaryToken: runtimeEnvironmentValue(
+      stagingCanaryToken: await runtimeEnvironmentValue(
         "PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN",
       ),
     });

@@ -62,6 +62,13 @@ function validPriorResultContext(overrides = {}) {
     selected_entity_ref: "store:S003",
     entity_refs: ["store:S003"],
     result_refs: ["result:retail_public_v1:margin_analysis"],
+    analysis_mode: "compare",
+    period_start: "2026-07-01",
+    period_end: "2026-07-31",
+    comparison_mode: "previous_period",
+    comparison_period_start: "2026-06-01",
+    comparison_period_end: "2026-06-30",
+    role: "manager",
     ...overrides,
   };
 }
@@ -766,4 +773,54 @@ test("rejects a headline too large for safe browser history", () => {
 
 test("maps a malformed upstream payload to a generic safe 502", () => {
   assertSafe502(normalize({ raw_provider_error: "private stack trace" }));
+});
+
+
+test("expanded typed checkpoint survives browser validation and upstream serialization", () => {
+  const checkpoint = validPriorResultContext();
+  const browserRequest = buildDemoChatBrowserRequest({
+    industry: "retail",
+    message: "Ce sa investighez next?",
+    conversationId: "demo_checkpoint",
+    locale: "ro",
+    history: [
+      { role: "user", content: "Explain this like I'm the country manager." },
+      {
+        role: "assistant",
+        content: "Perspectivă pentru managerul de țară.",
+        priorResultContext: checkpoint,
+      },
+    ],
+  });
+
+  const validated = validateDemoChatRequest(browserRequest, supportedIndustries, limits);
+  assert.equal(validated.ok, true);
+  assert.deepEqual(
+    validated.ok ? validated.value.history[1].prior_result_context : null,
+    checkpoint,
+  );
+  assert.deepEqual(buildDemoChatUpstreamRequest(browserRequest).history[1], {
+    role: "assistant",
+    content: "Perspectivă pentru managerul de țară.",
+    prior_result_context: checkpoint,
+  });
+});
+
+test("expanded typed checkpoint rejects incomplete comparison periods", () => {
+  const checkpoint = validPriorResultContext({ comparison_period_end: null });
+  const result = validateDemoChatRequest(
+    validRequest({
+      history: [
+        { role: "user", content: "Compare it with last month." },
+        {
+          role: "assistant",
+          content: "Comparison.",
+          prior_result_context: checkpoint,
+        },
+      ],
+    }),
+    supportedIndustries,
+    limits,
+  );
+  assert.deepEqual(result, { ok: false, reason: "invalid_history" });
 });

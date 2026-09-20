@@ -332,15 +332,52 @@ export function validateDemoSession(value: unknown): DemoConversationSession | n
   };
 }
 
+function hasTypedEntityAnchor(message: DemoConversationMessage): boolean {
+  return (
+    message.role === "assistant" &&
+    message.priorResultContext?.selected_entity_ref !== null &&
+    message.priorResultContext?.selected_entity_ref !== undefined &&
+    message.priorResultContext.entity_refs.length === 1
+  );
+}
+
 export function buildBoundedHistory(
   messages: readonly DemoConversationMessage[],
 ): DemoConversationMessage[] {
   if (!messages.every(isMessage)) {
     throw new TypeError("Conversation history contains an invalid message.");
   }
-  return messages
-    .slice(-DEMO_HISTORY_MAX_MESSAGES)
-    .map(copyMessage);
+
+  if (messages.length <= DEMO_HISTORY_MAX_MESSAGES) {
+    return messages.map(copyMessage);
+  }
+
+  const tailStart = messages.length - DEMO_HISTORY_MAX_MESSAGES;
+  let anchorAssistantIndex = -1;
+  for (let index = messages.length - 1; index >= 0; index -= 1) {
+    if (hasTypedEntityAnchor(messages[index])) {
+      anchorAssistantIndex = index;
+      break;
+    }
+  }
+
+  // If the newest typed entity anchor already survives in the normal tail,
+  // keep the existing chronological last-N behavior unchanged.
+  if (anchorAssistantIndex < 0 || anchorAssistantIndex >= tailStart) {
+    return messages
+      .slice(-DEMO_HISTORY_MAX_MESSAGES)
+      .map(copyMessage);
+  }
+
+  const anchorStart =
+    anchorAssistantIndex > 0 && messages[anchorAssistantIndex - 1].role === "user"
+      ? anchorAssistantIndex - 1
+      : anchorAssistantIndex;
+  const anchor = messages.slice(anchorStart, anchorAssistantIndex + 1);
+  const tailSlots = DEMO_HISTORY_MAX_MESSAGES - anchor.length;
+  const tail = messages.slice(-tailSlots);
+
+  return [...anchor, ...tail].map(copyMessage);
 }
 
 export function appendConversationTurn(

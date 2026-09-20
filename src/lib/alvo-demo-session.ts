@@ -14,6 +14,13 @@ export type DemoPriorResultContext = {
   selected_entity_ref: string | null;
   entity_refs: string[];
   result_refs: string[];
+  analysis_mode: "performance" | "trend" | "rank" | "compare" | "investigate" | "explain" | null;
+  period_start: string | null;
+  period_end: string | null;
+  comparison_mode: "target" | "previous_period" | "explicit_period" | null;
+  comparison_period_start: string | null;
+  comparison_period_end: string | null;
+  role: "manager" | "product_owner" | "analyst" | "executive" | null;
 };
 
 export type DemoConversationPresentation = {
@@ -71,10 +78,22 @@ const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
   "selected_entity_ref",
   "entity_refs",
   "result_refs",
+  "analysis_mode",
+  "period_start",
+  "period_end",
+  "comparison_mode",
+  "comparison_period_start",
+  "comparison_period_end",
+  "role",
 ]);
 const CONVERSATION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/;
 const SAFE_ID_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 const SAFE_REF_PATTERN = /^[a-z][a-z0-9_]{0,31}:[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}$/;
+const ANALYSIS_MODES = new Set([
+  "performance", "trend", "rank", "compare", "investigate", "explain",
+]);
+const COMPARISON_MODES = new Set(["target", "previous_period", "explicit_period"]);
+const PRESENTATION_ROLES = new Set(["manager", "product_owner", "analyst", "executive"]);
 const MAX_SUMMARY_CHARACTERS = 2_000;
 const MAX_DISCLAIMER_CHARACTERS = 500;
 const MAX_KPIS = 4;
@@ -102,6 +121,14 @@ function isBoundedText(value: unknown, maxCharacters: number): value is string {
 
 function isLocale(value: unknown): value is DemoConversationLocale {
   return value === "en" || value === "ro";
+}
+
+function isIsoDate(value: unknown): value is string {
+  if (typeof value !== "string" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) {
+    return false;
+  }
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+  return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === value;
 }
 
 function isSafeIdArray(value: unknown, maxItems: number): value is string[] {
@@ -153,7 +180,38 @@ function isPriorResultContext(value: unknown): value is DemoPriorResultContext {
   if (value.entity_refs.length > 0 && value.dimension_ids.length === 0) {
     return false;
   }
-  return true;
+
+  const periodValid =
+    (value.period_start === null && value.period_end === null) ||
+    (isIsoDate(value.period_start) &&
+      isIsoDate(value.period_end) &&
+      value.period_end >= value.period_start);
+  const comparisonPeriodValid =
+    (value.comparison_period_start === null && value.comparison_period_end === null) ||
+    (isIsoDate(value.comparison_period_start) &&
+      isIsoDate(value.comparison_period_end) &&
+      value.comparison_period_end >= value.comparison_period_start);
+  const analysisValid =
+    value.analysis_mode === null ||
+    (typeof value.analysis_mode === "string" && ANALYSIS_MODES.has(value.analysis_mode));
+  const comparisonValid =
+    value.comparison_mode === null ||
+    (typeof value.comparison_mode === "string" && COMPARISON_MODES.has(value.comparison_mode));
+  const roleValid =
+    value.role === null ||
+    (typeof value.role === "string" && PRESENTATION_ROLES.has(value.role));
+
+  return Boolean(
+    periodValid &&
+    comparisonPeriodValid &&
+    analysisValid &&
+    comparisonValid &&
+    roleValid &&
+    !((value.comparison_mode === "previous_period" ||
+      value.comparison_mode === "explicit_period") &&
+      value.comparison_period_start === null) &&
+    !(value.comparison_mode === null && value.comparison_period_start !== null)
+  );
 }
 
 function isPresentation(value: unknown): value is DemoConversationPresentation {

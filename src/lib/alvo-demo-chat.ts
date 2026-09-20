@@ -1,7 +1,24 @@
 export const DEMO_CHAT_UPSTREAM_PATH = "/v1/demo/chat";
-export const DEMO_CHAT_UPSTREAM_LOCALE = "en" as const;
 export const DEMO_CHAT_INVALID_RESPONSE_ERROR =
   "The demo returned an invalid response.";
+
+export const DEMO_CHAT_LOCALES = ["en", "ro"] as const;
+export type DemoChatLocale = (typeof DEMO_CHAT_LOCALES)[number];
+export const DEMO_CHAT_RETAIL_PROMPTS: Record<
+  DemoChatLocale,
+  readonly string[]
+> = {
+  en: [
+    "How are stores performing this month?",
+    "Which stores are furthest below target?",
+    "What needs my attention today?",
+  ],
+  ro: [
+    "Cum stăm cu vânzările luna asta?",
+    "Care magazine sunt cel mai mult sub țintă?",
+    "Unde avem probleme cu stocul?",
+  ],
+};
 
 export const DEMO_CHAT_APPROVED_CAPABILITIES = [
   "performance_summary",
@@ -32,6 +49,7 @@ export type DemoChatBrowserRequest = {
   industry: string;
   message: string;
   conversation_id: string | null;
+  locale: DemoChatLocale;
   history: DemoChatHistoryMessage[];
 };
 
@@ -80,8 +98,10 @@ const REQUEST_FIELDS = new Set([
   "industry",
   "message",
   "conversation_id",
+  "locale",
   "history",
 ]);
+const APPROVED_LOCALES = new Set<string>(DEMO_CHAT_LOCALES);
 const USER_HISTORY_MESSAGE_FIELDS = new Set(["role", "content"]);
 const ASSISTANT_HISTORY_MESSAGE_FIELDS = new Set([
   "role",
@@ -303,6 +323,13 @@ export function validateDemoChatRequest(
   }
 
   if (
+    typeof payload.locale !== "string" ||
+    !APPROVED_LOCALES.has(payload.locale)
+  ) {
+    return { ok: false, reason: "invalid_request" };
+  }
+
+  if (
     !Array.isArray(payload.history) ||
     payload.history.length > limits.historyMessages
   ) {
@@ -356,6 +383,7 @@ export function validateDemoChatRequest(
       industry: payload.industry,
       message: payload.message.trim(),
       conversation_id: payload.conversation_id,
+      locale: payload.locale as DemoChatLocale,
       history,
     },
   };
@@ -365,6 +393,7 @@ export function buildDemoChatBrowserRequest(input: {
   industry: string;
   message: string;
   conversationId: string | null;
+  locale: DemoChatLocale;
   history: readonly {
     role: "user" | "assistant";
     content: string;
@@ -375,6 +404,7 @@ export function buildDemoChatBrowserRequest(input: {
     industry: input.industry,
     message: input.message,
     conversation_id: input.conversationId,
+    locale: input.locale,
     history: input.history.map((message) => (
       message.role === "assistant"
         ? {
@@ -390,7 +420,6 @@ export function buildDemoChatBrowserRequest(input: {
 export function buildDemoChatUpstreamRequest(request: DemoChatBrowserRequest) {
   return {
     ...request,
-    locale: DEMO_CHAT_UPSTREAM_LOCALE,
     history: request.history.map((message) => ({ ...message })),
   };
 }

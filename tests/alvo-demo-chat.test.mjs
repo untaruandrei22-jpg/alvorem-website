@@ -3,7 +3,8 @@ import test from "node:test";
 
 import {
   DEMO_CHAT_INVALID_RESPONSE_ERROR,
-  DEMO_CHAT_UPSTREAM_LOCALE,
+  DEMO_CHAT_LOCALES,
+  DEMO_CHAT_RETAIL_PROMPTS,
   DEMO_CHAT_UPSTREAM_PATH,
   buildDemoChatBrowserRequest,
   buildDemoChatUpstreamRequest,
@@ -46,6 +47,7 @@ function validRequest(overrides = {}) {
     industry: "retail",
     message: "How are stores performing?",
     conversation_id: null,
+    locale: "en",
     history: [],
     ...overrides,
   };
@@ -141,6 +143,7 @@ test("builds the first-turn browser request with empty prior history", () => {
       industry: "retail",
       message: "How are stores performing?",
       conversationId: null,
+      locale: "en",
       history: [],
     }),
     validRequest(),
@@ -156,6 +159,7 @@ test("sends prior successful turns without adding the current message to history
     industry: "retail",
     message: "What about margin?",
     conversationId: "demo_follow_up",
+    locale: "en",
     history,
   });
 
@@ -182,6 +186,7 @@ test("browser request strips presentation but preserves safe typed continuation"
     industry: "retail",
     message: "Why?",
     conversationId: "demo_follow_up",
+    locale: "en",
     history: [
       { role: "user", content: "Which store is weakest?" },
       {
@@ -318,7 +323,7 @@ test("rejects unsupported industries", () => {
 test("rejects legacy and unexpected top-level request fields", () => {
   for (const extra of [
     { question: "legacy field" },
-    { locale: "en" },
+    { language: "en" },
     { data_mode: "database" },
   ]) {
     const result = validateDemoChatRequest(
@@ -440,11 +445,43 @@ test("uses only the approved backend chat path", () => {
   assert.equal(DEMO_CHAT_UPSTREAM_PATH, "/v1/demo/chat");
 });
 
-test("keeps backend compatibility locale metadata separate from bilingual user text", () => {
-  const upstream = buildDemoChatUpstreamRequest(validRequest());
-  assert.equal(upstream.locale, DEMO_CHAT_UPSTREAM_LOCALE);
-  assert.equal(upstream.locale, "en");
-  assert.equal("ro" in upstream, false);
+test("forwards only the validated page locale upstream", () => {
+  assert.deepEqual(DEMO_CHAT_LOCALES, ["en", "ro"]);
+  for (const locale of DEMO_CHAT_LOCALES) {
+    const upstream = buildDemoChatUpstreamRequest(validRequest({ locale }));
+    assert.equal(upstream.locale, locale);
+  }
+});
+
+test("exposes Romanian suggested prompts instead of English placeholders", () => {
+  assert.deepEqual(DEMO_CHAT_RETAIL_PROMPTS.ro, [
+    "Cum stăm cu vânzările luna asta?",
+    "Care magazine sunt cel mai mult sub țintă?",
+    "Unde avem probleme cu stocul?",
+  ]);
+  assert.equal(
+    DEMO_CHAT_RETAIL_PROMPTS.ro.some((prompt) =>
+      DEMO_CHAT_RETAIL_PROMPTS.en.includes(prompt),
+    ),
+    false,
+  );
+});
+
+test("rejects missing or unsupported locale values", () => {
+  const missingLocale = validRequest();
+  delete missingLocale.locale;
+  assert.deepEqual(
+    validateDemoChatRequest(missingLocale, supportedIndustries, limits),
+    { ok: false, reason: "invalid_request" },
+  );
+  assert.deepEqual(
+    validateDemoChatRequest(
+      validRequest({ locale: "fr" }),
+      supportedIndustries,
+      limits,
+    ),
+    { ok: false, reason: "invalid_request" },
+  );
 });
 
 test("preserves conversation continuity and chronological prior history upstream", () => {

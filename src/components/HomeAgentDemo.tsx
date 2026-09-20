@@ -51,6 +51,13 @@ type DemoAnswer = {
     selected_entity_ref: string | null;
     entity_refs: string[];
     result_refs: string[];
+    analysis_mode: "performance" | "trend" | "rank" | "compare" | "investigate" | "explain" | null;
+    period_start: string | null;
+    period_end: string | null;
+    comparison_mode: "target" | "previous_period" | "explicit_period" | null;
+    comparison_period_start: string | null;
+    comparison_period_end: string | null;
+    role: "manager" | "product_owner" | "analyst" | "executive" | null;
   } | null;
 };
 

@@ -47,6 +47,13 @@ function priorResultContext(overrides = {}) {
     selected_entity_ref: "store:S003",
     entity_refs: ["store:S003"],
     result_refs: ["result:retail_public_v1:margin_analysis"],
+    analysis_mode: "compare",
+    period_start: "2026-07-01",
+    period_end: "2026-07-31",
+    comparison_mode: "previous_period",
+    comparison_period_start: "2026-06-01",
+    comparison_period_end: "2026-06-30",
+    role: "manager",
     ...overrides,
   };
 }

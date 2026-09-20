@@ -159,6 +159,63 @@ test("keeps only the latest eight valid messages in chronological order", () => 
   assert.equal(bounded.at(-1).content, "answer-9");
 });
 
+test("preserves the newest typed entity anchor when the normal eight-message tail would evict it", () => {
+  const anchorContext = priorResultContext({
+    selected_entity_ref: "store:S004",
+    entity_refs: ["store:S004"],
+  });
+  const messages = [
+    { role: "user", content: "Older store question" },
+    assistantMessage(1),
+    { role: "user", content: "Director framing" },
+    {
+      ...assistantMessage(3),
+      priorResultContext: anchorContext,
+    },
+    { role: "user", content: "follow-up-4" },
+    assistantMessage(5),
+    { role: "user", content: "follow-up-6" },
+    assistantMessage(7),
+    { role: "user", content: "inventory-switch" },
+    assistantMessage(9),
+    { role: "user", content: "first-return-attempt" },
+    assistantMessage(11),
+    { role: "user", content: "second-return-attempt" },
+    assistantMessage(13),
+  ];
+
+  const bounded = buildBoundedHistory(messages);
+
+  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded[0].content, "Director framing");
+  assert.equal(bounded[1].content, "answer-3");
+  assert.equal(
+    bounded[1].priorResultContext?.selected_entity_ref,
+    "store:S004",
+  );
+  assert.equal(bounded[2].content, "inventory-switch");
+  assert.equal(bounded.at(-1).content, "answer-13");
+});
+
+test("keeps the ordinary latest-eight behavior when an entity anchor already survives in the tail", () => {
+  const messages = Array.from({ length: 10 }, (_, index) =>
+    index % 2 === 0
+      ? { role: "user", content: `question-${index}` }
+      : {
+          ...assistantMessage(index),
+          priorResultContext:
+            index === 7 ? priorResultContext() : null,
+        },
+  );
+
+  const bounded = buildBoundedHistory(messages);
+
+  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded[0].content, "question-2");
+  assert.equal(bounded[5].priorResultContext?.selected_entity_ref, "store:S003");
+  assert.equal(bounded.at(-1).content, "answer-9");
+});
+
 test("restores visible transcript content and typed continuation from sessionStorage", () => {
   const storage = memoryStorage();
   const expected = completeDemoConversationTurn(

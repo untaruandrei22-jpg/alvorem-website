@@ -37,6 +37,13 @@ export type DemoPriorResultContext = {
   selected_entity_ref: string | null;
   entity_refs: string[];
   result_refs: string[];
+  analysis_mode: "performance" | "trend" | "rank" | "compare" | "investigate" | "explain" | null;
+  period_start: string | null;
+  period_end: string | null;
+  comparison_mode: "target" | "previous_period" | "explicit_period" | null;
+  comparison_period_start: string | null;
+  comparison_period_end: string | null;
+  role: "manager" | "product_owner" | "analyst" | "executive" | null;
 };
 
 export type DemoChatHistoryMessage = {
@@ -116,11 +123,23 @@ const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
   "selected_entity_ref",
   "entity_refs",
   "result_refs",
+  "analysis_mode",
+  "period_start",
+  "period_end",
+  "comparison_mode",
+  "comparison_period_start",
+  "comparison_period_end",
+  "role",
 ]);
 const CONVERSATION_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 const APPROVED_CAPABILITIES = new Set<string>(DEMO_CHAT_APPROVED_CAPABILITIES);
 const SAFE_ID_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 const SAFE_REF_PATTERN = /^[a-z][a-z0-9_]{0,31}:[A-Za-z0-9][A-Za-z0-9_.:/-]{0,127}$/;
+const ANALYSIS_MODES = new Set([
+  "performance", "trend", "rank", "compare", "investigate", "explain",
+]);
+const COMPARISON_MODES = new Set(["target", "previous_period", "explicit_period"]);
+const PRESENTATION_ROLES = new Set(["manager", "product_owner", "analyst", "executive"]);
 const REQUIRED_VERIFICATION_CHECKS = [
   "synthetic_only_contract",
   "approved_capability_scope",
@@ -262,6 +281,47 @@ function parsePriorResultContext(
     return undefined;
   }
 
+  const analysisMode = value.analysis_mode === null
+    ? null
+    : typeof value.analysis_mode === "string" && ANALYSIS_MODES.has(value.analysis_mode)
+      ? value.analysis_mode as DemoPriorResultContext["analysis_mode"]
+      : undefined;
+  const comparisonMode = value.comparison_mode === null
+    ? null
+    : typeof value.comparison_mode === "string" && COMPARISON_MODES.has(value.comparison_mode)
+      ? value.comparison_mode as DemoPriorResultContext["comparison_mode"]
+      : undefined;
+  const role = value.role === null
+    ? null
+    : typeof value.role === "string" && PRESENTATION_ROLES.has(value.role)
+      ? value.role as DemoPriorResultContext["role"]
+      : undefined;
+  const periodStart = value.period_start === null
+    ? null
+    : isIsoDate(value.period_start) ? value.period_start : undefined;
+  const periodEnd = value.period_end === null
+    ? null
+    : isIsoDate(value.period_end) ? value.period_end : undefined;
+  const comparisonPeriodStart = value.comparison_period_start === null
+    ? null
+    : isIsoDate(value.comparison_period_start) ? value.comparison_period_start : undefined;
+  const comparisonPeriodEnd = value.comparison_period_end === null
+    ? null
+    : isIsoDate(value.comparison_period_end) ? value.comparison_period_end : undefined;
+  if (
+    analysisMode === undefined || comparisonMode === undefined || role === undefined ||
+    periodStart === undefined || periodEnd === undefined ||
+    comparisonPeriodStart === undefined || comparisonPeriodEnd === undefined ||
+    (periodStart === null) !== (periodEnd === null) ||
+    (comparisonPeriodStart === null) !== (comparisonPeriodEnd === null) ||
+    (periodStart !== null && periodEnd !== null && periodEnd < periodStart) ||
+    (comparisonPeriodStart !== null && comparisonPeriodEnd !== null && comparisonPeriodEnd < comparisonPeriodStart) ||
+    ((comparisonMode === "previous_period" || comparisonMode === "explicit_period") && comparisonPeriodStart === null) ||
+    (comparisonMode === null && comparisonPeriodStart !== null)
+  ) {
+    return undefined;
+  }
+
   return {
     client_brain_id: value.client_brain_id,
     capability_id: value.capability_id,
@@ -270,6 +330,13 @@ function parsePriorResultContext(
     selected_entity_ref: selected,
     entity_refs: entityRefs,
     result_refs: resultRefs,
+    analysis_mode: analysisMode,
+    period_start: periodStart,
+    period_end: periodEnd,
+    comparison_mode: comparisonMode,
+    comparison_period_start: comparisonPeriodStart,
+    comparison_period_end: comparisonPeriodEnd,
+    role,
   };
 }
 

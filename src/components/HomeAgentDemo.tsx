@@ -4,7 +4,10 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { AgentWordmark } from "@/components/AgentWordmark";
 import { useLocale } from "@/components/LocaleProvider";
 import { Logo } from "@/components/Logo";
-import { buildDemoChatBrowserRequest } from "@/lib/alvo-demo-chat";
+import {
+  DEMO_CHAT_RETAIL_PROMPTS,
+  buildDemoChatBrowserRequest,
+} from "@/lib/alvo-demo-chat";
 import {
   DEMO_MESSAGE_MAX_CHARACTERS,
   completeDemoConversationTurn,
@@ -62,12 +65,6 @@ const industries = [
   ["construction_real_estate", "Construction & real estate"],
 ] as const;
 
-const retailPrompts = [
-  "How are stores performing this month?",
-  "Which stores are furthest below target?",
-  "What needs my attention today?",
-];
-
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 20 20" aria-hidden="true">
@@ -84,7 +81,7 @@ export function HomeAgentDemo() {
     () => new Set(["retail"]),
   );
   const [promptsByIndustry, setPromptsByIndustry] = useState<Record<string, string[]>>({
-    retail: retailPrompts,
+    retail: [...DEMO_CHAT_RETAIL_PROMPTS.en],
   });
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
@@ -154,8 +151,11 @@ export function HomeAgentDemo() {
   }, []);
 
   const prompts = useMemo(
-    () => promptsByIndustry[activeIndustry] ?? [],
-    [activeIndustry, promptsByIndustry],
+    () =>
+      ro && activeIndustry === "retail"
+        ? DEMO_CHAT_RETAIL_PROMPTS.ro
+        : promptsByIndustry[activeIndustry] ?? [],
+    [activeIndustry, promptsByIndustry, ro],
   );
 
   const availableIndustryOptions = useMemo(
@@ -207,6 +207,7 @@ export function HomeAgentDemo() {
           industry: activeIndustry,
           message: cleaned,
           conversationId: conversationSession.conversationId,
+          locale: sessionLocale,
           history: conversationSession.history,
         })),
       });

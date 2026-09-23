@@ -16,6 +16,7 @@ import {
   resetDemoSession,
   restoreDemoSession,
   saveDemoSession,
+  setV2ConversationCheckpoint,
   type DemoConversationLocale,
 } from "@/lib/alvo-demo-session";
 import styles from "./HomeAgentDemo.module.css";
@@ -43,6 +44,8 @@ type DemoAnswer = {
   provenance: string[];
   disclaimer: string;
   suggested_prompts: string[];
+  v2_checkpoint?: import("@/lib/alvo-demo-v2-checkpoint").V2ConversationCheckpoint;
+  runtime_version?: "v2";
   prior_result_context: {
     client_brain_id: string;
     capability_id: string;
@@ -216,6 +219,7 @@ export function HomeAgentDemo() {
           conversationId: conversationSession.conversationId,
           locale: sessionLocale,
           history: conversationSession.history,
+          v2Checkpoint: conversationSession.v2Checkpoint,
         })),
       });
 
@@ -230,8 +234,8 @@ export function HomeAgentDemo() {
         throw new Error("error" in payload && payload.error ? payload.error : "Demo unavailable.");
       }
 
-      setConversationSession((current) =>
-        completeDemoConversationTurn(
+      setConversationSession((current) => {
+        const completed = completeDemoConversationTurn(
           current,
           payload.conversation_id,
           cleaned,
@@ -247,8 +251,12 @@ export function HomeAgentDemo() {
             },
             priorResultContext: payload.prior_result_context,
           },
-        ),
-      );
+        );
+        return setV2ConversationCheckpoint(
+          completed,
+          payload.v2_checkpoint ?? null,
+        );
+      });
       setQuestion("");
     } catch (requestError) {
       setError(

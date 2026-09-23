@@ -1,7 +1,11 @@
+import {
+  isV2ConversationCheckpoint,
+  type V2ConversationCheckpoint,
+} from "@/lib/alvo-demo-v2-checkpoint";
 export const DEMO_HISTORY_MAX_MESSAGES = 8;
 export const DEMO_MESSAGE_MAX_CHARACTERS = 500;
 export const DEMO_CONVERSATION_ID_MAX_CHARACTERS = 64;
-export const DEMO_SESSION_STORAGE_KEY = "alvorem:alvo-demo-session:v1";
+export const DEMO_SESSION_STORAGE_KEY = "alvorem:alvo-demo-session:v2";
 
 export type DemoConversationRole = "user" | "assistant";
 export type DemoConversationLocale = "en" | "ro";
@@ -43,6 +47,7 @@ export type DemoConversationSession = {
   conversationId: string | null;
   history: DemoConversationMessage[];
   locale: DemoConversationLocale;
+  v2Checkpoint: V2ConversationCheckpoint | null;
 };
 
 export type DemoAssistantTurnInput = {
@@ -53,7 +58,12 @@ export type DemoAssistantTurnInput = {
 
 export type DemoSessionStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
-const SESSION_FIELDS = new Set(["conversationId", "history", "locale"]);
+const SESSION_FIELDS = new Set([
+  "conversationId",
+  "history",
+  "locale",
+  "v2Checkpoint",
+]);
 const USER_MESSAGE_FIELDS = new Set(["role", "content"]);
 const ASSISTANT_MESSAGE_FIELDS = new Set([
   "role",
@@ -269,6 +279,13 @@ function isMessage(value: unknown): value is DemoConversationMessage {
   );
 }
 
+function copyV2Checkpoint(
+  checkpoint: V2ConversationCheckpoint | null,
+): V2ConversationCheckpoint | null {
+  if (checkpoint === null) return null;
+  return JSON.parse(JSON.stringify(checkpoint)) as V2ConversationCheckpoint;
+}
+
 function copyMessage(message: DemoConversationMessage): DemoConversationMessage {
   if (message.role === "user") {
     return { role: "user", content: message.content };
@@ -297,7 +314,12 @@ function copyMessage(message: DemoConversationMessage): DemoConversationMessage 
 export function createEmptyDemoSession(
   locale: DemoConversationLocale = "en",
 ): DemoConversationSession {
-  return { conversationId: null, history: [], locale };
+  return {
+    conversationId: null,
+    history: [],
+    locale,
+    v2Checkpoint: null,
+  };
 }
 
 export function isDemoSessionReadyForSubmission(
@@ -325,10 +347,24 @@ export function validateDemoSession(value: unknown): DemoConversationSession | n
   ) {
     return null;
   }
+  if (
+    value.v2Checkpoint !== null &&
+    !isV2ConversationCheckpoint(value.v2Checkpoint)
+  ) {
+    return null;
+  }
+  if (
+    value.v2Checkpoint !== null &&
+    value.conversationId !== null &&
+    value.v2Checkpoint.session_id !== value.conversationId
+  ) {
+    return null;
+  }
   return {
     conversationId: value.conversationId,
     history: value.history.map(copyMessage),
     locale: value.locale,
+    v2Checkpoint: copyV2Checkpoint(value.v2Checkpoint),
   };
 }
 
@@ -404,6 +440,28 @@ export function appendConversationTurn(
   return {
     ...session,
     history: buildBoundedHistory([...session.history, ...additions]),
+  };
+}
+
+export function setV2ConversationCheckpoint(
+  session: DemoConversationSession,
+  checkpoint: V2ConversationCheckpoint | null,
+): DemoConversationSession {
+  if (checkpoint !== null && !isV2ConversationCheckpoint(checkpoint)) {
+    throw new TypeError("Invalid V2 conversation checkpoint.");
+  }
+  if (
+    checkpoint !== null &&
+    session.conversationId !== null &&
+    checkpoint.session_id !== session.conversationId
+  ) {
+    throw new TypeError(
+      "V2 checkpoint session does not match the demo conversation ID.",
+    );
+  }
+  return {
+    ...session,
+    v2Checkpoint: copyV2Checkpoint(checkpoint),
   };
 }
 

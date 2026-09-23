@@ -112,6 +112,8 @@ test("rejects malformed periods and duplicate typed references", () => {
 });
 
 test("rejects checkpoints larger than the browser safety cap", () => {
+  const longId = (prefix, index) =>
+    prefix + String(index).padStart(2, "0") + "x".repeat(50);
   const value = checkpoint({
     unresolved_references: [
       {
@@ -119,7 +121,7 @@ test("rejects checkpoints larger than the browser safety cap", () => {
         kind: "result",
         candidate_ids: Array.from(
           { length: 16 },
-          (_, index) => "X".repeat(60) + String(index).padStart(2, "0"),
+          (_, index) => "X".repeat(50) + String(index).padStart(2, "0"),
         ),
         reason_code: "ambiguous_reference",
       },
@@ -128,17 +130,20 @@ test("rejects checkpoints larger than the browser safety cap", () => {
   value.topics = Array.from({ length: 8 }, (_, index) => ({
     ...value.topics[0],
     topic_id: "topic_" + String(index + 1),
-    verified_result_ids: ["result_1_1"],
     metric_ids: Array.from(
       { length: 16 },
-      (_, metricIndex) => "metric_" + String(index) + "_" + String(metricIndex),
+      (_, item) => longId("metric_", index * 16 + item),
     ),
+    dimension_ids: Array.from(
+      { length: 16 },
+      (_, item) => longId("dimension_", index * 16 + item),
+    ),
+    entity_refs: Array.from({ length: 16 }, (_, item) => ({
+      entity_type_id: longId("entity_type_", item),
+      entity_id: "E" + String(index * 16 + item).padStart(3, "0") + "X".repeat(45),
+    })),
+    verified_result_ids: ["result_1_1"],
   }));
-
-  const bytes = new TextEncoder().encode(JSON.stringify(value)).byteLength;
-  if (bytes <= V2_CHECKPOINT_MAX_BYTES) {
-    value.topics[0].topic_id = "topic_" + "x".repeat(60);
-  }
 
   assert.equal(
     new TextEncoder().encode(JSON.stringify(value)).byteLength >

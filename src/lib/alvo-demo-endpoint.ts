@@ -2,7 +2,7 @@ import { STAGING_BUSINESS_GPT_V2_PATH } from "./alvo-demo-v2-gateway.ts";
 export const DEVELOPMENT_DEMO_API =
   "http://127.0.0.1:8000";
 export const STAGING_DEMO_API =
-  "https://private-ai-business-agent-staging.up.railway.app";
+  "https://v2-005-benchmark-runner-staging.up.railway.app";
 export const PRODUCTION_DEMO_API =
   "https://private-ai-business-agent-production.up.railway.app";
 

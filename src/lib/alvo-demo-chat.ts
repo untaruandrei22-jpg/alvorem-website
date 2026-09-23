@@ -1,3 +1,8 @@
+import {
+  V2_CHECKPOINT_MAX_BYTES,
+  isV2ConversationCheckpoint,
+  type V2ConversationCheckpoint,
+} from "./alvo-demo-v2-checkpoint.ts";
 export const DEMO_CHAT_UPSTREAM_PATH = "/v1/demo/chat";
 export const DEMO_CHAT_INVALID_RESPONSE_ERROR =
   "The demo returned an invalid response.";
@@ -58,6 +63,7 @@ export type DemoChatBrowserRequest = {
   conversation_id: string | null;
   locale: DemoChatLocale;
   history: DemoChatHistoryMessage[];
+  v2_checkpoint: V2ConversationCheckpoint | null;
 };
 
 export type DemoChatRequestLimits = {
@@ -107,6 +113,7 @@ const REQUEST_FIELDS = new Set([
   "conversation_id",
   "locale",
   "history",
+  "v2_checkpoint",
 ]);
 const APPROVED_LOCALES = new Set<string>(DEMO_CHAT_LOCALES);
 const USER_HISTORY_MESSAGE_FIELDS = new Set(["role", "content"]);
@@ -403,6 +410,13 @@ export function validateDemoChatRequest(
     return { ok: false, reason: "invalid_history" };
   }
 
+  if (
+    payload.v2_checkpoint !== null &&
+    !isV2ConversationCheckpoint(payload.v2_checkpoint)
+  ) {
+    return { ok: false, reason: "invalid_request" };
+  }
+
   const history: DemoChatHistoryMessage[] = [];
   for (const message of payload.history) {
     if (
@@ -452,6 +466,7 @@ export function validateDemoChatRequest(
       conversation_id: payload.conversation_id,
       locale: payload.locale as DemoChatLocale,
       history,
+      v2_checkpoint: payload.v2_checkpoint,
     },
   };
 }
@@ -466,6 +481,7 @@ export function buildDemoChatBrowserRequest(input: {
     content: string;
     priorResultContext?: DemoPriorResultContext | null;
   }[];
+  v2Checkpoint?: V2ConversationCheckpoint | null;
 }): DemoChatBrowserRequest {
   return {
     industry: input.industry,
@@ -481,12 +497,16 @@ export function buildDemoChatBrowserRequest(input: {
           }
         : { role: "user", content: message.content }
     )),
+    v2_checkpoint: input.v2Checkpoint ?? null,
   };
 }
 
 export function buildDemoChatUpstreamRequest(request: DemoChatBrowserRequest) {
   return {
-    ...request,
+    industry: request.industry,
+    message: request.message,
+    conversation_id: request.conversation_id,
+    locale: request.locale,
     history: request.history.map((message) => ({ ...message })),
   };
 }
@@ -510,7 +530,8 @@ export function calculateDemoChatMaxRequestBytes(limits: DemoChatRequestLimits) 
   return (
     (boundedStringCharacters + boundedContextCharacters) *
       JSON_MAX_BYTES_PER_CHARACTER +
-    JSON_ENVELOPE_BYTES
+    JSON_ENVELOPE_BYTES +
+    V2_CHECKPOINT_MAX_BYTES
   );
 }
 

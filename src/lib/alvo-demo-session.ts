@@ -1,7 +1,7 @@
 import {
   isV2ConversationCheckpoint,
   type V2ConversationCheckpoint,
-} from "@/lib/alvo-demo-v2-checkpoint";
+} from "./alvo-demo-v2-checkpoint.ts";
 export const DEMO_HISTORY_MAX_MESSAGES = 8;
 export const DEMO_MESSAGE_MAX_CHARACTERS = 500;
 export const DEMO_CONVERSATION_ID_MAX_CHARACTERS = 64;

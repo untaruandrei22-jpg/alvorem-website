@@ -1,3 +1,4 @@
+import { STAGING_BUSINESS_GPT_V2_PATH } from "./alvo-demo-v2-gateway.ts";
 export const DEVELOPMENT_DEMO_API =
   "http://127.0.0.1:8000";
 export const STAGING_DEMO_API =
@@ -37,18 +38,29 @@ export function resolveDemoApiBaseUrl(input: {
 export const STAGING_MODEL_ASSISTED_PATH =
   "/v1/demo/staging/model-assisted-chat";
 
+export type DemoStagingRuntime = "model_assisted" | "v2";
+
 export type DemoChatUpstreamTarget = {
-  path: "/v1/demo/chat" | typeof STAGING_MODEL_ASSISTED_PATH;
+  path:
+    | "/v1/demo/chat"
+    | typeof STAGING_MODEL_ASSISTED_PATH
+    | typeof STAGING_BUSINESS_GPT_V2_PATH;
   canaryToken: string | null;
+  runtime: "public" | DemoStagingRuntime;
 };
 
 export function resolveDemoChatUpstreamTarget(input: {
   baseUrl: string;
   stagingCanaryEnabled: boolean;
   stagingCanaryToken?: string | null;
+  stagingRuntime?: DemoStagingRuntime;
 }): DemoChatUpstreamTarget {
   if (!input.stagingCanaryEnabled) {
-    return { path: "/v1/demo/chat", canaryToken: null };
+    return {
+      path: "/v1/demo/chat",
+      canaryToken: null,
+      runtime: "public",
+    };
   }
 
   const token = input.stagingCanaryToken?.trim() ?? "";
@@ -56,8 +68,13 @@ export function resolveDemoChatUpstreamTarget(input: {
     throw new Error("staging_canary_not_configured");
   }
 
+  const runtime = input.stagingRuntime ?? "model_assisted";
   return {
-    path: STAGING_MODEL_ASSISTED_PATH,
+    path:
+      runtime === "v2"
+        ? STAGING_BUSINESS_GPT_V2_PATH
+        : STAGING_MODEL_ASSISTED_PATH,
     canaryToken: token,
+    runtime,
   };
 }

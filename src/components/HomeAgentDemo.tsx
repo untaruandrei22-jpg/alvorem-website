@@ -84,6 +84,40 @@ function ArrowIcon() {
   );
 }
 
+const waitingDetails = {
+  en: ["Looking through the numbers…", "Keeping the answer grounded in the data…", "Still working — keeping it grounded."],
+  ro: ["Privim cifrele mai atent…", "Păstrăm răspunsul ancorat în date…", "Încă lucrăm — cu atenție la date."],
+} as const;
+
+function AlvoWorking({ ro }: { ro: boolean }) {
+  const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    const next = window.setTimeout(() => setPhase(1), 2200);
+    const longWait = window.setTimeout(() => setPhase(2), 7000);
+    return () => {
+      window.clearTimeout(next);
+      window.clearTimeout(longWait);
+    };
+  }, []);
+
+  return (
+    <div className={styles.assistantPending} role="status" aria-label={ro ? "ALVO lucrează" : "ALVO is working"}>
+      <span className={`${styles.alvoMark} ${styles.alvoWorking}`}><AgentRingMark variant="alvo" size="xs" decorative /></span>
+      <span className={styles.waitingCopy}>
+        <strong>{ro ? "ALVO lucrează" : "ALVO is working"}</strong>
+        <span className={styles.waitingDetails} aria-hidden="true">
+          {waitingDetails[ro ? "ro" : "en"].map((detail, index) => (
+            <span key={detail} className={`${styles.waitingDetail} ${phase === index ? styles.waitingDetailActive : ""}`}>
+              {detail}
+            </span>
+          ))}
+        </span>
+      </span>
+    </div>
+  );
+}
+
 export function HomeAgentDemo() {
   const { locale } = useLocale();
   const ro = locale === "ro";
@@ -431,7 +465,7 @@ export function HomeAgentDemo() {
                     {!isReset && (
                       <div className={styles.proofRow}>
                         <span className={styles.sourceChip}>
-                          {presentation.provenance.length > 0 && <span aria-hidden="true">✓ </span>}
+                          {presentation.provenance.length > 0 && <span className={styles.sourceCheck} aria-hidden="true">✓</span>}
                           {presentation.provenance.length}{" "}
                           {ro
                             ? presentation.provenance.length === 1 ? "sursă" : "surse"
@@ -451,12 +485,7 @@ export function HomeAgentDemo() {
                 <p>{pendingQuestion}</p>
               </div>
             )}
-            {loading && (
-              <div className={styles.assistantPending} role="status" aria-label={ro ? "ALVO răspunde" : "ALVO is answering"}>
-                <span className={`${styles.alvoMark} ${styles.alvoWorking}`}><AgentRingMark variant="alvo" size="xs" decorative /></span>
-                <span>{ro ? "Verific datele sintetice…" : "Checking the synthetic business data…"}</span>
-              </div>
-            )}
+            {loading && <AlvoWorking ro={ro} />}
           </div>
         )}
 

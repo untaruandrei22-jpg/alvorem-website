@@ -66,6 +66,7 @@
   color: #e8c99e;
 }
 .alvoMark > svg { position: relative; z-index: 1; filter: drop-shadow(0 0 2px rgba(242, 212, 169, .2)); }
+.alvoWorking > svg { filter: drop-shadow(0 0 2px rgba(242, 212, 169, .3)); }
 .alvoWorking::before {
   content: ""; position: absolute; inset: 3px; border-radius: 50%;
   background: rgba(232, 198, 143, .22); opacity: .35;
@@ -111,8 +112,14 @@
 .kpi strong { margin-top: 3px; color: #f4f0fc; font-size: .78rem; font-weight: 600; }
 .proofRow { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 11px; color: #bcb1cf; font-size: .65rem; }
 .proofRow span { padding: 3px 7px; border: 1px solid rgba(230, 216, 251, .11); border-radius: 5px; background: rgba(255, 255, 255, .025); }
-.proofRow .sourceChip { color: #e6d3ae; }
-.assistantPending { display: flex; align-items: center; gap: 4px; min-height: 32px; margin-left: -3px; color: #d8c9ad; font-size: .73rem; line-height: 1.45; }
+.proofRow .sourceChip { display: inline-flex; align-items: center; gap: 5px; color: #e6d3ae; }
+.proofRow .sourceCheck { padding: 0; border: 0; border-radius: 0; background: none; line-height: 1; }
+.assistantPending { display: flex; align-items: center; gap: 4px; min-height: 45px; margin-left: -3px; color: #d8c9ad; font-size: .73rem; line-height: 1.4; }
+.waitingCopy { display: block; min-width: 0; flex: 1; }
+.waitingCopy strong { display: block; color: #ead7b5; font-size: .73rem; font-weight: 600; }
+.waitingDetails { display: grid; margin-top: 2px; color: #bfb3c5; font-size: .68rem; }
+.waitingDetail { grid-area: 1 / 1; opacity: 0; transition: opacity 220ms ease; }
+.waitingDetailActive { opacity: 1; }
 .form {
   display: flex; align-items: center; gap: 8px; min-height: 54px;
   margin-top: 11px; padding: 6px 7px 6px 13px;
@@ -156,5 +163,5 @@
 @media (prefers-reduced-motion: reduce) {
   .alvoWorking > svg, .alvoWorking::before, .newTurn { animation: none; }
   .alvoWorking::before { opacity: .3; transform: none; }
-  .sendButton, .promptButton, .form { transition: none; }
+  .sendButton, .promptButton, .form, .waitingDetail { transition: none; }
 }

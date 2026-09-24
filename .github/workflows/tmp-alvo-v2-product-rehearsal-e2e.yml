@@ -1,0 +1,22 @@
+name: ALVO V2 Product Rehearsal E2E
+
+on:
+  push:
+    branches:
+      - chore/alvo-v2-product-rehearsal-e2e
+
+jobs:
+  product-rehearsal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Run product rehearsal against non-public preview
+        run: python scripts/tmp_product_rehearsal_e2e.py

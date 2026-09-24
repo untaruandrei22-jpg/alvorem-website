@@ -101,6 +101,20 @@
 .responseHeadline { margin-bottom: 5px; color: #faf8ff; font-size: .84rem; font-weight: 650; line-height: 1.45; overflow-wrap: anywhere; }
 .responseSummary { margin: 0; color: #eeebf4; font-size: .79rem; line-height: 1.65; white-space: pre-line; overflow-wrap: anywhere; }
 .clarificationTurn .responseCard { border-color: rgba(192, 169, 240, .2); background: rgba(70, 59, 91, .28); }
+.chart { margin: 12px 0 1px; padding: 10px 10px 8px; border: 1px solid rgba(230, 216, 251, .1); border-radius: 9px; background: rgba(12, 10, 30, .24); }
+.chartHeader { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+.chartHeader strong { color: #f4effc; font-size: .72rem; font-weight: 650; }
+.chartHeader span { color: #9f95b2; font-size: .61rem; letter-spacing: .02em; }
+.chartBars { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; min-height: 126px; }
+.chartColumn { display: grid; grid-template-rows: 17px 82px auto; gap: 4px; min-width: 0; text-align: center; }
+.chartValue { align-self: end; overflow: hidden; color: #cfc4dc; font-size: .57rem; line-height: 1; text-overflow: ellipsis; white-space: nowrap; }
+.chartTrack { display: flex; align-items: flex-end; justify-content: center; min-height: 82px; overflow: hidden; border-radius: 5px 5px 3px 3px; background: linear-gradient(180deg, rgba(181, 154, 236, .035), rgba(181, 154, 236, .085)); }
+.chartBar { display: block; width: min(72%, 34px); min-height: 4px; border-radius: 4px 4px 2px 2px; background: linear-gradient(180deg, #d8baf9 0%, #8466c6 100%); box-shadow: 0 -1px 10px rgba(179, 137, 232, .16); transform-origin: bottom; animation: chartRise 360ms cubic-bezier(.22, .8, .28, 1) both; }
+.chartLabel { overflow: hidden; color: #a99fb8; font-size: .55rem; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+@keyframes chartRise {
+  from { transform: scaleY(.08); opacity: .45; }
+  to { transform: scaleY(1); opacity: 1; }
+}
 .resetTurn { margin-inline: 10px; }
 .resetTurn .assistantTurnLabel { color: #b9afc9; }
 .resetTurn .responseCard { padding: 8px 11px; border-style: dashed; background: rgba(255, 255, 255, .025); }
@@ -158,10 +172,16 @@
   .transcript { max-height: min(52vh, 470px); padding-right: 9px; gap: 15px; }
   .userTurn { max-width: 96%; }
   .responseCard { padding: 11px; }
+  .chart { padding-inline: 7px; }
+  .chartBars { gap: 4px; }
+  .chartColumn { grid-template-rows: 16px 72px auto; }
+  .chartTrack { min-height: 72px; }
+  .chartValue { font-size: .52rem; }
+  .chartLabel { font-size: .5rem; }
   .kpis { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .alvoWorking > svg, .alvoWorking::before, .newTurn { animation: none; }
+  .alvoWorking > svg, .alvoWorking::before, .newTurn, .chartBar { animation: none; }
   .alvoWorking::before { opacity: .3; transform: none; }
   .sendButton, .promptButton, .form, .waitingDetail { transition: none; }
 }

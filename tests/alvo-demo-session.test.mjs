@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   DEMO_HISTORY_MAX_MESSAGES,
   DEMO_MESSAGE_MAX_CHARACTERS,
+  DEMO_TRANSCRIPT_MAX_MESSAGES,
   DEMO_SESSION_STORAGE_KEY,
   appendConversationTurn,
   buildBoundedHistory,
@@ -213,9 +214,24 @@ test("keeps only the latest bounded valid messages in chronological order", () =
       : assistantMessage(index),
   );
   const bounded = buildBoundedHistory(messages);
-  assert.equal(DEMO_HISTORY_MAX_MESSAGES, 32);
-  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(DEMO_TRANSCRIPT_MAX_MESSAGES, 32);
+  assert.equal(bounded.length, DEMO_TRANSCRIPT_MAX_MESSAGES);
   assert.equal(bounded[0].content, "question-2");
+  assert.equal(bounded.at(-1).content, "answer-33");
+});
+
+test("can independently bound upstream history to the existing eight-message request limit", () => {
+  const messages = Array.from({ length: 34 }, (_, index) =>
+    index % 2 === 0
+      ? { role: "user", content: `question-${index}` }
+      : assistantMessage(index),
+  );
+
+  const bounded = buildBoundedHistory(messages, DEMO_HISTORY_MAX_MESSAGES);
+
+  assert.equal(DEMO_HISTORY_MAX_MESSAGES, 8);
+  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded[0].content, "question-26");
   assert.equal(bounded.at(-1).content, "answer-33");
 });
 
@@ -242,7 +258,7 @@ test("preserves the newest typed entity anchor when the normal bounded tail woul
 
   const bounded = buildBoundedHistory(messages);
 
-  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded.length, DEMO_TRANSCRIPT_MAX_MESSAGES);
   assert.equal(bounded[0].content, "Director framing");
   assert.equal(bounded[1].content, "answer-3");
   assert.equal(
@@ -266,7 +282,7 @@ test("keeps the ordinary latest-bounded behavior when an entity anchor already s
 
   const bounded = buildBoundedHistory(messages);
 
-  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded.length, DEMO_TRANSCRIPT_MAX_MESSAGES);
   assert.equal(bounded[0].content, "question-2");
   assert.equal(bounded[29].priorResultContext?.selected_entity_ref, "store:S003");
   assert.equal(bounded.at(-1).content, "answer-33");

@@ -45,6 +45,7 @@ const RESPONSE_FIELDS = new Set([
 ]);
 const ACTIONS = new Set(["answer", "clarification", "reset", "refusal"]);
 const RESPONSE_MODES = new Set([
+  "conversational",
   "natural_verified",
   "deterministic_fallback",
   "evidence_verified",
@@ -129,6 +130,7 @@ export function normalizeV2GatewayResponse(
 
   const isAnswer = payload.action === "answer";
   const isReset = payload.action === "reset";
+  const isConversational = payload.response_mode === "conversational";
   const action = isAnswer ? "answer" : "clarification";
   const text = payload.text.trim();
 
@@ -144,7 +146,8 @@ export function normalizeV2GatewayResponse(
     summary: text,
     kpis: [],
     details: [],
-    provenance: isAnswer ? ["synthetic:v2_verified"] : [],
+    provenance:
+      isAnswer && !isConversational ? ["synthetic:v2_verified"] : [],
     disclaimer: "Synthetic V2 staging canary — no real company data.",
     suggested_prompts: [],
     prior_result_context: null,

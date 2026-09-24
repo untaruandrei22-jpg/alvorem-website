@@ -65,6 +65,31 @@ test("normalizes safe V2 result to current presentation contract", () => {
   assert.deepEqual(result.v2_checkpoint, checkpoint());
 });
 
+
+test("accepts conversational V2 answers without fabricating verified provenance", () => {
+  const result = normalizeV2GatewayResponse(
+    backendResponse({
+      response_mode: "conversational",
+      text: "Salut! Aici lucrez cu un business Retail fictiv.",
+      execution_status: null,
+    }),
+    {
+      message: "Salut! Ce știi despre business-ul ăsta?",
+      conversationId: null,
+    },
+  );
+
+  assert.ok(result);
+  assert.equal(result.action, "answer");
+  assert.equal(result.headline, "ALVO V2");
+  assert.equal(
+    result.summary,
+    "Salut! Aici lucrez cu un business Retail fictiv.",
+  );
+  assert.deepEqual(result.provenance, []);
+  assert.deepEqual(result.v2_checkpoint, checkpoint());
+});
+
 test("preserves exact V2 session id on follow-up", () => {
   const result = normalizeV2GatewayResponse(backendResponse(), {
     message: "Where did that come from?",

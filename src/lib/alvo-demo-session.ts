@@ -3,6 +3,7 @@ import {
   type V2ConversationCheckpoint,
 } from "./alvo-demo-v2-checkpoint.ts";
 export const DEMO_HISTORY_MAX_MESSAGES = 8;
+export const DEMO_TRANSCRIPT_MAX_MESSAGES = 32;
 export const DEMO_MESSAGE_MAX_CHARACTERS = 500;
 export const DEMO_CONVERSATION_ID_MAX_CHARACTERS = 64;
 export const DEMO_SESSION_STORAGE_KEY = "alvorem:alvo-demo-session:v2";
@@ -342,7 +343,7 @@ export function validateDemoSession(value: unknown): DemoConversationSession | n
   }
   if (
     !Array.isArray(value.history) ||
-    value.history.length > DEMO_HISTORY_MAX_MESSAGES ||
+    value.history.length > DEMO_TRANSCRIPT_MAX_MESSAGES ||
     !value.history.every(isMessage)
   ) {
     return null;
@@ -379,16 +380,21 @@ function hasTypedEntityAnchor(message: DemoConversationMessage): boolean {
 
 export function buildBoundedHistory(
   messages: readonly DemoConversationMessage[],
+  maxMessages = DEMO_TRANSCRIPT_MAX_MESSAGES,
 ): DemoConversationMessage[] {
   if (!messages.every(isMessage)) {
     throw new TypeError("Conversation history contains an invalid message.");
   }
 
-  if (messages.length <= DEMO_HISTORY_MAX_MESSAGES) {
+  if (!Number.isInteger(maxMessages) || maxMessages < 2) {
+    throw new RangeError("Conversation history bound must be at least two messages.");
+  }
+
+  if (messages.length <= maxMessages) {
     return messages.map(copyMessage);
   }
 
-  const tailStart = messages.length - DEMO_HISTORY_MAX_MESSAGES;
+  const tailStart = messages.length - maxMessages;
   let anchorAssistantIndex = -1;
   for (let index = messages.length - 1; index >= 0; index -= 1) {
     if (hasTypedEntityAnchor(messages[index])) {
@@ -401,7 +407,7 @@ export function buildBoundedHistory(
   // keep the existing chronological last-N behavior unchanged.
   if (anchorAssistantIndex < 0 || anchorAssistantIndex >= tailStart) {
     return messages
-      .slice(-DEMO_HISTORY_MAX_MESSAGES)
+      .slice(-maxMessages)
       .map(copyMessage);
   }
 
@@ -410,7 +416,7 @@ export function buildBoundedHistory(
       ? anchorAssistantIndex - 1
       : anchorAssistantIndex;
   const anchor = messages.slice(anchorStart, anchorAssistantIndex + 1);
-  const tailSlots = DEMO_HISTORY_MAX_MESSAGES - anchor.length;
+  const tailSlots = maxMessages - anchor.length;
   const tail = messages.slice(-tailSlots);
 
   return [...anchor, ...tail].map(copyMessage);

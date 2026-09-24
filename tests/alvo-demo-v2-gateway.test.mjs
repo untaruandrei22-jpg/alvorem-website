@@ -65,6 +65,24 @@ test("normalizes safe V2 result to current presentation contract", () => {
   assert.deepEqual(result.v2_checkpoint, checkpoint());
 });
 
+test("accepts bounded conversational V2 responses", () => {
+  const result = normalizeV2GatewayResponse(
+    backendResponse({
+      response_mode: "conversational",
+      text: "Salut! Sunt aici.",
+      execution_status: null,
+    }),
+    {
+      message: "Salut!",
+      conversationId: null,
+    },
+  );
+  assert.ok(result);
+  assert.equal(result.action, "answer");
+  assert.equal(result.summary, "Salut! Sunt aici.");
+  assert.deepEqual(result.provenance, ["synthetic:v2_verified"]);
+});
+
 test("preserves exact V2 session id on follow-up", () => {
   const result = normalizeV2GatewayResponse(backendResponse(), {
     message: "Where did that come from?",

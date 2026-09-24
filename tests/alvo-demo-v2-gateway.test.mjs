@@ -139,3 +139,21 @@ test("maps safe error and reset responses to clarification presentation", () => 
     assert.deepEqual(result.provenance, []);
   }
 });
+
+test("accepts conversational answers without verified-result provenance", () => {
+  const result = normalizeV2GatewayResponse(
+    backendResponse({
+      response_mode: "conversational",
+      text: "Hi! I’m here. What should we look at?",
+      execution_status: null,
+    }),
+    {
+      message: "Hi",
+      conversationId: null,
+    },
+  );
+  assert.ok(result);
+  assert.equal(result.action, "answer");
+  assert.deepEqual(result.provenance, []);
+});
+

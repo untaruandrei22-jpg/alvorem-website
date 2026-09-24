@@ -29,6 +29,7 @@ function backendResponse(overrides = {}) {
     text: "Verified synthetic V2 result.",
     execution_status: "completed",
     checkpoint: checkpoint(),
+    chart: null,
     synthetic_only: true,
     ...overrides,
   };
@@ -65,6 +66,76 @@ test("normalizes safe V2 result to current presentation contract", () => {
   assert.deepEqual(result.v2_checkpoint, checkpoint());
 });
 
+
+test("normalizes a bounded verified revenue chart", () => {
+  const chart = {
+    chart_type: "bar",
+    metric_id: "revenue",
+    unit: "RON",
+    points: [
+      { label: "martie 2026", value: 1400000 },
+      { label: "aprilie 2026", value: 1450000 },
+      { label: "mai 2026", value: 1490000 },
+      { label: "iunie 2026", value: 1510000 },
+      { label: "iulie 2026", value: 1500000 },
+      { label: "august 2026", value: 1524520 },
+    ],
+  };
+  const result = normalizeV2GatewayResponse(
+    backendResponse({
+      text: "Sigur — acesta este bar chart-ul veniturilor.",
+      chart,
+    }),
+    {
+      message: "poti face un bar chart cu ultimele 6 luni?",
+      conversationId: null,
+    },
+  );
+
+  assert.ok(result);
+  assert.deepEqual(result.chart, chart);
+  assert.deepEqual(result.provenance, ["synthetic:v2_verified"]);
+});
+
+test("rejects malformed or unbounded V2 charts", () => {
+  for (const chart of [
+    {
+      chart_type: "line",
+      metric_id: "revenue",
+      unit: "RON",
+      points: [
+        { label: "iulie 2026", value: 1 },
+        { label: "august 2026", value: 2 },
+      ],
+    },
+    {
+      chart_type: "bar",
+      metric_id: "revenue",
+      unit: "RON",
+      points: [{ label: "august 2026", value: 2 }],
+    },
+    {
+      chart_type: "bar",
+      metric_id: "revenue",
+      unit: "RON",
+      points: [
+        { label: "iulie 2026", value: -1 },
+        { label: "august 2026", value: 2 },
+      ],
+    },
+  ]) {
+    assert.equal(
+      normalizeV2GatewayResponse(
+        backendResponse({ chart }),
+        {
+          message: "chart",
+          conversationId: null,
+        },
+      ),
+      null,
+    );
+  }
+});
 
 test("accepts conversational V2 answers without fabricating verified provenance", () => {
   const result = normalizeV2GatewayResponse(

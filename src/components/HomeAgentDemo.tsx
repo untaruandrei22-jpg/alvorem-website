@@ -340,10 +340,7 @@ export function HomeAgentDemo() {
           </button>
         </div>
 
-        {(conversationSession.history.length === 0 ||
-          latestAssistantMessage?.presentation?.action === "clarification" ||
-          error) &&
-          prompts.length > 0 && (
+        {conversationSession.history.length === 0 && prompts.length > 0 && (
           <div className={styles.promptList} aria-label={ro ? "Întrebări sugerate" : "Suggested questions"}>
             {prompts.slice(0, 2).map((prompt) => (
               <button

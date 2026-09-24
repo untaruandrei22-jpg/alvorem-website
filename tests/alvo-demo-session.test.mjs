@@ -206,19 +206,20 @@ test("restores a validated V2 checkpoint and rejects internal additions", () => 
   assert.equal(storage.has(DEMO_SESSION_STORAGE_KEY), false);
 });
 
-test("keeps only the latest eight valid messages in chronological order", () => {
-  const messages = Array.from({ length: 10 }, (_, index) =>
+test("keeps only the latest bounded valid messages in chronological order", () => {
+  const messages = Array.from({ length: 34 }, (_, index) =>
     index % 2 === 0
       ? { role: "user", content: `question-${index}` }
       : assistantMessage(index),
   );
   const bounded = buildBoundedHistory(messages);
+  assert.equal(DEMO_HISTORY_MAX_MESSAGES, 32);
   assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
   assert.equal(bounded[0].content, "question-2");
-  assert.equal(bounded.at(-1).content, "answer-9");
+  assert.equal(bounded.at(-1).content, "answer-33");
 });
 
-test("preserves the newest typed entity anchor when the normal eight-message tail would evict it", () => {
+test("preserves the newest typed entity anchor when the normal bounded tail would evict it", () => {
   const anchorContext = priorResultContext({
     selected_entity_ref: "store:S004",
     entity_refs: ["store:S004"],
@@ -231,16 +232,12 @@ test("preserves the newest typed entity anchor when the normal eight-message tai
       ...assistantMessage(3),
       priorResultContext: anchorContext,
     },
-    { role: "user", content: "follow-up-4" },
-    assistantMessage(5),
-    { role: "user", content: "follow-up-6" },
-    assistantMessage(7),
-    { role: "user", content: "inventory-switch" },
-    assistantMessage(9),
-    { role: "user", content: "first-return-attempt" },
-    assistantMessage(11),
-    { role: "user", content: "second-return-attempt" },
-    assistantMessage(13),
+    ...Array.from({ length: 34 }, (_, offset) => {
+      const index = offset + 4;
+      return index % 2 === 0
+        ? { role: "user", content: `follow-up-${index}` }
+        : assistantMessage(index);
+    }),
   ];
 
   const bounded = buildBoundedHistory(messages);
@@ -252,18 +249,18 @@ test("preserves the newest typed entity anchor when the normal eight-message tai
     bounded[1].priorResultContext?.selected_entity_ref,
     "store:S004",
   );
-  assert.equal(bounded[2].content, "inventory-switch");
-  assert.equal(bounded.at(-1).content, "answer-13");
+  assert.equal(bounded[2].content, "follow-up-8");
+  assert.equal(bounded.at(-1).content, "answer-37");
 });
 
-test("keeps the ordinary latest-eight behavior when an entity anchor already survives in the tail", () => {
-  const messages = Array.from({ length: 10 }, (_, index) =>
+test("keeps the ordinary latest-bounded behavior when an entity anchor already survives in the tail", () => {
+  const messages = Array.from({ length: 34 }, (_, index) =>
     index % 2 === 0
       ? { role: "user", content: `question-${index}` }
       : {
           ...assistantMessage(index),
           priorResultContext:
-            index === 7 ? priorResultContext() : null,
+            index === 31 ? priorResultContext() : null,
         },
   );
 
@@ -271,8 +268,8 @@ test("keeps the ordinary latest-eight behavior when an entity anchor already sur
 
   assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
   assert.equal(bounded[0].content, "question-2");
-  assert.equal(bounded[5].priorResultContext?.selected_entity_ref, "store:S003");
-  assert.equal(bounded.at(-1).content, "answer-9");
+  assert.equal(bounded[29].priorResultContext?.selected_entity_ref, "store:S003");
+  assert.equal(bounded.at(-1).content, "answer-33");
 });
 
 test("restores visible transcript content and typed continuation from sessionStorage", () => {

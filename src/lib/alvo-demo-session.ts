@@ -518,3 +518,34 @@ export function restoreDemoSession(
   } catch {
     // Storage may be unavailable; the in-memory empty session remains safe.
   }
+  return createEmptyDemoSession(fallbackLocale);
+}
+
+export function saveDemoSession(
+  session: DemoConversationSession,
+  storage: DemoSessionStorage | null = browserSessionStorage(),
+): boolean {
+  if (!storage) return false;
+  const validated = validateDemoSession(session);
+  if (!validated) throw new TypeError("Refusing to persist an invalid demo session.");
+  try {
+    storage.setItem(DEMO_SESSION_STORAGE_KEY, JSON.stringify(validated));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function resetDemoSession(
+  storage: DemoSessionStorage | null = browserSessionStorage(),
+  locale: DemoConversationLocale = "en",
+): DemoConversationSession {
+  if (storage) {
+    try {
+      storage.removeItem(DEMO_SESSION_STORAGE_KEY);
+    } catch {
+      // Reset still succeeds in memory when browser storage is unavailable.
+    }
+  }
+  return createEmptyDemoSession(locale);
+}

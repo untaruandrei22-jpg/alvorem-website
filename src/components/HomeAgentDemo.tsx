@@ -10,7 +10,9 @@ import {
   buildDemoChatBrowserRequest,
 } from "@/lib/alvo-demo-chat";
 import {
+  DEMO_HISTORY_MAX_MESSAGES,
   DEMO_MESSAGE_MAX_CHARACTERS,
+  buildBoundedHistory,
   completeDemoConversationTurn,
   createEmptyDemoSession,
   isDemoSessionReadyForSubmission,
@@ -260,7 +262,10 @@ export function HomeAgentDemo() {
           message: cleaned,
           conversationId: conversationSession.conversationId,
           locale: sessionLocale,
-          history: conversationSession.history,
+          history: buildBoundedHistory(
+            conversationSession.history,
+            DEMO_HISTORY_MAX_MESSAGES,
+          ),
           v2Checkpoint: conversationSession.v2Checkpoint,
         })),
       });

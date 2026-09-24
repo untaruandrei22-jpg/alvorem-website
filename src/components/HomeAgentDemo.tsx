@@ -20,6 +20,7 @@ import {
   restoreDemoSession,
   saveDemoSession,
   setV2ConversationCheckpoint,
+  type DemoConversationChart,
   type DemoConversationLocale,
 } from "@/lib/alvo-demo-session";
 import styles from "./HomeAgentDemo.module.css";
@@ -47,6 +48,7 @@ type DemoAnswer = {
   provenance: string[];
   disclaimer: string;
   suggested_prompts: string[];
+  chart?: DemoConversationChart | null;
   v2_checkpoint?: import("@/lib/alvo-demo-v2-checkpoint").V2ConversationCheckpoint;
   runtime_version?: "v2";
   prior_result_context: {
@@ -83,6 +85,53 @@ function ArrowIcon() {
     <svg viewBox="0 0 20 20" aria-hidden="true">
       <path d="M4 10h11m-4-4 4 4-4 4" />
     </svg>
+  );
+}
+
+function RevenueBarChart({
+  chart,
+  ro,
+}: {
+  chart: DemoConversationChart;
+  ro: boolean;
+}) {
+  const maxValue = Math.max(...chart.points.map((point) => point.value), 0);
+  const formatter = new Intl.NumberFormat(ro ? "ro-RO" : "en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  });
+  const accessibleSummary = chart.points
+    .map((point) => `${point.label}: ${Math.round(point.value).toLocaleString(ro ? "ro-RO" : "en-US")} RON`)
+    .join(", ");
+
+  return (
+    <figure
+      className={styles.chart}
+      aria-label={`${ro ? "Venituri în ultimele 6 luni" : "Revenue over the last 6 months"}. ${accessibleSummary}`}
+    >
+      <figcaption className={styles.chartHeader}>
+        <strong>{ro ? "Venituri" : "Revenue"}</strong>
+        <span>RON · {chart.points.length} {ro ? "luni" : "months"}</span>
+      </figcaption>
+      <div className={styles.chartBars} aria-hidden="true">
+        {chart.points.map((point) => {
+          const height =
+            maxValue > 0 ? Math.max(4, (point.value / maxValue) * 100) : 4;
+          return (
+            <div className={styles.chartColumn} key={point.label}>
+              <span className={styles.chartValue}>{formatter.format(point.value)}</span>
+              <span className={styles.chartTrack}>
+                <span
+                  className={styles.chartBar}
+                  style={{ height: `${height}%` }}
+                />
+              </span>
+              <span className={styles.chartLabel}>{point.label}</span>
+            </div>
+          );
+        })}
+      </div>
+    </figure>
   );
 }
 
@@ -295,6 +344,7 @@ export function HomeAgentDemo() {
               kpis: payload.kpis.slice(0, 4),
               provenance: payload.provenance.slice(0, 12),
               disclaimer: payload.disclaimer,
+              chart: payload.chart ?? null,
             },
             priorResultContext: payload.prior_result_context,
           },
@@ -452,6 +502,10 @@ export function HomeAgentDemo() {
                     <p className={styles.responseSummary}>
                       {summary}
                     </p>
+
+                    {presentation.chart && (
+                      <RevenueBarChart chart={presentation.chart} ro={ro} />
+                    )}
 
                     {presentation.kpis.length > 0 && (
                       <div className={styles.kpis}>

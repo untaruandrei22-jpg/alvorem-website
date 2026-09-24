@@ -45,6 +45,7 @@ const RESPONSE_FIELDS = new Set([
 ]);
 const ACTIONS = new Set(["answer", "clarification", "reset", "refusal"]);
 const RESPONSE_MODES = new Set([
+  "conversational",
   "natural_verified",
   "deterministic_fallback",
   "evidence_verified",

@@ -112,7 +112,7 @@ test("uses public demo chat when staging canary mode is off", () => {
       stagingCanaryEnabled: false,
       stagingCanaryToken: null,
     }),
-    { path: "/v1/demo/chat", canaryToken: null },
+    { path: "/v1/demo/chat", canaryToken: null, runtime: "public" },
   );
 });
 
@@ -127,6 +127,7 @@ test("uses protected model-assisted endpoint only on exact staging origin", () =
     {
       path: STAGING_MODEL_ASSISTED_PATH,
       canaryToken: token,
+      runtime: "model_assisted",
     },
   );
 });
@@ -150,4 +151,33 @@ test("staging canary mode fails closed on production or missing token", () => {
       }),
     /staging_canary_not_configured/,
   );
+});
+
+
+test("routes explicit V2 preview runtime only to protected staging", () => {
+  const token = "preview-canary-token-0123456789abcdef";
+  assert.deepEqual(
+    resolveDemoChatUpstreamTarget({
+      baseUrl: STAGING_DEMO_API,
+      stagingCanaryEnabled: true,
+      stagingCanaryToken: token,
+      stagingRuntime: "v2",
+    }),
+    {
+      path: "/v1/demo/staging/business-gpt-v2-chat",
+      canaryToken: token,
+      runtime: "v2",
+    },
+  );
+});
+
+test("browser input cannot select staging runtime", () => {
+  const token = "preview-canary-token-0123456789abcdef";
+  const target = resolveDemoChatUpstreamTarget({
+    baseUrl: STAGING_DEMO_API,
+    stagingCanaryEnabled: true,
+    stagingCanaryToken: token,
+  });
+  assert.equal(target.runtime, "model_assisted");
+  assert.notEqual(target.runtime, "v2");
 });

@@ -49,6 +49,7 @@ function validRequest(overrides = {}) {
     conversation_id: null,
     locale: "en",
     history: [],
+    v2_checkpoint: null,
     ...overrides,
   };
 }
@@ -823,4 +824,44 @@ test("expanded typed checkpoint rejects incomplete comparison periods", () => {
     limits,
   );
   assert.deepEqual(result, { ok: false, reason: "invalid_history" });
+});
+
+
+test("public V1 upstream serialization strips V2 checkpoint authority", () => {
+  const browserRequest = validRequest({
+    v2_checkpoint: {
+      schema_version: "2.0",
+      client_brain_id: "retail_v2",
+      session_id: "v2_session",
+      turn_count: 0,
+      topics: [],
+      verified_results: [],
+      focused_result_id: null,
+      pending_clarification: null,
+      unresolved_references: [],
+    },
+  });
+  const validated = validateDemoChatRequest(
+    browserRequest,
+    supportedIndustries,
+    limits,
+  );
+  assert.equal(validated.ok, true);
+  const upstream = buildDemoChatUpstreamRequest(validated.value);
+  assert.equal(Object.hasOwn(upstream, "v2_checkpoint"), false);
+});
+
+test("rejects malformed V2 checkpoint in browser request", () => {
+  const result = validateDemoChatRequest(
+    validRequest({
+      v2_checkpoint: {
+        schema_version: "2.0",
+        client_brain_id: "retail_v2",
+        session_id: "bad session id",
+      },
+    }),
+    supportedIndustries,
+    limits,
+  );
+  assert.deepEqual(result, { ok: false, reason: "invalid_request" });
 });

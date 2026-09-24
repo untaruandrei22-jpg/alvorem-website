@@ -14,6 +14,7 @@ import {
   restoreDemoSession,
   saveDemoSession,
   setDemoConversationId,
+  setV2ConversationCheckpoint,
 } from "../src/lib/alvo-demo-session.ts";
 
 function memoryStorage(initial = {}) {
@@ -58,6 +59,21 @@ function priorResultContext(overrides = {}) {
   };
 }
 
+function v2Checkpoint(overrides = {}) {
+  return {
+    schema_version: "2.0",
+    client_brain_id: "retail_public_v2",
+    session_id: "v2_session_1",
+    turn_count: 1,
+    topics: [],
+    verified_results: [],
+    focused_result_id: null,
+    pending_clarification: null,
+    unresolved_references: [],
+    ...overrides,
+  };
+}
+
 function assistant(overrides = {}) {
   return {
     content: "Margin is stable.",
@@ -84,6 +100,7 @@ test("creates an empty browser session", () => {
     conversationId: null,
     history: [],
     locale: "ro",
+    v2Checkpoint: null,
   });
 });
 
@@ -145,6 +162,48 @@ test("completes a successful turn with authoritative ID atomically", () => {
   ]);
   assert.equal(previous.conversationId, "demo_previous");
   assert.deepEqual(previous.history, []);
+});
+
+test("stores a V2 checkpoint only when it matches the conversation session", () => {
+  const base = setDemoConversationId(
+    createEmptyDemoSession(),
+    "v2_session_1",
+  );
+  const next = setV2ConversationCheckpoint(base, v2Checkpoint());
+
+  assert.equal(next.v2Checkpoint?.session_id, "v2_session_1");
+  assert.equal(base.v2Checkpoint, null);
+
+  assert.throws(
+    () =>
+      setV2ConversationCheckpoint(
+        base,
+        v2Checkpoint({ session_id: "v2_other" }),
+      ),
+    TypeError,
+  );
+});
+
+test("restores a validated V2 checkpoint and rejects internal additions", () => {
+  const storage = memoryStorage();
+  const session = setV2ConversationCheckpoint(
+    setDemoConversationId(createEmptyDemoSession(), "v2_session_1"),
+    v2Checkpoint(),
+  );
+
+  assert.equal(saveDemoSession(session, storage), true);
+  assert.deepEqual(restoreDemoSession(storage), session);
+
+  const tampered = {
+    ...session,
+    v2Checkpoint: {
+      ...session.v2Checkpoint,
+      result_fingerprint: "sha256:" + "0".repeat(64),
+    },
+  };
+  storage.setItem(DEMO_SESSION_STORAGE_KEY, JSON.stringify(tampered));
+  assert.deepEqual(restoreDemoSession(storage), createEmptyDemoSession());
+  assert.equal(storage.has(DEMO_SESSION_STORAGE_KEY), false);
 });
 
 test("keeps only the latest eight valid messages in chronological order", () => {

@@ -17,6 +17,10 @@ import {
   resolveDemoApiBaseUrl,
   resolveDemoChatUpstreamTarget,
 } from "@/lib/alvo-demo-endpoint";
+import {
+  buildV2GatewayRequest,
+  normalizeV2GatewayResponse,
+} from "@/lib/alvo-demo-v2-gateway";
 const REQUEST_TIMEOUT_MS = 20_000;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX_REQUESTS = 12;
@@ -241,7 +245,17 @@ export async function GET(request: NextRequest) {
     const profiles = normalizeProfiles(await readJson(response));
     if (!profiles) return json({ error: "The demo returned an invalid response." }, 502);
 
-    return json(profiles);
+    const visibleProfiles = isCloudflarePreviewHostname(
+      request.nextUrl.hostname,
+    )
+      ? profiles.filter((profile) => profile.industry === "retail")
+      : profiles;
+
+    if (visibleProfiles.length === 0) {
+      return json({ error: "The demo returned no supported profile." }, 502);
+    }
+
+    return json(visibleProfiles);
   } catch {
     return json({ error: "The ALVO demo is temporarily unavailable." }, 503);
   }
@@ -324,30 +338,61 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const preview = isCloudflarePreviewHostname(
+      request.nextUrl.hostname,
+    );
+    if (preview && validated.value.industry !== "retail") {
+      return json(
+        { error: "Business GPT V2 preview currently supports Retail only." },
+        400,
+      );
+    }
+
     const upstreamTarget = resolveDemoChatUpstreamTarget({
       baseUrl,
-      stagingCanaryEnabled: isCloudflarePreviewHostname(
-        request.nextUrl.hostname,
-      ),
+      stagingCanaryEnabled: preview,
       stagingCanaryToken: await runtimeEnvironmentValue(
         "PRIVATE_AI_DEMO_STAGING_CANARY_TOKEN",
       ),
+      stagingRuntime: preview ? "v2" : undefined,
     });
+    const upstreamBody =
+      upstreamTarget.runtime === "v2"
+        ? buildV2GatewayRequest({
+            message: validated.value.message,
+            locale: validated.value.locale,
+            checkpoint: validated.value.v2_checkpoint,
+          })
+        : buildDemoChatUpstreamRequest(validated.value);
+
     const response = await fetchWithTimeout(
       `${baseUrl}${upstreamTarget.path}`,
       {
         method: "POST",
         headers: upstreamHeaders(true, upstreamTarget.canaryToken),
-        body: JSON.stringify(buildDemoChatUpstreamRequest(validated.value)),
+        body: JSON.stringify(upstreamBody),
       },
     );
 
     if (!response.ok) return upstreamFailure(response.status);
 
     const rawPayload = await readJson(response);
-    const normalizedPayload = upstreamTarget.canaryToken
-      ? unwrapStagingCanaryResponse(rawPayload)
-      : rawPayload;
+
+    if (upstreamTarget.runtime === "v2") {
+      const v2Result = normalizeV2GatewayResponse(rawPayload, {
+        message: validated.value.message,
+        conversationId: validated.value.conversation_id,
+      });
+      if (!v2Result) {
+        return json({ error: "The demo returned an invalid V2 response." }, 502);
+      }
+      return json(v2Result);
+    }
+
+    const normalizedPayload =
+      upstreamTarget.runtime === "model_assisted"
+        ? unwrapStagingCanaryResponse(rawPayload)
+        : rawPayload;
 
     if (!normalizedPayload) {
       return json({ error: "The demo returned an invalid response." }, 502);

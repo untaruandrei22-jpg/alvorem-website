@@ -178,7 +178,7 @@ export function AgentRingMark({
       aria-hidden={decorative || undefined}
     >
       {defs}
-      <g filter={`url(#${glow})`}>
+      <g filter={size === "xs" ? undefined : `url(#${glow})`}>
         <circle cx="60" cy="60" r="35" fill="none" stroke={`url(#${gradient})`} strokeWidth="18" />
         <circle cx="60" cy="60" r="35" fill="none" stroke={`url(#${edge})`} strokeWidth="2.5" opacity=".88" />
         <circle cx="60" cy="60" r="27.2" fill="none" stroke={innerHighlight} strokeWidth="1.2" opacity=".28" />

@@ -103,6 +103,7 @@ export function HomeAgentDemo() {
   const [sessionRestored, setSessionRestored] = useState(false);
   const initialSessionLocale = useRef(sessionLocale);
   const transcriptRef = useRef<HTMLDivElement | null>(null);
+  const followTranscriptRef = useRef(true);
 
   useEffect(() => {
     const restored = restoreDemoSession(undefined, initialSessionLocale.current);
@@ -184,10 +185,12 @@ export function HomeAgentDemo() {
   useEffect(() => {
     if (!sessionRestored || conversationSession.history.length === 0) return;
     const transcript = transcriptRef.current;
-    if (!transcript) return;
+    if (!transcript || !followTranscriptRef.current) return;
     transcript.scrollTo({
       top: transcript.scrollHeight,
-      behavior: "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
     });
   }, [conversationSession.history.length, loading, sessionRestored]);
 
@@ -208,6 +211,7 @@ export function HomeAgentDemo() {
 
     setLoading(true);
     setError(null);
+    followTranscriptRef.current = true;
 
     try {
       const response = await fetch("/api/demo", {
@@ -309,25 +313,23 @@ export function HomeAgentDemo() {
           </div>
         )}
 
-        <label className={styles.industryLabel} htmlFor="home-agent-industry">
-          {ro ? "Business fictiv" : "Fictional business"}
-        </label>
-        <select
-          id="home-agent-industry"
-          className={styles.industrySelect}
-          value={activeIndustry}
-          disabled={loading || !sessionRestored}
-          onChange={(event) => selectIndustry(event.target.value)}
-        >
-          {availableIndustryOptions.map(([industry, label]) => (
-            <option value={industry} key={industry}>{label}</option>
-          ))}
-        </select>
-
-        <div className={styles.demoControls}>
-          <small id="home-agent-language" className={styles.languageHint}>
-            {ro ? "Întreabă în română sau engleză." : "Ask in English or Romanian."}
-          </small>
+        <div className={styles.configuration}>
+          <div className={styles.configurationField}>
+            <label className={styles.industryLabel} htmlFor="home-agent-industry">
+              {ro ? "Business fictiv" : "Fictional business"}
+            </label>
+            <select
+              id="home-agent-industry"
+              className={styles.industrySelect}
+              value={activeIndustry}
+              disabled={loading || !sessionRestored}
+              onChange={(event) => selectIndustry(event.target.value)}
+            >
+              {availableIndustryOptions.map(([industry, label]) => (
+                <option value={industry} key={industry}>{label}</option>
+              ))}
+            </select>
+          </div>
           <button
             type="button"
             className={styles.resetButton}
@@ -338,10 +340,7 @@ export function HomeAgentDemo() {
           </button>
         </div>
 
-        {(conversationSession.history.length === 0 ||
-          latestAssistantMessage?.presentation?.action === "clarification" ||
-          error) &&
-          prompts.length > 0 && (
+        {conversationSession.history.length === 0 && prompts.length > 0 && (
           <div className={styles.promptList} aria-label={ro ? "Întrebări sugerate" : "Suggested questions"}>
             {prompts.slice(0, 2).map((prompt) => (
               <button
@@ -361,6 +360,11 @@ export function HomeAgentDemo() {
           <div
             ref={transcriptRef}
             className={styles.transcript}
+            onScroll={(event) => {
+              const element = event.currentTarget;
+              followTranscriptRef.current =
+                element.scrollHeight - element.scrollTop - element.clientHeight < 56;
+            }}
             role="log"
             aria-live="polite"
             aria-relevant="additions"
@@ -381,21 +385,27 @@ export function HomeAgentDemo() {
 
               const presentation = message.presentation;
               if (!presentation) return null;
+              const isReset = presentation.headline === "ALVO V2 · Reset" &&
+                presentation.summary === "The V2 conversation was reset.";
+              const isClarification = presentation.action === "clarification" && !isReset;
+              const summary = presentation.summary.trim();
+              const showHeadline = !summary.startsWith(presentation.headline);
 
               return (
                 <div
-                  className={styles.assistantTurn}
+                  className={`${styles.assistantTurn} ${isReset ? styles.resetTurn : ""} ${isClarification ? styles.clarificationTurn : ""}`}
                   key={`assistant-${index}-${message.content.slice(0, 24)}`}
                 >
                   <div className={styles.assistantTurnLabel}>
-                    <AgentWordmark agent="alvo" size="sm" />
+                    <span className={styles.alvoMark} aria-hidden="true" />
+                    <span>ALVO {isReset ? "· Reset" : isClarification ? "· Clarification" : "V2"}</span>
                   </div>
                   <div className={styles.responseCard}>
-                    <p className={styles.responseHeadline}>
-                      {presentation.headline}
-                    </p>
+                    {showHeadline && presentation.headline !== "ALVO V2" && !isReset && (
+                      <p className={styles.responseHeadline}>{presentation.headline}</p>
+                    )}
                     <p className={styles.responseSummary}>
-                      {presentation.summary}
+                      {summary}
                     </p>
 
                     {presentation.kpis.length > 0 && (
@@ -412,31 +422,26 @@ export function HomeAgentDemo() {
                       </div>
                     )}
 
-                    <div className={styles.proofRow}>
-                      <span>
-                        {presentation.provenance.length}{" "}
-                        {ro
-                          ? presentation.provenance.length === 1
-                            ? "sursă verificată"
-                            : "surse verificate"
-                          : `source${presentation.provenance.length === 1 ? "" : "s"} checked`}
-                      </span>
-                      <span>{ro ? "Date sintetice" : "Synthetic data"}</span>
-                      <span>{ro ? "Doar citire" : "Read only"}</span>
-                    </div>
-
-                    {presentation.disclaimer && (
-                      <p className={styles.responseDisclaimer}>
-                        {presentation.disclaimer}
-                      </p>
+                    {!isReset && (
+                      <div className={styles.proofRow}>
+                        <span className={styles.sourceChip}>
+                          {presentation.provenance.length > 0 && <span aria-hidden="true">✓ </span>}
+                          {presentation.provenance.length}{" "}
+                          {ro
+                            ? presentation.provenance.length === 1 ? "sursă" : "surse"
+                            : `source${presentation.provenance.length === 1 ? "" : "s"}`}
+                        </span>
+                        <span>{ro ? "Date sintetice" : "Synthetic"}</span>
+                        <span>{ro ? "Doar citire" : "Read only"}</span>
+                      </div>
                     )}
                   </div>
                 </div>
               );
             })}
             {loading && (
-              <div className={styles.assistantPending} aria-label={ro ? "ALVO răspunde" : "ALVO is answering"}>
-                <AgentWordmark agent="alvo" size="sm" />
+              <div className={styles.assistantPending} role="status" aria-label={ro ? "ALVO răspunde" : "ALVO is answering"}>
+                <span className={styles.alvoMark} aria-hidden="true" />
                 <span>{ro ? "Verific datele sintetice…" : "Checking the synthetic business data…"}</span>
               </div>
             )}
@@ -452,7 +457,7 @@ export function HomeAgentDemo() {
             className={styles.input}
             value={question}
             rows={1}
-            aria-describedby="home-agent-language"
+            aria-describedby="home-agent-status"
             maxLength={DEMO_MESSAGE_MAX_CHARACTERS}
             disabled={loading || !sessionRestored}
             onChange={(event) => setQuestion(event.target.value)}
@@ -475,10 +480,11 @@ export function HomeAgentDemo() {
         </form>
 
         {error && <p className={styles.error} role="alert">{error}</p>}
-        <small className={styles.status}>
-          {loading
-            ? (ro ? "Verific datele sintetice…" : "Checking the synthetic business data…")
-            : (ro ? "Date sintetice · Doar citire · Fără date reale de companie" : "Synthetic data · Read only · No company data")}
+        <small id="home-agent-status" className={styles.status}>
+          {ro ? "Date sintetice · Doar citire · Fără date reale de companie" : "Synthetic data · Read only · No company data"}
+          {latestAssistantMessage?.presentation?.disclaimer && (
+            <span className={styles.disclaimer}>{latestAssistantMessage.presentation.disclaimer}</span>
+          )}
         </small>
       </div>
     </div>

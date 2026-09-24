@@ -4,6 +4,11 @@
   overflow: visible;
 }
 
+.xs {
+  width: 26px;
+  height: 26px;
+}
+
 .sm {
   width: 42px;
   height: 42px;

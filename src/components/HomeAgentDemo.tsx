@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { AgentWordmark } from "@/components/AgentWordmark";
+import { AgentRingMark } from "@/components/AgentRingMark";
 import { useLocale } from "@/components/LocaleProvider";
 import { Logo } from "@/components/Logo";
 import {
@@ -95,6 +96,7 @@ export function HomeAgentDemo() {
   });
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const sessionLocale: DemoConversationLocale = ro ? "ro" : "en";
   const [conversationSession, setConversationSession] = useState(() =>
@@ -211,6 +213,8 @@ export function HomeAgentDemo() {
 
     setLoading(true);
     setError(null);
+    setPendingQuestion(cleaned);
+    setQuestion("");
     followTranscriptRef.current = true;
 
     try {
@@ -263,12 +267,14 @@ export function HomeAgentDemo() {
       });
       setQuestion("");
     } catch (requestError) {
+      setQuestion(cleaned);
       setError(
         requestError instanceof Error
           ? requestError.message
           : "Demo service is temporarily unavailable.",
       );
     } finally {
+      setPendingQuestion(null);
       setLoading(false);
     }
   }
@@ -340,7 +346,7 @@ export function HomeAgentDemo() {
           </button>
         </div>
 
-        {conversationSession.history.length === 0 && prompts.length > 0 && (
+        {conversationSession.history.length === 0 && !loading && prompts.length > 0 && (
           <div className={styles.promptList} aria-label={ro ? "Întrebări sugerate" : "Suggested questions"}>
             {prompts.slice(0, 2).map((prompt) => (
               <button
@@ -356,7 +362,7 @@ export function HomeAgentDemo() {
           </div>
         )}
 
-        {conversationSession.history.length > 0 && (
+        {(conversationSession.history.length > 0 || loading) && (
           <div
             ref={transcriptRef}
             className={styles.transcript}
@@ -374,7 +380,7 @@ export function HomeAgentDemo() {
               if (message.role === "user") {
                 return (
                   <div
-                    className={styles.userTurn}
+                  className={`${styles.userTurn} ${index === conversationSession.history.length - 2 ? styles.newTurn : ""}`}
                     key={`user-${index}-${message.content.slice(0, 24)}`}
                   >
                     <span>{ro ? "Tu" : "You"}</span>
@@ -393,11 +399,11 @@ export function HomeAgentDemo() {
 
               return (
                 <div
-                  className={`${styles.assistantTurn} ${isReset ? styles.resetTurn : ""} ${isClarification ? styles.clarificationTurn : ""}`}
+                  className={`${styles.assistantTurn} ${index === conversationSession.history.length - 1 ? styles.newTurn : ""} ${isReset ? styles.resetTurn : ""} ${isClarification ? styles.clarificationTurn : ""}`}
                   key={`assistant-${index}-${message.content.slice(0, 24)}`}
                 >
                   <div className={styles.assistantTurnLabel}>
-                    <span className={styles.alvoMark} aria-hidden="true" />
+                    <span className={styles.alvoMark}><AgentRingMark variant="alvo" size="xs" decorative /></span>
                     <span>ALVO {isReset ? "· Reset" : isClarification ? "· Clarification" : "V2"}</span>
                   </div>
                   <div className={styles.responseCard}>
@@ -439,9 +445,15 @@ export function HomeAgentDemo() {
                 </div>
               );
             })}
+            {loading && pendingQuestion && (
+              <div className={`${styles.userTurn} ${styles.newTurn}`}>
+                <span>{ro ? "Tu" : "You"}</span>
+                <p>{pendingQuestion}</p>
+              </div>
+            )}
             {loading && (
               <div className={styles.assistantPending} role="status" aria-label={ro ? "ALVO răspunde" : "ALVO is answering"}>
-                <span className={styles.alvoMark} aria-hidden="true" />
+                <span className={`${styles.alvoMark} ${styles.alvoWorking}`}><AgentRingMark variant="alvo" size="xs" decorative /></span>
                 <span>{ro ? "Verific datele sintetice…" : "Checking the synthetic business data…"}</span>
               </div>
             )}

@@ -82,8 +82,13 @@
   50% { opacity: .55; transform: scale(1.16); }
 }
 .newTurn { animation: turnArrive 220ms ease-out both; }
+.userTurn.newTurn { animation: userArrive 180ms ease-out both; }
 @keyframes turnArrive {
   from { opacity: 0; transform: translate3d(0, 5px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes userArrive {
+  from { opacity: .7; transform: translate3d(0, 3px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 .responseCard {

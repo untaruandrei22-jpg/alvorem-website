@@ -288,6 +288,64 @@ test("keeps the ordinary latest-bounded behavior when an entity anchor already s
   assert.equal(bounded.at(-1).content, "answer-33");
 });
 
+test("persists and restores a bounded chart presentation", () => {
+  const storage = memoryStorage();
+  const chart = {
+    chart_type: "bar",
+    metric_id: "revenue",
+    unit: "RON",
+    points: [
+      { label: "martie 2026", value: 1400000 },
+      { label: "aprilie 2026", value: 1450000 },
+      { label: "mai 2026", value: 1490000 },
+      { label: "iunie 2026", value: 1510000 },
+      { label: "iulie 2026", value: 1500000 },
+      { label: "august 2026", value: 1524520 },
+    ],
+  };
+  const expected = completeDemoConversationTurn(
+    createEmptyDemoSession("ro"),
+    "demo_chart",
+    "poti face un bar chart cu ultimele 6 luni?",
+    assistant({
+      content: "Chart ready.",
+      presentation: presentation({
+        headline: "ALVO V2",
+        summary: "Chart ready.",
+        chart,
+      }),
+    }),
+  );
+
+  assert.equal(saveDemoSession(expected, storage), true);
+  assert.deepEqual(restoreDemoSession(storage, "ro"), expected);
+  assert.deepEqual(
+    restoreDemoSession(storage, "ro").history.at(-1)?.presentation?.chart,
+    chart,
+  );
+});
+
+test("rejects malformed chart presentation data", () => {
+  assert.throws(
+    () =>
+      appendConversationTurn(
+        createEmptyDemoSession(),
+        "Chart",
+        assistant({
+          presentation: presentation({
+            chart: {
+              chart_type: "bar",
+              metric_id: "revenue",
+              unit: "RON",
+              points: [{ label: "august 2026", value: 1524520 }],
+            },
+          }),
+        }),
+      ),
+    RangeError,
+  );
+});
+
 test("restores visible transcript content and typed continuation from sessionStorage", () => {
   const storage = memoryStorage();
   const expected = completeDemoConversationTurn(

@@ -4,6 +4,11 @@
   overflow: visible;
 }
 
+.xs {
+  width: 26px;
+  height: 26px;
+}
+
 .sm {
   width: 42px;
   height: 42px;
@@ -36,6 +41,10 @@
 
 .alvo {
   filter: drop-shadow(0 10px 24px rgba(176, 126, 92, 0.16));
+}
+
+.xs.alvo {
+  filter: none;
 }
 
 .orem {

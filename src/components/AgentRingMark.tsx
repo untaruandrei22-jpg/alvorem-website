@@ -4,16 +4,18 @@ import { useId } from "react";
 import styles from "./AgentRingMark.module.css";
 
 type AgentRingVariant = "alvo" | "orem" | "team";
-type AgentRingSize = "sm" | "md" | "lg";
+type AgentRingSize = "xs" | "sm" | "md" | "lg";
 
 export function AgentRingMark({
   variant,
   size = "md",
   className = "",
+  decorative = false,
 }: {
   variant: AgentRingVariant;
   size?: AgentRingSize;
   className?: string;
+  decorative?: boolean;
 }) {
   const id = useId().replace(/:/g, "");
   const alvoGradient = `${id}-alvo`;
@@ -26,19 +28,18 @@ export function AgentRingMark({
   const defs = (
     <defs>
       <linearGradient id={alvoGradient} x1="8%" y1="90%" x2="92%" y2="10%">
-        <stop offset="0%" stopColor="#9B6B50" />
-        <stop offset="13%" stopColor="#C99C7D" />
-        <stop offset="31%" stopColor="#F0D6C1" />
-        <stop offset="48%" stopColor="#FFF9F1" />
-        <stop offset="61%" stopColor="#E8C4A9" />
-        <stop offset="80%" stopColor="#B37A5D" />
-        <stop offset="100%" stopColor="#F3DCC9" />
+        <stop offset="0%" stopColor="#B99A72" />
+        <stop offset="19%" stopColor="#DFC39A" />
+        <stop offset="42%" stopColor="#FFF8ED" />
+        <stop offset="62%" stopColor="#F0D8B5" />
+        <stop offset="82%" stopColor="#C9A77F" />
+        <stop offset="100%" stopColor="#FAE8CE" />
       </linearGradient>
 
       <linearGradient id={alvoEdge} x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#FFFDF9" stopOpacity=".98" />
-        <stop offset="38%" stopColor="#F6E6D8" stopOpacity=".5" />
-        <stop offset="70%" stopColor="#A96F52" stopOpacity=".15" />
+        <stop offset="38%" stopColor="#FFF0D8" stopOpacity=".5" />
+        <stop offset="70%" stopColor="#B99A72" stopOpacity=".15" />
         <stop offset="100%" stopColor="#FFF7ED" stopOpacity=".88" />
       </linearGradient>
 
@@ -94,8 +95,9 @@ export function AgentRingMark({
       <svg
         className={`${styles.mark} ${styles[size]} ${styles.team} ${className}`}
         viewBox="0 0 142 120"
-        role="img"
-        aria-label="ALVO and OREM interlocking rings"
+        role={decorative ? undefined : "img"}
+        aria-label={decorative ? undefined : "ALVO and OREM interlocking rings"}
+        aria-hidden={decorative || undefined}
       >
         {defs}
 
@@ -171,11 +173,12 @@ export function AgentRingMark({
     <svg
       className={`${styles.mark} ${styles[size]} ${styles.single} ${styles[variant]} ${className}`}
       viewBox="0 0 120 120"
-      role="img"
-      aria-label={label}
+      role={decorative ? undefined : "img"}
+      aria-label={decorative ? undefined : label}
+      aria-hidden={decorative || undefined}
     >
       {defs}
-      <g filter={`url(#${glow})`}>
+      <g filter={size === "xs" ? undefined : `url(#${glow})`}>
         <circle cx="60" cy="60" r="35" fill="none" stroke={`url(#${gradient})`} strokeWidth="18" />
         <circle cx="60" cy="60" r="35" fill="none" stroke={`url(#${edge})`} strokeWidth="2.5" opacity=".88" />
         <circle cx="60" cy="60" r="27.2" fill="none" stroke={innerHighlight} strokeWidth="1.2" opacity=".28" />

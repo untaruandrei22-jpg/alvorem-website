@@ -43,6 +43,10 @@
   filter: drop-shadow(0 10px 24px rgba(176, 126, 92, 0.16));
 }
 
+.xs.alvo {
+  filter: none;
+}
+
 .orem {
   filter: drop-shadow(0 10px 26px rgba(85, 54, 210, 0.2));
 }

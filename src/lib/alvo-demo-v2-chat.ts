@@ -10,6 +10,7 @@ const MAX_V2_RESPONSE_TEXT = 2_000;
 const MAX_HEADLINE = 500;
 const ACTIONS = new Set(["answer", "clarification", "reset", "refusal"]);
 const RESPONSE_MODES = new Set([
+  "conversational",
   "natural_verified",
   "deterministic_fallback",
   "evidence_verified",
@@ -143,6 +144,8 @@ export function normalizeV2StagingGatewayResponse(
   const browserAction = payload.action === "answer"
     ? "answer"
     : "clarification";
+  const hasVerifiedProvenance = browserAction === "answer" &&
+    payload.response_mode !== "conversational";
 
   return {
     conversation_id: payload.session_id,
@@ -158,7 +161,7 @@ export function normalizeV2StagingGatewayResponse(
     kpis: [],
     details: [],
     provenance:
-      browserAction === "answer" ? ["synthetic:business-gpt-v2"] : [],
+      hasVerifiedProvenance ? ["synthetic:business-gpt-v2"] : [],
     disclaimer: "Synthetic demo — no real company data.",
     suggested_prompts: [...expected.suggestedPrompts].slice(0, 6),
     prior_result_context: null,

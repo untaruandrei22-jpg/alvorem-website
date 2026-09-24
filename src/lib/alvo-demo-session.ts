@@ -3,6 +3,7 @@ import {
   type V2ConversationCheckpoint,
 } from "./alvo-demo-v2-checkpoint.ts";
 export const DEMO_HISTORY_MAX_MESSAGES = 8;
+export const DEMO_TRANSCRIPT_MAX_MESSAGES = 32;
 export const DEMO_MESSAGE_MAX_CHARACTERS = 500;
 export const DEMO_CONVERSATION_ID_MAX_CHARACTERS = 64;
 export const DEMO_SESSION_STORAGE_KEY = "alvorem:alvo-demo-session:v2";
@@ -27,6 +28,13 @@ export type DemoPriorResultContext = {
   role: "manager" | "product_owner" | "analyst" | "executive" | null;
 };
 
+export type DemoConversationChart = {
+  chart_type: "bar";
+  metric_id: "revenue";
+  unit: "RON";
+  points: { label: string; value: number }[];
+};
+
 export type DemoConversationPresentation = {
   action: "answer" | "clarification";
   headline: string;
@@ -34,6 +42,7 @@ export type DemoConversationPresentation = {
   kpis: { label: string; value: string }[];
   provenance: string[];
   disclaimer: string;
+  chart?: DemoConversationChart | null;
 };
 
 export type DemoConversationMessage = {
@@ -78,8 +87,19 @@ const PRESENTATION_FIELDS = new Set([
   "kpis",
   "provenance",
   "disclaimer",
+  "chart",
+]);
+const LEGACY_PRESENTATION_FIELDS = new Set([
+  "action",
+  "headline",
+  "summary",
+  "kpis",
+  "provenance",
+  "disclaimer",
 ]);
 const KPI_FIELDS = new Set(["label", "value"]);
+const CHART_FIELDS = new Set(["chart_type", "metric_id", "unit", "points"]);
+const CHART_POINT_FIELDS = new Set(["label", "value"]);
 const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
   "client_brain_id",
   "capability_id",
@@ -108,6 +128,8 @@ const MAX_SUMMARY_CHARACTERS = 2_000;
 const MAX_DISCLAIMER_CHARACTERS = 500;
 const MAX_KPIS = 4;
 const MAX_PROVENANCE_ITEMS = 12;
+const MAX_CHART_POINTS = 12;
+const MAX_CHART_LABEL_CHARACTERS = 32;
 const MAX_CONTEXT_IDS = 4;
 const MAX_CONTEXT_ENTITY_REFS = 4;
 const MAX_CONTEXT_RESULT_REFS = 1;
@@ -224,10 +246,38 @@ function isPriorResultContext(value: unknown): value is DemoPriorResultContext {
   );
 }
 
+function isConversationChart(value: unknown): value is DemoConversationChart {
+  if (
+    !isRecord(value) ||
+    !hasExactFields(value, CHART_FIELDS) ||
+    value.chart_type !== "bar" ||
+    value.metric_id !== "revenue" ||
+    value.unit !== "RON" ||
+    !Array.isArray(value.points) ||
+    value.points.length < 2 ||
+    value.points.length > MAX_CHART_POINTS
+  ) {
+    return false;
+  }
+
+  return value.points.every(
+    (point) =>
+      isRecord(point) &&
+      hasExactFields(point, CHART_POINT_FIELDS) &&
+      isBoundedText(point.label, MAX_CHART_LABEL_CHARACTERS) &&
+      typeof point.value === "number" &&
+      Number.isFinite(point.value) &&
+      point.value >= 0,
+  );
+}
+
 function isPresentation(value: unknown): value is DemoConversationPresentation {
   if (
     !isRecord(value) ||
-    !hasExactFields(value, PRESENTATION_FIELDS) ||
+    !(
+      hasExactFields(value, PRESENTATION_FIELDS) ||
+      hasExactFields(value, LEGACY_PRESENTATION_FIELDS)
+    ) ||
     (value.action !== "answer" && value.action !== "clarification") ||
     !isBoundedText(value.headline, DEMO_MESSAGE_MAX_CHARACTERS) ||
     !isBoundedText(value.summary, MAX_SUMMARY_CHARACTERS) ||
@@ -248,6 +298,13 @@ function isPresentation(value: unknown): value is DemoConversationPresentation {
         isBoundedText(kpi.label, DEMO_MESSAGE_MAX_CHARACTERS) &&
         isBoundedText(kpi.value, DEMO_MESSAGE_MAX_CHARACTERS),
     )
+  ) {
+    return false;
+  }
+
+  if (
+    "chart" in value &&
+    !(value.chart === null || isConversationChart(value.chart))
   ) {
     return false;
   }
@@ -298,6 +355,16 @@ function copyMessage(message: DemoConversationMessage): DemoConversationMessage 
       ...message.presentation!,
       kpis: message.presentation!.kpis.map((kpi) => ({ ...kpi })),
       provenance: [...message.presentation!.provenance],
+      ...(message.presentation!.chart === undefined
+        ? {}
+        : {
+            chart: message.presentation!.chart
+              ? {
+                  ...message.presentation!.chart,
+                  points: message.presentation!.chart.points.map((point) => ({ ...point })),
+                }
+              : null,
+          }),
     },
     priorResultContext: message.priorResultContext
       ? {
@@ -342,7 +409,7 @@ export function validateDemoSession(value: unknown): DemoConversationSession | n
   }
   if (
     !Array.isArray(value.history) ||
-    value.history.length > DEMO_HISTORY_MAX_MESSAGES ||
+    value.history.length > DEMO_TRANSCRIPT_MAX_MESSAGES ||
     !value.history.every(isMessage)
   ) {
     return null;
@@ -379,16 +446,21 @@ function hasTypedEntityAnchor(message: DemoConversationMessage): boolean {
 
 export function buildBoundedHistory(
   messages: readonly DemoConversationMessage[],
+  maxMessages = DEMO_TRANSCRIPT_MAX_MESSAGES,
 ): DemoConversationMessage[] {
   if (!messages.every(isMessage)) {
     throw new TypeError("Conversation history contains an invalid message.");
   }
 
-  if (messages.length <= DEMO_HISTORY_MAX_MESSAGES) {
+  if (!Number.isInteger(maxMessages) || maxMessages < 2) {
+    throw new RangeError("Conversation history bound must be at least two messages.");
+  }
+
+  if (messages.length <= maxMessages) {
     return messages.map(copyMessage);
   }
 
-  const tailStart = messages.length - DEMO_HISTORY_MAX_MESSAGES;
+  const tailStart = messages.length - maxMessages;
   let anchorAssistantIndex = -1;
   for (let index = messages.length - 1; index >= 0; index -= 1) {
     if (hasTypedEntityAnchor(messages[index])) {
@@ -401,7 +473,7 @@ export function buildBoundedHistory(
   // keep the existing chronological last-N behavior unchanged.
   if (anchorAssistantIndex < 0 || anchorAssistantIndex >= tailStart) {
     return messages
-      .slice(-DEMO_HISTORY_MAX_MESSAGES)
+      .slice(-maxMessages)
       .map(copyMessage);
   }
 
@@ -410,7 +482,7 @@ export function buildBoundedHistory(
       ? anchorAssistantIndex - 1
       : anchorAssistantIndex;
   const anchor = messages.slice(anchorStart, anchorAssistantIndex + 1);
-  const tailSlots = DEMO_HISTORY_MAX_MESSAGES - anchor.length;
+  const tailSlots = maxMessages - anchor.length;
   const tail = messages.slice(-tailSlots);
 
   return [...anchor, ...tail].map(copyMessage);

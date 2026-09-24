@@ -407,7 +407,7 @@ export function buildBoundedHistory(
   // keep the existing chronological last-N behavior unchanged.
   if (anchorAssistantIndex < 0 || anchorAssistantIndex >= tailStart) {
     return messages
-      .slice(-DEMO_HISTORY_MAX_MESSAGES)
+      .slice(-maxMessages)
       .map(copyMessage);
   }
 

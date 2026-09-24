@@ -355,12 +355,16 @@ function copyMessage(message: DemoConversationMessage): DemoConversationMessage 
       ...message.presentation!,
       kpis: message.presentation!.kpis.map((kpi) => ({ ...kpi })),
       provenance: [...message.presentation!.provenance],
-      chart: message.presentation!.chart
-        ? {
-            ...message.presentation!.chart,
-            points: message.presentation!.chart.points.map((point) => ({ ...point })),
-          }
-        : null,
+      ...(message.presentation!.chart === undefined
+        ? {}
+        : {
+            chart: message.presentation!.chart
+              ? {
+                  ...message.presentation!.chart,
+                  points: message.presentation!.chart.points.map((point) => ({ ...point })),
+                }
+              : null,
+          }),
     },
     priorResultContext: message.priorResultContext
       ? {

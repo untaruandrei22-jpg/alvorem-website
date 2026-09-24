@@ -28,6 +28,13 @@ export type DemoPriorResultContext = {
   role: "manager" | "product_owner" | "analyst" | "executive" | null;
 };
 
+export type DemoConversationChart = {
+  chart_type: "bar";
+  metric_id: "revenue";
+  unit: "RON";
+  points: { label: string; value: number }[];
+};
+
 export type DemoConversationPresentation = {
   action: "answer" | "clarification";
   headline: string;
@@ -35,6 +42,7 @@ export type DemoConversationPresentation = {
   kpis: { label: string; value: string }[];
   provenance: string[];
   disclaimer: string;
+  chart?: DemoConversationChart | null;
 };
 
 export type DemoConversationMessage = {
@@ -79,8 +87,19 @@ const PRESENTATION_FIELDS = new Set([
   "kpis",
   "provenance",
   "disclaimer",
+  "chart",
+]);
+const LEGACY_PRESENTATION_FIELDS = new Set([
+  "action",
+  "headline",
+  "summary",
+  "kpis",
+  "provenance",
+  "disclaimer",
 ]);
 const KPI_FIELDS = new Set(["label", "value"]);
+const CHART_FIELDS = new Set(["chart_type", "metric_id", "unit", "points"]);
+const CHART_POINT_FIELDS = new Set(["label", "value"]);
 const PRIOR_RESULT_CONTEXT_FIELDS = new Set([
   "client_brain_id",
   "capability_id",
@@ -109,6 +128,8 @@ const MAX_SUMMARY_CHARACTERS = 2_000;
 const MAX_DISCLAIMER_CHARACTERS = 500;
 const MAX_KPIS = 4;
 const MAX_PROVENANCE_ITEMS = 12;
+const MAX_CHART_POINTS = 12;
+const MAX_CHART_LABEL_CHARACTERS = 32;
 const MAX_CONTEXT_IDS = 4;
 const MAX_CONTEXT_ENTITY_REFS = 4;
 const MAX_CONTEXT_RESULT_REFS = 1;
@@ -225,10 +246,38 @@ function isPriorResultContext(value: unknown): value is DemoPriorResultContext {
   );
 }
 
+function isConversationChart(value: unknown): value is DemoConversationChart {
+  if (
+    !isRecord(value) ||
+    !hasExactFields(value, CHART_FIELDS) ||
+    value.chart_type !== "bar" ||
+    value.metric_id !== "revenue" ||
+    value.unit !== "RON" ||
+    !Array.isArray(value.points) ||
+    value.points.length < 2 ||
+    value.points.length > MAX_CHART_POINTS
+  ) {
+    return false;
+  }
+
+  return value.points.every(
+    (point) =>
+      isRecord(point) &&
+      hasExactFields(point, CHART_POINT_FIELDS) &&
+      isBoundedText(point.label, MAX_CHART_LABEL_CHARACTERS) &&
+      typeof point.value === "number" &&
+      Number.isFinite(point.value) &&
+      point.value >= 0,
+  );
+}
+
 function isPresentation(value: unknown): value is DemoConversationPresentation {
   if (
     !isRecord(value) ||
-    !hasExactFields(value, PRESENTATION_FIELDS) ||
+    !(
+      hasExactFields(value, PRESENTATION_FIELDS) ||
+      hasExactFields(value, LEGACY_PRESENTATION_FIELDS)
+    ) ||
     (value.action !== "answer" && value.action !== "clarification") ||
     !isBoundedText(value.headline, DEMO_MESSAGE_MAX_CHARACTERS) ||
     !isBoundedText(value.summary, MAX_SUMMARY_CHARACTERS) ||
@@ -249,6 +298,13 @@ function isPresentation(value: unknown): value is DemoConversationPresentation {
         isBoundedText(kpi.label, DEMO_MESSAGE_MAX_CHARACTERS) &&
         isBoundedText(kpi.value, DEMO_MESSAGE_MAX_CHARACTERS),
     )
+  ) {
+    return false;
+  }
+
+  if (
+    "chart" in value &&
+    !(value.chart === null || isConversationChart(value.chart))
   ) {
     return false;
   }
@@ -299,6 +355,12 @@ function copyMessage(message: DemoConversationMessage): DemoConversationMessage 
       ...message.presentation!,
       kpis: message.presentation!.kpis.map((kpi) => ({ ...kpi })),
       provenance: [...message.presentation!.provenance],
+      chart: message.presentation!.chart
+        ? {
+            ...message.presentation!.chart,
+            points: message.presentation!.chart.points.map((point) => ({ ...point })),
+          }
+        : null,
     },
     priorResultContext: message.priorResultContext
       ? {

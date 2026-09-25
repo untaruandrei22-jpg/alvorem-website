@@ -39,10 +39,33 @@ test("parses ordered sections with nested bullets and bold labels", () => {
   assert.deepEqual(blocks[1].items[0].inline, [
     { text: "Scorecard — 5 min", strong: true },
   ]);
+  assert.deepEqual(blocks[1].items[0].body, []);
   assert.deepEqual(blocks[1].items[0].details, [
     [{ text: "Revenue vs target", strong: false }],
     [{ text: "Pipeline health", strong: false }],
   ]);
+});
+
+test("keeps numbered agenda items in one list when descriptions are separated by blank lines", () => {
+  const blocks = parseAlvoMarkdown(
+    String.raw`1\. \*\*5 min — Executive snapshot\*\*
+
+Sales, margin, traffic, and conversion versus target.
+
+1\. \*\*10 min — Regional performance\*\*
+
+Each regional manager gives one key insight.
+
+1\. \*\*5 min — Decisions\*\*
+
+Confirm owners and deadlines.`,
+  );
+
+  assert.equal(blocks.length, 1);
+  assert.equal(blocks[0].kind, "ordered_list");
+  assert.equal(blocks[0].items.length, 3);
+  assert.deepEqual(blocks[0].items.map((item) => item.body.length), [1, 1, 1]);
+  assert.equal(blocks[0].items[1].body[0][0].text, "Each regional manager gives one key insight.");
 });
 
 test("keeps ordinary prose and percentages out of list parsing", () => {

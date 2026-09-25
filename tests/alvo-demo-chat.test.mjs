@@ -552,8 +552,9 @@ test("calculates a bounded request byte ceiling including typed continuation met
 
   assert.ok(ceiling >= Buffer.byteLength(worstCase));
   // The 24-message session window remains hard bounded even under worst-case
-  // JSON escaping and repeated typed continuation metadata.
-  assert.ok(ceiling < 192 * 1_024);
+  // six-byte JSON escaping, repeated typed continuation metadata, and the
+  // independently bounded 8 KiB V2 checkpoint.
+  assert.ok(ceiling < 256 * 1_024);
 });
 
 test("normalizes a verified synthetic chat response to the presentation shape", () => {

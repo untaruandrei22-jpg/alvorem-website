@@ -35,20 +35,56 @@ function backendResponse(overrides = {}) {
   };
 }
 
-test("builds the exact V2 staging request without transcript authority", () => {
+test("builds the exact V2 staging request with bounded transcript only", () => {
   const value = buildV2GatewayRequest({
-    message: "Show August revenue.",
+    message: "Make that shorter.",
     locale: "en",
+    history: [
+      { role: "user", content: "How would you structure the review?" },
+      {
+        role: "assistant",
+        content: "Use results, blockers, and next actions.",
+        prior_result_context: {
+          must_not_cross: true,
+        },
+      },
+    ],
     checkpoint: checkpoint(),
   });
   assert.deepEqual(value, {
-    message: "Show August revenue.",
+    message: "Make that shorter.",
     locale: "en",
+    history: [
+      { role: "user", text: "How would you structure the review?" },
+      {
+        role: "assistant",
+        text: "Use results, blockers, and next actions.",
+      },
+    ],
     checkpoint: checkpoint(),
   });
-  assert.equal(Object.hasOwn(value, "history"), false);
+  assert.equal(
+    JSON.stringify(value).includes("prior_result_context"),
+    false,
+  );
   assert.equal(Object.hasOwn(value, "industry"), false);
   assert.equal(Object.hasOwn(value, "runtime_version"), false);
+});
+
+test("rejects V2 history beyond the bounded eight-turn contract", () => {
+  assert.throws(
+    () =>
+      buildV2GatewayRequest({
+        message: "Continue.",
+        locale: "en",
+        history: Array.from({ length: 9 }, (_, index) => ({
+          role: "user",
+          content: `turn-${index}`,
+        })),
+        checkpoint: checkpoint(),
+      }),
+    /Invalid V2 history/,
+  );
 });
 
 test("normalizes safe V2 result to current presentation contract", () => {

@@ -361,6 +361,7 @@ export async function POST(request: NextRequest) {
         ? buildV2GatewayRequest({
             message: validated.value.message,
             locale: validated.value.locale,
+            history: validated.value.history,
             checkpoint: validated.value.v2_checkpoint,
           })
         : buildDemoChatUpstreamRequest(validated.value);

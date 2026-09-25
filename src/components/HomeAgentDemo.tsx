@@ -6,6 +6,10 @@ import { AgentRingMark } from "@/components/AgentRingMark";
 import { useLocale } from "@/components/LocaleProvider";
 import { Logo } from "@/components/Logo";
 import {
+  parseAlvoMarkdown,
+  type AlvoMarkdownInlineSegment,
+} from "@/lib/alvo-demo-markdown";
+import {
   DEMO_CHAT_RETAIL_PROMPTS,
   buildDemoChatBrowserRequest,
 } from "@/lib/alvo-demo-chat";
@@ -85,6 +89,75 @@ function ArrowIcon() {
     <svg viewBox="0 0 20 20" aria-hidden="true">
       <path d="M4 10h11m-4-4 4 4-4 4" />
     </svg>
+  );
+}
+
+function AlvoInlineMarkdown({
+  segments,
+}: {
+  segments: AlvoMarkdownInlineSegment[];
+}) {
+  return segments.map((segment, index) =>
+    segment.strong ? (
+      <strong key={`strong-${index}-${segment.text.slice(0, 16)}`}>
+        {segment.text}
+      </strong>
+    ) : (
+      <span key={`text-${index}-${segment.text.slice(0, 16)}`}>
+        {segment.text}
+      </span>
+    ),
+  );
+}
+
+function AlvoMarkdown({ text }: { text: string }) {
+  const blocks = parseAlvoMarkdown(text);
+
+  return (
+    <div className={styles.responseSummary}>
+      {blocks.map((block, blockIndex) => {
+        if (block.kind === "paragraph") {
+          return (
+            <p key={`paragraph-${blockIndex}`}>
+              <AlvoInlineMarkdown segments={block.inline} />
+            </p>
+          );
+        }
+
+        if (block.kind === "unordered_list") {
+          return (
+            <ul key={`unordered-${blockIndex}`}>
+              {block.items.map((item, itemIndex) => (
+                <li key={`unordered-item-${blockIndex}-${itemIndex}`}>
+                  <AlvoInlineMarkdown segments={item} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+
+        return (
+          <ol key={`ordered-${blockIndex}`}>
+            {block.items.map((item, itemIndex) => (
+              <li key={`ordered-item-${blockIndex}-${itemIndex}`}>
+                <AlvoInlineMarkdown segments={item.inline} />
+                {item.details.length > 0 && (
+                  <ul>
+                    {item.details.map((detail, detailIndex) => (
+                      <li
+                        key={`detail-${blockIndex}-${itemIndex}-${detailIndex}`}
+                      >
+                        <AlvoInlineMarkdown segments={detail} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ol>
+        );
+      })}
+    </div>
   );
 }
 
@@ -499,9 +572,7 @@ export function HomeAgentDemo() {
                     {showHeadline && presentation.headline !== "ALVO V2" && !isReset && (
                       <p className={styles.responseHeadline}>{presentation.headline}</p>
                     )}
-                    <p className={styles.responseSummary}>
-                      {summary}
-                    </p>
+                    <AlvoMarkdown text={summary} />
 
                     {presentation.chart && (
                       <RevenueBarChart chart={presentation.chart} ro={ro} />
@@ -523,15 +594,23 @@ export function HomeAgentDemo() {
 
                     {!isReset && (
                       <div className={styles.proofRow}>
-                        <span className={styles.sourceChip}>
-                          {presentation.provenance.length > 0 && <span className={styles.sourceCheck} aria-hidden="true">✓</span>}
-                          {presentation.provenance.length}{" "}
-                          {ro
-                            ? presentation.provenance.length === 1 ? "sursă" : "surse"
-                            : `source${presentation.provenance.length === 1 ? "" : "s"}`}
-                        </span>
-                        <span>{ro ? "Date sintetice" : "Synthetic"}</span>
-                        <span>{ro ? "Doar citire" : "Read only"}</span>
+                        {presentation.provenance.length > 0 ? (
+                          <>
+                            <span className={styles.sourceChip}>
+                              <span className={styles.sourceCheck} aria-hidden="true">✓</span>
+                              {presentation.provenance.length}{" "}
+                              {ro
+                                ? presentation.provenance.length === 1 ? "sursă" : "surse"
+                                : `source${presentation.provenance.length === 1 ? "" : "s"}`}
+                            </span>
+                            <span>{ro ? "Date sintetice" : "Synthetic"}</span>
+                            <span>{ro ? "Doar citire" : "Read only"}</span>
+                          </>
+                        ) : (
+                          <span className={styles.noCompanyDataChip}>
+                            {ro ? "Fără date de companie" : "No company data used"}
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
@@ -581,7 +660,7 @@ export function HomeAgentDemo() {
 
         {error && <p className={styles.error} role="alert">{error}</p>}
         <small id="home-agent-status" className={styles.status}>
-          {ro ? "Date sintetice · Doar citire · Fără date reale de companie" : "Synthetic data · Read only · No company data"}
+          {ro ? "Demo sintetic · Mediu read-only · Fără date reale de companie" : "Synthetic demo · Read-only environment · No real company data"}
           {latestAssistantMessage?.presentation?.disclaimer && (
             <span className={styles.disclaimer}>{latestAssistantMessage.presentation.disclaimer}</span>
           )}

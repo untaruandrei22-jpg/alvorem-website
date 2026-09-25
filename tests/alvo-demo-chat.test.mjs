@@ -391,7 +391,7 @@ test("accepts a maximum-length conversation ID", () => {
   assert.equal(result.ok, true);
 });
 
-test("rejects history beyond eight messages", () => {
+test("rejects history beyond the bounded request window", () => {
   const history = Array.from(
     { length: DEMO_HISTORY_MAX_MESSAGES + 1 },
     (_, index) => ({ role: "user", content: `question-${index}` }),

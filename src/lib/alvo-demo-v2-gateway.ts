@@ -1,4 +1,8 @@
 import {
+  DEMO_HISTORY_MAX_MESSAGES,
+  DEMO_MESSAGE_MAX_CHARACTERS,
+} from "./alvo-demo-session.ts";
+import {
   isV2ConversationCheckpoint,
   type V2ConversationCheckpoint,
 } from "./alvo-demo-v2-checkpoint.ts";
@@ -6,9 +10,15 @@ import {
 export const STAGING_BUSINESS_GPT_V2_PATH =
   "/v1/demo/staging/business-gpt-v2-chat";
 
+export type V2GatewayHistoryTurn = {
+  role: "user" | "assistant";
+  text: string;
+};
+
 export type V2GatewayRequest = {
   message: string;
   locale: "en" | "ro";
+  history: V2GatewayHistoryTurn[];
   checkpoint: V2ConversationCheckpoint | null;
 };
 
@@ -117,6 +127,10 @@ function isV2GatewayChart(value: unknown): value is V2GatewayChart {
 export function buildV2GatewayRequest(input: {
   message: string;
   locale: "en" | "ro";
+  history: readonly {
+    role: "user" | "assistant";
+    content: string;
+  }[];
   checkpoint: V2ConversationCheckpoint | null;
 }): V2GatewayRequest {
   if (
@@ -125,9 +139,25 @@ export function buildV2GatewayRequest(input: {
   ) {
     throw new TypeError("Invalid V2 checkpoint.");
   }
+  if (
+    input.history.length > DEMO_HISTORY_MAX_MESSAGES ||
+    input.history.some(
+      (turn) =>
+        (turn.role !== "user" && turn.role !== "assistant") ||
+        turn.content.trim().length === 0 ||
+        turn.content.length > DEMO_MESSAGE_MAX_CHARACTERS,
+    )
+  ) {
+    throw new TypeError("Invalid V2 history.");
+  }
+
   return {
     message: input.message,
     locale: input.locale,
+    history: input.history.map((turn) => ({
+      role: turn.role,
+      text: turn.content.trim(),
+    })),
     checkpoint: input.checkpoint,
   };
 }

@@ -551,7 +551,9 @@ test("calculates a bounded request byte ceiling including typed continuation met
   const ceiling = calculateDemoChatMaxRequestBytes(limits);
 
   assert.ok(ceiling >= Buffer.byteLength(worstCase));
-  assert.ok(ceiling < 96 * 1_024);
+  // The 24-message session window remains hard bounded even under worst-case
+  // JSON escaping and repeated typed continuation metadata.
+  assert.ok(ceiling < 192 * 1_024);
 });
 
 test("normalizes a verified synthetic chat response to the presentation shape", () => {

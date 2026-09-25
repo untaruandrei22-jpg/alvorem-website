@@ -99,7 +99,17 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .035);
 }
 .responseHeadline { margin-bottom: 5px; color: #faf8ff; font-size: .84rem; font-weight: 650; line-height: 1.45; overflow-wrap: anywhere; }
-.responseSummary { margin: 0; color: #eeebf4; font-size: .79rem; line-height: 1.65; white-space: pre-line; overflow-wrap: anywhere; }
+.responseSummary { margin: 0; color: #eeebf4; font-size: .79rem; line-height: 1.65; overflow-wrap: anywhere; }
+.responseSummary p { margin: 0; }
+.responseSummary p + p { margin-top: 8px; }
+.responseSummary ol,
+.responseSummary ul { margin: 7px 0 0; padding-left: 1.28rem; }
+.responseSummary > ol:first-child,
+.responseSummary > ul:first-child { margin-top: 0; }
+.responseSummary li { padding-left: 2px; }
+.responseSummary li + li { margin-top: 5px; }
+.responseSummary li > ul { margin-top: 4px; padding-left: 1.15rem; color: #d8d2e1; }
+.responseSummary strong { color: #fbf8ff; font-weight: 650; }
 .clarificationTurn .responseCard { border-color: rgba(192, 169, 240, .2); background: rgba(70, 59, 91, .28); }
 .chart { margin: 12px 0 1px; padding: 10px 10px 8px; border: 1px solid rgba(230, 216, 251, .1); border-radius: 9px; background: rgba(12, 10, 30, .24); }
 .chartHeader { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
@@ -128,6 +138,7 @@
 .proofRow span { padding: 3px 7px; border: 1px solid rgba(230, 216, 251, .11); border-radius: 5px; background: rgba(255, 255, 255, .025); }
 .proofRow .sourceChip { display: inline-flex; align-items: center; gap: 5px; color: #e6d3ae; }
 .proofRow .sourceCheck { padding: 0; border: 0; border-radius: 0; background: none; line-height: 1; }
+.proofRow .noCompanyDataChip { color: #c7bdd6; border-color: rgba(205, 188, 229, .12); background: rgba(255, 255, 255, .018); }
 .assistantPending { display: flex; align-items: center; gap: 4px; min-height: 45px; margin-left: -3px; color: #d8c9ad; font-size: .73rem; line-height: 1.4; }
 .waitingCopy { display: block; min-width: 0; flex: 1; }
 .waitingCopy strong { display: block; color: #ead7b5; font-size: .73rem; font-weight: 600; }

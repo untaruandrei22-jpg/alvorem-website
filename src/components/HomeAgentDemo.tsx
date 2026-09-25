@@ -141,6 +141,14 @@ function AlvoMarkdown({ text }: { text: string }) {
             {block.items.map((item, itemIndex) => (
               <li key={`ordered-item-${blockIndex}-${itemIndex}`}>
                 <AlvoInlineMarkdown segments={item.inline} />
+                {item.body.map((paragraph, paragraphIndex) => (
+                  <p
+                    className={styles.listItemBody}
+                    key={`body-${blockIndex}-${itemIndex}-${paragraphIndex}`}
+                  >
+                    <AlvoInlineMarkdown segments={paragraph} />
+                  </p>
+                ))}
                 {item.details.length > 0 && (
                   <ul>
                     {item.details.map((detail, detailIndex) => (

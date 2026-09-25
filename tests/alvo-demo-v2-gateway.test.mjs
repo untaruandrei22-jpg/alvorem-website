@@ -5,6 +5,9 @@ import {
   buildV2GatewayRequest,
   normalizeV2GatewayResponse,
 } from "../src/lib/alvo-demo-v2-gateway.ts";
+import {
+  DEMO_HISTORY_MAX_MESSAGES,
+} from "../src/lib/alvo-demo-session.ts";
 
 function checkpoint(overrides = {}) {
   return {
@@ -71,13 +74,13 @@ test("builds the exact V2 staging request with bounded transcript only", () => {
   assert.equal(Object.hasOwn(value, "runtime_version"), false);
 });
 
-test("rejects V2 history beyond the bounded eight-turn contract", () => {
+test("rejects V2 history beyond the bounded request contract", () => {
   assert.throws(
     () =>
       buildV2GatewayRequest({
         message: "Continue.",
         locale: "en",
-        history: Array.from({ length: 9 }, (_, index) => ({
+        history: Array.from({ length: DEMO_HISTORY_MAX_MESSAGES + 1 }, (_, index) => ({
           role: "user",
           content: `turn-${index}`,
         })),

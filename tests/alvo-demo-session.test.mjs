@@ -220,7 +220,7 @@ test("keeps only the latest bounded valid messages in chronological order", () =
   assert.equal(bounded.at(-1).content, "answer-33");
 });
 
-test("can independently bound upstream history to the existing eight-message request limit", () => {
+test("can independently bound upstream history to the 24-message request limit", () => {
   const messages = Array.from({ length: 34 }, (_, index) =>
     index % 2 === 0
       ? { role: "user", content: `question-${index}` }
@@ -229,9 +229,9 @@ test("can independently bound upstream history to the existing eight-message req
 
   const bounded = buildBoundedHistory(messages, DEMO_HISTORY_MAX_MESSAGES);
 
-  assert.equal(DEMO_HISTORY_MAX_MESSAGES, 8);
+  assert.equal(DEMO_HISTORY_MAX_MESSAGES, 24);
   assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
-  assert.equal(bounded[0].content, "question-26");
+  assert.equal(bounded[0].content, "question-10");
   assert.equal(bounded.at(-1).content, "answer-33");
 });
 

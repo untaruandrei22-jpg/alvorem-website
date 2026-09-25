@@ -5,6 +5,7 @@ export type AlvoMarkdownInlineSegment = {
 
 export type AlvoMarkdownListItem = {
   inline: AlvoMarkdownInlineSegment[];
+  body: AlvoMarkdownInlineSegment[][];
   details: AlvoMarkdownInlineSegment[][];
 };
 
@@ -90,23 +91,33 @@ export function parseAlvoMarkdown(text: string): AlvoMarkdownBlock[] {
         if (!orderedLine) break;
 
         index += 1;
+        const body: AlvoMarkdownInlineSegment[][] = [];
         const details: AlvoMarkdownInlineSegment[][] = [];
+
         while (index < lines.length) {
-          const detailLine = lines[index].trim();
-          const detail = detailLine.match(UNORDERED_ITEM_PATTERN);
-          if (!detail) break;
-          details.push(parseAlvoMarkdownInline(detail[1]));
+          const line = lines[index].trim();
+          if (!line) {
+            index += 1;
+            continue;
+          }
+          if (ORDERED_ITEM_PATTERN.test(line)) break;
+
+          const detail = line.match(UNORDERED_ITEM_PATTERN);
+          if (detail) {
+            details.push(parseAlvoMarkdownInline(detail[1]));
+            index += 1;
+            continue;
+          }
+
+          body.push(parseAlvoMarkdownInline(line));
           index += 1;
         }
 
         items.push({
           inline: parseAlvoMarkdownInline(orderedLine[1]),
+          body,
           details,
         });
-
-        while (index < lines.length && !lines[index].trim()) {
-          index += 1;
-        }
       }
       blocks.push({ kind: "ordered_list", items });
       continue;

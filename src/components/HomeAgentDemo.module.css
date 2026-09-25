@@ -109,6 +109,7 @@
 .responseSummary li { padding-left: 2px; }
 .responseSummary li + li { margin-top: 5px; }
 .responseSummary li > ul { margin-top: 4px; padding-left: 1.15rem; color: #d8d2e1; }
+.responseSummary .listItemBody { margin-top: 4px; color: #d8d2e1; }
 .responseSummary strong { color: #fbf8ff; font-weight: 650; }
 .clarificationTurn .responseCard { border-color: rgba(192, 169, 240, .2); background: rgba(70, 59, 91, .28); }
 .chart { margin: 12px 0 1px; padding: 10px 10px 8px; border: 1px solid rgba(230, 216, 251, .1); border-radius: 9px; background: rgba(12, 10, 30, .24); }

@@ -391,7 +391,7 @@ test("accepts a maximum-length conversation ID", () => {
   assert.equal(result.ok, true);
 });
 
-test("rejects history beyond eight messages", () => {
+test("rejects history beyond the bounded request window", () => {
   const history = Array.from(
     { length: DEMO_HISTORY_MAX_MESSAGES + 1 },
     (_, index) => ({ role: "user", content: `question-${index}` }),
@@ -551,7 +551,10 @@ test("calculates a bounded request byte ceiling including typed continuation met
   const ceiling = calculateDemoChatMaxRequestBytes(limits);
 
   assert.ok(ceiling >= Buffer.byteLength(worstCase));
-  assert.ok(ceiling < 96 * 1_024);
+  // The 24-message session window remains hard bounded even under worst-case
+  // six-byte JSON escaping, repeated typed continuation metadata, and the
+  // independently bounded 8 KiB V2 checkpoint.
+  assert.ok(ceiling < 256 * 1_024);
 });
 
 test("normalizes a verified synthetic chat response to the presentation shape", () => {

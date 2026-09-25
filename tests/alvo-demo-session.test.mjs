@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   DEMO_HISTORY_MAX_MESSAGES,
   DEMO_MESSAGE_MAX_CHARACTERS,
+  DEMO_TRANSCRIPT_MAX_MESSAGES,
   DEMO_SESSION_STORAGE_KEY,
   appendConversationTurn,
   buildBoundedHistory,
@@ -206,19 +207,35 @@ test("restores a validated V2 checkpoint and rejects internal additions", () => 
   assert.equal(storage.has(DEMO_SESSION_STORAGE_KEY), false);
 });
 
-test("keeps only the latest eight valid messages in chronological order", () => {
-  const messages = Array.from({ length: 10 }, (_, index) =>
+test("keeps only the latest bounded valid messages in chronological order", () => {
+  const messages = Array.from({ length: 34 }, (_, index) =>
     index % 2 === 0
       ? { role: "user", content: `question-${index}` }
       : assistantMessage(index),
   );
   const bounded = buildBoundedHistory(messages);
-  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(DEMO_TRANSCRIPT_MAX_MESSAGES, 32);
+  assert.equal(bounded.length, DEMO_TRANSCRIPT_MAX_MESSAGES);
   assert.equal(bounded[0].content, "question-2");
-  assert.equal(bounded.at(-1).content, "answer-9");
+  assert.equal(bounded.at(-1).content, "answer-33");
 });
 
-test("preserves the newest typed entity anchor when the normal eight-message tail would evict it", () => {
+test("can independently bound upstream history to the 24-message request limit", () => {
+  const messages = Array.from({ length: 34 }, (_, index) =>
+    index % 2 === 0
+      ? { role: "user", content: `question-${index}` }
+      : assistantMessage(index),
+  );
+
+  const bounded = buildBoundedHistory(messages, DEMO_HISTORY_MAX_MESSAGES);
+
+  assert.equal(DEMO_HISTORY_MAX_MESSAGES, 24);
+  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded[0].content, "question-10");
+  assert.equal(bounded.at(-1).content, "answer-33");
+});
+
+test("preserves the newest typed entity anchor when the normal bounded tail would evict it", () => {
   const anchorContext = priorResultContext({
     selected_entity_ref: "store:S004",
     entity_refs: ["store:S004"],
@@ -231,48 +248,102 @@ test("preserves the newest typed entity anchor when the normal eight-message tai
       ...assistantMessage(3),
       priorResultContext: anchorContext,
     },
-    { role: "user", content: "follow-up-4" },
-    assistantMessage(5),
-    { role: "user", content: "follow-up-6" },
-    assistantMessage(7),
-    { role: "user", content: "inventory-switch" },
-    assistantMessage(9),
-    { role: "user", content: "first-return-attempt" },
-    assistantMessage(11),
-    { role: "user", content: "second-return-attempt" },
-    assistantMessage(13),
+    ...Array.from({ length: 34 }, (_, offset) => {
+      const index = offset + 4;
+      return index % 2 === 0
+        ? { role: "user", content: `follow-up-${index}` }
+        : assistantMessage(index);
+    }),
   ];
 
   const bounded = buildBoundedHistory(messages);
 
-  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded.length, DEMO_TRANSCRIPT_MAX_MESSAGES);
   assert.equal(bounded[0].content, "Director framing");
   assert.equal(bounded[1].content, "answer-3");
   assert.equal(
     bounded[1].priorResultContext?.selected_entity_ref,
     "store:S004",
   );
-  assert.equal(bounded[2].content, "inventory-switch");
-  assert.equal(bounded.at(-1).content, "answer-13");
+  assert.equal(bounded[2].content, "follow-up-8");
+  assert.equal(bounded.at(-1).content, "answer-37");
 });
 
-test("keeps the ordinary latest-eight behavior when an entity anchor already survives in the tail", () => {
-  const messages = Array.from({ length: 10 }, (_, index) =>
+test("keeps the ordinary latest-bounded behavior when an entity anchor already survives in the tail", () => {
+  const messages = Array.from({ length: 34 }, (_, index) =>
     index % 2 === 0
       ? { role: "user", content: `question-${index}` }
       : {
           ...assistantMessage(index),
           priorResultContext:
-            index === 7 ? priorResultContext() : null,
+            index === 31 ? priorResultContext() : null,
         },
   );
 
   const bounded = buildBoundedHistory(messages);
 
-  assert.equal(bounded.length, DEMO_HISTORY_MAX_MESSAGES);
+  assert.equal(bounded.length, DEMO_TRANSCRIPT_MAX_MESSAGES);
   assert.equal(bounded[0].content, "question-2");
-  assert.equal(bounded[5].priorResultContext?.selected_entity_ref, "store:S003");
-  assert.equal(bounded.at(-1).content, "answer-9");
+  assert.equal(bounded[29].priorResultContext?.selected_entity_ref, "store:S003");
+  assert.equal(bounded.at(-1).content, "answer-33");
+});
+
+test("persists and restores a bounded chart presentation", () => {
+  const storage = memoryStorage();
+  const chart = {
+    chart_type: "bar",
+    metric_id: "revenue",
+    unit: "RON",
+    points: [
+      { label: "martie 2026", value: 1400000 },
+      { label: "aprilie 2026", value: 1450000 },
+      { label: "mai 2026", value: 1490000 },
+      { label: "iunie 2026", value: 1510000 },
+      { label: "iulie 2026", value: 1500000 },
+      { label: "august 2026", value: 1524520 },
+    ],
+  };
+  const expected = completeDemoConversationTurn(
+    createEmptyDemoSession("ro"),
+    "demo_chart",
+    "poti face un bar chart cu ultimele 6 luni?",
+    assistant({
+      content: "Chart ready.",
+      presentation: presentation({
+        headline: "ALVO V2",
+        summary: "Chart ready.",
+        chart,
+      }),
+    }),
+  );
+
+  assert.equal(saveDemoSession(expected, storage), true);
+  assert.deepEqual(restoreDemoSession(storage, "ro"), expected);
+  assert.deepEqual(
+    restoreDemoSession(storage, "ro").history.at(-1)?.presentation?.chart,
+    chart,
+  );
+});
+
+test("rejects malformed chart presentation data", () => {
+  assert.throws(
+    () =>
+      appendConversationTurn(
+        createEmptyDemoSession(),
+        "Chart",
+        assistant({
+          presentation: presentation({
+            chart: {
+              chart_type: "bar",
+              metric_id: "revenue",
+              unit: "RON",
+              points: [{ label: "august 2026", value: 1524520 }],
+            },
+          }),
+        }),
+      ),
+    RangeError,
+  );
 });
 
 test("restores visible transcript content and typed continuation from sessionStorage", () => {
